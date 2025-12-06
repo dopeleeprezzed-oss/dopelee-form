@@ -488,10 +488,48 @@ function updateMockup() {
 /* ---------------------------
    SUBMIT
 ---------------------------- */
-function submitForm() {
-  alert("Submitted! (Webhook connection will be added next)");
-  goToStep("successScreen");
+/* -----------------------------------------
+   SUBMIT — SEND DATA TO GOOGLE APPS SCRIPT
+----------------------------------------- */
+
+async function submitForm() {
+  const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwPV_iWlvjExlZmbjMGMazZThGdBe7LFarZOsvmDLKCArF0Y-jnb52Os3uhoqwqdma5/exec";
+
+  // Gather values
+  const formData = {
+    fullName: document.getElementById("fullName").value,
+    email: document.getElementById("email").value,
+    orderNumber: document.getElementById("orderNumber").value,
+    projectType: selectedProjectType,                 // from your branching logic
+    keepsakeProduct: selectedKeepsakeProduct || "",
+    photoBookProduct: selectedPhotoBookProduct || "",
+    vipType: selectedVipType || "",
+    selectedTemplate: selectedTemplate || "",
+    honoredName: document.getElementById("honoredName")?.value || "",
+    customWording: document.getElementById("customWording")?.value || "",
+    bookAbout: document.getElementById("bookAbout")?.value || "",
+    giftsFor: document.getElementById("giftsFor")?.value || ""
+  };
+
+  try {
+    const response = await fetch(WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData)
+    });
+
+    const result = await response.json();
+    console.log("Webhook result:", result);
+
+    // show the success screen
+    goToStep("successScreen");
+
+  } catch (err) {
+    alert("Error sending form. Please try again.");
+    console.error(err);
+  }
 }
+
 
 </script>
 </body>
