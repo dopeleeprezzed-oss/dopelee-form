@@ -501,14 +501,14 @@ function updateMockup() {
 ----------------------------------------- */
 
 async function submitForm() {
-  const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwPV_iWlvjExlZmbjMGMazZThGdBe7LFarZOsvmDLKCArF0Y-jnb52Os3uhoqwqdma5/exec";
+  const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwPV_iWlvjExlZmbjMGMazZThGdBe7LFarZOsvmDLKCArF0Y-jnb520s3uhoqwqdma5/exec";
 
-  // Gather values
+  // Gather submitted values
   const formData = {
     fullName: document.getElementById("fullName").value,
     email: document.getElementById("email").value,
     orderNumber: document.getElementById("orderNumber").value,
-    projectType: selectedProjectType,                 // from your branching logic
+    projectType: selectedProjectType,
     keepsakeProduct: selectedKeepsakeProduct || "",
     photoBookProduct: selectedPhotoBookProduct || "",
     vipType: selectedVipType || "",
@@ -516,29 +516,67 @@ async function submitForm() {
     honoredName: document.getElementById("honoredName")?.value || "",
     customWording: document.getElementById("customWording")?.value || "",
     bookAbout: document.getElementById("bookAbout")?.value || "",
-    giftsFor: document.getElementById("giftsFor")?.value || ""
   };
 
   try {
-    const response = await fetch(WEBHOOK_URL, {
+    // Send to Google Apps Script Webhook
+    await fetch(WEBHOOK_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData)
     });
 
-    const result = await response.json();
-    console.log("Webhook result:", result);
-
-    // show the success screen
+    // 🎉 Show Success + Confetti
     goToStep("successScreen");
 
+    setTimeout(() => launchConfetti(), 300);
+
   } catch (err) {
-    alert("Error sending form. Please try again.");
+    alert("There was an error sending your form. Please try again.");
     console.error(err);
   }
 }
 
-
 </script>
+  <script>
+function launchConfetti() {
+  const duration = 3000; // 3 seconds
+  const end = Date.now() + duration;
+
+  const brandColors = [
+    "#ff0000", "#ff7f00", "#ffff00", "#00ff00",
+    "#00ffff", "#0000ff", "#8b00ff",
+    "#e9c46a", "#ffffff", "#000000", "#9b59b6"
+  ];
+
+  (function frame() {
+    const particle = document.createElement("div");
+
+    particle.style.position = "fixed";
+    particle.style.zIndex = 9999;
+    particle.style.width = "12px";
+    particle.style.height = "12px";
+    particle.style.background = brandColors[Math.floor(Math.random() * brandColors.length)];
+    particle.style.borderRadius = "50%";
+    particle.style.top = "-20px";
+    particle.style.left = Math.random() * window.innerWidth + "px";
+    particle.style.opacity = 0.95;
+    particle.style.transform = "translateY(0px)";
+    particle.style.transition = "transform 3s linear, opacity 3s ease-out";
+
+    document.body.appendChild(particle);
+
+    setTimeout(() => {
+      particle.style.transform = "translateY(" + window.innerHeight + "px)";
+      particle.style.opacity = 0;
+    }, 10);
+
+    setTimeout(() => { particle.remove(); }, 3000);
+
+    if (Date.now() < end) requestAnimationFrame(frame);
+  })();
+}
+</script>
+
 </body>
 </html>
