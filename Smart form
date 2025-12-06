@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dopelee Prezzed by S™ | Order Personalization</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
+    :root {
+      --bg-dark: #050509;
+      --bg-card: #0f1018;
+      --bg-input: #1a1b26;
+      --text-main: #f5f5ff;
+      --text-muted: #b9bed8;
+      --text-dim: #7a7f9a;
+      --accent-gold: #e9ff60;
+      --accent-blue: #0a95a8;
+      --accent-pink: #fd26fd;
+      --accent-violet: #3461fa;
+      --accent-cyan: #0ff0b8;
+      --border-soft: rgba(255, 255, 255, 0.08);
+      --shadow-heavy: 0 24px 60px rgba(0, 0, 0, 0.9);
+      --shadow-card: 0 12px 40px rgba(0, 0, 0, 0.7);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: radial-gradient(circle at top, #181829 0%, #050509 40%, #000 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* HEADER */
+    .header { max-width: 720px; margin: 0 auto 40px; text-align: center; }
+
+    .brand-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan), var(--accent-gold), var(--accent-pink), var(--accent-violet));
+      box-shadow: var(--shadow-card);
+      margin-bottom: 20px;
+    }
+
+    .brand-logo {
+      width: 36px; height: 36px;
+      background-image: url('/mnt/data/logo.png');
+      background-size: cover;
+      background-position: center;
+      border-radius: 50%;
+    }
+
+    .brand-text {
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      background: linear-gradient(120deg, var(--accent-gold), var(--accent-pink));
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 580px;
+      margin: 0 auto;
+    }
+
+    /* PROGRESS BAR */
+    .progress-container { max-width: 720px; margin: 0 auto 30px; }
+    .progress-bar { height: 4px; background: #222; border-radius: 20px; }
+    .progress-fill {
+      height: 4px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-gold));
+      border-radius: 20px;
+      transition: width 0.3s ease;
+    }
+    .progress-text { text-align: center; font-size: 0.75rem; color: var(--text-dim); margin-top: 8px; }
+
+    /* FORM CARD */
+    .form-container {
+      max-width: 720px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      padding: 40px;
+      border-radius: 24px;
+      border: 1px solid var(--border-soft);
+    }
+
+    .step { display: none; }
+    .step.active { display: block; }
+
+    .step-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 12px; }
+    .step-description { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 30px; }
+
+    /* FORM ELEMENTS */
+    .form-group { margin-bottom: 24px; }
+    label { font-size: 0.85rem; text-transform: uppercase; font-weight: 600; margin-bottom: 6px; display: block; }
+    input, textarea, select {
+      width: 100%;
+      padding: 14px;
+      background: var(--bg-input);
+      border-radius: 12px;
+      border: 1px solid var(--border-soft);
+      color: var(--text-main);
+      font-size: 0.95rem;
+    }
+
+    textarea { min-height: 100px; }
+
+    /* OPTION CARDS */
+    .options-grid { display: grid; gap: 14px; }
+    .option-card {
+      padding: 16px;
+      background: var(--bg-input);
+      border-radius: 12px;
+      border: 2px solid var(--border-soft);
+      cursor: pointer;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .option-card.selected { border-color: var(--accent-gold); }
+
+    /* TEMPLATE GRID */
+    .template-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 16px;
+    }
+    .template-option {
+      border-radius: 12px;
+      border: 2px solid var(--border-soft);
+      cursor: pointer;
+      overflow: hidden;
+      transition: 0.2s ease;
+      background: var(--bg-input);
+    }
+    .template-option.selected { border-color: var(--accent-gold); }
+
+    .template-image img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .template-name {
+      padding: 10px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* PREVIEW */
+    #mockupPreviewSection {
+      display: none;
+      background: rgba(255,255,255,0.03);
+      padding: 20px;
+      border-radius: 16px;
+      border: 2px solid var(--accent-gold);
+      margin-top: 20px;
+    }
+
+    .preview-container { max-width: 420px; margin: 0 auto; }
+    canvas { width: 100%; border-radius: 16px; }
+
+    /* BUTTONS */
+    .button-group { display: flex; gap: 12px; margin-top: 20px; }
+    .btn { padding: 14px; flex: 1; border-radius: 12px; font-weight: 600; cursor: pointer; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan));
+      color: #000;
+    }
+    .btn-secondary { background: #222; border: 1px solid var(--border-soft); }
+
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <div class="header">
+    <div class="brand-pill">
+      <div class="brand-logo"></div>
+      <div class="brand-text">Dopelee Prezzed by S™</div>
+    </div>
+    <h1>Order Personalization</h1>
+    <p class="subtitle">Tell us about your project so we can create your custom keepsake, VIP gift experience, or legacy photo book.</p>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress-container">
+    <div class="progress-bar"><div class="progress-fill" id="progressBar"></div></div>
+    <div class="progress-text" id="progressText">Step 1 of 4</div>
+  </div>
+
+  <!-- FORM -->
+  <div class="form-container">
+
+    <!-- STEP 1 -->
+    <div class="step active" id="step1">
+      <div class="step-title">Step 1 — Basic Information</div>
+
+      <div class="form-group">
+        <label>Your Full Name *</label>
+        <input type="text" id="fullName">
+      </div>
+
+      <div class="form-group">
+        <label>Email Address *</label>
+        <input type="email" id="email">
+      </div>
+
+      <div class="form-group">
+        <label>Order Number (optional)</label>
+        <input type="text" id="orderNumber">
+      </div>
+
+      <div class="form-group">
+        <label>Select Project Type *</label>
+        <div class="options-grid">
+          <div class="option-card" onclick="selectProjectType('keepsake')">
+            <input type="radio" name="projectType" value="keepsake">
+            <span>Keepsake Order</span>
+          </div>
+          <div class="option-card" onclick="selectProjectType('vip')">
+            <input type="radio" name="projectType" value="vip">
+            <span>VIP Bulk Gift</span>
+          </div>
+          <div class="option-card" onclick="selectProjectType('photobook')">
+            <input type="radio" name="projectType" value="photobook">
+            <span>Photo Book Project</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-primary" onclick="validateStep1()">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2A — KEEPSAKE -->
+    <div class="step" id="step2aKeepsake">
+      <div class="step-title">Step 2 — Who or What Are We Honoring?</div>
+
+      <div class="form-group">
+        <label>Person or Pet *</label>
+        <div class="options-grid">
+          <div class="option-card" onclick="selectHonorType('human')">
+            <input type="radio" name="honorType" value="human"> <span>Person</span>
+          </div>
+          <div class="option-card" onclick="selectHonorType('pet')">
+            <input type="radio" name="honorType" value="pet"> <span>Pet</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Name *</label>
+        <input type="text" id="honoredName">
+      </div>
+
+      <div class="form-group">
+        <label>Dates (optional)</label>
+        <input type="text" id="dates">
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('step1')">← Back</button>
+        <button class="btn btn-primary" onclick="goToStep('step3aKeepsake')">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3A — TEMPLATE SELECTION -->
+    <div class="step" id="step3aKeepsake">
+      <div class="step-title">Step 3 — Select Template</div>
+
+      <div id="templateGrid" class="template-grid"></div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('step2aKeepsake')">← Back</button>
+        <button class="btn btn-primary" onclick="goToStep('step4aKeepsake')">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4A — PHOTO + TEXT + PREVIEW -->
+    <div class="step" id="step4aKeepsake">
+      <div class="step-title">Step 4 — Upload Photo & Add Wording</div>
+
+      <div class="form-group">
+        <label>Upload Photo *</label>
+        <input type="file" id="fileInput" accept="image/*" onchange="handleFile(this.files[0])">
+      </div>
+
+      <div class="form-group">
+        <label>Wording *</label>
+        <textarea id="customWording" oninput="updateMockup()"></textarea>
+      </div>
+
+      <div id="mockupPreviewSection">
+        <div class="preview-container">
+          <canvas id="mockupCanvas" width="800" height="1000"></canvas>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('step3aKeepsake')">← Back</button>
+        <button class="btn btn-primary" onclick="submitForm()">Submit Design</button>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="step" id="successScreen">
+      <h2 style="text-align:center;color:var(--accent-gold);margin-bottom:10px;">✨ Thank You!</h2>
+      <p style="text-align:center;color:var(--text-muted);">Your design has been submitted successfully. We’ll begin working on it shortly.</p>
+    </div>
+
+  </div><!-- end form container -->
+
+<script>
+/* ---------------------------
+   TEMPLATE ARRAYS
+---------------------------- */
+
+const HUMAN_TEMPLATES = [
+  { name: "Legacy Minimalist Tribute", url: "/mnt/data/Legacy Minimalist Tribute Temp.png" },
+  { name: "Legacy Modern Collage Scrapbook", url: "/mnt/data/legacy Modern Collage Scrapbook Temp.png" },
+  { name: "Legacy Halo Wings", url: "/mnt/data/Legacy Halo Wings Template.png" },
+  { name: "Legacy Doves", url: "/mnt/data/Legacy Doves Template..png" },
+  { name: "Legacy Memorial Wings", url: "/mnt/data/Legacy Memorial Wings Template.png" },
+  { name: "Legacy Noir", url: "/mnt/data/Legacy Noir Template.png" },
+  { name: "Legacy of Rose", url: "/mnt/data/Legacy of Rose Template .png" },
+  { name: "Legacy Shadow", url: "/mnt/data/Legacy Shadow Template..png" },
+  { name: "Golden Legacy", url: "/mnt/data/Golden Legacy template..png" },
+  { name: "Legacy Iris Remembrance", url: "/mnt/data/Legacy Iris Remembrance Template.png" }
+];
+
+const PET_TEMPLATES = [
+  { name: "Photo Frame Legacy", url: "/mnt/data/Photo Frame Legacy Temp.png" },
+  { name: "Rainbow Bridge Cloud", url: "/mnt/data/Legacy Rainbow Bridge Cloud Temp.png" },
+  { name: "Antique Gold Legacy Frame", url: "/mnt/data/Legacy Antique Gold Legacy Frame Temp.png" }
+];
+
+
+/* ---------------------------
+   STATE
+---------------------------- */
+let currentHonorType = null;
+let selectedTemplate = null;
+let uploadedImage = null;
+
+
+/* ---------------------------
+   STEP NAVIGATION
+---------------------------- */
+function goToStep(id) {
+  document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+
+/* ---------------------------
+   STEP 1 VALIDATION
+---------------------------- */
+function validateStep1() {
+  const name = document.getElementById("fullName").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const type = document.querySelector("input[name='projectType']:checked");
+
+  if (!name || !email || !type) {
+    alert("Please complete all required fields.");
+    return;
+  }
+
+  if (type.value === "keepsake") goToStep("step2aKeepsake");
+  else alert("Only keepsake flow completed in this version.");
+}
+
+
+/* ---------------------------
+   HONOR TYPE
+---------------------------- */
+function selectHonorType(type) {
+  currentHonorType = type;
+  document.querySelectorAll("input[name='honorType']").forEach(r => {
+    if (r.value === type) r.checked = true;
+  });
+
+  loadTemplates();
+}
+
+
+/* ---------------------------
+   TEMPLATE GRID
+---------------------------- */
+function loadTemplates() {
+  const grid = document.getElementById("templateGrid");
+  grid.innerHTML = "";
+
+  const templates = currentHonorType === "pet" ? PET_TEMPLATES : HUMAN_TEMPLATES;
+
+  templates.forEach(t => {
+    const div = document.createElement("div");
+    div.className = "template-option";
+    div.onclick = () => {
+      document.querySelectorAll(".template-option").forEach(o => o.classList.remove("selected"));
+      div.classList.add("selected");
+      selectedTemplate = t;
+      updateMockup();
+    };
+
+    div.innerHTML = `
+      <div class="template-image">
+        <img src="${t.url}">
+      </div>
+      <div class="template-name">${t.name}</div>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+
+/* ---------------------------
+   FILE UPLOAD
+---------------------------- */
+function handleFile(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    uploadedImage = new Image();
+    uploadedImage.onload = updateMockup;
+    uploadedImage.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+
+/* ---------------------------
+   LIVE PREVIEW
+---------------------------- */
+function updateMockup() {
+  if (!selectedTemplate) return;
+
+  document.getElementById("mockupPreviewSection").style.display = "block";
+
+  const canvas = document.getElementById("mockupCanvas");
+  const ctx = canvas.getContext("2d");
+
+  const template = new Image();
+  template.onload = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(template, 0, 0, canvas.width, canvas.height);
+
+    if (uploadedImage) {
+      const w = canvas.width * 0.65;
+      const h = w * (uploadedImage.height / uploadedImage.width);
+      const x = (canvas.width - w) / 2;
+      const y = (canvas.height - h) / 2;
+      ctx.drawImage(uploadedImage, x, y, w, h);
+    }
+
+    const text = document.getElementById("customWording").value;
+    if (text) {
+      ctx.font = "bold 32px Playfair Display";
+      ctx.fillStyle = "white";
+      ctx.textAlign = "center";
+      ctx.fillText(text, canvas.width / 2, canvas.height * 0.9);
+    }
+  };
+
+  template.src = selectedTemplate.url;
+}
+
+
+/* ---------------------------
+   SUBMIT
+---------------------------- */
+function submitForm() {
+  alert("Submitted! (Webhook connection will be added next)");
+  goToStep("successScreen");
+}
+
+</script>
+</body>
+</html>
