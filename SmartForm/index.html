@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dopelee Prezzed by S™ | Order Personalization</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="brand-pill">
+      <div class="brand-logo"></div>
+      <div class="brand-text">Dopelee Prezzed by S™</div>
+    </div>
+
+    <h1>Order Personalization</h1>
+    <p class="subtitle">
+      Tell us about your project so we can create your custom keepsake,
+      VIP experience, or legacy photo book.
+    </p>
+  </div>
+
+  <!-- PROGRESS UI -->
+  <div class="progress-container">
+    <div class="progress-bar">
+      <div id="progressBar" class="progress-fill"></div>
+    </div>
+    <div id="progressText" class="progress-text">Step 1 of 4</div>
+  </div>
+
+  <!-- FORM AREA -->
+  <div class="form-container">
+
+    <!-- STEP 1 -->
+    <div id="step1" class="step active">
+      <h2 class="step-title">Step 1 — Basic Information</h2>
+
+      <div class="form-group">
+        <label>Your Full Name *</label>
+        <input id="fullName" type="text">
+      </div>
+
+      <div class="form-group">
+        <label>Email Address *</label>
+        <input id="email" type="email">
+      </div>
+
+      <div class="form-group">
+        <label>Order Number (optional)</label>
+        <input id="orderNumber" type="text">
+      </div>
+
+      <div class="form-group">
+        <label>Select Project Type *</label>
+
+        <div class="options-grid">
+
+          <div class="option-card" onclick="selectProjectType('keepsake')">
+            <input type="radio" name="projectType" value="keepsake">
+            <span>Keepsake Order</span>
+          </div>
+
+          <div class="option-card" onclick="selectProjectType('vip')">
+            <input type="radio" name="projectType" value="vip">
+            <span>VIP Bulk Gift</span>
+          </div>
+
+          <div class="option-card" onclick="selectProjectType('photobook')">
+            <input type="radio" name="projectType" value="photobook">
+            <span>Photo Book Project</span>
+          </div>
+
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="validateStep1()">Continue →</button>
+    </div>
+
+    <!-- STEP 2A — WHO WE'RE HONORING -->
+    <div id="step2aKeepsake" class="step">
+      <h2 class="step-title">Step 2 — Who or What Are We Honoring?</h2>
+
+      <div class="form-group">
+        <label>Person or Pet *</label>
+
+        <div class="options-grid">
+          <div class="option-card" onclick="setPersonOrPet('human')">
+            <input type="radio" name="honorType" value="human">
+            <span>Person</span>
+          </div>
+
+          <div class="option-card" onclick="setPersonOrPet('pet')">
+            <input type="radio" name="honorType" value="pet">
+            <span>Pet</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Name *</label>
+        <input id="honoredName" type="text">
+      </div>
+
+      <div class="form-group">
+        <label>Dates (optional)</label>
+        <input id="dates" type="text">
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('step1')">← Back</button>
+        <button class="btn btn-primary" onclick="goToStep('step3aKeepsake')">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3A — TEMPLATE SELECTION -->
+    <div id="step3aKeepsake" class="step">
+      <h2 class="step-title">Step 3 — Select Template</h2>
+
+      <div id="templateGrid" class="template-grid"></div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('step2aKeepsake')">← Back</button>
+        <button class="btn btn-primary" onclick="goToStep('step4aKeepsake')">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4A — UPLOAD + TEXT + PREVIEW -->
+    <div id="step4aKeepsake" class="step">
+      <h2 class="step-title">Step 4 — Upload Photo & Add Wording</h2>
+
+      <div class="form-group">
+        <label>Upload Photo *</label>
+        <input type="file" id="fileInput" accept="image/*" onchange="handleImageUpload(event)">
+      </div>
+
+      <div class="form-group">
+        <label>Wording *</label>
+        <textarea id="customWording" oninput="updateMockup()"></textarea>
+      </div>
+
+      <div id="mockupPreviewSection" class="preview-wrapper" style="display:none;">
+        <div class="preview-container">
+          <canvas id="mockupCanvas" width="800" height="1000"></canvas>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('step3aKeepsake')">← Back</button>
+        <button class="btn btn-primary" onclick="submitForm()">Submit Design</button>
+      </div>
+    </div>
+
+    <!-- SUCCESS SCREEN -->
+    <div id="successScreen" class="step success-screen">
+      <h2>✔ Submission Received</h2>
+      <p>Your order info has been received!<br>Your portal link will be emailed shortly.</p>
+
+      <button class="btn btn-primary" onclick="window.location.href='/'">Close Form</button>
+    </div>
+
+  </div>
+
+  </div><!-- end form container -->
+
+<script>
+// --------------------------------------------------
+// MASTER TEMPLATE LISTS (Your 7 human + 6 pet files)
+// --------------------------------------------------
+
+const HUMAN_TEMPLATES = [
+  "Golden Legacy template.png",
+  "Custom Legacy Noir Template.png",
+  "Custom Memorial Product Orders.png",
+  "Iris Remembrance Template.png",
+  "Legacy Doves.png",
+  "Legacy of Rose.png",
+  "Legacy Shadow Template.png"
+];
+
+const PET_TEMPLATES = [
+  "Antique Gold Legacy Frame.png",
+  "Legacy Halo Wings.png",
+  "Minimalist Tribute.png",
+  "Modern Collage Scrapbook.png",
+  "Photo Frame Legacy.png",
+  "Rainbow Bridge Cloud.png"
+];
+
+
+// --------------------------------------------------
+// GLOBAL STATE (fixed, no duplicates)
+// --------------------------------------------------
+
+let projectType = "";            // keepsake, photobook, VIP
+let selectedPersonOrPet = "";    // "human" or "pet"
+let selectedTemplate = "";       // template file name
+let uploadedImage = null;        // actual uploaded file object
+
+
+// --------------------------------------------------
+// STEP NAVIGATION (working)
+// --------------------------------------------------
+
+function goToStep(stepId) {
+  document.querySelectorAll(".step").forEach(s =>
+    s.classList.remove("active")
+  );
+  document.getElementById(stepId).classList.add("active");
+}
+
+
+// --------------------------------------------------
+// STEP 1 VALIDATION (cleaned)
+// --------------------------------------------------
+
+function validateStep1() {
+  const name = document.getElementById("fullName").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const selected = document.querySelector("input[name='projectType']:checked");
+
+  if (!name || !email || !selected) {
+    alert("Please complete all required fields.");
+    return;
+  }
+
+  projectType = selected.value;
+
+  if (projectType === "keepsake") {
+    goToStep("step2aKeepsake");
+  } else {
+    alert("Other flows will be activated next.");
+  }
+}
+
+
+// --------------------------------------------------
+// SELECT HUMAN OR PET
+// --------------------------------------------------
+
+function setPersonOrPet(type) {
+  selectedPersonOrPet = type;
+
+  document
+    .querySelectorAll("input[name='honorType']")
+    .forEach(r => (r.checked = r.value === type));
+
+  loadTemplates();
+}
+
+
+// --------------------------------------------------
+// LOAD TEMPLATE GRID
+// --------------------------------------------------
+
+function loadTemplates() {
+  const container = document.getElementById("templateGrid");
+  container.innerHTML = "";
+
+  const list =
+    selectedPersonOrPet === "human"
+      ? HUMAN_TEMPLATES
+      : selectedPersonOrPet === "pet"
+      ? PET_TEMPLATES
+      : [];
+
+  list.forEach(filename => {
+    const card = document.createElement("div");
+    card.className = "template-card";
+
+    card.innerHTML = `
+      <img src="./templates/${filename}" class="template-thumb">
+      <p class="template-title">${filename.replace(".png","")}</p>
+    `;
+
+    card.onclick = () => {
+      selectedTemplate = filename;
+      highlightSelected(card);
+      updateTemplatePreview(filename);
+    };
+
+    container.appendChild(card);
+  });
+}
+
+function highlightSelected(card) {
+  document.querySelectorAll(".template-card").forEach(c =>
+    c.classList.remove("selected")
+  );
+  card.classList.add("selected");
+}
+
+
+// --------------------------------------------------
+// TEMPLATE PREVIEW
+// --------------------------------------------------
+
+function updateTemplatePreview(filename) {
+  const img = document.getElementById("templatePreview");
+  img.src = "./templates/" + filename;
+  img.style.display = "block";
+}
+
+
+// --------------------------------------------------
+// PHOTO UPLOAD LISTENER
+// --------------------------------------------------
+
+function handleImageUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const img = new Image();
+  img.onload = () => {
+    uploadedImage = img;
+    updateMockup();
+  };
+  img.src = URL.createObjectURL(file);
+}
+
+
+// --------------------------------------------------
+// LIVE MOCKUP CANVAS
+// --------------------------------------------------
+
+function updateMockup() {
+  if (!selectedTemplate || !uploadedImage) return;
+
+  const canvas = document.getElementById("mockupCanvas");
+  const ctx = canvas.getContext("2d");
+
+  const template = new Image();
+  template.onload = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.drawImage(template, 0, 0, canvas.width, canvas.height);
+
+    const w = canvas.width * 0.65;
+    const h = w * (uploadedImage.height / uploadedImage.width);
+    const x = (canvas.width - w) / 2;
+    const y = (canvas.height - h) / 2;
+
+    ctx.drawImage(uploadedImage, x, y, w, h);
+
+    const text = document.getElementById("customWording")?.value;
+    if (text) {
+      ctx.font = "bold 32px Playfair Display";
+      ctx.fillStyle = "white";
+      ctx.textAlign = "center";
+      ctx.fillText(text, canvas.width / 2, canvas.height * 0.9);
+    }
+
+    document.getElementById("mockupPreviewSection").style.display = "block";
+  };
+
+  template.src = "./templates/" + selectedTemplate;
+}
+
+
+// --------------------------------------------------
+// SUBMIT TO GOOGLE APPS SCRIPT
+// --------------------------------------------------
+
+async function submitForm() {
+  const WEBHOOK_URL =
+    "https://script.google.com/macros/s/AKfycbwPV_iWlvjExlZmbjMGMazZThGdBe7LFarZOsvmDLKCArF0Y-jnb520s3uhoqwqdma5/exec";
+
+  const formData = {
+    fullName: document.getElementById("fullName").value,
+    email: document.getElementById("email").value,
+    projectType,
+    selectedPersonOrPet,
+    selectedTemplate,
+    honoredName: document.getElementById("honoredName")?.value || "",
+    customWording: document.getElementById("customWording")?.value || "",
+    orderNumber: document.getElementById("orderNumber")?.value || ""
+  };
+
+  try {
+    await fetch(WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData)
+    });
+
+    goToStep("successScreen");
+    setTimeout(() => launchConfetti(), 300);
+
+  } catch (err) {
+    console.error(err);
+    alert("There was an error sending your form.");
+  }
+}
+
+
+// --------------------------------------------------
+// CONFETTI
+// --------------------------------------------------
+
+function launchConfetti() {
+  const end = Date.now() + 3000;
+
+  const colors = ["#ff0000", "#ff7f00", "#ffff00", "#00ff00",
+                  "#00ffff", "#0000ff", "#8b00ff", "#e9c46a",
+                  "#ffffff", "#000000", "#9b59b6"];
+
+  (function frame() {
+    const particle = document.createElement("div");
+    particle.style.position = "fixed";
+    particle.style.zIndex = "9999";
+    particle.style.width = "12px";
+    particle.style.height = "12px";
+    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+    particle.style.borderRadius = "50%";
+    particle.style.top = "-20px";
+    particle.style.left = Math.random() * window.innerWidth + "px";
+    particle.style.opacity = "0.95";
+    particle.style.transition = "transform 3s linear, opacity 3s ease-out";
+
+    document.body.appendChild(particle);
+
+    setTimeout(() => {
+      particle.style.transform = `translateY(${window.innerHeight}px)`;
+      particle.style.opacity = "0";
+    }, 10);
+
+    setTimeout(() => particle.remove(), 3000);
+
+    if (Date.now() < end) requestAnimationFrame(frame);
+  })();
+}
+</script>
+
+
+</body>
+</html>
