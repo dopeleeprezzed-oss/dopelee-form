@@ -50,16 +50,17 @@ body {
   min-height: 100vh;
   padding: 20px;
 }
-/* NEW LUXURY BRAND HEADER */
+
+/* --------------------------------------------------
+   BRAND HEADER - FIXED BLACK TEXT
+-------------------------------------------------- */
 .brand-header {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   padding: 20px 0;
   margin-bottom: 25px;
-
   background: linear-gradient(
       90deg,
       var(--accent-blue),
@@ -69,16 +70,13 @@ body {
       var(--accent-violet)
   );
   border-radius: 50px;
-
   width: 90%;
   max-width: 650px;
   margin-left: auto;
   margin-right: auto;
-
   box-shadow: var(--shadow-card);
 }
 
-/* Large centered logo */
 .brand-logo-large {
   width: 95px;
   height: auto;
@@ -87,13 +85,14 @@ body {
   object-fit: contain;
 }
 
-/* Brand title style */
 .brand-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #fff;
+  color: #000000 !important;  /* SOLID BLACK - FIXED */
   text-align: center;
   letter-spacing: 0.5px;
+  -webkit-text-fill-color: #000000 !important;
+  text-shadow: none;
 }
 
 /* --------------------------------------------------
@@ -103,56 +102,6 @@ body {
   max-width: 720px;
   margin: 0 auto 40px;
   text-align: center;
-}
-
-.brand-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 24px;
-  border-radius: 999px;
-  background: linear-gradient(
-    90deg,
-    var(--accent-blue),
-    var(--accent-cyan),
-    var(--accent-gold),
-    var(--accent-pink),
-    var(--accent-violet)
-  );
-  box-shadow: var(--shadow-card);
-  margin-bottom: 20px;
-}
-
-    .brand-pill.vertical {
-    flex-direction: column;
-    gap: 6px;
-}
-
-.brand-logo {
-    width: 60px;
-    height: 60px;
-    background-image: url("logo.png"); /* uses logo in your repo */
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    border-radius: 50%;
-    margin-right: 12px;
-}
-
-.brand-text {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #ffffff;
-
-  /* Thin black outline */
-  -webkit-text-stroke: 0.7px rgba(0, 0, 0, 0.55);
-
-  /* Soft depth shadow */
-  text-shadow:
-      0 3px 6px rgba(0, 0, 0, 0.45),
-      0 1px 2px rgba(0, 0, 0, 0.35);
-
-  letter-spacing: 0.5px;
 }
 
 h1 {
@@ -324,7 +273,7 @@ select:focus {
 }
 
 /* --------------------------------------------------
-   TEMPLATE GRID — FINAL CLEAN VERSION
+   TEMPLATE GRID - FIXED
 -------------------------------------------------- */
 .template-grid {
   display: grid;
@@ -333,7 +282,6 @@ select:focus {
   margin-top: 20px;
 }
 
-/* CARD CONTAINER */
 .template-card {
   background: #1d1f27;
   padding: 14px;
@@ -345,7 +293,6 @@ select:focus {
   overflow: hidden;
 }
 
-/* IMAGE */
 .template-card img,
 .template-thumb {
   width: 100%;
@@ -356,9 +303,7 @@ select:focus {
   display: block;
 }
 
-/* TITLE */
-.template-title,
-.template-card span {
+.template-title {
   display: block;
   margin-top: 10px;
   color: #dcdcdc;
@@ -368,13 +313,11 @@ select:focus {
   text-align: center;
 }
 
-/* HOVER */
 .template-card:hover {
   transform: translateY(-4px);
   border-color: var(--accent-blue);
 }
 
-/* SELECTED STATE */
 .template-card.selected {
   border-color: var(--accent-gold);
   box-shadow: 0 0 20px rgba(233, 255, 96, 0.4);
@@ -384,7 +327,6 @@ select:focus {
   color: var(--accent-gold);
   font-weight: 600;
 }
-
 
 /* --------------------------------------------------
    PREVIEW CANVAS
@@ -496,7 +438,7 @@ select:focus {
   }
   
   .template-grid {
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
   
   .button-group {
@@ -515,20 +457,18 @@ select:focus {
 
   <!-- HEADER -->
   <header class="header">
-  <div class="brand-header">
-    <img src="https://dopeleeprezzed-oss.github.io/dopelee-form/logo.png" 
-         alt="Dopelee Prezzed Logo" class="brand-logo-large">
+    <div class="brand-header">
+      <img src="https://dopeleeprezzed-oss.github.io/dopelee-form/logo.png" 
+           alt="Dopelee Prezzed Logo" class="brand-logo-large">
+      <div class="brand-title">DOPELEE PREZZED BY S™</div>
+    </div>
 
-    <div class="brand-title">DOPELEE PREZZED BY S™</div>
-  </div>
-
-  <h1>Order Personalization</h1>
-  <p class="subtitle">
-    Tell us about your project so we can create your custom keepsake,
-    VIP experience, or legacy photo book.
-  </p>
-</header>
-
+    <h1>Order Personalization</h1>
+    <p class="subtitle">
+      Tell us about your project so we can create your custom keepsake,
+      VIP experience, or legacy photo book.
+    </p>
+  </header>
 
   <!-- PROGRESS BAR -->
   <div class="progress-container">
@@ -636,6 +576,13 @@ select:focus {
     <!-- STEP 4A — UPLOAD & PREVIEW (KEEPSAKE) -->
     <section id="step4aKeepsake" class="step">
       <h2 class="step-title">Step 4 — Upload Photo & Add Wording</h2>
+
+      <!-- SELECTED TEMPLATE PREVIEW -->
+      <div id="selectedTemplatePreview" style="margin-bottom: 32px; padding: 20px; background: rgba(233, 255, 96, 0.03); border: 2px solid var(--accent-gold); border-radius: 16px; text-align: center;">
+        <p style="color: var(--accent-gold); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px;">✨ Your Selected Template</p>
+        <img id="selectedTemplateImage" src="" alt="Selected Template" style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.6);">
+        <p id="selectedTemplateName" style="color: var(--text-muted); margin-top: 12px; font-size: 0.9rem;"></p>
+      </div>
 
       <div class="form-group">
         <label>Upload Photo *</label>
@@ -774,31 +721,33 @@ select:focus {
 
 <script>
 // --------------------------------------------------
-// MASTER TEMPLATE LISTS
+// TEMPLATE ARRAYS - SEPARATED FOR HUMAN VS PET
 // --------------------------------------------------
 
 const HUMAN_TEMPLATES = [
-  "Golden Legacy template.png",
-  "Custom Legacy Noir Template.png",
-  "Legacy Memorial Wings.png",
-  "Iris Remembrance Template.png",
-  "Legacy Doves.png",
-  "Legacy of Rose.png",
-  "Legacy Shadow Template.png"
+  { name: "Golden Legacy", file: "Golden Legacy template.png" },
+  { name: "Custom Legacy Noir", file: "Custom Legacy Noir Template.png" },
+  { name: "Legacy Memorial Wings", file: "Legacy Memorial Wings.png" },
+  { name: "Iris Remembrance", file: "Iris Remembrance Template.png" },
+  { name: "Legacy Doves", file: "Legacy Doves.png" },
+  { name: "Legacy of Rose", file: "Legacy of Rose.png" },
+  { name: "Legacy Shadow", file: "Legacy Shadow Template.png" },
+  { name: "Custom Eternal Glow", file: "Custom Eternal Glow Template.png" }
 ];
 
 const PET_TEMPLATES = [
-  "Antique Gold Legacy Frame.png",
-  "Legacy Halo Wings.png",
-  "Minimalist Tribute.png",
-  "Modern Collage Scrapbook.png",
-  "Photo Frame Legacy.png",
-  "Rainbow Bridge Cloud.png"
+  { name: "Antique Gold Legacy Frame", file: "Antique Gold Legacy Frame.png" },
+  { name: "Legacy Halo Wings", file: "Legacy Halo Wings.png" },
+  { name: "Minimalist Tribute", file: "Minimalist Tribute.png" },
+  { name: "Modern Collage Scrapbook", file: "Modern Collage Scrapbook.png" },
+  { name: "Photo Frame Legacy", file: "Photo Frame Legacy.png" },
+  { name: "Rainbow Bridge Cloud", file: "Rainbow Bridge Cloud.png" }
 ];
 
 let projectType = "";
 let selectedPersonOrPet = "";
 let selectedTemplate = "";
+let selectedTemplateName = "";  // ADD THIS TO STORE THE DISPLAY NAME
 let uploadedImage = null;
 
 // --------------------------------------------------
@@ -808,7 +757,33 @@ let uploadedImage = null;
 function goToStep(id) {
   document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
+  
+  // IF GOING TO STEP 3 AND PERSON/PET IS SELECTED, LOAD TEMPLATES
+  if (id === "step3aKeepsake" && selectedPersonOrPet) {
+    console.log("📋 NAVIGATING TO STEP 3, LOADING TEMPLATES FOR:", selectedPersonOrPet);
+    loadTemplates();
+  }
+  
+  // IF GOING TO STEP 4 KEEPSAKE, SHOW THE SELECTED TEMPLATE
+  if (id === "step4aKeepsake" && selectedTemplate) {
+    showSelectedTemplatePreview();
+  }
+  
   window.scrollTo(0, 0);
+}
+
+// --------------------------------------------------
+// SHOW SELECTED TEMPLATE PREVIEW ON STEP 4
+// --------------------------------------------------
+
+function showSelectedTemplatePreview() {
+  const previewImg = document.getElementById("selectedTemplateImage");
+  const previewName = document.getElementById("selectedTemplateName");
+  
+  if (previewImg && previewName && selectedTemplate) {
+    previewImg.src = selectedTemplate.replace(/ /g, "%20");
+    previewName.textContent = selectedTemplateName;
+  }
 }
 
 // --------------------------------------------------
@@ -851,11 +826,12 @@ function validateStep1() {
 }
 
 // --------------------------------------------------
-// CHOOSE PERSON OR PET
+// CHOOSE PERSON OR PET - FIXED TO FILTER PROPERLY
 // --------------------------------------------------
 
 function setPersonOrPet(type) {
   selectedPersonOrPet = type;
+  console.log("✅ SET PERSON OR PET TO:", type);  // DEBUG
 
   document.querySelectorAll("input[name='honorType']").forEach(r => {
     r.checked = (r.value === type);
@@ -870,38 +846,56 @@ function setPersonOrPet(type) {
     }
   });
 
+  // LOAD THE CORRECT TEMPLATES
   loadTemplates();
 }
 
 // --------------------------------------------------
-// LOAD TEMPLATES
+// LOAD TEMPLATES - FIXED TO SHOW CORRECT IMAGES
 // --------------------------------------------------
 
 function loadTemplates() {
+  console.log("🔍 LOADING TEMPLATES FOR:", selectedPersonOrPet);  // DEBUG
+  
   const container = document.getElementById("templateGrid");
   if (!container) return;
   
   container.innerHTML = "";
 
-  const list = selectedPersonOrPet === "human" ? HUMAN_TEMPLATES : selectedPersonOrPet === "pet" ? PET_TEMPLATES : [];
+  // SELECT THE CORRECT TEMPLATE LIST BASED ON PERSON OR PET
+  let list = [];
+  if (selectedPersonOrPet === "human") {
+    list = HUMAN_TEMPLATES;
+    console.log("👤 LOADING", list.length, "HUMAN TEMPLATES");  // DEBUG
+  } else if (selectedPersonOrPet === "pet") {
+    list = PET_TEMPLATES;
+    console.log("🐾 LOADING", list.length, "PET TEMPLATES");  // DEBUG
+  }
 
   if (list.length === 0) {
-    container.innerHTML = '<p style="color: var(--text-dim); text-align: center;">Please select Person or Pet above to see templates</p>';
+    container.innerHTML = '<p style="color: var(--text-dim); text-align: center; grid-column: 1/-1;">Please select Person or Pet above to see templates</p>';
     return;
   }
 
-  list.forEach(filename => {
+  // CREATE TEMPLATE CARDS
+  list.forEach(template => {
     const card = document.createElement("div");
     card.className = "template-card";
-    const cleanName = filename.replace(".png", "").replace(".jpg", "");
+
+    // BUILD THE IMAGE URL - TEMPLATES ARE IN ROOT, NOT IN FOLDER
+    const imgURL = template.file.replace(/ /g, "%20");
 
     card.innerHTML = `
-      <img src="./templates/${filename}" class="template-thumb" alt="${cleanName}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23222%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23666%22 font-size=%2214%22%3ETemplate%3C/text%3E%3C/svg%3E'">
-      <p class="template-title">${cleanName}</p>
+      <img src="${imgURL}" 
+           class="template-thumb" 
+           alt="${template.name}"
+           onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23222%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23666%22 font-size=%2214%22%3E${template.name}%3C/text%3E%3C/svg%3E'">
+      <p class="template-title">${template.name}</p>
     `;
 
     card.onclick = () => {
-      selectedTemplate = filename;
+      selectedTemplate = template.file;
+      selectedTemplateName = template.name;  // SAVE THE DISPLAY NAME TOO
       document.querySelectorAll(".template-card").forEach(c => c.classList.remove("selected"));
       card.classList.add("selected");
     };
@@ -975,8 +969,8 @@ function updateMockup() {
     previewSection.style.display = "block";
   };
 
-  template.src = getTemplateURL(selectedTemplate);
-
+  // TEMPLATE URL - SAME AS LOADED IN GRID
+  template.src = selectedTemplate.replace(/ /g, "%20");
 }
 
 // --------------------------------------------------
@@ -1078,131 +1072,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (urlParams.has('email')) document.getElementById('email').value = urlParams.get('email');
   if (urlParams.has('orderNumber')) document.getElementById('orderNumber').value = urlParams.get('orderNumber');
 });
-</script>
-<script>
-
-  function getTemplateURL(filename) {
-  return `${window.location.origin}/dopelee-form/${filename}`;
-}
-  
-const templateFiles = [
-  { name: "Antique Gold Legacy Frame", file: "Antique Gold Legacy Frame.png" },
-  { name: "Custom Eternal Glow Template", file: "Custom Eternal Glow Template.png" },
-  { name: "Custom Legacy Noir Template", file: "Custom Legacy Noir Template.png" },
-  { name: "Legacy Memorial Wings", file: "Legacy Memorial Wings.png" },
-  { name: "Golden Legacy Template", file: "Golden Legacy template.png" },
-  { name: "Iris Remembrance Template", file: "Iris Remembrance Template.png" },
-  { name: "Legacy Doves", file: "Legacy Doves.png" },
-  { name: "Legacy Halo Wings", file: "Legacy Halo Wings.png" },
-  { name: "Legacy Shadow Template", file: "Legacy Shadow Template.png" },
-  { name: "Legacy of Rose", file: "Legacy of Rose.png" },
-  { name: "Minimalist Tribute", file: "Minimalist Tribute.png" },
-  { name: "Modern Collage Scrapbook", file: "Modern Collage Scrapbook.png" },
-  { name: "Photo Frame Legacy", file: "Photo Frame Legacy.png" },
-  { name: "Rainbow Bridge Cloud", file: "Rainbow Bridge Cloud.png" }
-];
-
-function loadTemplates() {
-  const grid = document.getElementById("templateGrid");
-  grid.innerHTML = "";
-
-  templateFiles.forEach((tpl, index) => {
-    const card = document.createElement("div");
-    card.classList.add("template-card");
-    card.setAttribute("onclick", `selectTemplate(${index})`);
-
-    const img = document.createElement("img");
-    img.src = tpl.file.replace(/ /g, "%20"); // Fix spaces for GitHub Pages
-
-    const label = document.createElement("span");
-    label.textContent = tpl.name;
-
-    card.appendChild(img);
-    card.appendChild(label);
-    grid.appendChild(card);
-  });
-}
-
-let selectedTemplateIndex = null;
-
-function selectTemplate(index) {
-  selectedTemplateIndex = index;
-
-  document.querySelectorAll(".template-card").forEach((c, i) => {
-    c.classList.toggle("selected", i === index);
-  });
-}
-
-// run on load
-window.addEventListener("load", loadTemplates);
-</script>
-
-  <script>
-const templateFiles = [
-  { name: "Antique Gold Legacy Frame", file: "Antique Gold Legacy Frame.png" },
-  { name: "Custom Eternal Glow Template", file: "Custom Eternal Glow Template.png" },
-  { name: "Custom Legacy Noir Template", file: "Custom Legacy Noir Template.png" },
-  { name: "Legacy Memorial Wings", file: "Legacy Memorial Wings.png" },
-  { name: "Golden Legacy Template", file: "Golden Legacy template.png" },
-  { name: "Iris Remembrance Template", file: "Iris Remembrance Template.png" },
-  { name: "Legacy Doves", file: "Legacy Doves.png" },
-  { name: "Legacy Halo Wings", file: "Legacy Halo Wings.png" },
-  { name: "Legacy Shadow Template", file: "Legacy Shadow Template.png" },
-  { name: "Legacy of Rose", file: "Legacy of Rose.png" },
-  { name: "Minimalist Tribute", file: "Minimalist Tribute.png" },
-  { name: "Modern Collage Scrapbook", file: "Modern Collage Scrapbook.png" },
-  { name: "Photo Frame Legacy", file: "Photo Frame Legacy.png" },
-  { name: "Rainbow Bridge Cloud", file: "Rainbow Bridge Cloud.png" }
-];
-
-function loadTemplates() {
-  const container = document.getElementById("templateGrid");
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  const list =
-    selectedPersonOrPet === "human"
-      ? HUMAN_TEMPLATES
-      : selectedPersonOrPet === "pet"
-      ? PET_TEMPLATES
-      : [];
-
-  if (list.length === 0) {
-    container.innerHTML =
-      '<p style="color: var(--text-dim); text-align: center;">Please select Person or Pet above to see templates</p>';
-    return;
-  }
-
-  list.forEach(filename => {
-    const card = document.createElement("div");
-    card.className = "template-card";
-
-    const cleanName = filename.replace(".png", "").replace(".jpg", "");
-
-    const imgURL = getTemplateURL(filename);
-
-    card.innerHTML = `
-      <img src="${imgURL}" class="template-thumb" 
-           alt="${cleanName}"
-           onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23222%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23666%22 font-size=%2214%22%3ETemplate%3C/text%3E%3C/svg%3E'">
-
-      <p class="template-title">${cleanName}</p>
-    `;
-
-    card.onclick = () => {
-      selectedTemplate = filename;
-      document.querySelectorAll(".template-card").forEach(c => c.classList.remove("selected"));
-      card.classList.add("selected");
-    };
-
-    container.appendChild(card);
-  });
-}
-
-
-// run on load
-window.addEventListener("load", loadTemplates);
 </script>
 
 </body>
