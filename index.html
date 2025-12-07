@@ -975,7 +975,8 @@ function updateMockup() {
     previewSection.style.display = "block";
   };
 
-  template.src = "./templates/" + selectedTemplate;
+  template.src = getTemplateURL(selectedTemplate);
+
 }
 
 // --------------------------------------------------
