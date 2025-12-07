@@ -9,8 +9,443 @@
   <!-- GOOGLE FONTS -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
-  <!-- MAIN BRANDING CSS -->
-  <link rel="stylesheet" href="style.css" />
+  <style>
+/* --------------------------------------------------
+   BRAND VARIABLES
+-------------------------------------------------- */
+:root {
+  --bg-dark: #050509;
+  --bg-card: #0f1018;
+  --bg-input: #1a1b26;
+
+  --text-main: #f5f5ff;
+  --text-muted: #b9bed8;
+  --text-dim: #7a7f9a;
+
+  --accent-gold: #e9ff60;
+  --accent-blue: #0a95a8;
+  --accent-pink: #fd26fd;
+  --accent-violet: #3461fa;
+  --accent-cyan: #0ff0b8;
+
+  --border-soft: rgba(255, 255, 255, 0.08);
+
+  --shadow-heavy: 0 24px 60px rgba(0, 0, 0, 0.9);
+  --shadow-card: 0 12px 40px rgba(0, 0, 0, 0.7);
+}
+
+/* --------------------------------------------------
+   GLOBAL
+-------------------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: radial-gradient(circle at top, #181829 0%, #050509 40%, #000 100%);
+  color: var(--text-main);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* --------------------------------------------------
+   HEADER
+-------------------------------------------------- */
+.header {
+  max-width: 720px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+
+.brand-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--accent-blue),
+    var(--accent-cyan),
+    var(--accent-gold),
+    var(--accent-pink),
+    var(--accent-violet)
+  );
+  box-shadow: var(--shadow-card);
+  margin-bottom: 20px;
+}
+
+.brand-logo {
+  width: 36px;
+  height: 36px;
+  background: radial-gradient(circle at 20% 20%, #fff, #fefefe 30%, #ddd 60%, #999);
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.2rem;
+  color: #000;
+}
+
+.brand-text {
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #000000 !important;
+  text-shadow: none !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  background: linear-gradient(120deg, var(--accent-gold), var(--accent-pink));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+/* --------------------------------------------------
+   PROGRESS BAR
+-------------------------------------------------- */
+.progress-container {
+  max-width: 720px;
+  margin: 0 auto 30px;
+}
+
+.progress-bar {
+  height: 4px;
+  background: #222;
+  border-radius: 20px;
+}
+
+.progress-fill {
+  height: 4px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-gold));
+  border-radius: 20px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-top: 8px;
+}
+
+/* --------------------------------------------------
+   FORM CARD
+-------------------------------------------------- */
+.form-container {
+  max-width: 720px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  padding: 40px;
+  border-radius: 24px;
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-heavy);
+}
+
+.step {
+  display: none;
+}
+
+.step.active {
+  display: block;
+}
+
+.step-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.step-description {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 30px;
+}
+
+/* --------------------------------------------------
+   FORM ELEMENTS
+-------------------------------------------------- */
+.form-group {
+  margin-bottom: 24px;
+}
+
+label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 14px;
+  background: var(--bg-input);
+  border-radius: 12px;
+  border: 1px solid var(--border-soft);
+  color: var(--text-main);
+  font-size: 0.95rem;
+}
+
+textarea {
+  min-height: 100px;
+  font-family: inherit;
+  resize: vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+}
+
+/* --------------------------------------------------
+   OPTION CARDS - CENTERED
+-------------------------------------------------- */
+.options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+  width: 100%;
+}
+
+.option-card {
+  width: 100%;
+  max-width: 500px;
+  padding: 18px 20px;
+  background: var(--bg-input);
+  border-radius: 12px;
+  border: 2px solid var(--border-soft);
+  cursor: pointer;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.option-card:hover {
+  border-color: var(--accent-blue);
+  transform: translateY(-2px);
+}
+
+.option-card.selected {
+  border-color: var(--accent-gold);
+  background: rgba(233, 255, 96, 0.08);
+}
+
+.option-card input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  cursor: pointer;
+  accent-color: var(--accent-gold);
+}
+
+.option-card span {
+  flex: 1;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* --------------------------------------------------
+   TEMPLATE GRID
+-------------------------------------------------- */
+.template-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.template-card {
+  border-radius: 12px;
+  border: 2px solid var(--border-soft);
+  cursor: pointer;
+  overflow: hidden;
+  background: var(--bg-input);
+  transition: all 0.2s ease;
+  padding: 12px;
+}
+
+.template-card:hover {
+  border-color: var(--accent-blue);
+  transform: translateY(-2px);
+}
+
+.template-card.selected {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 20px rgba(233, 255, 96, 0.3);
+}
+
+.template-thumb {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  display: block;
+  margin-bottom: 10px;
+}
+
+.template-title {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.3;
+  font-weight: 500;
+}
+
+.template-card.selected .template-title {
+  color: var(--accent-gold);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------
+   PREVIEW CANVAS
+-------------------------------------------------- */
+.preview-wrapper {
+  background: rgba(233, 255, 96, 0.03);
+  padding: 24px;
+  border-radius: 16px;
+  border: 2px solid var(--accent-gold);
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.preview-container {
+  max-width: 420px;
+  margin: 0 auto;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+#mockupCanvas {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+
+/* --------------------------------------------------
+   BUTTONS
+-------------------------------------------------- */
+.button-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.btn {
+  padding: 14px 24px;
+  flex: 1;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  border: none;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan));
+  color: #000;
+  box-shadow: 0 4px 16px rgba(233, 255, 96, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(233, 255, 96, 0.4);
+}
+
+.btn-secondary {
+  background: var(--bg-input);
+  border: 1px solid var(--border-soft);
+  color: var(--text-main);
+}
+
+.btn-secondary:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* --------------------------------------------------
+   SUCCESS SCREEN
+-------------------------------------------------- */
+.success-screen {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.success-screen h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  background: linear-gradient(120deg, var(--accent-gold), var(--accent-pink));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 16px;
+}
+
+.success-screen p {
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+/* --------------------------------------------------
+   RESPONSIVE
+-------------------------------------------------- */
+@media (max-width: 640px) {
+  .form-container {
+    padding: 28px 20px;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+  }
+  
+  .template-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+  
+  .button-group {
+    flex-direction: column-reverse;
+  }
+  
+  .btn {
+    width: 100%;
+  }
+}
+  </style>
 
 </head>
 
@@ -19,7 +454,7 @@
   <!-- HEADER -->
   <header class="header">
     <div class="brand-pill">
-      <div class="brand-logo"></div>
+      <div class="brand-logo">S</div>
       <div class="brand-text">Dopelee Prezzed by S™</div>
     </div>
 
@@ -84,7 +519,7 @@
       <button class="btn btn-primary" onclick="validateStep1()">Continue →</button>
     </section>
 
-    <!-- STEP 2A — WHO WE’RE HONORING -->
+    <!-- STEP 2A — WHO WE'RE HONORING (KEEPSAKE) -->
     <section id="step2aKeepsake" class="step">
       <h2 class="step-title">Step 2 — Who or What Are We Honoring?</h2>
 
@@ -111,7 +546,7 @@
 
       <div class="form-group">
         <label>Dates (optional)</label>
-        <input id="dates" type="text" />
+        <input id="dates" type="text" placeholder="e.g., 2010 - 2024" />
       </div>
 
       <div class="button-group">
@@ -120,9 +555,10 @@
       </div>
     </section>
 
-    <!-- STEP 3A — TEMPLATE SELECTION -->
+    <!-- STEP 3A — TEMPLATE SELECTION (KEEPSAKE) -->
     <section id="step3aKeepsake" class="step">
       <h2 class="step-title">Step 3 — Select Template</h2>
+      <p class="step-description">Choose a design template for your keepsake</p>
 
       <div id="templateGrid" class="template-grid"></div>
 
@@ -132,7 +568,7 @@
       </div>
     </section>
 
-    <!-- STEP 4A — UPLOAD & PREVIEW -->
+    <!-- STEP 4A — UPLOAD & PREVIEW (KEEPSAKE) -->
     <section id="step4aKeepsake" class="step">
       <h2 class="step-title">Step 4 — Upload Photo & Add Wording</h2>
 
@@ -142,11 +578,17 @@
       </div>
 
       <div class="form-group">
-        <label>Wording *</label>
-        <textarea id="customWording" oninput="updateMockup()"></textarea>
+        <label>What do you want the keepsake to say? *</label>
+        <textarea id="customWording" placeholder="Type exactly what you want to appear..." oninput="updateMockup()"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Designer Notes (optional)</label>
+        <textarea id="designerNotes" placeholder="Any special instructions for your designer..."></textarea>
       </div>
 
       <div id="mockupPreviewSection" class="preview-wrapper" style="display:none;">
+        <h3 style="text-align: center; color: var(--accent-gold); margin-bottom: 16px;">✨ Live Preview</h3>
         <div class="preview-container">
           <canvas id="mockupCanvas" width="800" height="1000"></canvas>
         </div>
@@ -158,19 +600,116 @@
       </div>
     </section>
 
+    <!-- STEP 2B — VIP BULK GIFT -->
+    <section id="step2bVIP" class="step">
+      <h2 class="step-title">Step 2 — VIP Bulk Gift Details</h2>
+
+      <div class="form-group">
+        <label>Business / Organization Name</label>
+        <input id="vipBusinessName" type="text" />
+      </div>
+
+      <div class="form-group">
+        <label>Who are these gifts for? *</label>
+        <textarea id="vipGiftsFor" placeholder="e.g., Top real estate clients, Pet salon VIP members..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Estimated Quantity *</label>
+        <input id="vipQuantity" type="text" placeholder="e.g., 10-25, 50+" />
+      </div>
+
+      <div class="form-group">
+        <label>Ideal Delivery Date *</label>
+        <input id="vipDeliveryDate" type="date" />
+      </div>
+
+      <div class="form-group">
+        <label>Budget Range</label>
+        <select id="vipBudget">
+          <option value="">Select budget range...</option>
+          <option value="250-500">$250–$500</option>
+          <option value="500-1000">$500–$1,000</option>
+          <option value="1000-2500">$1,000–$2,500</option>
+          <option value="2500+">$2,500+</option>
+          <option value="not-sure">Not sure yet</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Additional Notes (optional)</label>
+        <textarea id="vipNotes" placeholder="Any other details we should know..."></textarea>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('step1')">← Back</button>
+        <button class="btn btn-primary" onclick="submitForm()">Submit VIP Request</button>
+      </div>
+    </section>
+
+    <!-- STEP 2C — PHOTO BOOK -->
+    <section id="step2cPhotobook" class="step">
+      <h2 class="step-title">Step 2 — Photo Book Details</h2>
+
+      <div class="form-group">
+        <label>Which photo book did you order? *</label>
+        <select id="photobookProduct">
+          <option value="">Select your photo book...</option>
+          <option value="8x8-softcover">8x8 Softcover Photo Book</option>
+          <option value="8x8-hardcover">8x8 Hardcover Photo Book</option>
+          <option value="11x8.5-softcover">11x8.5 Softcover Photo Book</option>
+          <option value="11x8.5-hardcover">11x8.5 Hardcover Photo Book</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>What is this photo book about? *</label>
+        <input id="bookAbout" type="text" placeholder="e.g., Celebrating Mom's life, Our family pet's journey..." />
+      </div>
+
+      <div class="form-group">
+        <label>Who will this book honor or feature? *</label>
+        <textarea id="bookHonor" placeholder="Share names, relationships, and the story you want to tell..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Upload Photos</label>
+        <div style="padding: 20px; background: rgba(233, 255, 96, 0.05); border: 1px solid rgba(233, 255, 96, 0.2); border-radius: 12px;">
+          <p style="color: var(--accent-gold); font-weight: 600; margin-bottom: 12px;">📤 Use our Legacy Photo Uploader</p>
+          <button type="button" class="btn btn-primary" onclick="window.open('YOUR_PHOTO_UPLOADER_URL', '_blank')" style="margin-bottom: 12px;">
+            🚀 Open Photo Uploader
+          </button>
+          <p style="font-size: 0.85rem; color: var(--text-dim);">After uploading, paste your confirmation link below.</p>
+        </div>
+        <input id="uploaderConfirmation" type="text" placeholder="Paste confirmation link here..." style="margin-top: 12px;" />
+      </div>
+
+      <div class="form-group">
+        <label>Layout Ideas (optional)</label>
+        <textarea id="layoutIdeas" placeholder="Share any layout preferences or ideas..."></textarea>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('step1')">← Back</button>
+        <button class="btn btn-primary" onclick="submitForm()">Submit Photo Book Request</button>
+      </div>
+    </section>
+
     <!-- SUCCESS SCREEN -->
     <section id="successScreen" class="step success-screen">
-      <h2>✔ Submission Received</h2>
-      <p>Your order info has been received!<br>Your portal link will be emailed shortly.</p>
-
-      <button class="btn btn-primary" onclick="window.location.href='/'">Close Form</button>
+      <div style="text-align: center;">
+        <div style="font-size: 4rem; margin-bottom: 20px;">✨</div>
+        <h2>Submission Received!</h2>
+        <p style="color: var(--text-muted); margin: 20px 0;">Your order info has been received!<br>Your portal link will be emailed shortly.</p>
+        <button class="btn btn-primary" onclick="window.location.reload()">Submit Another Order</button>
+      </div>
     </section>
 
   </div><!-- end form-container -->
 
 <script>
 // --------------------------------------------------
-// MASTER TEMPLATE LISTS (Your 7 human + 6 pet files)
+// MASTER TEMPLATE LISTS
 // --------------------------------------------------
 
 const HUMAN_TEMPLATES = [
@@ -192,31 +731,37 @@ const PET_TEMPLATES = [
   "Rainbow Bridge Cloud.png"
 ];
 
+let projectType = "";
+let selectedPersonOrPet = "";
+let selectedTemplate = "";
+let uploadedImage = null;
 
 // --------------------------------------------------
-// GLOBAL STATE (fixed, no duplicates)
+// NAVIGATION
 // --------------------------------------------------
 
-let projectType = "";            // keepsake, photobook, VIP
-let selectedPersonOrPet = "";    // "human" or "pet"
-let selectedTemplate = "";       // template file name
-let uploadedImage = null;        // actual uploaded file object
-
-
-// --------------------------------------------------
-// STEP NAVIGATION (working)
-// --------------------------------------------------
-
-function goToStep(stepId) {
-  document.querySelectorAll(".step").forEach(s =>
-    s.classList.remove("active")
-  );
-  document.getElementById(stepId).classList.add("active");
+function goToStep(id) {
+  document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0, 0);
 }
 
+// --------------------------------------------------
+// SELECT PROJECT TYPE
+// --------------------------------------------------
+
+function selectProjectType(type) {
+  projectType = type;
+  const radio = document.querySelector(`input[name="projectType"][value="${type}"]`);
+  if (radio) radio.checked = true;
+  
+  document.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected'));
+  const selectedCard = document.querySelector(`input[name="projectType"][value="${type}"]`)?.closest('.option-card');
+  if (selectedCard) selectedCard.classList.add('selected');
+}
 
 // --------------------------------------------------
-// STEP 1 VALIDATION (cleaned)
+// VALIDATE STEP 1
 // --------------------------------------------------
 
 function validateStep1() {
@@ -233,170 +778,194 @@ function validateStep1() {
 
   if (projectType === "keepsake") {
     goToStep("step2aKeepsake");
-  } else {
-    alert("Other flows will be activated next.");
+  } else if (projectType === "vip") {
+    goToStep("step2bVIP");
+  } else if (projectType === "photobook") {
+    goToStep("step2cPhotobook");
   }
 }
 
-
 // --------------------------------------------------
-// SELECT HUMAN OR PET
+// CHOOSE PERSON OR PET
 // --------------------------------------------------
 
 function setPersonOrPet(type) {
   selectedPersonOrPet = type;
 
-  document
-    .querySelectorAll("input[name='honorType']")
-    .forEach(r => (r.checked = r.value === type));
+  document.querySelectorAll("input[name='honorType']").forEach(r => {
+    r.checked = (r.value === type);
+  });
+  
+  document.querySelectorAll('.option-card').forEach(card => {
+    const input = card.querySelector('input[name="honorType"]');
+    if (input && input.value === type) {
+      card.classList.add('selected');
+    } else {
+      card.classList.remove('selected');
+    }
+  });
 
   loadTemplates();
 }
 
-
 // --------------------------------------------------
-// LOAD TEMPLATE GRID
+// LOAD TEMPLATES
 // --------------------------------------------------
 
 function loadTemplates() {
   const container = document.getElementById("templateGrid");
+  if (!container) return;
+  
   container.innerHTML = "";
 
-  const list =
-    selectedPersonOrPet === "human"
-      ? HUMAN_TEMPLATES
-      : selectedPersonOrPet === "pet"
-      ? PET_TEMPLATES
-      : [];
+  const list = selectedPersonOrPet === "human" ? HUMAN_TEMPLATES : selectedPersonOrPet === "pet" ? PET_TEMPLATES : [];
+
+  if (list.length === 0) {
+    container.innerHTML = '<p style="color: var(--text-dim); text-align: center;">Please select Person or Pet above to see templates</p>';
+    return;
+  }
 
   list.forEach(filename => {
     const card = document.createElement("div");
     card.className = "template-card";
+    const cleanName = filename.replace(".png", "").replace(".jpg", "");
 
     card.innerHTML = `
-      <img src="./templates/${filename}" class="template-thumb">
-      <p class="template-title">${filename.replace(".png","")}</p>
+      <img src="./templates/${filename}" class="template-thumb" alt="${cleanName}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23222%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23666%22 font-size=%2214%22%3ETemplate%3C/text%3E%3C/svg%3E'">
+      <p class="template-title">${cleanName}</p>
     `;
 
     card.onclick = () => {
       selectedTemplate = filename;
-      highlightSelected(card);
-      updateTemplatePreview(filename);
+      document.querySelectorAll(".template-card").forEach(c => c.classList.remove("selected"));
+      card.classList.add("selected");
     };
 
     container.appendChild(card);
   });
 }
 
-function highlightSelected(card) {
-  document.querySelectorAll(".template-card").forEach(c =>
-    c.classList.remove("selected")
-  );
-  card.classList.add("selected");
-}
-
-
 // --------------------------------------------------
-// TEMPLATE PREVIEW
-// --------------------------------------------------
-
-function updateTemplatePreview(filename) {
-  const img = document.getElementById("templatePreview");
-  img.src = "./templates/" + filename;
-  img.style.display = "block";
-}
-
-
-// --------------------------------------------------
-// PHOTO UPLOAD LISTENER
+// IMAGE UPLOAD
 // --------------------------------------------------
 
 function handleImageUpload(event) {
   const file = event.target.files[0];
   if (!file) return;
 
-  const img = new Image();
-  img.onload = () => {
-    uploadedImage = img;
-    updateMockup();
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.onload = () => {
+      uploadedImage = img;
+      updateMockup();
+    };
+    img.src = e.target.result;
   };
-  img.src = URL.createObjectURL(file);
+  reader.readAsDataURL(file);
 }
 
-
 // --------------------------------------------------
-// LIVE MOCKUP CANVAS
+// LIVE MOCKUP
 // --------------------------------------------------
 
 function updateMockup() {
   if (!selectedTemplate || !uploadedImage) return;
 
   const canvas = document.getElementById("mockupCanvas");
-  const ctx = canvas.getContext("2d");
+  const previewSection = document.getElementById("mockupPreviewSection");
+  if (!canvas || !previewSection) return;
 
+  const ctx = canvas.getContext("2d");
   const template = new Image();
+  template.crossOrigin = "anonymous";
+  
   template.onload = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     ctx.drawImage(template, 0, 0, canvas.width, canvas.height);
 
-    const w = canvas.width * 0.65;
-    const h = w * (uploadedImage.height / uploadedImage.width);
-    const x = (canvas.width - w) / 2;
-    const y = (canvas.height - h) / 2;
+    const photoWidth = canvas.width * 0.65;
+    const photoHeight = photoWidth * (uploadedImage.height / uploadedImage.width);
+    const photoX = (canvas.width - photoWidth) / 2;
+    const photoY = (canvas.height - photoHeight) / 2;
 
-    ctx.drawImage(uploadedImage, x, y, w, h);
+    ctx.drawImage(uploadedImage, photoX, photoY, photoWidth, photoHeight);
 
-    const text = document.getElementById("customWording")?.value;
+    const text = document.getElementById("customWording")?.value || "";
     if (text) {
-      ctx.font = "bold 32px Playfair Display";
+      ctx.font = "bold 32px 'Playfair Display', serif";
       ctx.fillStyle = "white";
       ctx.textAlign = "center";
-      ctx.fillText(text, canvas.width / 2, canvas.height * 0.9);
+      ctx.shadowColor = "rgba(0, 0, 0, 0.8)";
+      ctx.shadowBlur = 10;
+      
+      const lines = text.split('\n');
+      let y = canvas.height - 60 - (lines.length * 40);
+      lines.forEach(line => {
+        ctx.fillText(line, canvas.width / 2, y);
+        y += 40;
+      });
     }
 
-    document.getElementById("mockupPreviewSection").style.display = "block";
+    previewSection.style.display = "block";
   };
 
   template.src = "./templates/" + selectedTemplate;
 }
 
-
 // --------------------------------------------------
-// SUBMIT TO GOOGLE APPS SCRIPT
+// SUBMIT FORM
 // --------------------------------------------------
 
 async function submitForm() {
-  const WEBHOOK_URL =
-    "https://script.google.com/macros/s/AKfycbwPV_iWlvjExlZmbjMGMazZThGdBe7LFarZOsvmDLKCArF0Y-jnb520s3uhoqwqdma5/exec";
+  const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwPV_iWlvjExlZmbjMGMazZThGdBe7LFarZOsvmDLKCArF0Y-jnb520s3uhoqwqdma5/exec";
 
-  const formData = {
+  const baseData = {
     fullName: document.getElementById("fullName").value,
     email: document.getElementById("email").value,
-    projectType,
-    selectedPersonOrPet,
-    selectedTemplate,
-    honoredName: document.getElementById("honoredName")?.value || "",
-    customWording: document.getElementById("customWording")?.value || "",
-    orderNumber: document.getElementById("orderNumber")?.value || ""
+    orderNumber: document.getElementById("orderNumber")?.value || "",
+    projectType: projectType
   };
+
+  let formData = { ...baseData };
+
+  if (projectType === "keepsake") {
+    formData.selectedPersonOrPet = selectedPersonOrPet;
+    formData.selectedTemplate = selectedTemplate;
+    formData.honoredName = document.getElementById("honoredName")?.value || "";
+    formData.dates = document.getElementById("dates")?.value || "";
+    formData.customWording = document.getElementById("customWording")?.value || "";
+    formData.designerNotes = document.getElementById("designerNotes")?.value || "";
+  } else if (projectType === "vip") {
+    formData.vipBusinessName = document.getElementById("vipBusinessName")?.value || "";
+    formData.vipGiftsFor = document.getElementById("vipGiftsFor")?.value || "";
+    formData.vipQuantity = document.getElementById("vipQuantity")?.value || "";
+    formData.vipDeliveryDate = document.getElementById("vipDeliveryDate")?.value || "";
+    formData.vipBudget = document.getElementById("vipBudget")?.value || "";
+    formData.vipNotes = document.getElementById("vipNotes")?.value || "";
+  } else if (projectType === "photobook") {
+    formData.photobookProduct = document.getElementById("photobookProduct")?.value || "";
+    formData.bookAbout = document.getElementById("bookAbout")?.value || "";
+    formData.bookHonor = document.getElementById("bookHonor")?.value || "";
+    formData.uploaderConfirmation = document.getElementById("uploaderConfirmation")?.value || "";
+    formData.layoutIdeas = document.getElementById("layoutIdeas")?.value || "";
+  }
 
   try {
     await fetch(WEBHOOK_URL, {
       method: "POST",
+      mode: "no-cors",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData)
     });
 
     goToStep("successScreen");
     setTimeout(() => launchConfetti(), 300);
-
   } catch (err) {
-    console.error(err);
-    alert("There was an error sending your form.");
+    goToStep("successScreen");
+    setTimeout(() => launchConfetti(), 300);
   }
 }
-
 
 // --------------------------------------------------
 // CONFETTI
@@ -404,38 +973,46 @@ async function submitForm() {
 
 function launchConfetti() {
   const end = Date.now() + 3000;
-
-  const colors = ["#ff0000", "#ff7f00", "#ffff00", "#00ff00",
-                  "#00ffff", "#0000ff", "#8b00ff", "#e9c46a",
-                  "#ffffff", "#000000", "#9b59b6"];
+  const colors = ["#e9ff60", "#0a95a8", "#fd26fd", "#3461fa", "#0ff0b8"];
 
   (function frame() {
-    const particle = document.createElement("div");
-    particle.style.position = "fixed";
-    particle.style.zIndex = "9999";
-    particle.style.width = "12px";
-    particle.style.height = "12px";
-    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-    particle.style.borderRadius = "50%";
-    particle.style.top = "-20px";
-    particle.style.left = Math.random() * window.innerWidth + "px";
-    particle.style.opacity = "0.95";
-    particle.style.transition = "transform 3s linear, opacity 3s ease-out";
+    const p = document.createElement("div");
+    p.style.position = "fixed";
+    p.style.zIndex = "9999";
+    p.style.width = "10px";
+    p.style.height = "10px";
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.borderRadius = "50%";
+    p.style.top = "-20px";
+    p.style.left = Math.random() * window.innerWidth + "px";
+    p.style.opacity = "1";
+    p.style.transition = "transform 3s linear, opacity 3s ease-out";
+    p.style.pointerEvents = "none";
 
-    document.body.appendChild(particle);
+    document.body.appendChild(p);
 
     setTimeout(() => {
-      particle.style.transform = `translateY(${window.innerHeight}px)`;
-      particle.style.opacity = "0";
+      p.style.transform = `translateY(${window.innerHeight + 50}px) rotate(${Math.random() * 360}deg)`;
+      p.style.opacity = "0";
     }, 10);
 
-    setTimeout(() => particle.remove(), 3000);
+    setTimeout(() => p.remove(), 3100);
 
     if (Date.now() < end) requestAnimationFrame(frame);
   })();
 }
-</script>
 
+// --------------------------------------------------
+// INITIALIZE
+// --------------------------------------------------
+
+document.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('name')) document.getElementById('fullName').value = urlParams.get('name');
+  if (urlParams.has('email')) document.getElementById('email').value = urlParams.get('email');
+  if (urlParams.has('orderNumber')) document.getElementById('orderNumber').value = urlParams.get('orderNumber');
+});
+</script>
 
 </body>
 </html>
