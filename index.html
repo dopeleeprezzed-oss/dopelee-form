@@ -79,23 +79,16 @@ body {
 }
 
 .brand-logo {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background-image: url("logo.png");
-    background-size: cover;
-    background-position: center;
+    width: 60px;
+    height: 60px;
+    background-image: url("logo.png"); /* or ./logo.png — both work */
+    background-size: contain;
     background-repeat: no-repeat;
-
-    /* Center inside the pill */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    /* Remove ANY gradient mask */
-    background-color: transparent;
-    box-shadow: none;
+    background-position: center;
+    border-radius: 12px; /* NOT a circle */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
 }
+
 
 
 
