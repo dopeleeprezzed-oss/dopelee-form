@@ -50,6 +50,51 @@ body {
   min-height: 100vh;
   padding: 20px;
 }
+/* NEW LUXURY BRAND HEADER */
+.brand-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px 0;
+  margin-bottom: 25px;
+
+  background: linear-gradient(
+      90deg,
+      var(--accent-blue),
+      var(--accent-cyan),
+      var(--accent-gold),
+      var(--accent-pink),
+      var(--accent-violet)
+  );
+  border-radius: 50px;
+
+  width: 90%;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+
+  box-shadow: var(--shadow-card);
+}
+
+/* Large centered logo */
+.brand-logo-large {
+  width: 95px;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  object-fit: contain;
+}
+
+/* Brand title style */
+.brand-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
 
 /* --------------------------------------------------
    HEADER
@@ -454,17 +499,20 @@ select:focus {
 
   <!-- HEADER -->
   <header class="header">
-    <div class="brand-pill vertical">
-  <div class="brand-logo"></div>
-  <div class="brand-text">Dopelee Prezzed by S™</div>
-</div>
+  <div class="brand-header">
+    <img src="https://dopeleeprezzed-oss.github.io/dopelee-form/logo.png" 
+         alt="Dopelee Prezzed Logo" class="brand-logo-large">
 
-    <h1>Order Personalization</h1>
-    <p class="subtitle">
-      Tell us about your project so we can create your custom keepsake,
-      VIP experience, or legacy photo book.
-    </p>
-  </header>
+    <div class="brand-title">DOPELEE PREZZED BY S™</div>
+  </div>
+
+  <h1>Order Personalization</h1>
+  <p class="subtitle">
+    Tell us about your project so we can create your custom keepsake,
+    VIP experience, or legacy photo book.
+  </p>
+</header>
+
 
   <!-- PROGRESS BAR -->
   <div class="progress-container">
