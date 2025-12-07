@@ -1,0 +1,179 @@
+/* --------------------------------------------------
+   GLOBAL RESET
+-------------------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background: #f8f8f8;
+  color: #222;
+  padding-bottom: 40px;
+}
+
+/* --------------------------------------------------
+   HEADER (dark hybrid look)
+-------------------------------------------------- */
+.header {
+  background: #000;
+  color: white;
+  padding: 25px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* --------------------------------------------------
+   FORM CONTAINER
+-------------------------------------------------- */
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 18px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+/* --------------------------------------------------
+   STEPS
+-------------------------------------------------- */
+.step {
+  display: none;
+}
+
+.step.active {
+  display: block;
+}
+
+/* --------------------------------------------------
+   INPUT FIELDS
+-------------------------------------------------- */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+textarea,
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: 8px;
+  margin-bottom: 18px;
+  font-size: 15px;
+}
+
+textarea {
+  min-height: 100px;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* --------------------------------------------------
+   BUTTONS
+-------------------------------------------------- */
+button {
+  padding: 12px 20px;
+  background: #000;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  margin-top: 10px;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+/* --------------------------------------------------
+   TEMPLATE GRID
+-------------------------------------------------- */
+#templateGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  margin-top: 25px;
+}
+
+.template-card {
+  border: 2px solid transparent;
+  border-radius: 10px;
+  padding: 12px;
+  cursor: pointer;
+  transition: 0.25s ease;
+  background: #fafafa;
+  text-align: center;
+}
+
+.template-card:hover {
+  border-color: #000;
+}
+
+.template-card.selected {
+  border-color: #000;
+  background: #fff;
+}
+
+.template-thumb {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.template-title {
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+/* --------------------------------------------------
+   PREVIEW IMAGE
+-------------------------------------------------- */
+#templatePreview {
+  width: 100%;
+  max-height: 500px;
+  object-fit: contain;
+  display: none;
+  margin-top: 25px;
+  border-radius: 10px;
+}
+
+/* --------------------------------------------------
+   MOCKUP PREVIEW CANVAS
+-------------------------------------------------- */
+#mockupPreviewSection {
+  display: none;
+  margin-top: 35px;
+}
+
+#mockupCanvas {
+  width: 100%;
+  max-width: 700px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+}
+
+/* --------------------------------------------------
+   SUCCESS SCREEN
+-------------------------------------------------- */
+.success-box {
+  text-align: center;
+  padding: 40px;
+}
+
+.success-box h2 {
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+
+.success-box p {
+  font-size: 16px;
+}
