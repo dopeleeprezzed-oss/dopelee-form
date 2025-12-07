@@ -1150,35 +1150,50 @@ const templateFiles = [
 ];
 
 function loadTemplates() {
-  const grid = document.getElementById("templateGrid");
-  grid.innerHTML = "";
+  const container = document.getElementById("templateGrid");
+  if (!container) return;
 
-  templateFiles.forEach((tpl, index) => {
+  container.innerHTML = "";
+
+  const list =
+    selectedPersonOrPet === "human"
+      ? HUMAN_TEMPLATES
+      : selectedPersonOrPet === "pet"
+      ? PET_TEMPLATES
+      : [];
+
+  if (list.length === 0) {
+    container.innerHTML =
+      '<p style="color: var(--text-dim); text-align: center;">Please select Person or Pet above to see templates</p>';
+    return;
+  }
+
+  list.forEach(filename => {
     const card = document.createElement("div");
-    card.classList.add("template-card");
-    card.setAttribute("onclick", `selectTemplate(${index})`);
+    card.className = "template-card";
 
-    const img = document.createElement("img");
-    img.src = tpl.file.replace(/ /g, "%20"); // Fix spaces for GitHub Pages
+    const cleanName = filename.replace(".png", "").replace(".jpg", "");
 
-    const label = document.createElement("span");
-    label.textContent = tpl.name;
+    const imgURL = getTemplateURL(filename);
 
-    card.appendChild(img);
-    card.appendChild(label);
-    grid.appendChild(card);
+    card.innerHTML = `
+      <img src="${imgURL}" class="template-thumb" 
+           alt="${cleanName}"
+           onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23222%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23666%22 font-size=%2214%22%3ETemplate%3C/text%3E%3C/svg%3E'">
+
+      <p class="template-title">${cleanName}</p>
+    `;
+
+    card.onclick = () => {
+      selectedTemplate = filename;
+      document.querySelectorAll(".template-card").forEach(c => c.classList.remove("selected"));
+      card.classList.add("selected");
+    };
+
+    container.appendChild(card);
   });
 }
 
-let selectedTemplateIndex = null;
-
-function selectTemplate(index) {
-  selectedTemplateIndex = index;
-
-  document.querySelectorAll(".template-card").forEach((c, i) => {
-    c.classList.toggle("selected", i === index);
-  });
-}
 
 // run on load
 window.addEventListener("load", loadTemplates);
