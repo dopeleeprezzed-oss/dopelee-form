@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Dopelee Prezzed by S™ | Order Personalization</title>
 
+  <!-- GOOGLE FONTS -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css">
+  <!-- MAIN BRANDING CSS -->
+  <link rel="stylesheet" href="style.css" />
+
 </head>
 
 <body>
 
   <!-- HEADER -->
-  <div class="header">
+  <header class="header">
     <div class="brand-pill">
       <div class="brand-logo"></div>
       <div class="brand-text">Dopelee Prezzed by S™</div>
@@ -24,9 +28,9 @@
       Tell us about your project so we can create your custom keepsake,
       VIP experience, or legacy photo book.
     </p>
-  </div>
+  </header>
 
-  <!-- PROGRESS UI -->
+  <!-- PROGRESS BAR -->
   <div class="progress-container">
     <div class="progress-bar">
       <div id="progressBar" class="progress-fill"></div>
@@ -34,56 +38,54 @@
     <div id="progressText" class="progress-text">Step 1 of 4</div>
   </div>
 
-  <!-- FORM AREA -->
+  <!-- FORM CONTAINER -->
   <div class="form-container">
 
     <!-- STEP 1 -->
-    <div id="step1" class="step active">
+    <section id="step1" class="step active">
       <h2 class="step-title">Step 1 — Basic Information</h2>
 
       <div class="form-group">
         <label>Your Full Name *</label>
-        <input id="fullName" type="text">
+        <input id="fullName" type="text" />
       </div>
 
       <div class="form-group">
         <label>Email Address *</label>
-        <input id="email" type="email">
+        <input id="email" type="email" />
       </div>
 
       <div class="form-group">
         <label>Order Number (optional)</label>
-        <input id="orderNumber" type="text">
+        <input id="orderNumber" type="text" />
       </div>
 
       <div class="form-group">
         <label>Select Project Type *</label>
 
         <div class="options-grid">
-
           <div class="option-card" onclick="selectProjectType('keepsake')">
-            <input type="radio" name="projectType" value="keepsake">
+            <input type="radio" name="projectType" value="keepsake" />
             <span>Keepsake Order</span>
           </div>
 
           <div class="option-card" onclick="selectProjectType('vip')">
-            <input type="radio" name="projectType" value="vip">
+            <input type="radio" name="projectType" value="vip" />
             <span>VIP Bulk Gift</span>
           </div>
 
           <div class="option-card" onclick="selectProjectType('photobook')">
-            <input type="radio" name="projectType" value="photobook">
+            <input type="radio" name="projectType" value="photobook" />
             <span>Photo Book Project</span>
           </div>
-
         </div>
       </div>
 
       <button class="btn btn-primary" onclick="validateStep1()">Continue →</button>
-    </div>
+    </section>
 
-    <!-- STEP 2A — WHO WE'RE HONORING -->
-    <div id="step2aKeepsake" class="step">
+    <!-- STEP 2A — WHO WE’RE HONORING -->
+    <section id="step2aKeepsake" class="step">
       <h2 class="step-title">Step 2 — Who or What Are We Honoring?</h2>
 
       <div class="form-group">
@@ -91,12 +93,12 @@
 
         <div class="options-grid">
           <div class="option-card" onclick="setPersonOrPet('human')">
-            <input type="radio" name="honorType" value="human">
+            <input type="radio" name="honorType" value="human" />
             <span>Person</span>
           </div>
 
           <div class="option-card" onclick="setPersonOrPet('pet')">
-            <input type="radio" name="honorType" value="pet">
+            <input type="radio" name="honorType" value="pet" />
             <span>Pet</span>
           </div>
         </div>
@@ -104,22 +106,22 @@
 
       <div class="form-group">
         <label>Name *</label>
-        <input id="honoredName" type="text">
+        <input id="honoredName" type="text" />
       </div>
 
       <div class="form-group">
         <label>Dates (optional)</label>
-        <input id="dates" type="text">
+        <input id="dates" type="text" />
       </div>
 
       <div class="button-group">
         <button class="btn btn-secondary" onclick="goToStep('step1')">← Back</button>
         <button class="btn btn-primary" onclick="goToStep('step3aKeepsake')">Continue →</button>
       </div>
-    </div>
+    </section>
 
     <!-- STEP 3A — TEMPLATE SELECTION -->
-    <div id="step3aKeepsake" class="step">
+    <section id="step3aKeepsake" class="step">
       <h2 class="step-title">Step 3 — Select Template</h2>
 
       <div id="templateGrid" class="template-grid"></div>
@@ -128,15 +130,15 @@
         <button class="btn btn-secondary" onclick="goToStep('step2aKeepsake')">← Back</button>
         <button class="btn btn-primary" onclick="goToStep('step4aKeepsake')">Continue →</button>
       </div>
-    </div>
+    </section>
 
-    <!-- STEP 4A — UPLOAD + TEXT + PREVIEW -->
-    <div id="step4aKeepsake" class="step">
+    <!-- STEP 4A — UPLOAD & PREVIEW -->
+    <section id="step4aKeepsake" class="step">
       <h2 class="step-title">Step 4 — Upload Photo & Add Wording</h2>
 
       <div class="form-group">
         <label>Upload Photo *</label>
-        <input type="file" id="fileInput" accept="image/*" onchange="handleImageUpload(event)">
+        <input id="fileInput" type="file" accept="image/*" onchange="handleImageUpload(event)" />
       </div>
 
       <div class="form-group">
@@ -154,19 +156,17 @@
         <button class="btn btn-secondary" onclick="goToStep('step3aKeepsake')">← Back</button>
         <button class="btn btn-primary" onclick="submitForm()">Submit Design</button>
       </div>
-    </div>
+    </section>
 
     <!-- SUCCESS SCREEN -->
-    <div id="successScreen" class="step success-screen">
+    <section id="successScreen" class="step success-screen">
       <h2>✔ Submission Received</h2>
       <p>Your order info has been received!<br>Your portal link will be emailed shortly.</p>
 
       <button class="btn btn-primary" onclick="window.location.href='/'">Close Form</button>
-    </div>
+    </section>
 
-  </div>
-
-  </div><!-- end form container -->
+  </div><!-- end form-container -->
 
 <script>
 // --------------------------------------------------
