@@ -223,6 +223,20 @@ select:focus {
   border-color: var(--accent-gold);
 }
 
+input[readonly] {
+  background: rgba(233, 255, 96, 0.05) !important;
+  border-color: var(--accent-gold) !important;
+  cursor: not-allowed;
+  opacity: 0.9;
+}
+
+.helper-text {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
 /* --------------------------------------------------
    OPTION CARDS - CENTERED
 -------------------------------------------------- */
@@ -664,41 +678,54 @@ select:focus {
       <h2 class="step-title">Step 2 — Photo Book Details</h2>
 
       <div class="form-group">
-        <label>Which photo book did you order? *</label>
-        <select id="photobookProduct">
-          <option value="">Select your photo book...</option>
-          <option value="8x8-softcover">8x8 Softcover Photo Book</option>
-          <option value="8x8-hardcover">8x8 Hardcover Photo Book</option>
-          <option value="11x8.5-softcover">11x8.5 Softcover Photo Book</option>
-          <option value="11x8.5-hardcover">11x8.5 Hardcover Photo Book</option>
+        <label>Order Link (Auto-filled) *</label>
+        <input id="photoBookOrderLink" type="text" readonly style="background: rgba(233, 255, 96, 0.05); border-color: var(--accent-gold);" />
+        <div class="helper-text" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 6px;">This link is automatically filled from your order confirmation.</div>
+      </div>
+
+      <div class="form-group">
+        <label>Number of Pages *</label>
+        <select id="photobookPages">
+          <option value="">Select page count...</option>
+          <option value="24-page">24-Page Landscape Photobook (11" x 8.5")</option>
+          <option value="52-page">52-Page Landscape Photobook (11" x 8.5")</option>
+          <option value="74-page">74-Page Landscape Photobook (11" x 8.5")</option>
+          <option value="100-page">100-Page Landscape Photobook (11" x 8.5")</option>
         </select>
       </div>
 
       <div class="form-group">
-        <label>What is this photo book about? *</label>
-        <input id="bookAbout" type="text" placeholder="e.g., Celebrating Mom's life, Our family pet's journey..." />
+        <label>What is this photo book celebrating? *</label>
+        <select id="bookCelebration">
+          <option value="">Select celebration type...</option>
+          <option value="memorial">Memorial / Life Celebration</option>
+          <option value="birthday">Birthday Celebration</option>
+          <option value="anniversary">Anniversary</option>
+          <option value="wedding">Wedding</option>
+          <option value="graduation">Graduation</option>
+          <option value="baby">Baby / New Arrival</option>
+          <option value="family">Family History / Legacy</option>
+          <option value="pet">Pet Memorial / Celebration</option>
+          <option value="retirement">Retirement</option>
+          <option value="other">Other Celebration</option>
+        </select>
       </div>
 
       <div class="form-group">
         <label>Who will this book honor or feature? *</label>
         <textarea id="bookHonor" placeholder="Share names, relationships, and the story you want to tell..."></textarea>
+        <div class="helper-text" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 6px;">Example: "Celebrating Mom's 60 years of life - Mary Johnson, beloved mother, grandmother, and teacher."</div>
       </div>
 
       <div class="form-group">
-        <label>Upload Photos</label>
-        <div style="padding: 20px; background: rgba(233, 255, 96, 0.05); border: 1px solid rgba(233, 255, 96, 0.2); border-radius: 12px;">
-          <p style="color: var(--accent-gold); font-weight: 600; margin-bottom: 12px;">📤 Use our Legacy Photo Uploader</p>
-          <button type="button" class="btn btn-primary" onclick="window.open('YOUR_PHOTO_UPLOADER_URL', '_blank')" style="margin-bottom: 12px;">
+        <label>Upload Your Photos</label>
+        <div style="padding: 20px; background: rgba(233, 255, 96, 0.05); border: 2px solid var(--accent-gold); border-radius: 12px; text-align: center;">
+          <p style="color: var(--accent-gold); font-weight: 600; font-size: 1rem; margin-bottom: 12px;">📸 Legacy Photo Uploader</p>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">Click below to upload all your photos for this photo book project.</p>
+          <button type="button" class="btn btn-primary" onclick="window.open('https://script.google.com/macros/s/AKfycbypR2v8moVL72nXdl4hnJWEma3aPSUgq_-JAQ1E9XPamfFjsfPMjJRo6zq9i_8oR-ID/exec', '_blank')" style="margin: 0 auto;">
             🚀 Open Photo Uploader
           </button>
-          <p style="font-size: 0.85rem; color: var(--text-dim);">After uploading, paste your confirmation link below.</p>
         </div>
-        <input id="uploaderConfirmation" type="text" placeholder="Paste confirmation link here..." style="margin-top: 12px;" />
-      </div>
-
-      <div class="form-group">
-        <label>Layout Ideas (optional)</label>
-        <textarea id="layoutIdeas" placeholder="Share any layout preferences or ideas..."></textarea>
       </div>
 
       <div class="button-group">
@@ -727,7 +754,7 @@ select:focus {
 const HUMAN_TEMPLATES = [
   { name: "Golden Legacy", file: "Golden Legacy template.png" },
   { name: "Custom Legacy Noir", file: "Custom Legacy Noir Template.png" },
-  { name: "Legacy Memorial Wings", file: "Legacy Memorial Wings.png" },
+  { name: "Custom Memorial Product Orders", file: "Custom Memorial Product Orders.png" },
   { name: "Iris Remembrance", file: "Iris Remembrance Template.png" },
   { name: "Legacy Doves", file: "Legacy Doves.png" },
   { name: "Legacy of Rose", file: "Legacy of Rose.png" },
@@ -1004,11 +1031,10 @@ async function submitForm() {
     formData.vipBudget = document.getElementById("vipBudget")?.value || "";
     formData.vipNotes = document.getElementById("vipNotes")?.value || "";
   } else if (projectType === "photobook") {
-    formData.photobookProduct = document.getElementById("photobookProduct")?.value || "";
-    formData.bookAbout = document.getElementById("bookAbout")?.value || "";
+    formData.photoBookOrderLink = document.getElementById("photoBookOrderLink")?.value || "";
+    formData.photobookPages = document.getElementById("photobookPages")?.value || "";
+    formData.bookCelebration = document.getElementById("bookCelebration")?.value || "";
     formData.bookHonor = document.getElementById("bookHonor")?.value || "";
-    formData.uploaderConfirmation = document.getElementById("uploaderConfirmation")?.value || "";
-    formData.layoutIdeas = document.getElementById("layoutIdeas")?.value || "";
   }
 
   try {
@@ -1071,6 +1097,11 @@ document.addEventListener('DOMContentLoaded', () => {
   if (urlParams.has('name')) document.getElementById('fullName').value = urlParams.get('name');
   if (urlParams.has('email')) document.getElementById('email').value = urlParams.get('email');
   if (urlParams.has('orderNumber')) document.getElementById('orderNumber').value = urlParams.get('orderNumber');
+  
+  // AUTO-FILL PHOTO BOOK ORDER LINK
+  if (urlParams.has('orderLink')) {
+    document.getElementById('photoBookOrderLink').value = urlParams.get('orderLink');
+  }
 });
 </script>
 
