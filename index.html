@@ -24,6 +24,45 @@
       --shadow-heavy: 0 24px 60px rgba(0, 0, 0, 0.9);
       --shadow-card: 0 12px 40px rgba(0, 0, 0, 0.7);
     }
+    .template-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.template-card {
+  background:#111;
+  border:2px solid #333;
+  padding:10px;
+  border-radius:12px;
+  cursor:pointer;
+  text-align:center;
+  transition:0.2s;
+}
+
+.template-card:hover {
+  border-color:#d3fb1b;
+}
+
+.template-card.selected {
+  border-color:#0af;
+  box-shadow:0 0 12px #0af;
+}
+
+.template-thumb {
+  width:100%;
+  height:200px;
+  object-fit:contain;
+  border-radius:8px;
+}
+
+.template-title {
+  color:white;
+  margin-top:8px;
+  font-size:14px;
+}
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
@@ -257,17 +296,22 @@
     <div class="step" id="step2aKeepsake">
       <div class="step-title">Step 2 — Who or What Are We Honoring?</div>
 
-      <div class="form-group">
-        <label>Person or Pet *</label>
-        <div class="options-grid">
-          <div class="option-card" onclick="selectHonorType('human')">
-            <input type="radio" name="honorType" value="human"> <span>Person</span>
-          </div>
-          <div class="option-card" onclick="selectHonorType('pet')">
-            <input type="radio" name="honorType" value="pet"> <span>Pet</span>
-          </div>
-        </div>
-      </div>
+     <div class="form-group">
+  <label>Person or Pet *</label>
+  <div class="options-grid">
+
+    <div class="option-card" onclick="setPersonOrPet('human')">
+      <input type="radio" name="who" value="human">
+      <span>Person</span>
+    </div>
+
+    <div class="option-card" onclick="setPersonOrPet('pet')">
+      <input type="radio" name="who" value="pet">
+      <span>Pet</span>
+    </div>
+
+  </div>
+</div>
 
       <div class="form-group">
         <label>Name *</label>
@@ -340,37 +384,38 @@
   </div><!-- end form container -->
 
 <script>
-/* ---------------------------
-   TEMPLATE ARRAYS
----------------------------- */
+// ----------------------
+// TEMPLATE MASTER LISTS
+// ----------------------
 
+// HUMAN templates (7)
 const HUMAN_TEMPLATES = [
-  { name: "Legacy Minimalist Tribute", url: "/mnt/data/Legacy Minimalist Tribute Temp.png" },
-  { name: "Legacy Modern Collage Scrapbook", url: "/mnt/data/legacy Modern Collage Scrapbook Temp.png" },
-  { name: "Legacy Halo Wings", url: "/mnt/data/Legacy Halo Wings Template.png" },
-  { name: "Legacy Doves", url: "/mnt/data/Legacy Doves Template..png" },
-  { name: "Legacy Memorial Wings", url: "/mnt/data/Legacy Memorial Wings Template.png" },
-  { name: "Legacy Noir", url: "/mnt/data/Legacy Noir Template.png" },
-  { name: "Legacy of Rose", url: "/mnt/data/Legacy of Rose Template .png" },
-  { name: "Legacy Shadow", url: "/mnt/data/Legacy Shadow Template..png" },
-  { name: "Golden Legacy", url: "/mnt/data/Golden Legacy template..png" },
-  { name: "Legacy Iris Remembrance", url: "/mnt/data/Legacy Iris Remembrance Template.png" }
+  "Golden Legacy template.png",
+  "Custom Legacy Noir Template.png",
+  "Custom Memorial Product Orders.png",
+  "Iris Remembrance Template.png",
+  "Legacy Doves.png",
+  "Legacy of Rose.png",
+  "Legacy Shadow Template.png"
 ];
 
+// PET templates (6)
 const PET_TEMPLATES = [
-  { name: "Photo Frame Legacy", url: "/mnt/data/Photo Frame Legacy Temp.png" },
-  { name: "Rainbow Bridge Cloud", url: "/mnt/data/Legacy Rainbow Bridge Cloud Temp.png" },
-  { name: "Antique Gold Legacy Frame", url: "/mnt/data/Legacy Antique Gold Legacy Frame Temp.png" }
+  "Antique Gold Legacy Frame.png",
+  "Legacy Halo Wings.png",
+  "Minimalist Tribute.png",
+  "Modern Collage Scrapbook.png",
+  "Photo Frame Legacy.png",
+  "Rainbow Bridge Cloud.png"
 ];
 
+/* --------------------------
+    STATE VARIABLES
+-------------------------- */
 
-/* ---------------------------
-   STATE
----------------------------- */
-let currentHonorType = null;
-let selectedTemplate = null;
-let uploadedImage = null;
-
+let honorType = "";            // "person" or "pet"
+let selectedTemplate = "";     // which template they clicked
+let uploadedImage = null;      // holds uploaded photo
 
 /* ---------------------------
    STEP NAVIGATION
@@ -410,51 +455,109 @@ function selectHonorType(type) {
 
   loadTemplates();
 }
+  
+/* ================================
+      STATE MANAGEMENT
+=================================== */
+
+let selectedPersonOrPet = "";   // "human" or "pet"
+let selectedTemplate = null;    // template filename
+let uploadedImage = null;       // file object
 
 
-/* ---------------------------
-   TEMPLATE GRID
----------------------------- */
+// ---------------------------
+// LOAD TEMPLATES BASED ON TYPE
+// ---------------------------
 function loadTemplates() {
-  const grid = document.getElementById("templateGrid");
-  grid.innerHTML = "";
+    const container = document.getElementById("templateGrid");
+    container.innerHTML = ""; // clear previous grid
 
-  const templates = currentHonorType === "pet" ? PET_TEMPLATES : HUMAN_TEMPLATES;
+    let listToShow = [];
 
-  templates.forEach(t => {
-    const div = document.createElement("div");
-    div.className = "template-option";
-    div.onclick = () => {
-      document.querySelectorAll(".template-option").forEach(o => o.classList.remove("selected"));
-      div.classList.add("selected");
-      selectedTemplate = t;
-      updateMockup();
-    };
+    if (selectedPersonOrPet === "person") {
+        listToShow = HUMAN_TEMPLATES;
+    } else if (selectedPersonOrPet === "pet") {
+        listToShow = PET_TEMPLATES;
+    }
 
-    div.innerHTML = `
-      <div class="template-image">
-        <img src="${t.url}">
-      </div>
-      <div class="template-name">${t.name}</div>
+    listToShow.forEach(filename => {
+        const item = document.createElement("div");
+        item.className = "template-card";
+
+        item.innerHTML = `
+            <img src="${filename}" class="template-thumb" />
+            <p class="template-title">${filename.replace(".png","")}</p>
+        `;
+
+        item.onclick = () => {
+            selectedTemplate = filename;
+            highlightSelected(item);
+        };
+
+        container.appendChild(item);
+    });
+}
+
+function highlightSelected(card) {
+    document.querySelectorAll(".template-card").forEach(c => c.classList.remove("selected"));
+    card.classList.add("selected");
+}
+
+  function setPersonOrPet(type) {
+  selectedPersonOrPet = type;
+
+  // Update Step 3 template grid
+  loadTemplateOptions();
+
+  // Clear previous selection & preview
+  selectedTemplate = null;
+  document.getElementById("templatePreview").style.display = "none";
+}
+  
+  function setSelectedTemplate(template) {
+  selectedTemplate = template;
+  updateTemplatePreview(template);
+}
+
+function updateTemplatePreview(templateFile) {
+  const preview = document.getElementById("templatePreview");
+  preview.src = "./templates/" + templateFile;
+  preview.style.display = "block";
+}
+
+  function submitDesign() {
+  if (!selectedTemplate) {
+    alert("Please select a template");
+    return;
+  }
+
+  if (!uploadedImage) {
+    alert("Please upload a photo");
+    return;
+  }
+
+  alert("Submitted! (Webhook connection will be added next)");
+}
+
+function loadTemplateOptions() {
+  const container = document.getElementById("templateGrid");
+  container.innerHTML = "";
+
+  const source = (selectedPersonOrPet === "human") ? HUMAN_TEMPLATES : PET_TEMPLATES;
+
+  source.forEach(template => {
+    const card = document.createElement("div");
+    card.className = "template-card";
+    card.onclick = () => setSelectedTemplate(template);
+
+    card.innerHTML = `
+      <img src="./templates/${template}" class="template-thumb">
+      <p>${template.replace(".png", "")}</p>
     `;
-    grid.appendChild(div);
+
+    container.appendChild(card);
   });
 }
-
-
-/* ---------------------------
-   FILE UPLOAD
----------------------------- */
-function handleFile(file) {
-  const reader = new FileReader();
-  reader.onload = e => {
-    uploadedImage = new Image();
-    uploadedImage.onload = updateMockup;
-    uploadedImage.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
 
 /* ---------------------------
    LIVE PREVIEW
