@@ -51,6 +51,10 @@ body {
   padding: 20px;
 }
 
+    @keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 /* --------------------------------------------------
    BRAND HEADER - FIXED BLACK TEXT
 -------------------------------------------------- */
@@ -734,15 +738,20 @@ input[readonly] {
       </div>
     </section>
 
-    <!-- SUCCESS SCREEN -->
-    <section id="successScreen" class="step success-screen">
-      <div style="text-align: center;">
-        <div style="font-size: 4rem; margin-bottom: 20px;">✨</div>
-        <h2>Submission Received!</h2>
-        <p style="color: var(--text-muted); margin: 20px 0;">Your order info has been received!<br>Your portal link will be emailed shortly.</p>
-        <button class="btn btn-primary" onclick="window.location.reload()">Submit Another Order</button>
-      </div>
-    </section>
+   <!-- SUCCESS SCREEN -->
+<section id="successScreen" class="step success-screen">
+  <div style="text-align: center;">
+    <div style="font-size: 4rem; margin-bottom: 20px;">✨</div>
+    <h2>Submission Received!</h2>
+    <p style="color: var(--text-muted); margin: 20px 0;">
+      Your personalization has been submitted!<br>
+      Taking you back to your order portal...
+    </p>
+    <div style="margin-top: 30px;">
+      <div style="display: inline-block; width: 40px; height: 40px; border: 4px solid rgba(233,255,96,0.3); border-top: 4px solid var(--accent-gold); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+    </div>
+  </div>
+</section>
 
   </div><!-- end form-container -->
 
@@ -1037,20 +1046,38 @@ async function submitForm() {
     formData.bookHonor = document.getElementById("bookHonor")?.value || "";
   }
 
-  try {
-    await fetch(WEBHOOK_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData)
-    });
-
-    goToStep("successScreen");
-    setTimeout(() => launchConfetti(), 300);
-  } catch (err) {
-    goToStep("successScreen");
-    setTimeout(() => launchConfetti(), 300);
-  }
+try {
+  await fetch(WEBHOOK_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(formData)
+  });
+  
+  // Show success and confetti
+  goToStep("successScreen");
+  setTimeout(() => launchConfetti(), 300);
+  
+  // Redirect to portal after 3 seconds
+  const orderNum = baseData.orderNumber || "NEW-ORDER";
+  const portalLink = `https://dopeleeprezzed-oss.github.io/dopelee-believer-portal/?order=${orderNum}`;
+  
+  setTimeout(() => {
+    window.location.href = portalLink;
+  }, 3000);
+  
+} catch (err) {
+  // Same redirect on error
+  goToStep("successScreen");
+  setTimeout(() => launchConfetti(), 300);
+  
+  const orderNum = baseData.orderNumber || "NEW-ORDER";
+  const portalLink = `https://dopeleeprezzed-oss.github.io/dopelee-believer-portal/?order=${orderNum}`;
+  
+  setTimeout(() => {
+    window.location.href = portalLink;
+  }, 3000);
+}
 }
 
 // --------------------------------------------------
@@ -1060,7 +1087,7 @@ async function submitForm() {
 function launchConfetti() {
   const end = Date.now() + 3000;
   const colors = ["#e9ff60", "#0a95a8", "#fd26fd", "#3461fa", "#0ff0b8"];
-
+  
   (function frame() {
     const p = document.createElement("div");
     p.style.position = "fixed";
@@ -1074,16 +1101,16 @@ function launchConfetti() {
     p.style.opacity = "1";
     p.style.transition = "transform 3s linear, opacity 3s ease-out";
     p.style.pointerEvents = "none";
-
+    
     document.body.appendChild(p);
-
+    
     setTimeout(() => {
       p.style.transform = `translateY(${window.innerHeight + 50}px) rotate(${Math.random() * 360}deg)`;
       p.style.opacity = "0";
     }, 10);
-
+    
     setTimeout(() => p.remove(), 3100);
-
+    
     if (Date.now() < end) requestAnimationFrame(frame);
   })();
 }
