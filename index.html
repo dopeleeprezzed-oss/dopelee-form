@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Dopelee Prezzed by S™ | Order Personalization</title>
 
   <!-- GOOGLE FONTS -->
@@ -753,7 +754,7 @@ input[readonly] {
 const HUMAN_TEMPLATES = [
   { name: "Golden Legacy", file: "Golden Legacy template.png" },
   { name: "Custom Legacy Noir", file: "Custom Legacy Noir Template.png" },
-  { name: "Legacy Memorial Wings.png", file: "Legacy Memorial Wings.png.png" },
+  { name: "Custom Memorial Product Orders", file: "Custom Memorial Product Orders.png" },
   { name: "Iris Remembrance", file: "Iris Remembrance Template.png" },
   { name: "Legacy Doves", file: "Legacy Doves.png" },
   { name: "Legacy of Rose", file: "Legacy of Rose.png" },
@@ -1004,7 +1005,7 @@ function updateMockup() {
 // --------------------------------------------------
 
 async function submitForm() {
-  const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbw-_tShknmieOjYDwn9kIddgBn_sG3OyZwxYOOAQmaG4JW0XdeYDU40fXhxCP722KYG/exec";
+  const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwPV_iWlvjExlZmbjMGMazZThGdBe7LFarZOsvmDLKCArF0Y-jnb520s3uhoqwqdma5/exec";
 
   const baseData = {
     fullName: document.getElementById("fullName").value,
@@ -1100,6 +1101,25 @@ document.addEventListener('DOMContentLoaded', () => {
   // AUTO-FILL PHOTO BOOK ORDER LINK
   if (urlParams.has('orderLink')) {
     document.getElementById('photoBookOrderLink').value = urlParams.get('orderLink');
+  }
+  
+  // AUTO-SELECT PROJECT TYPE IF PROVIDED
+  if (urlParams.has('projectType')) {
+    const projectTypeParam = urlParams.get('projectType');
+    selectProjectType(projectTypeParam);
+    
+    // IF ALL REQUIRED FIELDS ARE FILLED, AUTO-ADVANCE TO STEP 2
+    if (urlParams.has('name') && urlParams.has('email')) {
+      setTimeout(() => {
+        if (projectTypeParam === 'keepsake') {
+          goToStep('step2aKeepsake');
+        } else if (projectTypeParam === 'vip') {
+          goToStep('step2bVIP');
+        } else if (projectTypeParam === 'photobook') {
+          goToStep('step2cPhotobook');
+        }
+      }, 500); // Small delay to ensure everything loads
+    }
   }
 });
 </script>
