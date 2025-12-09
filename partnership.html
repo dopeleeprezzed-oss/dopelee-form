@@ -1,1 +1,785 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title> The Legacy Lounge™ Partner Application | Dopelee Prezzed by S™</title>
 
+  <!-- GOOGLE FONTS -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+/* --------------------------------------------------
+   BRAND VARIABLES
+-------------------------------------------------- */
+:root {
+  --bg-dark: #050509;
+  --bg-card: #0f1018;
+  --bg-input: #1a1b26;
+
+  --text-main: #f5f5ff;
+  --text-muted: #b9bed8;
+  --text-dim: #7a7f9a;
+
+  --accent-gold: #e9ff60;
+  --accent-blue: #0a95a8;
+  --accent-pink: #fd26fd;
+  --accent-violet: #3461fa;
+  --accent-cyan: #0ff0b8;
+
+  --border-soft: rgba(255, 255, 255, 0.08);
+
+  --shadow-heavy: 0 24px 60px rgba(0, 0, 0, 0.9);
+  --shadow-card: 0 12px 40px rgba(0, 0, 0, 0.7);
+}
+
+/* --------------------------------------------------
+   GLOBAL
+-------------------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: radial-gradient(circle at top, #181829 0%, #050509 40%, #000 100%);
+  color: var(--text-main);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* --------------------------------------------------
+   BRAND HEADER
+-------------------------------------------------- */
+.brand-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+  margin-bottom: 25px;
+  background: linear-gradient(
+      90deg,
+      var(--accent-blue),
+      var(--accent-cyan),
+      var(--accent-gold),
+      var(--accent-pink),
+      var(--accent-violet)
+  );
+  border-radius: 50px;
+  width: 90%;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: var(--shadow-card);
+}
+
+.brand-logo-large {
+  width: 95px;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  object-fit: contain;
+}
+
+.brand-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #000000 !important;
+  text-align: center;
+  letter-spacing: 0.5px;
+  -webkit-text-fill-color: #000000 !important;
+  text-shadow: none;
+}
+
+/* --------------------------------------------------
+   HEADER
+-------------------------------------------------- */
+.header {
+  max-width: 720px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  background: linear-gradient(120deg, var(--accent-gold), var(--accent-pink));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  max-width: 580px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.video-link {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan));
+  color: #000;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(233, 255, 96, 0.3);
+  transition: all 0.2s ease;
+}
+
+.video-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(233, 255, 96, 0.4);
+}
+
+/* --------------------------------------------------
+   PROGRESS BAR
+-------------------------------------------------- */
+.progress-container {
+  max-width: 720px;
+  margin: 0 auto 30px;
+}
+
+.progress-bar {
+  height: 4px;
+  background: #222;
+  border-radius: 20px;
+}
+
+.progress-fill {
+  height: 4px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-gold));
+  border-radius: 20px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-top: 8px;
+}
+
+/* --------------------------------------------------
+   FORM CARD
+-------------------------------------------------- */
+.form-container {
+  max-width: 720px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  padding: 40px;
+  border-radius: 24px;
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-heavy);
+}
+
+.step {
+  display: none;
+}
+
+.step.active {
+  display: block;
+}
+
+.step-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.step-description {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------
+   FORM ELEMENTS
+-------------------------------------------------- */
+.form-group {
+  margin-bottom: 24px;
+}
+
+label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 14px;
+  background: var(--bg-input);
+  border-radius: 12px;
+  border: 1px solid var(--border-soft);
+  color: var(--text-main);
+  font-size: 0.95rem;
+}
+
+textarea {
+  min-height: 100px;
+  font-family: inherit;
+  resize: vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+}
+
+.helper-text {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+/* --------------------------------------------------
+   INFO BOXES
+-------------------------------------------------- */
+.info-box {
+  background: rgba(233, 255, 96, 0.05);
+  border: 2px solid var(--accent-gold);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.info-box h3 {
+  color: var(--accent-gold);
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+}
+
+.info-box ul {
+  list-style: none;
+  padding: 0;
+}
+
+.info-box li {
+  color: var(--text-muted);
+  padding: 8px 0;
+  padding-left: 24px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.info-box li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--accent-gold);
+  font-weight: bold;
+}
+
+/* --------------------------------------------------
+   PRODUCT IMAGE DISPLAY
+-------------------------------------------------- */
+.product-display {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  padding: 20px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.product-display img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+/* --------------------------------------------------
+   AGREEMENT BOX
+-------------------------------------------------- */
+.agreement-box {
+  background: rgba(10, 149, 168, 0.08);
+  border: 2px solid var(--accent-blue);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.agreement-box h3 {
+  color: var(--accent-blue);
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+}
+
+.agreement-box p {
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+}
+
+/* --------------------------------------------------
+   BUTTONS
+-------------------------------------------------- */
+.button-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.btn {
+  padding: 14px 24px;
+  flex: 1;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  border: none;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan));
+  color: #000;
+  box-shadow: 0 4px 16px rgba(233, 255, 96, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(233, 255, 96, 0.4);
+}
+
+.btn-secondary {
+  background: var(--bg-input);
+  border: 1px solid var(--border-soft);
+  color: var(--text-main);
+}
+
+.btn-secondary:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* --------------------------------------------------
+   SUCCESS SCREEN
+-------------------------------------------------- */
+.success-screen {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.success-screen h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  background: linear-gradient(120deg, var(--accent-gold), var(--accent-pink));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 16px;
+}
+
+.success-screen p {
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+/* --------------------------------------------------
+   RESPONSIVE
+-------------------------------------------------- */
+@media (max-width: 640px) {
+  .form-container {
+    padding: 28px 20px;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+  }
+  
+  .button-group {
+    flex-direction: column-reverse;
+  }
+  
+  .btn {
+    width: 100%;
+  }
+}
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="brand-header">
+      <img src="https://dopeleeprezzed-oss.github.io/dopelee-form/logo.png" 
+           alt="Dopelee Prezzed Logo" class="brand-logo-large">
+      <div class="brand-title">DOPELEE PREZZED BY S™</div>
+    </div>
+
+    <h1>Legacy Lounge™ Partner Network</h1>
+    <p class="subtitle">
+      Thank you for your interest in hosting a Legacy Lounge™ display at your location. 
+      Our mission is simple: to help families and communities preserve their most meaningful moments 
+      through luxury design, technology, and ease.
+    </p>
+    <a href="https://drive.google.com/file/d/1l68Z2V7XOujwNQI2nsaegpyQxHq9r0Rv/view?usp=drive_link">
+      👉 Watch The Legacy Lounge™ Overview Video
+    </a>
+  </header>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress-container">
+    <div class="progress-bar">
+      <div id="progressBar" class="progress-fill"></div>
+    </div>
+    <div id="progressText" class="progress-text">Step 1 of 5</div>
+  </div>
+
+  <!-- FORM CONTAINER -->
+  <div class="form-container">
+
+    <!-- STEP 1: CONTACT DETAILS -->
+    <section id="step1" class="step active">
+      <h2 class="step-title">Step 1 — Contact Details</h2>
+      <p class="step-description">Tell us who to reach for setup and partnership communication.</p>
+
+      <div class="form-group">
+        <label>Full Name (Contact Person) *</label>
+        <input id="contactName" type="text" required />
+      </div>
+
+      <div class="form-group">
+        <label>Contact Number *</label>
+        <input id="contactPhone" type="tel" required />
+        <div class="helper-text">Provide the best direct number for communication or delivery coordination.</div>
+      </div>
+
+      <div class="form-group">
+        <label>Email Address *</label>
+        <input id="contactEmail" type="email" required />
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-primary" onclick="goToStep('step2')">Continue →</button>
+      </div>
+    </section>
+
+    <!-- STEP 2: LOCATION DETAILS -->
+    <section id="step2" class="step">
+      <h2 class="step-title">Step 2 — Location Details</h2>
+      <p class="step-description">Provide the details of your business or organization to help us plan your Legacy Lounge™ setup.</p>
+
+      <div class="form-group">
+        <label>Business / Organization Name *</label>
+        <input id="businessName" type="text" required />
+      </div>
+
+      <div class="form-group">
+        <label>Location Address (City, State, ZIP) *</label>
+        <textarea id="businessAddress" placeholder="123 Main St, Kansas City, MO 64119" required></textarea>
+        <div class="helper-text">Enter the full address as it appears on official records.</div>
+      </div>
+
+      <div class="form-group">
+        <label>Type of Venue *</label>
+        <select id="venueType" required>
+          <option value="">Select venue type...</option>
+          <option value="funeral-home">Funeral Home - Serving families in remembrance and legacy</option>
+          <option value="event-venue">Event Venue - Hosting celebrations, receptions, or gatherings</option>
+          <option value="community-center">Community Center - Public or private multipurpose space</option>
+          <option value="vet-clinic">Veterinary Clinic / Animal Hospital - Supporting families through care, healing, and remembrance</option>
+          <option value="pet-grooming">Pet Grooming Salon - Serving pets and pet parents with beauty, wellness, and specialty care</option>
+          <option value="kennel">Kennel / Boarding Facility - Providing comfort, safety, and connection for pets</option>
+          <option value="animal-rescue">Animal Rescue / Shelter - Honoring transitions, adoptions, and life-changing moments</option>
+        </select>
+        <div class="helper-text">This helps us tailor your Legacy Lounge™ setup and product mix.</div>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('step1')">← Back</button>
+        <button class="btn btn-primary" onclick="goToStep('step3')">Continue →</button>
+      </div>
+    </section>
+
+    <!-- STEP 3: DISPLAY SETUP INFO -->
+    <section id="step3" class="step">
+      <h2 class="step-title">Step 3 — Display Setup Information</h2>
+      <p class="step-description">Help us determine ideal display placement and inventory readiness.</p>
+
+      <div class="form-group">
+        <label>Estimated Foot Traffic Per Week *</label>
+        <select id="footTraffic" required>
+          <option value="">Select traffic level...</option>
+          <option value="under-50">Under 50 visitors/week</option>
+          <option value="50-100">50-100 visitors/week</option>
+          <option value="100-250">100-250 visitors/week</option>
+          <option value="250-500">250-500 visitors/week</option>
+          <option value="500+">500+ visitors/week</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Preferred Installation Area *</label>
+        <input id="installationArea" type="text" placeholder="e.g., Lobby, Reception, Memorial Room" required />
+        <div class="helper-text">Where would you like your Legacy Lounge™ display installed?</div>
+      </div>
+
+      <div class="form-group">
+        <label>Electrical Access (for signage or kiosk lighting) *</label>
+        <select id="electricalAccess" required>
+          <option value="">Select option...</option>
+          <option value="yes">Yes - Electrical outlet nearby</option>
+          <option value="no">No - No outlet available</option>
+          <option value="unsure">Unsure - Need to check</option>
+        </select>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('step2')">← Back</button>
+        <button class="btn btn-primary" onclick="goToStep('step4')">Continue →</button>
+      </div>
+    </section>
+
+    <!-- STEP 4: PRODUCT DISPLAY & PRICING -->
+    <section id="step4" class="step">
+      <h2 class="step-title">Step 4 — Display Items & Pricing</h2>
+      <p class="step-description">Review the Legacy Lounge™ product lineup and commission structure.</p>
+
+      <div class="product-display">
+        <h3 style="color: var(--accent-gold); margin-bottom: 16px;">Legacy Lounge™ Display Items + Pricing</h3>
+        <img src="legacy-lounge-products.png" alt="Legacy Lounge Product Display" />
+        <p style="color: var(--text-dim); margin-top: 12px; font-size: 0.85rem;">
+          Note: This guide is for partner understanding only. Customers receive their own pricing via our automated ordering system.
+        </p>
+      </div>
+
+      <div class="info-box">
+        <h3>Your Benefits</h3>
+        <ul>
+          <li>Earn a 10% commission on every completed order originating from your location</li>
+          <li>Receive monthly commission reports via email</li>
+          <li>Enjoy exclusive access to seasonal display updates and partnership materials</li>
+        </ul>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('step3')">← Back</button>
+        <button class="btn btn-primary" onclick="goToStep('step5')">Review Agreement →</button>
+      </div>
+    </section>
+
+    <!-- STEP 5: AGREEMENT & SIGNATURE -->
+    <section id="step5" class="step">
+      <h2 class="step-title">Step 5 — Partnership Agreement</h2>
+      <p class="step-description">Please review and accept the partnership terms.</p>
+
+      <div class="agreement-box">
+        <h3>Display Care & Replacement Policy</h3>
+        <p>Dopelee Prezzed by S™ provides the initial Legacy Lounge™ display at no cost to your location. We will replace the display at no charge in the event of:</p>
+        <ul>
+          <li>Normal wear and tear</li>
+          <li>Manufacturing defects</li>
+          <li>Environmental events beyond your control (e.g., fire, flooding, severe weather, building-level accidents)</li>
+        </ul>
+
+        <p><strong>Your location will be responsible for replacement costs if the display is damaged due to:</strong></p>
+        <ul>
+          <li>Customer handling or misuse</li>
+          <li>Staff handling or operational accidents</li>
+          <li>Negligence or unsafe repositioning of the display</li>
+          <li>Missing or stolen components resulting from unsecured placement</li>
+        </ul>
+
+        <p>If replacement is required for these reasons, the cost will be deducted from future commission payouts.</p>
+
+        <h3 style="margin-top: 20px;">Our Commitment</h3>
+        <ul>
+          <li>Dopelee Prezzed by S™ will handle display design, installation, and system setup</li>
+          <li>All customer orders will be processed directly through our automated platform</li>
+          <li>Your team will not be responsible for sales, inventory, or maintenance</li>
+        </ul>
+
+        <h3 style="margin-top: 20px;">Commission Payouts</h3>
+        <p>All commissions will be issued monthly by Dopelee Prezzed by S™ (mailed by the 10th of each month). Payments are made via cashier's check or money order mailed to the business address provided on this form. A confirmation email will be sent when each payout is processed.</p>
+
+        <h3 style="margin-top: 20px;">Your Agreement</h3>
+        <ul>
+          <li>You agree to maintain the display in a visible, accessible area</li>
+          <li>You understand commissions are processed monthly and paid via check or digital transfer</li>
+          <li>You may cancel participation at any time with written notice</li>
+        </ul>
+      </div>
+
+      <div class="form-group">
+        <label>Mailing Address for Commission Payments *</label>
+        <select id="mailingAddressType" onchange="toggleMailingAddress()">
+          <option value="same">Same as Business Address</option>
+          <option value="other">Different Address</option>
+        </select>
+      </div>
+
+      <div class="form-group" id="otherMailingAddress" style="display: none;">
+        <label>Commission Mailing Address</label>
+        <textarea id="commissionAddress" placeholder="Enter full mailing address..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Signature (Type Your Full Name) *</label>
+        <input id="signature" type="text" placeholder="Type your full name to confirm" required />
+        <div class="helper-text">By typing your name, you confirm your participation and acceptance of this agreement.</div>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('step4')">← Back</button>
+        <button class="btn btn-primary" onclick="submitPartnershipForm()">Submit Application</button>
+      </div>
+    </section>
+
+    <!-- SUCCESS SCREEN -->
+    <section id="successScreen" class="step success-screen">
+      <div style="text-align: center;">
+        <div style="font-size: 4rem; margin-bottom: 20px;">✨</div>
+        <h2>Application Submitted!</h2>
+        <p style="color: var(--text-muted); margin: 20px 0;">
+          Thank you for joining the Legacy Lounge™ Partner Network!<br>
+          We'll be in touch within 2-3 business days to schedule your display installation.
+        </p>
+        <p style="color: var(--accent-gold); font-weight: 600;">
+          Welcome to the family! 💛
+        </p>
+      </div>
+    </section>
+
+  </div><!-- end form-container -->
+
+<script>
+// --------------------------------------------------
+// NAVIGATION
+// --------------------------------------------------
+
+const totalSteps = 5;
+
+function goToStep(stepId) {
+  document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
+  document.getElementById(stepId).classList.add("active");
+  
+  // Update progress bar
+  const stepNumber = parseInt(stepId.replace('step', '')) || 1;
+  const progressPercent = (stepNumber / totalSteps) * 100;
+  document.getElementById("progressBar").style.width = progressPercent + "%";
+  document.getElementById("progressText").textContent = `Step ${stepNumber} of ${totalSteps}`;
+  
+  window.scrollTo(0, 0);
+}
+
+// --------------------------------------------------
+// TOGGLE MAILING ADDRESS
+// --------------------------------------------------
+
+function toggleMailingAddress() {
+  const type = document.getElementById("mailingAddressType").value;
+  const otherAddress = document.getElementById("otherMailingAddress");
+  
+  if (type === "other") {
+    otherAddress.style.display = "block";
+  } else {
+    otherAddress.style.display = "none";
+  }
+}
+
+// --------------------------------------------------
+// SUBMIT FORM
+// --------------------------------------------------
+
+async function submitPartnershipForm() {
+  const WEBHOOK_URL = "https://script.google.com/macros/s/YOUR_WEBHOOK_URL_HERE/exec";
+
+  const formData = {
+    formType: "partnership",
+    contactName: document.getElementById("contactName").value,
+    contactPhone: document.getElementById("contactPhone").value,
+    contactEmail: document.getElementById("contactEmail").value,
+    businessName: document.getElementById("businessName").value,
+    businessAddress: document.getElementById("businessAddress").value,
+    venueType: document.getElementById("venueType").value,
+    footTraffic: document.getElementById("footTraffic").value,
+    installationArea: document.getElementById("installationArea").value,
+    electricalAccess: document.getElementById("electricalAccess").value,
+    mailingAddressType: document.getElementById("mailingAddressType").value,
+    commissionAddress: document.getElementById("commissionAddress")?.value || document.getElementById("businessAddress").value,
+    signature: document.getElementById("signature").value,
+    submittedAt: new Date().toISOString()
+  };
+
+  try {
+    await fetch(WEBHOOK_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData)
+    });
+
+    goToStep("successScreen");
+    setTimeout(() => launchConfetti(), 300);
+  } catch (err) {
+    goToStep("successScreen");
+    setTimeout(() => launchConfetti(), 300);
+  }
+}
+
+// --------------------------------------------------
+// CONFETTI
+// --------------------------------------------------
+
+function launchConfetti() {
+  const end = Date.now() + 3000;
+  const colors = ["#e9ff60", "#0a95a8", "#fd26fd", "#3461fa", "#0ff0b8"];
+
+  (function frame() {
+    const p = document.createElement("div");
+    p.style.position = "fixed";
+    p.style.zIndex = "9999";
+    p.style.width = "10px";
+    p.style.height = "10px";
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.borderRadius = "50%";
+    p.style.top = "-20px";
+    p.style.left = Math.random() * window.innerWidth + "px";
+    p.style.opacity = "1";
+    p.style.transition = "transform 3s linear, opacity 3s ease-out";
+    p.style.pointerEvents = "none";
+
+    document.body.appendChild(p);
+
+    setTimeout(() => {
+      p.style.transform = `translateY(${window.innerHeight + 50}px) rotate(${Math.random() * 360}deg)`;
+      p.style.opacity = "0";
+    }, 10);
+
+    setTimeout(() => p.remove(), 3100);
+
+    if (Date.now() < end) requestAnimationFrame(frame);
+  })();
+}
+</script>
+
+</body>
+</html>
