@@ -739,7 +739,7 @@ input[readonly] {
     </section>
 
    <!-- SUCCESS SCREEN -->
-<div id="successScreen" class="form-step">
+<div id="successScreen" class="form-step" style="display:none;">
   <h2>✨ Submission Received!</h2>
   <p>Your personalization has been submitted!<br>
   <strong>Taking you back to your order portal...</strong></p>
@@ -1040,16 +1040,26 @@ async function submitForm() {
     formData.bookHonor = document.getElementById("bookHonor")?.value || "";
   }
 
-try {
-  await fetch(WEBHOOK_URL, {
-    method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(formData)
-  });
+  try {
+    // Send to webhook
+    await fetch(WEBHOOK_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData)
+    });
+    
+    console.log("✅ Form submitted successfully");
+    
+  } catch (err) {
+    console.error("❌ Submission error:", err);
+    // Continue anyway - show success screen
+  }
   
-  // Show success and confetti
-  goToStep("successScreen");
+  // Show success screen with confetti
+  document.getElementById("successScreen").style.display = "block";
+  document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
+  
   setTimeout(() => launchConfetti(), 300);
   
   // Redirect to portal after 3 seconds
@@ -1059,6 +1069,7 @@ try {
   setTimeout(() => {
     window.location.href = portalLink;
   }, 3000);
+}
   
 } catch (err) {
   // Same redirect on error
