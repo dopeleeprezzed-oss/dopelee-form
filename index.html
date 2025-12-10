@@ -739,18 +739,12 @@ input[readonly] {
     </section>
 
    <!-- SUCCESS SCREEN -->
-<section id="successScreen" class="step success-screen">
-  <div style="text-align: center;">
-    <div style="font-size: 4rem; margin-bottom: 20px;">✨</div>
-    <h2>Submission Received!</h2>
-    <p style="color: var(--text-muted); margin: 20px 0;">
-      Your personalization has been submitted!<br>
-      Taking you back to your order portal...
-    </p>
-    <div style="margin-top: 30px;">
-      <div style="display: inline-block; width: 40px; height: 40px; border: 4px solid rgba(233,255,96,0.3); border-top: 4px solid var(--accent-gold); border-radius: 50%; animation: spin 1s linear infinite;"></div>
-    </div>
-  </div>
+<div id="successScreen" class="form-step">
+  <h2>✨ Submission Received!</h2>
+  <p>Your personalization has been submitted!<br>
+  <strong>Taking you back to your order portal...</strong></p>
+  <div class="loading-spinner"></div>
+</div>
 </section>
 
   </div><!-- end form-container -->
@@ -1070,6 +1064,17 @@ try {
   // Same redirect on error
   goToStep("successScreen");
   setTimeout(() => launchConfetti(), 300);
+
+  // Show success screen
+goToStep("successScreen");
+setTimeout(() => launchConfetti(), 300);
+
+// 🔥 ADD THIS NEW CODE:
+setTimeout(() => {
+  const orderNum = baseData.orderNumber || "NEW-ORDER";
+  const portalLink = `https://dopeleeprezzed-oss.github.io/dopelee-believer-portal/?order=${orderNum}`;
+  window.location.href = portalLink;
+}, 3000); // Redirect after 3 seconds
   
   const orderNum = baseData.orderNumber || "NEW-ORDER";
   const portalLink = `https://dopeleeprezzed-oss.github.io/dopelee-believer-portal/?order=${orderNum}`;
