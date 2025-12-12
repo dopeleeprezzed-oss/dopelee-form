@@ -1093,8 +1093,13 @@ function launchConfetti() {
 
     if (Date.now() < end) requestAnimationFrame(frame);
   })();
+}
 
-  function updateTrackOrderLink() {
+// --------------------------------------------------
+// UPDATE TRACK ORDER LINK
+// --------------------------------------------------
+
+function updateTrackOrderLink() {
   const email = document.getElementById('email').value;
   const trackBtn = document.getElementById('trackOrderBtn');
   
@@ -1135,7 +1140,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (projectTypeParam === 'photobook') {
           goToStep('step2cPhotobook');
         }
-      }, 500); // Small delay to ensure everything loads
+      }, 500);
     }
   }
 });
