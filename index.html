@@ -1150,11 +1150,79 @@ function updateTrackOrderLink() {
 // INITIALIZE
 // --------------------------------------------------
 
+// --------------------------------------------------
+// INITIALIZE + PRE-FILL FROM PORTAL
+// --------------------------------------------------
+
 document.addEventListener('DOMContentLoaded', () => {
   const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.has('name')) document.getElementById('fullName').value = urlParams.get('name');
-  if (urlParams.has('email')) document.getElementById('email').value = urlParams.get('email');
-  if (urlParams.has('orderNumber')) document.getElementById('orderNumber').value = urlParams.get('orderNumber');
+  
+  console.log('🔍 URL Parameters:', Array.from(urlParams.entries()));
+  
+  // PRE-FILL BASIC INFO
+  if (urlParams.has('name')) {
+    document.getElementById('fullName').value = urlParams.get('name');
+    console.log('✅ Filled name:', urlParams.get('name'));
+  }
+  
+  if (urlParams.has('email')) {
+    document.getElementById('email').value = urlParams.get('email');
+    console.log('✅ Filled email:', urlParams.get('email'));
+  }
+  
+  if (urlParams.has('orderNumber') || urlParams.has('orderId')) {
+    const orderNum = urlParams.get('orderNumber') || urlParams.get('orderId');
+    document.getElementById('orderNumber').value = orderNum;
+    console.log('✅ Filled order number:', orderNum);
+  }
+  
+  // PRE-FILL KEEPSAKE SPECIFIC FIELDS
+  if (urlParams.has('honoredName')) {
+    document.getElementById('honoredName').value = urlParams.get('honoredName');
+    console.log('✅ Filled honored name:', urlParams.get('honoredName'));
+  }
+  
+  if (urlParams.has('dates')) {
+    document.getElementById('dates').value = urlParams.get('dates');
+    console.log('✅ Filled dates:', urlParams.get('dates'));
+  }
+  
+  // AUTO-FILL PHOTO BOOK ORDER LINK
+  if (urlParams.has('orderLink')) {
+    document.getElementById('photoBookOrderLink').value = urlParams.get('orderLink');
+  }
+  
+  // AUTO-SELECT PROJECT TYPE IF PROVIDED
+  if (urlParams.has('projectType')) {
+    const projectTypeParam = urlParams.get('projectType');
+    selectProjectType(projectTypeParam);
+    console.log('✅ Selected project type:', projectTypeParam);
+    
+    // CHECK IF WE HAVE ALL REQUIRED STEP 1 FIELDS
+    const hasName = document.getElementById('fullName').value.trim();
+    const hasEmail = document.getElementById('email').value.trim();
+    
+    // IF ALL REQUIRED FIELDS ARE FILLED, AUTO-ADVANCE TO STEP 2
+    if (hasName && hasEmail && projectTypeParam) {
+      console.log('✅ All step 1 fields filled, auto-skipping to step 2 in 1 second...');
+      
+      setTimeout(() => {
+        if (projectTypeParam === 'keepsake') {
+          console.log('📍 Going to step 2a (Keepsake)');
+          goToStep('step2aKeepsake');
+        } else if (projectTypeParam === 'vip') {
+          console.log('📍 Going to step 2b (VIP)');
+          goToStep('step2bVIP');
+        } else if (projectTypeParam === 'photobook') {
+          console.log('📍 Going to step 2c (Photobook)');
+          goToStep('step2cPhotobook');
+        }
+      }, 1000);  // Wait 1 second so user can see fields are filled
+    } else {
+      console.log('❌ Missing required fields:', { hasName, hasEmail, projectTypeParam });
+    }
+  }
+});
   
   // AUTO-FILL PHOTO BOOK ORDER LINK
   if (urlParams.has('orderLink')) {
