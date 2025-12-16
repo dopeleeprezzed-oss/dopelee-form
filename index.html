@@ -1156,99 +1156,85 @@ function updateTrackOrderLink() {
 // INITIALIZE
 // --------------------------------------------------
 
-// --------------------------------------------------
-// INITIALIZE + PRE-FILL FROM PORTAL
-// --------------------------------------------------
-
-// --------------------------------------------------
-// INITIALIZE
-// --------------------------------------------------
-
-// ═══════════════════════════════════════════════════════════════
-// PRE-FILL FROM URL PARAMETERS - FIXED VERSION
-// ═══════════════════════════════════════════════════════════════
-
 window.addEventListener('DOMContentLoaded', () => {
   const urlParams = new URLSearchParams(window.location.search);
   
   console.log('🔍 Checking URL parameters...');
   console.log('All params:', Array.from(urlParams.entries()));
   
-  // Check if we have pre-fill data
-  const hasOrderId = urlParams.has('orderId') || urlParams.has('orderNumber');
-  const hasEmail = urlParams.has('email');
-  const hasName = urlParams.has('name');
-  const hasProjectType = urlParams.has('projectType');
+  // Check what we have
+  const orderId = urlParams.get('orderId') || urlParams.get('orderNumber') || '';
+  const email = urlParams.get('email') || '';
+  const name = urlParams.get('name') || '';
+  const projectType = urlParams.get('projectType') || '';
+  const honoredName = urlParams.get('honoredName') || '';
+  const dates = urlParams.get('dates') || '';
+  const product = urlParams.get('product') || '';
+  const phone = urlParams.get('phone') || '';
   
-  if (hasOrderId || hasEmail || hasName) {
-    console.log('✅ Pre-fill data detected!');
+  // If we have orderId OR email, this is a pre-fill request
+  if (orderId || email) {
+    console.log('✅ Pre-fill request detected!');
     
-    // FILL STEP 1 FIELDS
-    if (hasName) {
-      const nameValue = urlParams.get('name');
-      document.getElementById('fullName').value = nameValue;
-      console.log('✅ Filled name:', nameValue);
+    // FILL AVAILABLE FIELDS
+    if (name) {
+      document.getElementById('fullName').value = name;
+      console.log('✅ Filled name:', name);
+    } else {
+      console.log('ℹ️ Name is empty - user will fill it');
     }
     
-    if (hasEmail) {
-      const emailValue = urlParams.get('email');
-      document.getElementById('email').value = emailValue;
-      console.log('✅ Filled email:', emailValue);
+    if (email) {
+      document.getElementById('email').value = email;
+      console.log('✅ Filled email:', email);
     }
     
-    if (hasOrderId) {
-      const orderValue = urlParams.get('orderId') || urlParams.get('orderNumber');
-      document.getElementById('orderNumber').value = orderValue;
-      console.log('✅ Filled order number:', orderValue);
+    if (orderId) {
+      document.getElementById('orderNumber').value = orderId;
+      console.log('✅ Filled order number:', orderId);
     }
     
-    // SELECT PROJECT TYPE (usually keepsake)
-    if (hasProjectType) {
-      const projectValue = urlParams.get('projectType');
-      selectProjectType(projectValue);
-      console.log('✅ Selected project type:', projectValue);
+    // SELECT PROJECT TYPE
+    if (projectType) {
+      selectProjectType(projectType);
+      console.log('✅ Selected project type:', projectType);
     }
     
     // PRE-FILL STEP 2 FIELDS (for keepsake)
-    if (urlParams.has('honoredName')) {
-      const honoredValue = urlParams.get('honoredName');
-      document.getElementById('honoredName').value = honoredValue;
-      console.log('✅ Pre-filled honored name:', honoredValue);
+    if (honoredName) {
+      document.getElementById('honoredName').value = honoredName;
+      console.log('✅ Pre-filled honored name:', honoredName);
     }
     
-    if (urlParams.has('dates')) {
-      const datesValue = urlParams.get('dates');
-      document.getElementById('dates').value = datesValue;
-      console.log('✅ Pre-filled dates:', datesValue);
+    if (dates) {
+      document.getElementById('dates').value = dates;
+      console.log('✅ Pre-filled dates:', dates);
     }
     
-    // AUTO-SKIP TO STEP 2 if all required fields are filled
-    if (hasName && hasEmail && hasProjectType) {
-      console.log('✅ All required fields filled, auto-skipping in 1 second...');
+    // AUTO-SKIP LOGIC:
+    // Skip to step 2 if we have email + projectType
+    // (Name is optional - they can fill it in)
+    if (email && projectType) {
+      console.log('✅ Have email + projectType, auto-skipping in 1 second...');
       
       setTimeout(() => {
-        const projectValue = urlParams.get('projectType');
-        
-        if (projectValue === 'keepsake') {
+        if (projectType === 'keepsake') {
           console.log('📍 Going to step2aKeepsake');
           goToStep('step2aKeepsake');
-        } else if (projectValue === 'vip') {
+        } else if (projectType === 'vip') {
           console.log('📍 Going to step2bVIP');
           goToStep('step2bVIP');
-        } else if (projectValue === 'photobook') {
+        } else if (projectType === 'photobook') {
           console.log('📍 Going to step2cPhotobook');
           goToStep('step2cPhotobook');
         }
       }, 1000);
     } else {
-      console.log('❌ Missing required fields for auto-skip:', {
-        hasName,
-        hasEmail,
-        hasProjectType
-      });
+      console.log('ℹ️ Not auto-skipping. Have:', { email, projectType });
+      console.log('💡 User will manually complete Step 1 and continue');
     }
   } else {
-    console.log('ℹ️ No pre-fill data in URL');
+    console.log('ℹ️ No pre-fill data - fresh form');
   }
 });
 </script>
