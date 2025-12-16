@@ -790,25 +790,26 @@ let uploadedImage = null;
 function goToStep(id) {
   document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
-  
-  // UPDATE PROGRESS BAR
   updateProgressBar(id);
-  
-  // IF GOING TO STEP 3 AND PERSON/PET IS SELECTED, LOAD TEMPLATES
-  if (id === "step3aKeepsake" && selectedPersonOrPet) {
-    console.log("📋 NAVIGATING TO STEP 3, LOADING TEMPLATES FOR:", selectedPersonOrPet);
-    loadTemplates();
-  }
-  
-  // IF GOING TO STEP 4 KEEPSAKE, SHOW THE SELECTED TEMPLATE
-  if (id === "step4aKeepsake" && selectedTemplate) {
-    showSelectedTemplatePreview();
-  }
-  
+  if (id === "step3aKeepsake") loadTemplates();
+  if (id === "step4aKeepsake") showSelectedTemplatePreview();
   window.scrollTo(0, 0);
 }
 
-  // --------------------------------------------------
+function updateProgressBar(stepId) {
+  const bar = document.getElementById("progressBar");
+  const text = document.getElementById("progressText");
+
+  let num = 1;
+  if (stepId.includes("step2")) num = 2;
+  if (stepId.includes("step3")) num = 3;
+  if (stepId.includes("step4") || stepId === "successScreen") num = 4;
+
+  bar.style.width = (num / 4) * 100 + "%";
+  text.textContent = stepId === "successScreen" ? "Complete! ✓" : `Step ${num} of 4`;
+}
+
+// --------------------------------------------------
 // UPDATE PROGRESS BAR
 // --------------------------------------------------
 
@@ -870,11 +871,20 @@ function selectProjectType(type) {
 }
 
 // --------------------------------------------------
-// VALIDATE STEP 1
+// STEP 1 VALIDATION
 // --------------------------------------------------
 
+function selectProjectType(type) {
+  projectType = type;
+  const radio = document.querySelector(`input[name="projectType"][value="${type}"]`);
+  if (radio) radio.checked = true;
+  
+  document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+  radio.closest('.option-card').classList.add('selected');
+}
+
 function validateStep1() {
-  const name = document.getElementById("fullName").value.trim();
+  const name = fullName.value.trim();
   const email = document.getElementById("email").value.trim();
   const selected = document.querySelector("input[name='projectType']:checked");
 
@@ -885,13 +895,9 @@ function validateStep1() {
 
   projectType = selected.value;
 
-  if (projectType === "keepsake") {
-    goToStep("step2aKeepsake");
-  } else if (projectType === "vip") {
-    goToStep("step2bVIP");
-  } else if (projectType === "photobook") {
-    goToStep("step2cPhotobook");
-  }
+  if (projectType === "keepsake") goToStep("step2aKeepsake");
+  else if (projectType === "vip") goToStep("step2bVIP");
+  else goToStep("step2cPhotobook");
 }
 
 // --------------------------------------------------
