@@ -1158,37 +1158,73 @@ function updateTrackOrderLink() {
 // INITIALIZE
 // --------------------------------------------------
 
-document.addEventListener('DOMContentLoaded', () => {
+// ═══════════════════════════════════════════════════════════════
+// PRE-FILL FROM URL PARAMETERS
+// ═══════════════════════════════════════════════════════════════
+
+window.addEventListener('DOMContentLoaded', () => {
+  // Read URL parameters
   const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.has('name')) document.getElementById('fullName').value = urlParams.get('name');
-  if (urlParams.has('email')) document.getElementById('email').value = urlParams.get('email');
-  if (urlParams.has('orderNumber')) document.getElementById('orderNumber').value = urlParams.get('orderNumber');
   
-  // ... rest of code
-});
+  const preFillData = {
+    orderId: urlParams.get('orderId'),
+    email: urlParams.get('email'),
+    name: urlParams.get('name'),
+    phone: urlParams.get('phone'),
+    product: urlParams.get('product'),
+    honoredName: urlParams.get('honoredName'),
+    dates: urlParams.get('dates')
+  };
   
-  // AUTO-FILL PHOTO BOOK ORDER LINK
-  if (urlParams.has('orderLink')) {
-    document.getElementById('photoBookOrderLink').value = urlParams.get('orderLink');
-  }
+  console.log('Pre-fill data:', preFillData);
   
-  // AUTO-SELECT PROJECT TYPE IF PROVIDED
-  if (urlParams.has('projectType')) {
-    const projectTypeParam = urlParams.get('projectType');
-    selectProjectType(projectTypeParam);
+  // If we have an orderId, this is a pre-fill request
+  if (preFillData.orderId) {
     
-    // IF ALL REQUIRED FIELDS ARE FILLED, AUTO-ADVANCE TO STEP 2
-    if (urlParams.has('name') && urlParams.has('email')) {
-      setTimeout(() => {
-        if (projectTypeParam === 'keepsake') {
-          goToStep('step2aKeepsake');
-        } else if (projectTypeParam === 'vip') {
-          goToStep('step2bVIP');
-        } else if (projectTypeParam === 'photobook') {
-          goToStep('step2cPhotobook');
-        }
-      }, 500);
+    console.log('✅ Pre-filling form...');
+    
+    // FILL PAGE 1 FIELDS
+    const orderNumberField = document.getElementById('orderNumber') || document.querySelector('[name="orderNumber"]');
+    const emailField = document.getElementById('email') || document.querySelector('[name="email"]');
+    const fullNameField = document.getElementById('fullName') || document.querySelector('[name="fullName"]');
+    const phoneField = document.getElementById('phone') || document.querySelector('[name="phone"]');
+    const keepsakeProductField = document.getElementById('keepsakeProduct') || document.querySelector('[name="keepsakeProduct"]');
+    
+    if (orderNumberField) orderNumberField.value = preFillData.orderId || '';
+    if (emailField) emailField.value = preFillData.email || '';
+    if (fullNameField) fullNameField.value = preFillData.name || '';
+    if (phoneField) phoneField.value = preFillData.phone || '';
+    if (keepsakeProductField && preFillData.product) keepsakeProductField.value = preFillData.product;
+    
+    // FILL PAGE 2 FIELDS (if they exist)
+    const honoredNameField = document.getElementById('honoredName') || document.querySelector('[name="honoredName"]');
+    const datesField = document.getElementById('dates') || document.querySelector('[name="dates"]');
+    
+    if (honoredNameField && preFillData.honoredName) honoredNameField.value = preFillData.honoredName;
+    if (datesField && preFillData.dates) datesField.value = preFillData.dates;
+    
+    console.log('✅ Fields filled, skipping to page 2...');
+    
+    // SKIP TO PAGE 2
+    // Find your current page variable name and your show page function
+    // Adjust these to match YOUR form's variable/function names:
+    
+    if (typeof currentPage !== 'undefined' && typeof showPage === 'function') {
+      currentPage = 2;
+      showPage(2);
+    } else if (typeof goToPage === 'function') {
+      goToPage(2);
+    } else {
+      // If you have a different way to change pages, adjust here
+      console.warn('⚠️ Could not find page navigation function');
+      // Manually trigger "Next" button click as fallback
+      const nextButton = document.querySelector('.next-btn') || document.querySelector('[data-action="next"]');
+      if (nextButton) {
+        setTimeout(() => nextButton.click(), 100);
+      }
     }
+    
+    console.log('✅ Pre-fill complete!');
   }
 });
 </script>
