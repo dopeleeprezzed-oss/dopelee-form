@@ -1165,72 +1165,90 @@ function updateTrackOrderLink() {
 // --------------------------------------------------
 
 // ═══════════════════════════════════════════════════════════════
-// PRE-FILL FROM URL PARAMETERS
+// PRE-FILL FROM URL PARAMETERS - FIXED VERSION
 // ═══════════════════════════════════════════════════════════════
 
 window.addEventListener('DOMContentLoaded', () => {
-  // Read URL parameters
   const urlParams = new URLSearchParams(window.location.search);
   
-  const preFillData = {
-    orderId: urlParams.get('orderId'),
-    email: urlParams.get('email'),
-    name: urlParams.get('name'),
-    phone: urlParams.get('phone'),
-    product: urlParams.get('product'),
-    honoredName: urlParams.get('honoredName'),
-    dates: urlParams.get('dates')
-  };
+  console.log('🔍 Checking URL parameters...');
+  console.log('All params:', Array.from(urlParams.entries()));
   
-  console.log('Pre-fill data:', preFillData);
+  // Check if we have pre-fill data
+  const hasOrderId = urlParams.has('orderId') || urlParams.has('orderNumber');
+  const hasEmail = urlParams.has('email');
+  const hasName = urlParams.has('name');
+  const hasProjectType = urlParams.has('projectType');
   
-  // If we have an orderId, this is a pre-fill request
-  if (preFillData.orderId) {
+  if (hasOrderId || hasEmail || hasName) {
+    console.log('✅ Pre-fill data detected!');
     
-    console.log('✅ Pre-filling form...');
-    
-    // FILL PAGE 1 FIELDS
-    const orderNumberField = document.getElementById('orderNumber') || document.querySelector('[name="orderNumber"]');
-    const emailField = document.getElementById('email') || document.querySelector('[name="email"]');
-    const fullNameField = document.getElementById('fullName') || document.querySelector('[name="fullName"]');
-    const phoneField = document.getElementById('phone') || document.querySelector('[name="phone"]');
-    const keepsakeProductField = document.getElementById('keepsakeProduct') || document.querySelector('[name="keepsakeProduct"]');
-    
-    if (orderNumberField) orderNumberField.value = preFillData.orderId || '';
-    if (emailField) emailField.value = preFillData.email || '';
-    if (fullNameField) fullNameField.value = preFillData.name || '';
-    if (phoneField) phoneField.value = preFillData.phone || '';
-    if (keepsakeProductField && preFillData.product) keepsakeProductField.value = preFillData.product;
-    
-    // FILL PAGE 2 FIELDS (if they exist)
-    const honoredNameField = document.getElementById('honoredName') || document.querySelector('[name="honoredName"]');
-    const datesField = document.getElementById('dates') || document.querySelector('[name="dates"]');
-    
-    if (honoredNameField && preFillData.honoredName) honoredNameField.value = preFillData.honoredName;
-    if (datesField && preFillData.dates) datesField.value = preFillData.dates;
-    
-    console.log('✅ Fields filled, skipping to page 2...');
-    
-    // SKIP TO PAGE 2
-    // Find your current page variable name and your show page function
-    // Adjust these to match YOUR form's variable/function names:
-    
-    if (typeof currentPage !== 'undefined' && typeof showPage === 'function') {
-      currentPage = 2;
-      showPage(2);
-    } else if (typeof goToPage === 'function') {
-      goToPage(2);
-    } else {
-      // If you have a different way to change pages, adjust here
-      console.warn('⚠️ Could not find page navigation function');
-      // Manually trigger "Next" button click as fallback
-      const nextButton = document.querySelector('.next-btn') || document.querySelector('[data-action="next"]');
-      if (nextButton) {
-        setTimeout(() => nextButton.click(), 100);
-      }
+    // FILL STEP 1 FIELDS
+    if (hasName) {
+      const nameValue = urlParams.get('name');
+      document.getElementById('fullName').value = nameValue;
+      console.log('✅ Filled name:', nameValue);
     }
     
-    console.log('✅ Pre-fill complete!');
+    if (hasEmail) {
+      const emailValue = urlParams.get('email');
+      document.getElementById('email').value = emailValue;
+      console.log('✅ Filled email:', emailValue);
+    }
+    
+    if (hasOrderId) {
+      const orderValue = urlParams.get('orderId') || urlParams.get('orderNumber');
+      document.getElementById('orderNumber').value = orderValue;
+      console.log('✅ Filled order number:', orderValue);
+    }
+    
+    // SELECT PROJECT TYPE (usually keepsake)
+    if (hasProjectType) {
+      const projectValue = urlParams.get('projectType');
+      selectProjectType(projectValue);
+      console.log('✅ Selected project type:', projectValue);
+    }
+    
+    // PRE-FILL STEP 2 FIELDS (for keepsake)
+    if (urlParams.has('honoredName')) {
+      const honoredValue = urlParams.get('honoredName');
+      document.getElementById('honoredName').value = honoredValue;
+      console.log('✅ Pre-filled honored name:', honoredValue);
+    }
+    
+    if (urlParams.has('dates')) {
+      const datesValue = urlParams.get('dates');
+      document.getElementById('dates').value = datesValue;
+      console.log('✅ Pre-filled dates:', datesValue);
+    }
+    
+    // AUTO-SKIP TO STEP 2 if all required fields are filled
+    if (hasName && hasEmail && hasProjectType) {
+      console.log('✅ All required fields filled, auto-skipping in 1 second...');
+      
+      setTimeout(() => {
+        const projectValue = urlParams.get('projectType');
+        
+        if (projectValue === 'keepsake') {
+          console.log('📍 Going to step2aKeepsake');
+          goToStep('step2aKeepsake');
+        } else if (projectValue === 'vip') {
+          console.log('📍 Going to step2bVIP');
+          goToStep('step2bVIP');
+        } else if (projectValue === 'photobook') {
+          console.log('📍 Going to step2cPhotobook');
+          goToStep('step2cPhotobook');
+        }
+      }, 1000);
+    } else {
+      console.log('❌ Missing required fields for auto-skip:', {
+        hasName,
+        hasEmail,
+        hasProjectType
+      });
+    }
+  } else {
+    console.log('ℹ️ No pre-fill data in URL');
   }
 });
 </script>
