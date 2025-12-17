@@ -734,18 +734,32 @@ input[readonly] {
       </div>
     </section>
 
-    <!-- SUCCESS SCREEN - FIXED REDIRECT -->
+    <!-- SUCCESS SCREEN -->
 <section id="successScreen" class="step success-screen">
   <div style="text-align: center;">
     <div style="font-size: 4rem; margin-bottom: 20px;">✨</div>
-    <h2>Submission Received!</h2>
-    <p style="color: var(--text-muted); margin: 20px 0;">Your order info has been received!<br>Redirecting to your tracking portal...</p>
+    <h2>Design Submitted!</h2>
+    <p style="color: var(--text-muted); margin: 20px 0;">
+      Thank you! Your personalization details have been received.
+    </p>
     
-    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
-      <a id="trackOrderBtn" href="#" class="btn btn-primary" style="text-decoration: none;">
-        📍 Go to Tracking Portal Now
-      </a>
+    <div style="background:rgba(233,255,96,0.1);border:2px solid var(--accent-gold);border-radius:16px;padding:24px;margin:30px auto;max-width:400px;">
+      <p style="font-size:1.1rem;margin:0 0 10px;color:var(--accent-gold);font-weight:600;">
+        📧 Check Your Email!
+      </p>
+      <p style="font-size:0.95rem;color:var(--text-muted);margin:0;line-height:1.5;">
+        We just sent you a confirmation with your tracking link. 
+        You'll be creating magic in no time! ✨
+      </p>
     </div>
+    
+    <p style="color: var(--text-dim); font-size:0.9rem; margin-top:30px;">
+      We got you! 💪
+    </p>
+    
+    <button class="btn btn-secondary" onclick="window.location.reload()" style="margin-top:20px;">
+      Submit Another Order
+    </button>
   </div>
 </section>
 
@@ -858,7 +872,7 @@ function validateStep1() {
 }
 
 // --------------------------------------------------
-// CHOOSE PERSON OR PET
+// CHOOSE PERSON OR PET - FIXED TO FILTER PROPERLY
 // --------------------------------------------------
 
 function setPersonOrPet(type) {
@@ -882,7 +896,7 @@ function setPersonOrPet(type) {
 }
 
 // --------------------------------------------------
-// LOAD TEMPLATES
+// LOAD TEMPLATES - FIXED TO SHOW CORRECT IMAGES
 // --------------------------------------------------
 
 function loadTemplates() {
@@ -896,8 +910,10 @@ function loadTemplates() {
   let list = [];
   if (selectedPersonOrPet === "human") {
     list = HUMAN_TEMPLATES;
+    console.log("👤 LOADING", list.length, "HUMAN TEMPLATES");
   } else if (selectedPersonOrPet === "pet") {
     list = PET_TEMPLATES;
+    console.log("🐾 LOADING", list.length, "PET TEMPLATES");
   }
 
   if (list.length === 0) {
@@ -999,11 +1015,11 @@ function updateMockup() {
 }
 
 // --------------------------------------------------
-// SUBMIT FORM - FIXED REDIRECT
+// SUBMIT FORM
 // --------------------------------------------------
 
 async function submitForm() {
-  const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbzsz7Z9UKvXFpsUnFS3Hvsujni3bhwRiP1s0r3YRYACFmY9q-zcfSM8DCOk1GueQ6fA/exec";
+  const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxOHezk_zA4eCGmVYt64lr7bVkX3TtZQSVtaQUut5W027B8R8blhUyL5O6NaXC-wLLP/exec";
 
   const baseData = {
     fullName: document.getElementById("fullName").value,
@@ -1045,21 +1061,11 @@ async function submitForm() {
 
     goToStep("successScreen");
     updateTrackOrderLink();
-    setTimeout(() => {
-      launchConfetti();
-      // AUTO-REDIRECT TO TRACKING PORTAL AFTER 2 SECONDS
-      setTimeout(() => {
-        window.location.href = document.getElementById('trackOrderBtn').href;
-      }, 2000);
-    }, 300);
+    setTimeout(() => launchConfetti(), 300);
+    
   } catch (err) {
     goToStep("successScreen");
-    setTimeout(() => {
-      launchConfetti();
-      setTimeout(() => {
-        window.location.href = document.getElementById('trackOrderBtn').href;
-      }, 2000);
-    }, 300);
+    setTimeout(() => launchConfetti(), 300);
   }
 }
 
@@ -1099,14 +1105,13 @@ function launchConfetti() {
 }
 
 // --------------------------------------------------
-// UPDATE TRACK ORDER LINK - ALWAYS GO TO TRACKING PORTAL
+// UPDATE TRACK ORDER LINK
 // --------------------------------------------------
 
 function updateTrackOrderLink() {
   const email = document.getElementById('email').value;
   const trackBtn = document.getElementById('trackOrderBtn');
   
-  // ALWAYS redirect to tracking portal, not prezzedbeyond.com
   if (email) {
     trackBtn.href = `https://dopeleeprezzed-oss.github.io/dopelee-believer-portal/?email=${encodeURIComponent(email)}`;
   } else {
@@ -1115,58 +1120,53 @@ function updateTrackOrderLink() {
 }
 
 // --------------------------------------------------
-// INITIALIZE - NO AUTO-SKIP, USER FILLS NAME
+// INITIALIZE - NO AUTO-SKIP, JUST PRE-FILL
 // --------------------------------------------------
 
 window.addEventListener('DOMContentLoaded', () => {
   const urlParams = new URLSearchParams(window.location.search);
   
-  console.log('🔍 Checking URL parameters...');
-  console.log('All params:', Array.from(urlParams.entries()));
+  console.log('🔍 Form initialized - checking for pre-fill data');
   
   const orderId = urlParams.get('orderId') || urlParams.get('orderNumber') || '';
   const email = urlParams.get('email') || '';
+  const name = urlParams.get('name') || '';
   const projectType = urlParams.get('projectType') || '';
   const honoredName = urlParams.get('honoredName') || '';
   const dates = urlParams.get('dates') || '';
   
-  // If we have orderId OR email, pre-fill those fields
-  if (orderId || email) {
-    console.log('✅ Pre-fill request detected!');
-    
-    // PRE-FILL EMAIL AND ORDER NUMBER ONLY
-    if (email) {
-      document.getElementById('email').value = email;
-      console.log('✅ Filled email:', email);
-    }
-    
-    if (orderId) {
-      document.getElementById('orderNumber').value = orderId;
-      console.log('✅ Filled order number:', orderId);
-    }
-    
-    // SELECT PROJECT TYPE
-    if (projectType) {
-      selectProjectType(projectType);
-      console.log('✅ Selected project type:', projectType);
-    }
-    
-    // PRE-FILL STEP 2 FIELDS (for keepsake)
-    if (honoredName) {
-      document.getElementById('honoredName').value = honoredName;
-      console.log('✅ Pre-filled honored name:', honoredName);
-    }
-    
-    if (dates) {
-      document.getElementById('dates').value = dates;
-      console.log('✅ Pre-filled dates:', dates);
-    }
-    
-    // NO AUTO-SKIP - User stays on Step 1 to fill their name
-    console.log('💡 User will fill their name on Step 1 and click Continue');
-  } else {
-    console.log('ℹ️ No pre-fill data - fresh form');
+  // PRE-FILL AVAILABLE FIELDS (NO AUTO-SKIP)
+  if (email) {
+    document.getElementById('email').value = email;
+    console.log('✅ Pre-filled email');
   }
+  
+  if (orderId) {
+    document.getElementById('orderNumber').value = orderId;
+    console.log('✅ Pre-filled order number');
+  }
+  
+  if (name) {
+    document.getElementById('fullName').value = name;
+    console.log('✅ Pre-filled name');
+  }
+  
+  if (projectType) {
+    selectProjectType(projectType);
+    console.log('✅ Pre-selected project type');
+  }
+  
+  if (honoredName) {
+    document.getElementById('honoredName').value = honoredName;
+    console.log('✅ Pre-filled honored name');
+  }
+  
+  if (dates) {
+    document.getElementById('dates').value = dates;
+    console.log('✅ Pre-filled dates');
+  }
+  
+  console.log('💡 User stays on Step 1 to review/complete all fields');
 });
 </script>
 
