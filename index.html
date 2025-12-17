@@ -7,7 +7,7 @@
   <title>Dopelee Prezzed by S™ | Order Personalization</title>
 
   <!-- GOOGLE FONTS -->
-  <link href="https://script.google.com/macros/s/AKfycbzsz7Z9UKvXFpsUnFS3Hvsujni3bhwRiP1s0r3YRYACFmY9q-zcfSM8DCOk1GueQ6fA/exec">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
   <style>
 /* --------------------------------------------------
@@ -88,7 +88,7 @@ body {
 .brand-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #000000 !important;  /* SOLID BLACK - FIXED */
+  color: #000000 !important;
   text-align: center;
   letter-spacing: 0.5px;
   -webkit-text-fill-color: #000000 !important;
@@ -734,18 +734,17 @@ input[readonly] {
       </div>
     </section>
 
-    <!-- SUCCESS SCREEN -->
+    <!-- SUCCESS SCREEN - FIXED REDIRECT -->
 <section id="successScreen" class="step success-screen">
   <div style="text-align: center;">
     <div style="font-size: 4rem; margin-bottom: 20px;">✨</div>
     <h2>Submission Received!</h2>
-    <p style="color: var(--text-muted); margin: 20px 0;">Your order info has been received!<br>Your portal link will be emailed shortly.</p>
+    <p style="color: var(--text-muted); margin: 20px 0;">Your order info has been received!<br>Redirecting to your tracking portal...</p>
     
     <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
       <a id="trackOrderBtn" href="#" class="btn btn-primary" style="text-decoration: none;">
-        📍 Track Your Order Progress
+        📍 Go to Tracking Portal Now
       </a>
-      <button class="btn btn-secondary" onclick="window.location.reload()">Submit Another Order</button>
     </div>
   </div>
 </section>
@@ -780,7 +779,7 @@ const PET_TEMPLATES = [
 let projectType = "";
 let selectedPersonOrPet = "";
 let selectedTemplate = "";
-let selectedTemplateName = "";  // ADD THIS TO STORE THE DISPLAY NAME
+let selectedTemplateName = "";
 let uploadedImage = null;
 
 // --------------------------------------------------
@@ -807,39 +806,6 @@ function updateProgressBar(stepId) {
 
   bar.style.width = (num / 4) * 100 + "%";
   text.textContent = stepId === "successScreen" ? "Complete! ✓" : `Step ${num} of 4`;
-}
-
-// --------------------------------------------------
-// UPDATE PROGRESS BAR
-// --------------------------------------------------
-
-function updateProgressBar(stepId) {
-  const progressBar = document.getElementById('progressBar');
-  const progressText = document.getElementById('progressText');
-  
-  if (!progressBar || !progressText) return;
-  
-  // Determine step number based on step ID
-  let stepNumber = 1;
-  let totalSteps = 4;
-  
-  if (stepId === 'step1') stepNumber = 1;
-  else if (stepId.includes('step2')) stepNumber = 2;
-  else if (stepId.includes('step3')) stepNumber = 3;
-  else if (stepId.includes('step4') || stepId === 'successScreen') stepNumber = 4;
-  
-  // Calculate percentage
-  const percentage = (stepNumber / totalSteps) * 100;
-  
-  // Update progress bar width
-  progressBar.style.width = percentage + '%';
-  
-  // Update progress text
-  if (stepId === 'successScreen') {
-    progressText.textContent = 'Complete! ✓';
-  } else {
-    progressText.textContent = `Step ${stepNumber} of ${totalSteps}`;
-  }
 }
 
 // --------------------------------------------------
@@ -874,17 +840,8 @@ function selectProjectType(type) {
 // STEP 1 VALIDATION
 // --------------------------------------------------
 
-function selectProjectType(type) {
-  projectType = type;
-  const radio = document.querySelector(`input[name="projectType"][value="${type}"]`);
-  if (radio) radio.checked = true;
-  
-  document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
-  radio.closest('.option-card').classList.add('selected');
-}
-
 function validateStep1() {
-  const name = fullName.value.trim();
+  const name = document.getElementById("fullName").value.trim();
   const email = document.getElementById("email").value.trim();
   const selected = document.querySelector("input[name='projectType']:checked");
 
@@ -901,12 +858,12 @@ function validateStep1() {
 }
 
 // --------------------------------------------------
-// CHOOSE PERSON OR PET - FIXED TO FILTER PROPERLY
+// CHOOSE PERSON OR PET
 // --------------------------------------------------
 
 function setPersonOrPet(type) {
   selectedPersonOrPet = type;
-  console.log("✅ SET PERSON OR PET TO:", type);  // DEBUG
+  console.log("✅ SET PERSON OR PET TO:", type);
 
   document.querySelectorAll("input[name='honorType']").forEach(r => {
     r.checked = (r.value === type);
@@ -921,30 +878,26 @@ function setPersonOrPet(type) {
     }
   });
 
-  // LOAD THE CORRECT TEMPLATES
   loadTemplates();
 }
 
 // --------------------------------------------------
-// LOAD TEMPLATES - FIXED TO SHOW CORRECT IMAGES
+// LOAD TEMPLATES
 // --------------------------------------------------
 
 function loadTemplates() {
-  console.log("🔍 LOADING TEMPLATES FOR:", selectedPersonOrPet);  // DEBUG
+  console.log("🔍 LOADING TEMPLATES FOR:", selectedPersonOrPet);
   
   const container = document.getElementById("templateGrid");
   if (!container) return;
   
   container.innerHTML = "";
 
-  // SELECT THE CORRECT TEMPLATE LIST BASED ON PERSON OR PET
   let list = [];
   if (selectedPersonOrPet === "human") {
     list = HUMAN_TEMPLATES;
-    console.log("👤 LOADING", list.length, "HUMAN TEMPLATES");  // DEBUG
   } else if (selectedPersonOrPet === "pet") {
     list = PET_TEMPLATES;
-    console.log("🐾 LOADING", list.length, "PET TEMPLATES");  // DEBUG
   }
 
   if (list.length === 0) {
@@ -952,12 +905,10 @@ function loadTemplates() {
     return;
   }
 
-  // CREATE TEMPLATE CARDS
   list.forEach(template => {
     const card = document.createElement("div");
     card.className = "template-card";
 
-    // BUILD THE IMAGE URL - TEMPLATES ARE IN ROOT, NOT IN FOLDER
     const imgURL = template.file.replace(/ /g, "%20");
 
     card.innerHTML = `
@@ -970,7 +921,7 @@ function loadTemplates() {
 
     card.onclick = () => {
       selectedTemplate = template.file;
-      selectedTemplateName = template.name;  // SAVE THE DISPLAY NAME TOO
+      selectedTemplateName = template.name;
       document.querySelectorAll(".template-card").forEach(c => c.classList.remove("selected"));
       card.classList.add("selected");
     };
@@ -1044,12 +995,11 @@ function updateMockup() {
     previewSection.style.display = "block";
   };
 
-  // TEMPLATE URL - SAME AS LOADED IN GRID
   template.src = selectedTemplate.replace(/ /g, "%20");
 }
 
 // --------------------------------------------------
-// SUBMIT FORM
+// SUBMIT FORM - FIXED REDIRECT
 // --------------------------------------------------
 
 async function submitForm() {
@@ -1095,10 +1045,21 @@ async function submitForm() {
 
     goToStep("successScreen");
     updateTrackOrderLink();
-    setTimeout(() => launchConfetti(), 300);
+    setTimeout(() => {
+      launchConfetti();
+      // AUTO-REDIRECT TO TRACKING PORTAL AFTER 2 SECONDS
+      setTimeout(() => {
+        window.location.href = document.getElementById('trackOrderBtn').href;
+      }, 2000);
+    }, 300);
   } catch (err) {
     goToStep("successScreen");
-    setTimeout(() => launchConfetti(), 300);
+    setTimeout(() => {
+      launchConfetti();
+      setTimeout(() => {
+        window.location.href = document.getElementById('trackOrderBtn').href;
+      }, 2000);
+    }, 300);
   }
 }
 
@@ -1138,13 +1099,14 @@ function launchConfetti() {
 }
 
 // --------------------------------------------------
-// UPDATE TRACK ORDER LINK
+// UPDATE TRACK ORDER LINK - ALWAYS GO TO TRACKING PORTAL
 // --------------------------------------------------
 
 function updateTrackOrderLink() {
   const email = document.getElementById('email').value;
   const trackBtn = document.getElementById('trackOrderBtn');
   
+  // ALWAYS redirect to tracking portal, not prezzedbeyond.com
   if (email) {
     trackBtn.href = `https://dopeleeprezzed-oss.github.io/dopelee-believer-portal/?email=${encodeURIComponent(email)}`;
   } else {
@@ -1153,7 +1115,7 @@ function updateTrackOrderLink() {
 }
 
 // --------------------------------------------------
-// INITIALIZE
+// INITIALIZE - NO AUTO-SKIP, USER FILLS NAME
 // --------------------------------------------------
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -1162,28 +1124,17 @@ window.addEventListener('DOMContentLoaded', () => {
   console.log('🔍 Checking URL parameters...');
   console.log('All params:', Array.from(urlParams.entries()));
   
-  // Check what we have
   const orderId = urlParams.get('orderId') || urlParams.get('orderNumber') || '';
   const email = urlParams.get('email') || '';
-  const name = urlParams.get('name') || '';
   const projectType = urlParams.get('projectType') || '';
   const honoredName = urlParams.get('honoredName') || '';
   const dates = urlParams.get('dates') || '';
-  const product = urlParams.get('product') || '';
-  const phone = urlParams.get('phone') || '';
   
-  // If we have orderId OR email, this is a pre-fill request
+  // If we have orderId OR email, pre-fill those fields
   if (orderId || email) {
     console.log('✅ Pre-fill request detected!');
     
-    // FILL AVAILABLE FIELDS
-    if (name) {
-      document.getElementById('fullName').value = name;
-      console.log('✅ Filled name:', name);
-    } else {
-      console.log('ℹ️ Name is empty - user will fill it');
-    }
-    
+    // PRE-FILL EMAIL AND ORDER NUMBER ONLY
     if (email) {
       document.getElementById('email').value = email;
       console.log('✅ Filled email:', email);
@@ -1211,28 +1162,8 @@ window.addEventListener('DOMContentLoaded', () => {
       console.log('✅ Pre-filled dates:', dates);
     }
     
-    // AUTO-SKIP LOGIC:
-    // Skip to step 2 if we have email + projectType
-    // (Name is optional - they can fill it in)
-    if (email && projectType) {
-      console.log('✅ Have email + projectType, auto-skipping in 1 second...');
-      
-      setTimeout(() => {
-        if (projectType === 'keepsake') {
-          console.log('📍 Going to step2aKeepsake');
-          goToStep('step2aKeepsake');
-        } else if (projectType === 'vip') {
-          console.log('📍 Going to step2bVIP');
-          goToStep('step2bVIP');
-        } else if (projectType === 'photobook') {
-          console.log('📍 Going to step2cPhotobook');
-          goToStep('step2cPhotobook');
-        }
-      }, 1000);
-    } else {
-      console.log('ℹ️ Not auto-skipping. Have:', { email, projectType });
-      console.log('💡 User will manually complete Step 1 and continue');
-    }
+    // NO AUTO-SKIP - User stays on Step 1 to fill their name
+    console.log('💡 User will fill their name on Step 1 and click Continue');
   } else {
     console.log('ℹ️ No pre-fill data - fresh form');
   }
