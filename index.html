@@ -1022,6 +1022,23 @@ async function submitForm() {
   const SUPABASE_URL = "https://dyehxtiozfwlexkbalvn.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs";
 
+  // GET ORDER ID FROM FORM FIELD (NOT URL)
+  const orderNumberField = document.getElementById("orderNumber");
+  let orderId = orderNumberField ? orderNumberField.value.trim() : "";
+  
+  // Also check URL params as backup
+  if (!orderId) {
+    const urlParams = new URLSearchParams(window.location.search);
+    orderId = urlParams.get('order') || urlParams.get('orderId') || urlParams.get('orderNumber') || '';
+  }
+  
+  if (!orderId) {
+    alert("⚠️ No order number found! Please enter your order number or use the link from your email.");
+    return;
+  }
+
+  console.log("🔍 Using order ID:", orderId);
+
   const baseData = {
     fullName: document.getElementById("fullName").value,
     email: document.getElementById("email").value,
@@ -1172,53 +1189,47 @@ function updateTrackOrderLink() {
 }
 
 // --------------------------------------------------
-// INITIALIZE - NO AUTO-SKIP, JUST PRE-FILL
+// INITIALIZE - FIXED PRE-FILL
 // --------------------------------------------------
 
 window.addEventListener('DOMContentLoaded', () => {
   const urlParams = new URLSearchParams(window.location.search);
   
   console.log('🔍 Form initialized - checking for pre-fill data');
+  console.log('📋 URL params:', Object.fromEntries(urlParams));
   
-  const orderId = urlParams.get('orderId') || urlParams.get('orderNumber') || '';
+  // GET ORDER ID FROM URL (MULTIPLE FORMATS)
+  const orderId = urlParams.get('order') || urlParams.get('orderId') || urlParams.get('orderNumber') || '';
   const email = urlParams.get('email') || '';
   const name = urlParams.get('name') || '';
-  const projectType = urlParams.get('projectType') || '';
-  const honoredName = urlParams.get('honoredName') || '';
-  const dates = urlParams.get('dates') || '';
   
-  // PRE-FILL AVAILABLE FIELDS (NO AUTO-SKIP)
+  // PRE-FILL AVAILABLE FIELDS
   if (email) {
-    document.getElementById('email').value = email;
-    console.log('✅ Pre-filled email');
+    document.getElementById('email').value = decodeURIComponent(email);
+    console.log('✅ Pre-filled email:', email);
   }
   
   if (orderId) {
-    document.getElementById('orderNumber').value = orderId;
-    console.log('✅ Pre-filled order number');
+    // Handle both full UUID and short version
+    const orderField = document.getElementById('orderNumber');
+    if (orderField) {
+      orderField.value = orderId;
+      console.log('✅ Pre-filled order:', orderId);
+    }
   }
   
   if (name) {
-    document.getElementById('fullName').value = name;
-    console.log('✅ Pre-filled name');
+    document.getElementById('fullName').value = decodeURIComponent(name);
+    console.log('✅ Pre-filled name:', name);
   }
   
-  if (projectType) {
-    selectProjectType(projectType);
-    console.log('✅ Pre-selected project type');
+  // AUTO-SELECT KEEPSAKE PROJECT TYPE (since they came from a payment)
+  if (orderId && email) {
+    console.log('🎯 Auto-selecting Keepsake project type');
+    selectProjectType('keepsake');
   }
   
-  if (honoredName) {
-    document.getElementById('honoredName').value = honoredName;
-    console.log('✅ Pre-filled honored name');
-  }
-  
-  if (dates) {
-    document.getElementById('dates').value = dates;
-    console.log('✅ Pre-filled dates');
-  }
-  
-  console.log('💡 User stays on Step 1 to review/complete all fields');
+  console.log('✨ Form ready!');
 });
 </script>
 
