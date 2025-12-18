@@ -1134,30 +1134,32 @@ async function submitForm() {
     // Get the updated order data (should be first item in array)
     const orderRecord = Array.isArray(updatedOrder) ? updatedOrder[0] : updatedOrder;
 
-    // Call the Edge Function directly
-    const emailResponse = await fetch(
-      `${SUPABASE_URL}/functions/v1/send-confirmation-email`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
-        },
-        body: JSON.stringify({
-          record: orderRecord
-        })
-      }
-    );
-
-    if (!emailResponse.ok) {
-      const emailError = await emailResponse.text();
-      console.error("⚠️ Email error:", emailError);
-      // DON'T throw error - form is still submitted successfully!
-      console.log("⚠️ Order saved but email may have failed. Customer can still track order.");
-    } else {
-      const emailResult = await emailResponse.json();
-      console.log("✅ Confirmation email sent:", emailResult);
+    // TRY to send email, but don't fail if it doesn't work
+try {
+  const emailResponse = await fetch(
+    `${SUPABASE_URL}/functions/v1/send-confirmation-email`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+      },
+      body: JSON.stringify({
+        record: orderRecord
+      })
     }
+  );
+
+  if (emailResponse.ok) {
+    const emailResult = await emailResponse.json();
+    console.log("✅ Confirmation email sent:", emailResult);
+  } else {
+    console.log("⚠️ Email may have failed, but order is saved!");
+  }
+} catch (emailError) {
+  // Email failed, but that's okay - order is still saved!
+  console.log("⚠️ Email error (non-critical):", emailError);
+}
 
     // ═══════════════════════════════════════════════════════════
     // STEP 3: SHOW SUCCESS SCREEN
