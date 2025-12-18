@@ -1015,11 +1015,12 @@ function updateMockup() {
 }
 
 // --------------------------------------------------
-// SUBMIT FORM
+// FIXED SUBMIT FORM - UPDATES SUPABASE DIRECTLY
 // --------------------------------------------------
 
 async function submitForm() {
-  const WEBHOOK_URL = "https://dyehxtiozfwlexkbalvn.supabase.co/functions/v1/square-webhook";
+  const SUPABASE_URL = "https://dyehxtiozfwlexkbalvn.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs";
 
   const baseData = {
     fullName: document.getElementById("fullName").value,
@@ -1030,6 +1031,7 @@ async function submitForm() {
 
   let formData = { ...baseData };
 
+  // COLLECT FORM DATA BASED ON PROJECT TYPE
   if (projectType === "keepsake") {
     formData.selectedPersonOrPet = selectedPersonOrPet;
     formData.selectedTemplate = selectedTemplate;
@@ -1052,20 +1054,71 @@ async function submitForm() {
   }
 
   try {
-    await fetch(WEBHOOK_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData)
-    });
+    console.log("📤 Submitting form data...");
 
+    // GET ORDER ID FROM URL PARAMS
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderId = urlParams.get('order') || urlParams.get('orderNumber');
+
+    if (!orderId) {
+      alert("⚠️ No order ID found! Please use the link from your email.");
+      return;
+    }
+
+    console.log("🔍 Updating order:", orderId);
+
+    // PREPARE UPDATE DATA
+    const updateData = {
+      customer_name: formData.fullName,
+      customer_email: formData.email,
+      updated_at: new Date().toISOString()
+    };
+
+    // ADD KEEPSAKE-SPECIFIC FIELDS
+    if (projectType === "keepsake") {
+      updateData.honored_name = formData.honoredName;
+      updateData.dates = formData.dates;
+      updateData.person_or_pet = formData.selectedPersonOrPet;
+      updateData.template_chosen = selectedTemplateName || formData.selectedTemplate;
+      updateData.custom_wording = formData.customWording;
+      updateData.designer_notes = formData.designerNotes;
+      updateData.form_completed = true;  // ← THIS TRIGGERS EMAIL #2!
+      updateData.form_completed_at = new Date().toISOString();
+      updateData.status = "Form Received";
+    }
+
+    // UPDATE SUPABASE
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+          "Content-Type": "application/json",
+          "Prefer": "return=representation"
+        },
+        body: JSON.stringify(updateData)
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error("❌ Supabase error:", error);
+      throw new Error("Failed to update order");
+    }
+
+    const result = await response.json();
+    console.log("✅ Order updated successfully:", result);
+
+    // SHOW SUCCESS SCREEN
     goToStep("successScreen");
     updateTrackOrderLink();
     setTimeout(() => launchConfetti(), 300);
     
   } catch (err) {
-    goToStep("successScreen");
-    setTimeout(() => launchConfetti(), 300);
+    console.error("❌ Submit error:", err);
+    alert("⚠️ There was an error submitting your form. Please try again or contact support.");
   }
 }
 
