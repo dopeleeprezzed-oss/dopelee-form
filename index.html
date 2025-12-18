@@ -1015,8 +1015,10 @@ function updateMockup() {
 }
 
 // --------------------------------------------------
-// FIXED SUBMIT FORM - NO DUPLICATE DECLARATIONS
+// FIXED SUBMIT FORM - CALLS EMAIL EDGE FUNCTION DIRECTLY
 // --------------------------------------------------
+// This version doesn't rely on database triggers!
+// It updates Supabase AND sends the email in one flow.
 
 async function submitForm() {
   const SUPABASE_URL = "https://dyehxtiozfwlexkbalvn.supabase.co";
@@ -1043,7 +1045,7 @@ async function submitForm() {
 
   console.log("🔍 Using order ID:", orderId);
 
-  // COLLECT FORM DATA BASED ON PROJECT TYPE
+  // COLLECT FORM DATA
   const formData = {
     fullName: document.getElementById("fullName").value,
     email: document.getElementById("email").value,
@@ -1051,8 +1053,6 @@ async function submitForm() {
   };
 
   if (projectType === "keepsake") {
-    formData.selectedPersonOrPet = selectedPersonOrPet;
-    formData.selectedTemplate = selectedTemplate;
     formData.honoredName = document.getElementById("honoredName")?.value || "";
     formData.dates = document.getElementById("dates")?.value || "";
     formData.customWording = document.getElementById("customWording")?.value || "";
@@ -1072,10 +1072,17 @@ async function submitForm() {
   }
 
   try {
-    // PREPARE UPDATE DATA
+    // ═══════════════════════════════════════════════════════════
+    // STEP 1: UPDATE SUPABASE ORDER
+    // ═══════════════════════════════════════════════════════════
+    
+    console.log("📡 Step 1: Updating order in Supabase...");
+
     const updateData = {
       customer_name: formData.fullName,
       customer_email: formData.email,
+      form_completed: true,
+      form_completed_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
     };
 
@@ -1083,31 +1090,19 @@ async function submitForm() {
     if (projectType === "keepsake") {
       updateData.honored_name = formData.honoredName;
       updateData.dates = formData.dates;
-      updateData.person_or_pet = formData.selectedPersonOrPet;
-      updateData.template_chosen = selectedTemplateName || formData.selectedTemplate;
+      updateData.person_or_pet = selectedPersonOrPet;
+      updateData.template_chosen = selectedTemplateName || selectedTemplate;
       updateData.custom_wording = formData.customWording;
       updateData.designer_notes = formData.designerNotes;
-      updateData.form_completed = true;  // ← THIS TRIGGERS EMAIL #2!
-      updateData.form_completed_at = new Date().toISOString();
       updateData.status = "Form Received";
     } else if (projectType === "vip") {
-      // Add VIP fields if needed
-      updateData.form_completed = true;
-      updateData.form_completed_at = new Date().toISOString();
       updateData.status = "VIP Request Received";
     } else if (projectType === "photobook") {
-      // Add photobook fields if needed
-      updateData.form_completed = true;
-      updateData.form_completed_at = new Date().toISOString();
       updateData.status = "Photo Book Request Received";
     }
 
-    console.log("📡 Sending update to Supabase...");
-    console.log("Order ID:", orderId);
-    console.log("Update data:", updateData);
-
-    // UPDATE SUPABASE
-    const response = await fetch(
+    // UPDATE ORDER IN SUPABASE
+    const updateResponse = await fetch(
       `${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderId}`,
       {
         method: "PATCH",
@@ -1121,15 +1116,55 @@ async function submitForm() {
       }
     );
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("❌ Supabase error:", errorText);
+    if (!updateResponse.ok) {
+      const errorText = await updateResponse.text();
+      console.error("❌ Supabase update error:", errorText);
       throw new Error(`Failed to update order: ${errorText}`);
     }
 
-    const result = await response.json();
-    console.log("✅ Order updated successfully:", result);
+    const updatedOrder = await updateResponse.json();
+    console.log("✅ Order updated successfully:", updatedOrder);
 
+    // ═══════════════════════════════════════════════════════════
+    // STEP 2: SEND CONFIRMATION EMAIL (CALL EDGE FUNCTION DIRECTLY)
+    // ═══════════════════════════════════════════════════════════
+    
+    console.log("📧 Step 2: Sending confirmation email...");
+
+    // Get the updated order data (should be first item in array)
+    const orderRecord = Array.isArray(updatedOrder) ? updatedOrder[0] : updatedOrder;
+
+    // Call the Edge Function directly
+    const emailResponse = await fetch(
+      `${SUPABASE_URL}/functions/v1/send-confirmation-email`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+        },
+        body: JSON.stringify({
+          record: orderRecord
+        })
+      }
+    );
+
+    if (!emailResponse.ok) {
+      const emailError = await emailResponse.text();
+      console.error("⚠️ Email error:", emailError);
+      // DON'T throw error - form is still submitted successfully!
+      console.log("⚠️ Order saved but email may have failed. Customer can still track order.");
+    } else {
+      const emailResult = await emailResponse.json();
+      console.log("✅ Confirmation email sent:", emailResult);
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // STEP 3: SHOW SUCCESS SCREEN
+    // ═══════════════════════════════════════════════════════════
+    
+    console.log("🎉 Form submission complete!");
+    
     // SHOW SUCCESS SCREEN
     goToStep("successScreen");
     setTimeout(() => launchConfetti(), 300);
@@ -1137,7 +1172,7 @@ async function submitForm() {
   } catch (err) {
     console.error("❌ Submit error:", err);
     console.error("Error details:", err.message);
-    alert(`⚠️ There was an error submitting your form: ${err.message}\n\nPlease try again or contact support.`);
+    alert(`⚠️ There was an error: ${err.message}\n\nPlease try again or contact support at info@dopeleeprezzedbysllc.com`);
   }
 }
 // --------------------------------------------------
