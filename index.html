@@ -1025,6 +1025,7 @@ async function submitForm() {
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs";
 
   console.log("📤 Starting form submission...");
+  console.log("📋 Project type:", projectType);
 
   // GET ORDER ID - CHECK BOTH FORM FIELD AND URL PARAMS
   const urlParams = new URLSearchParams(window.location.search);
@@ -1037,8 +1038,15 @@ async function submitForm() {
     orderId = urlParams.get('order') || urlParams.get('orderId') || urlParams.get('orderNumber') || '';
   }
   
-  // If STILL no order ID, show error
-  if (!orderId) {
+  // ⭐ FOR VIP AND PHOTOBOOK, ORDER ID IS OPTIONAL - GENERATE ONE
+  if (!orderId && (projectType === "vip" || projectType === "photobook")) {
+    console.log("✅ VIP/Photobook inquiry - generating inquiry ID");
+    const timestamp = Date.now();
+    orderId = projectType === "vip" ? `VIP-${timestamp}` : `PB-${timestamp}`;
+  }
+  
+  // ONLY require order ID for keepsakes (they already paid)
+  if (!orderId && projectType === "keepsake") {
     alert("⚠️ No order number found! Please enter your order number or use the link from your email.");
     return;
   }
@@ -1072,37 +1080,47 @@ async function submitForm() {
   }
 
   try {
-    // ═══════════════════════════════════════════════════════════
-    // STEP 1: UPDATE SUPABASE ORDER
-    // ═══════════════════════════════════════════════════════════
-    
-    console.log("📡 Step 1: Updating order in Supabase...");
+    console.log("📡 Saving to Supabase...");
 
-    const updateData = {
+    // BUILD THE DATA OBJECT
+    const saveData = {
+      order_id: orderId,
       customer_name: formData.fullName,
       customer_email: formData.email,
+      project_type: projectType,
       form_completed: true,
       form_completed_at: new Date().toISOString(),
+      created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
     };
 
     // ADD PROJECT-SPECIFIC FIELDS
     if (projectType === "keepsake") {
-      updateData.honored_name = formData.honoredName;
-      updateData.dates = formData.dates;
-      updateData.person_or_pet = selectedPersonOrPet;
-      updateData.template_chosen = selectedTemplateName || selectedTemplate;
-      updateData.custom_wording = formData.customWording;
-      updateData.designer_notes = formData.designerNotes;
-      updateData.status = "Form Received";
+      saveData.honored_name = formData.honoredName;
+      saveData.dates = formData.dates;
+      saveData.person_or_pet = selectedPersonOrPet;
+      saveData.template_chosen = selectedTemplateName || selectedTemplate;
+      saveData.custom_wording = formData.customWording;
+      saveData.designer_notes = formData.designerNotes;
+      saveData.status = "Form Received";
     } else if (projectType === "vip") {
-      updateData.status = "VIP Request Received";
+      saveData.vip_business_name = formData.vipBusinessName;
+      saveData.vip_gifts_for = formData.vipGiftsFor;
+      saveData.vip_quantity = formData.vipQuantity;
+      saveData.vip_delivery_date = formData.vipDeliveryDate;
+      saveData.vip_budget = formData.vipBudget;
+      saveData.vip_notes = formData.vipNotes;
+      saveData.status = "VIP Inquiry Received";
     } else if (projectType === "photobook") {
-      updateData.status = "Photo Book Request Received";
+      saveData.photobook_order_link = formData.photoBookOrderLink;
+      saveData.photobook_pages = formData.photobookPages;
+      saveData.book_celebration = formData.bookCelebration;
+      saveData.book_honor = formData.bookHonor;
+      saveData.status = "Photo Book Inquiry Received";
     }
 
-    // UPDATE ORDER IN SUPABASE
-    const updateResponse = await fetch(
+    // TRY TO UPDATE FIRST (in case order exists)
+    let response = await fetch(
       `${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderId}`,
       {
         method: "PATCH",
@@ -1112,29 +1130,52 @@ async function submitForm() {
           "Content-Type": "application/json",
           "Prefer": "return=representation"
         },
-        body: JSON.stringify(updateData)
+        body: JSON.stringify(saveData)
       }
     );
 
-    if (!updateResponse.ok) {
-      const errorText = await updateResponse.text();
-      console.error("❌ Supabase update error:", errorText);
-      throw new Error(`Failed to update order: ${errorText}`);
+    let savedOrder;
+
+    if (!response.ok || (await response.clone().json()).length === 0) {
+      // Order doesn't exist, INSERT NEW ONE
+      console.log("📝 Order not found, creating new record...");
+      
+      response = await fetch(
+        `${SUPABASE_URL}/rest/v1/orders`,
+        {
+          method: "POST",
+          headers: {
+            "apikey": SUPABASE_ANON_KEY,
+            "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+            "Content-Type": "application/json",
+            "Prefer": "return=representation"
+          },
+          body: JSON.stringify(saveData)
+        }
+      );
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("❌ Insert error:", errorText);
+        throw new Error(`Failed to create inquiry: ${errorText}`);
+      }
+
+      savedOrder = await response.json();
+      console.log("✅ New inquiry created:", savedOrder);
+    } else {
+      // Update successful
+      savedOrder = await response.json();
+      console.log("✅ Order updated:", savedOrder);
     }
 
-    const updatedOrder = await updateResponse.json();
-    console.log("✅ Order updated successfully:", updatedOrder);
-
     // ═══════════════════════════════════════════════════════════
-    // STEP 2: SEND CONFIRMATION EMAIL (CALL EDGE FUNCTION DIRECTLY)
+    // SEND CONFIRMATION EMAIL
     // ═══════════════════════════════════════════════════════════
     
-    console.log("📧 Step 2: Sending confirmation email...");
+    console.log("📧 Sending confirmation email...");
 
-    // Get the updated order data (should be first item in array)
-    const orderRecord = Array.isArray(updatedOrder) ? updatedOrder[0] : updatedOrder;
+    const orderRecord = Array.isArray(savedOrder) ? savedOrder[0] : savedOrder;
 
-    // Call the Edge Function directly
     const emailResponse = await fetch(
       `${SUPABASE_URL}/functions/v1/send-confirmation-email`,
       {
@@ -1152,27 +1193,23 @@ async function submitForm() {
     if (!emailResponse.ok) {
       const emailError = await emailResponse.text();
       console.error("⚠️ Email error:", emailError);
-      // DON'T throw error - form is still submitted successfully!
-      console.log("⚠️ Order saved but email may have failed. Customer can still track order.");
+      console.log("⚠️ Inquiry saved but email may have failed.");
     } else {
       const emailResult = await emailResponse.json();
       console.log("✅ Confirmation email sent:", emailResult);
     }
 
     // ═══════════════════════════════════════════════════════════
-    // STEP 3: SHOW SUCCESS SCREEN
+    // SHOW SUCCESS
     // ═══════════════════════════════════════════════════════════
     
-    console.log("🎉 Form submission complete!");
-    
-    // SHOW SUCCESS SCREEN
+    console.log("🎉 Submission complete!");
     goToStep("successScreen");
     setTimeout(() => launchConfetti(), 300);
     
   } catch (err) {
     console.error("❌ Submit error:", err);
-    console.error("Error details:", err.message);
-    alert(`⚠️ There was an error: ${err.message}\n\nPlease try again or contact support at info@dopeleeprezzedbysllc.com`);
+    alert(`⚠️ There was an error: ${err.message}\n\nPlease try again or contact support.`);
   }
 }
 // --------------------------------------------------
