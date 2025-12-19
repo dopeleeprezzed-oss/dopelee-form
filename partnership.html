@@ -762,14 +762,45 @@ select:focus {
       <div style="text-align: center;">
         <div style="font-size: 4rem; margin-bottom: 20px;">✨</div>
         <h2>Agreement Signed!</h2>
-        <p style="color: var(--text-muted); margin: 20px 0;">
-          Thank you for joining the Legacy Lounge™ Partner Network!<br>
-          Check your email for your partner portal login and QR code.
+        <p style="color: var(--text-muted); margin: 20px 0; font-size: 1.05rem; line-height: 1.7;">
+          Thank you for joining the Legacy Lounge™ Partner Network!
         </p>
-        <p style="color: var(--accent-gold); font-weight: 600; font-size: 1.1rem;">
+        
+        <div style="background: rgba(233, 255, 96, 0.1); border: 2px solid var(--accent-gold); border-radius: 16px; padding: 24px; margin: 30px auto; max-width: 500px;">
+          <p style="color: var(--accent-gold); font-weight: 700; font-size: 1.1rem; margin: 0 0 12px;">
+            📧 Check Your Email!
+          </p>
+          <p style="color: var(--text-muted); margin: 0; line-height: 1.6;">
+            Within the next <strong style="color: var(--accent-gold);">24 hours</strong>, you'll receive your welcome package with:
+          </p>
+          <ul style="list-style: none; padding: 0; margin: 15px 0 0; color: var(--text-main);">
+            <li style="padding: 8px 0;">✅ Partner portal login</li>
+            <li style="padding: 8px 0;">📱 Your custom QR code</li>
+            <li style="padding: 8px 0;">📋 Installation details</li>
+          </ul>
+        </div>
+        
+        <p style="color: var(--accent-gold); font-weight: 600; font-size: 1.2rem; margin: 25px 0;">
           We'll see you on <span id="confirmedInstallDate"></span>!
         </p>
-        <p style="color: var(--text-muted); margin-top: 30px;">
+        
+        <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid var(--border-soft);">
+          <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.95rem;">
+            Questions? We're here to help!
+          </p>
+          <p style="margin: 8px 0;">
+            <a href="tel:8165301520" style="color: var(--accent-cyan); text-decoration: none; font-weight: 600; font-size: 1.1rem;">
+              📞 816-530-1520
+            </a>
+          </p>
+          <p style="margin: 8px 0;">
+            <a href="mailto:info@dopeleeprezzedbysllc.com" style="color: var(--accent-cyan); text-decoration: none; font-weight: 600;">
+              📧 info@dopeleeprezzedbysllc.com
+            </a>
+          </p>
+        </div>
+        
+        <p style="color: var(--text-muted); margin-top: 35px; font-size: 1.05rem;">
           Welcome to the family! 💛
         </p>
       </div>
@@ -796,10 +827,16 @@ function goToStep(stepId) {
   document.getElementById(stepId).classList.add("active");
   
   // Update progress bar
-  const stepNumber = parseInt(stepId.replace('step', '')) || 1;
-  const progressPercent = (stepNumber / totalSteps) * 100;
-  document.getElementById("progressBar").style.width = progressPercent + "%";
-  document.getElementById("progressText").textContent = `Step ${stepNumber} of ${totalSteps}`;
+  if (stepId === 'successScreen') {
+    // Show 100% complete
+    document.getElementById("progressBar").style.width = "100%";
+    document.getElementById("progressText").textContent = "Complete! ✓";
+  } else {
+    const stepNumber = parseInt(stepId.replace('step', '')) || 1;
+    const progressPercent = (stepNumber / totalSteps) * 100;
+    document.getElementById("progressBar").style.width = progressPercent + "%";
+    document.getElementById("progressText").textContent = `Step ${stepNumber} of ${totalSteps}`;
+  }
   
   window.scrollTo(0, 0);
 }
