@@ -51,7 +51,7 @@ body {
 }
 
 /* --------------------------------------------------
-   BRAND HEADER - LARGER LOGO
+   BRAND HEADER
 -------------------------------------------------- */
 .brand-header {
   display: flex;
@@ -95,7 +95,7 @@ body {
 }
 
 /* --------------------------------------------------
-   HEADER - BETTER TEXT CONTRAST
+   HEADER
 -------------------------------------------------- */
 .header {
   max-width: 720px;
@@ -288,24 +288,6 @@ select:focus {
 }
 
 /* --------------------------------------------------
-   PRODUCT IMAGE DISPLAY
--------------------------------------------------- */
-.product-display {
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 16px;
-  padding: 20px;
-  margin: 20px 0;
-  text-align: center;
-}
-
-.product-display img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-}
-
-/* --------------------------------------------------
    AGREEMENT BOX
 -------------------------------------------------- */
 .agreement-box {
@@ -354,13 +336,18 @@ select:focus {
   transition: all 0.2s ease;
 }
 
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .btn-primary {
   background: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan));
   color: #000;
   box-shadow: 0 4px 16px rgba(233, 255, 96, 0.3);
 }
 
-.btn-primary:hover {
+.btn-primary:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(233, 255, 96, 0.4);
 }
@@ -402,6 +389,111 @@ select:focus {
 }
 
 /* --------------------------------------------------
+   INSTALLATION SCHEDULER
+-------------------------------------------------- */
+.scheduler-container {
+  background: rgba(10, 149, 168, 0.08);
+  border: 2px solid var(--accent-blue);
+  border-radius: 16px;
+  padding: 30px;
+  margin: 30px 0;
+}
+
+.scheduler-title {
+  color: var(--accent-cyan);
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.date-option {
+  padding: 16px;
+  background: var(--bg-input);
+  border: 2px solid var(--border-soft);
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.date-option:hover {
+  border-color: var(--accent-gold);
+  transform: translateY(-2px);
+}
+
+.date-option.selected {
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan));
+  border-color: var(--accent-gold);
+  color: #000;
+}
+
+.date-option .date-day {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.date-option .date-full {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.time-slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.time-slot {
+  padding: 14px;
+  background: var(--bg-input);
+  border: 2px solid var(--border-soft);
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.time-slot:hover {
+  border-color: var(--accent-gold);
+}
+
+.time-slot.selected {
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan));
+  border-color: var(--accent-gold);
+  color: #000;
+}
+
+.scheduler-selection {
+  background: rgba(233, 255, 96, 0.1);
+  border: 2px solid var(--accent-gold);
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.scheduler-selection h4 {
+  color: var(--accent-gold);
+  margin-bottom: 8px;
+}
+
+.scheduler-selection p {
+  color: var(--text-main);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------
    RESPONSIVE
 -------------------------------------------------- */
 @media (max-width: 640px) {
@@ -424,6 +516,10 @@ select:focus {
   .btn {
     width: 100%;
   }
+  
+  .calendar-grid {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  }
 }
   </style>
 </head>
@@ -444,7 +540,7 @@ select:focus {
       Our mission is simple: to help families and communities preserve their most meaningful moments 
       through luxury design, technology, and ease.
     </p>
-    <a href="https://drive.google.com/file/d/1l68Z2V7XOujwNQI2nsaegpyQxHq9r0Rv/view?usp=drive_link" class="video-link">
+    <a href="https://drive.google.com/file/d/1l68Z2V7XOujwNQI2nsaegpyQxHq9r0Rv/view?usp=drive_link" class="video-link" target="_blank">
       👉 Watch The Legacy Lounge™ Overview Video
     </a>
   </header>
@@ -523,23 +619,33 @@ select:focus {
       </div>
     </section>
 
-    <!-- STEP 3: DISPLAY SETUP INFO -->
+    <!-- STEP 3: INSTALLATION SCHEDULING -->
     <section id="step3" class="step">
-      <h2 class="step-title">Step 3 — Display Setup Information</h2>
-      <p class="step-description">Help us determine ideal display placement and inventory readiness.</p>
+      <h2 class="step-title">Step 3 — Schedule Your Installation</h2>
+      <p class="step-description">Choose your preferred date and time for display installation. Available Monday-Thursday, 14+ days out.</p>
 
-      <div class="form-group">
-        <label>Estimated Foot Traffic Per Week *</label>
-        <select id="footTraffic" required>
-          <option value="">Select traffic level...</option>
-          <option value="under-50">Under 50 visitors/week</option>
-          <option value="50-100">50-100 visitors/week</option>
-          <option value="100-250">100-250 visitors/week</option>
-          <option value="250-500">250-500 visitors/week</option>
-          <option value="500+">500+ visitors/week</option>
-        </select>
+      <!-- Installation Scheduler -->
+      <div class="scheduler-container">
+        <h3 class="scheduler-title">📅 Select Installation Date & Time</h3>
+        
+        <div class="calendar-grid" id="dateOptions">
+          <!-- Dates will be populated by JavaScript -->
+        </div>
+
+        <div id="timeSlots" style="display:none;">
+          <h4 style="color: var(--accent-cyan); margin: 24px 0 16px;">Available Times:</h4>
+          <div class="time-slots" id="timeOptions">
+            <!-- Time slots will be populated by JavaScript -->
+          </div>
+        </div>
+
+        <div id="schedulerConfirmation" class="scheduler-selection" style="display:none;">
+          <h4>✅ Installation Scheduled</h4>
+          <p id="selectedDateTime"></p>
+        </div>
       </div>
 
+      <!-- Other fields -->
       <div class="form-group">
         <label>Preferred Installation Area *</label>
         <input id="installationArea" type="text" placeholder="e.g., Lobby, Reception, Memorial Room" required />
@@ -547,7 +653,7 @@ select:focus {
       </div>
 
       <div class="form-group">
-        <label>Electrical Access (for signage or kiosk lighting) *</label>
+        <label>Electrical Access *</label>
         <select id="electricalAccess" required>
           <option value="">Select option...</option>
           <option value="yes">Yes - Electrical outlet nearby</option>
@@ -558,22 +664,14 @@ select:focus {
 
       <div class="button-group">
         <button class="btn btn-secondary" onclick="goToStep('step2')">← Back</button>
-        <button class="btn btn-primary" onclick="goToStep('step4')">Continue →</button>
+        <button class="btn btn-primary" id="step3NextBtn" onclick="goToStep('step4')" disabled>Continue →</button>
       </div>
     </section>
 
-    <!-- STEP 4: PRODUCT DISPLAY & PRICING -->
+    <!-- STEP 4: BENEFITS -->
     <section id="step4" class="step">
-      <h2 class="step-title">Step 4 — Display Items & Pricing</h2>
-      <p class="step-description">Review the Legacy Lounge™ product lineup and commission structure.</p>
-
-      <div class="product-display">
-        <h3 style="color: var(--accent-gold); margin-bottom: 16px;">Legacy Lounge™ Display Items + Pricing</h3>
-        <img src="legacy-lounge-products.png" alt="Legacy Lounge Product Display" />
-        <p style="color: var(--text-dim); margin-top: 12px; font-size: 0.85rem;">
-          Note: This guide is for partner understanding only. Customers receive their own pricing via our automated ordering system.
-        </p>
-      </div>
+      <h2 class="step-title">Step 4 — Partner Benefits</h2>
+      <p class="step-description">Review the Legacy Lounge™ partner program benefits.</p>
 
       <div class="info-box">
         <h3>Your Benefits</h3>
@@ -581,6 +679,8 @@ select:focus {
           <li>Earn a 10% commission on every completed order originating from your location</li>
           <li>Receive monthly commission reports via email</li>
           <li>Enjoy exclusive access to seasonal display updates and partnership materials</li>
+          <li>Free installation and setup of your Legacy Lounge™ display</li>
+          <li>Automated QR code and customer tracking system</li>
         </ul>
       </div>
 
@@ -653,7 +753,7 @@ select:focus {
 
       <div class="button-group">
         <button class="btn btn-secondary" onclick="goToStep('step4')">← Back</button>
-        <button class="btn btn-primary" onclick="submitPartnershipForm()">Submit Application</button>
+        <button class="btn btn-primary" id="submitBtn" onclick="submitPartnershipForm()">Sign Agreement</button>
       </div>
     </section>
 
@@ -661,12 +761,15 @@ select:focus {
     <section id="successScreen" class="step success-screen">
       <div style="text-align: center;">
         <div style="font-size: 4rem; margin-bottom: 20px;">✨</div>
-        <h2>Application Submitted!</h2>
+        <h2>Agreement Signed!</h2>
         <p style="color: var(--text-muted); margin: 20px 0;">
           Thank you for joining the Legacy Lounge™ Partner Network!<br>
-          We'll be in touch within 2-3 business days to schedule your display installation.
+          Check your email for your partner portal login and QR code.
         </p>
-        <p style="color: var(--accent-gold); font-weight: 600;">
+        <p style="color: var(--accent-gold); font-weight: 600; font-size: 1.1rem;">
+          We'll see you on <span id="confirmedInstallDate"></span>!
+        </p>
+        <p style="color: var(--text-muted); margin-top: 30px;">
           Welcome to the family! 💛
         </p>
       </div>
@@ -675,6 +778,13 @@ select:focus {
   </div><!-- end form-container -->
 
 <script>
+// --------------------------------------------------
+// CONFIGURATION
+// --------------------------------------------------
+
+const SUPABASE_URL = 'https://dyehxtiozfwlexkbalvn.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs';
+
 // --------------------------------------------------
 // NAVIGATION
 // --------------------------------------------------
@@ -695,6 +805,129 @@ function goToStep(stepId) {
 }
 
 // --------------------------------------------------
+// INSTALLATION SCHEDULER
+// --------------------------------------------------
+
+let selectedDateTime = null;
+
+// Generate available dates (14+ days out, Mon-Thu only)
+function generateAvailableDates() {
+  const dates = [];
+  const today = new Date();
+  const startDate = new Date(today);
+  startDate.setDate(today.getDate() + 14); // Start 14 days from now
+
+  let daysAdded = 0;
+  let currentDate = new Date(startDate);
+
+  // Generate next 20 available dates
+  while (daysAdded < 20) {
+    const dayOfWeek = currentDate.getDay(); // 0=Sun, 1=Mon, ... 6=Sat
+    
+    // Only include Mon-Thu (1,2,3,4)
+    if (dayOfWeek >= 1 && dayOfWeek <= 4) {
+      dates.push(new Date(currentDate));
+      daysAdded++;
+    }
+    
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return dates;
+}
+
+// Render date options
+function renderDateOptions() {
+  const dateOptionsContainer = document.getElementById('dateOptions');
+  const dates = generateAvailableDates();
+
+  dates.forEach(date => {
+    const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
+    const monthDay = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const dateString = date.toISOString().split('T')[0]; // YYYY-MM-DD
+
+    const dateOption = document.createElement('div');
+    dateOption.className = 'date-option';
+    dateOption.onclick = () => selectDate(dateString, date);
+    dateOption.innerHTML = `
+      <div class="date-day">${dayName}</div>
+      <div class="date-full">${monthDay}</div>
+    `;
+    dateOption.dataset.date = dateString;
+
+    dateOptionsContainer.appendChild(dateOption);
+  });
+}
+
+// Select date and show time slots
+function selectDate(dateString, dateObj) {
+  // Remove previous selection
+  document.querySelectorAll('.date-option').forEach(el => el.classList.remove('selected'));
+  
+  // Mark selected
+  document.querySelector(`.date-option[data-date="${dateString}"]`).classList.add('selected');
+
+  // Show time slots
+  renderTimeSlots(dateString, dateObj);
+  document.getElementById('timeSlots').style.display = 'block';
+}
+
+// Render time slots
+function renderTimeSlots(dateString, dateObj) {
+  const timeOptionsContainer = document.getElementById('timeOptions');
+  timeOptionsContainer.innerHTML = '';
+
+  const times = [
+    { value: '09:00:00', label: '9:00 AM' },
+    { value: '11:00:00', label: '11:00 AM' },
+    { value: '13:00:00', label: '1:00 PM' },
+    { value: '15:00:00', label: '3:00 PM' }
+  ];
+
+  times.forEach(time => {
+    const timeSlot = document.createElement('div');
+    timeSlot.className = 'time-slot';
+    timeSlot.textContent = time.label;
+    timeSlot.onclick = () => selectTimeSlot(dateString, time.value, dateObj, time.label);
+    timeSlot.dataset.time = time.value;
+
+    timeOptionsContainer.appendChild(timeSlot);
+  });
+}
+
+// Select time slot
+function selectTimeSlot(dateString, timeValue, dateObj, timeLabel) {
+  // Remove previous selection
+  document.querySelectorAll('.time-slot').forEach(el => el.classList.remove('selected'));
+  
+  // Mark selected
+  document.querySelector(`.time-slot[data-time="${timeValue}"]`).classList.add('selected');
+
+  // Create full datetime string
+  const fullDateTime = `${dateString}T${timeValue}`;
+  selectedDateTime = fullDateTime;
+
+  // Show confirmation
+  const formattedDate = dateObj.toLocaleDateString('en-US', { 
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  document.getElementById('selectedDateTime').textContent = `${formattedDate} at ${timeLabel}`;
+  document.getElementById('schedulerConfirmation').style.display = 'block';
+
+  // Enable next button
+  document.getElementById('step3NextBtn').disabled = false;
+}
+
+// Load dates when page loads
+window.addEventListener('DOMContentLoaded', () => {
+  renderDateOptions();
+});
+
+// --------------------------------------------------
 // TOGGLE MAILING ADDRESS
 // --------------------------------------------------
 
@@ -710,42 +943,97 @@ function toggleMailingAddress() {
 }
 
 // --------------------------------------------------
+// GENERATE UUID
+// --------------------------------------------------
+
+function generateUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
+// --------------------------------------------------
 // SUBMIT FORM
 // --------------------------------------------------
 
 async function submitPartnershipForm() {
-  const WEBHOOK_URL = "https://script.google.com/macros/s/YOUR_WEBHOOK_URL_HERE/exec";
-
-  const formData = {
-    formType: "partnership",
-    contactName: document.getElementById("contactName").value,
-    contactPhone: document.getElementById("contactPhone").value,
-    contactEmail: document.getElementById("contactEmail").value,
-    businessName: document.getElementById("businessName").value,
-    businessAddress: document.getElementById("businessAddress").value,
-    venueType: document.getElementById("venueType").value,
-    footTraffic: document.getElementById("footTraffic").value,
-    installationArea: document.getElementById("installationArea").value,
-    electricalAccess: document.getElementById("electricalAccess").value,
-    mailingAddressType: document.getElementById("mailingAddressType").value,
-    commissionAddress: document.getElementById("commissionAddress")?.value || document.getElementById("businessAddress").value,
-    signature: document.getElementById("signature").value,
-    submittedAt: new Date().toISOString()
-  };
-
+  const submitBtn = document.getElementById('submitBtn');
+  
+  // Disable button
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Signing Agreement...';
+  
   try {
-    await fetch(WEBHOOK_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData)
+    // Generate partner ID
+    const partnerId = generateUUID();
+    
+    // Collect form data
+    const partnerData = {
+      partner_id: partnerId,
+      contact_name: document.getElementById("contactName").value.trim(),
+      contact_phone: document.getElementById("contactPhone").value.trim(),
+      contact_email: document.getElementById("contactEmail").value.trim().toLowerCase(),
+      business_name: document.getElementById("businessName").value.trim(),
+      business_address: document.getElementById("businessAddress").value.trim(),
+      venue_type: document.getElementById("venueType").value,
+      installation_area: document.getElementById("installationArea").value.trim(),
+      electrical_access: document.getElementById("electricalAccess").value,
+      commission_address: document.getElementById("mailingAddressType").value === 'other' 
+        ? document.getElementById("commissionAddress").value.trim()
+        : document.getElementById("businessAddress").value.trim(),
+      signature: document.getElementById("signature").value.trim(),
+      setup_scheduled_date: selectedDateTime, // ← Installation date/time
+      status: 'Scheduled',
+      created_at: new Date().toISOString(),
+      qr_code_url: `https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${encodeURIComponent('https://www.dopeleeprezzedbys.com/partner-landing?id=' + partnerId)}`,
+      portal_link: `https://www.dopeleeprezzedbys.com/partner-portal?partner=${partnerId}`,
+      commission_earned_total: 0,
+      orders_count_total: 0,
+      orders_count_this_month: 0
+    };
+
+    console.log('📤 Submitting partner data:', partnerData);
+
+    // Submit to Supabase
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/partners`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(partnerData)
     });
 
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to submit agreement');
+    }
+
+    console.log('✅ Partner created successfully!');
+
+    // Update success screen with install date
+    const installDate = new Date(selectedDateTime);
+    const formattedInstallDate = installDate.toLocaleDateString('en-US', { 
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric'
+    });
+    document.getElementById('confirmedInstallDate').textContent = formattedInstallDate;
+
+    // Show success screen
     goToStep("successScreen");
     setTimeout(() => launchConfetti(), 300);
+
   } catch (err) {
-    goToStep("successScreen");
-    setTimeout(() => launchConfetti(), 300);
+    console.error('❌ Submission error:', err);
+    alert(`Error: ${err.message}. Please try again or contact support at 816-530-1520.`);
+    
+    // Re-enable button
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Sign Agreement';
   }
 }
 
