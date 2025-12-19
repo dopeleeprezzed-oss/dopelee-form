@@ -850,16 +850,7 @@ function showSelectedTemplatePreview() {
 // SELECT PROJECT TYPE
 // --------------------------------------------------
 
-function selectProjectType(type) {
-  projectType = type;
-  const radio = document.querySelector(`input[name="projectType"][value="${type}"]`);
-  if (radio) radio.checked = true;
-  
-  document.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected'));
-  const selectedCard = document.querySelector(`input[name="projectType"][value="${type}"]`)?.closest('.option-card');
-  if (selectedCard) selectedCard.classList.add('selected');
-}
-
+selectProjectType()
 // --------------------------------------------------
 // STEP 1 VALIDATION
 // --------------------------------------------------
