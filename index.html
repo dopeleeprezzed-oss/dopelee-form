@@ -509,10 +509,11 @@ input[readonly] {
         <input id="email" type="email" />
       </div>
 
-      <div class="form-group">
-        <label>Order Number (optional)</label>
-        <input id="orderNumber" type="text" />
-      </div>
+      <div class="form-group" id="orderNumberField">
+  <label>Order Number (optional)</label>
+  <input id="orderNumber" type="text" />
+  <div class="helper-text">Enter your order number from your purchase confirmation email.</div>
+</div>
 
       <div class="form-group">
         <label>Select Project Type *</label>
@@ -848,6 +849,16 @@ function selectProjectType(type) {
   document.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected'));
   const selectedCard = document.querySelector(`input[name="projectType"][value="${type}"]`)?.closest('.option-card');
   if (selectedCard) selectedCard.classList.add('selected');
+  
+  // HIDE ORDER NUMBER FOR VIP AND PHOTOBOOK
+  const orderNumberField = document.getElementById('orderNumberField');
+  if (orderNumberField) {
+    if (type === 'vip' || type === 'photobook') {
+      orderNumberField.style.display = 'none';
+    } else {
+      orderNumberField.style.display = 'block';
+    }
+  }
 }
 
 // --------------------------------------------------
@@ -1027,31 +1038,30 @@ async function submitForm() {
   console.log("📤 Starting form submission...");
   console.log("📋 Project type:", projectType);
 
-  // GET ORDER ID - CHECK BOTH FORM FIELD AND URL PARAMS
+  // GET ORDER ID
   const urlParams = new URLSearchParams(window.location.search);
   const orderNumberField = document.getElementById("orderNumber");
   
   let orderId = orderNumberField ? orderNumberField.value.trim() : "";
   
-  // If not in form field, check URL params
   if (!orderId) {
     orderId = urlParams.get('order') || urlParams.get('orderId') || urlParams.get('orderNumber') || '';
   }
   
-  // ⭐ FOR VIP AND PHOTOBOOK, ORDER ID IS OPTIONAL - GENERATE ONE
+  // FOR VIP AND PHOTOBOOK, GENERATE INQUIRY ID
   if (!orderId && (projectType === "vip" || projectType === "photobook")) {
-    console.log("✅ VIP/Photobook inquiry - generating inquiry ID");
+    console.log("✅ Generating inquiry ID for", projectType);
     const timestamp = Date.now();
     orderId = projectType === "vip" ? `VIP-${timestamp}` : `PB-${timestamp}`;
   }
   
-  // ONLY require order ID for keepsakes (they already paid)
+  // ONLY require order ID for keepsakes
   if (!orderId && projectType === "keepsake") {
     alert("⚠️ No order number found! Please enter your order number or use the link from your email.");
     return;
   }
 
-  console.log("🔍 Using order ID:", orderId);
+  console.log("🔍 Using ID:", orderId);
 
   // COLLECT FORM DATA
   const formData = {
@@ -1080,9 +1090,8 @@ async function submitForm() {
   }
 
   try {
-    console.log("📡 Saving to Supabase...");
+    console.log("📡 Saving to database...");
 
-    // BUILD THE DATA OBJECT
     const saveData = {
       order_id: orderId,
       customer_name: formData.fullName,
@@ -1119,7 +1128,7 @@ async function submitForm() {
       saveData.status = "Photo Book Inquiry Received";
     }
 
-    // TRY TO UPDATE FIRST (in case order exists)
+    // TRY UPDATE FIRST
     let response = await fetch(
       `${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderId}`,
       {
@@ -1135,10 +1144,11 @@ async function submitForm() {
     );
 
     let savedOrder;
+    const patchResult = await response.clone().json();
 
-    if (!response.ok || (await response.clone().json()).length === 0) {
-      // Order doesn't exist, INSERT NEW ONE
-      console.log("📝 Order not found, creating new record...");
+    if (!response.ok || patchResult.length === 0) {
+      // INSERT NEW
+      console.log("📝 Creating new record...");
       
       response = await fetch(
         `${SUPABASE_URL}/rest/v1/orders`,
@@ -1156,23 +1166,19 @@ async function submitForm() {
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error("❌ Insert error:", errorText);
-        throw new Error(`Failed to create inquiry: ${errorText}`);
+        console.error("❌ Error:", errorText);
+        throw new Error(`Failed to save: ${errorText}`);
       }
 
       savedOrder = await response.json();
-      console.log("✅ New inquiry created:", savedOrder);
+      console.log("✅ Created:", savedOrder);
     } else {
-      // Update successful
-      savedOrder = await response.json();
-      console.log("✅ Order updated:", savedOrder);
+      savedOrder = patchResult;
+      console.log("✅ Updated:", savedOrder);
     }
 
-    // ═══════════════════════════════════════════════════════════
-    // SEND CONFIRMATION EMAIL
-    // ═══════════════════════════════════════════════════════════
-    
-    console.log("📧 Sending confirmation email...");
+    // SEND EMAIL
+    console.log("📧 Sending confirmation...");
 
     const orderRecord = Array.isArray(savedOrder) ? savedOrder[0] : savedOrder;
 
@@ -1184,32 +1190,24 @@ async function submitForm() {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
         },
-        body: JSON.stringify({
-          record: orderRecord
-        })
+        body: JSON.stringify({ record: orderRecord })
       }
     );
 
     if (!emailResponse.ok) {
-      const emailError = await emailResponse.text();
-      console.error("⚠️ Email error:", emailError);
-      console.log("⚠️ Inquiry saved but email may have failed.");
+      console.error("⚠️ Email may have failed");
     } else {
-      const emailResult = await emailResponse.json();
-      console.log("✅ Confirmation email sent:", emailResult);
+      console.log("✅ Email sent!");
     }
 
-    // ═══════════════════════════════════════════════════════════
-    // SHOW SUCCESS
-    // ═══════════════════════════════════════════════════════════
-    
-    console.log("🎉 Submission complete!");
+    // SUCCESS
+    console.log("🎉 Complete!");
     goToStep("successScreen");
     setTimeout(() => launchConfetti(), 300);
     
   } catch (err) {
-    console.error("❌ Submit error:", err);
-    alert(`⚠️ There was an error: ${err.message}\n\nPlease try again or contact support.`);
+    console.error("❌ Error:", err);
+    alert(`⚠️ Error: ${err.message}\n\nPlease contact support.`);
   }
 }
 // --------------------------------------------------
