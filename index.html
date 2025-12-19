@@ -807,6 +807,19 @@ function goToStep(id) {
   updateProgressBar(id);
   if (id === "step3aKeepsake") loadTemplates();
   if (id === "step4aKeepsake") showSelectedTemplatePreview();
+  
+  // UPDATE ORDER FIELD VISIBILITY WHEN GOING BACK TO STEP 1
+  if (id === "step1" && projectType) {
+    const orderNumberField = document.getElementById('orderNumberField');
+    if (orderNumberField) {
+      if (projectType === 'vip') {
+        orderNumberField.style.display = 'none';
+      } else {
+        orderNumberField.style.display = 'block';
+      }
+    }
+  }
+  
   window.scrollTo(0, 0);
 }
 
@@ -838,7 +851,7 @@ function showSelectedTemplatePreview() {
 }
 
 // --------------------------------------------------
-// SELECT PROJECT TYPE
+// SELECT PROJECT TYPE - FIXED TO HIDE ORDER NUMBER ONLY FOR VIP
 // --------------------------------------------------
 
 function selectProjectType(type) {
@@ -850,10 +863,10 @@ function selectProjectType(type) {
   const selectedCard = document.querySelector(`input[name="projectType"][value="${type}"]`)?.closest('.option-card');
   if (selectedCard) selectedCard.classList.add('selected');
   
-  // HIDE ORDER NUMBER FOR VIP AND PHOTOBOOK
+  // HIDE ORDER NUMBER ONLY FOR VIP (they haven't paid yet)
   const orderNumberField = document.getElementById('orderNumberField');
   if (orderNumberField) {
-    if (type === 'vip' || type === 'photobook') {
+    if (type === 'vip') {
       orderNumberField.style.display = 'none';
     } else {
       orderNumberField.style.display = 'block';
@@ -877,13 +890,23 @@ function validateStep1() {
 
   projectType = selected.value;
 
+  // HIDE ORDER NUMBER ONLY FOR VIP
+  const orderNumberField = document.getElementById('orderNumberField');
+  if (orderNumberField) {
+    if (projectType === 'vip') {
+      orderNumberField.style.display = 'none';
+    } else {
+      orderNumberField.style.display = 'block';
+    }
+  }
+
   if (projectType === "keepsake") goToStep("step2aKeepsake");
   else if (projectType === "vip") goToStep("step2bVIP");
   else goToStep("step2cPhotobook");
 }
 
 // --------------------------------------------------
-// CHOOSE PERSON OR PET - FIXED TO FILTER PROPERLY
+// CHOOSE PERSON OR PET
 // --------------------------------------------------
 
 function setPersonOrPet(type) {
@@ -907,7 +930,7 @@ function setPersonOrPet(type) {
 }
 
 // --------------------------------------------------
-// LOAD TEMPLATES - FIXED TO SHOW CORRECT IMAGES
+// LOAD TEMPLATES
 // --------------------------------------------------
 
 function loadTemplates() {
@@ -1026,16 +1049,14 @@ function updateMockup() {
 }
 
 // --------------------------------------------------
-// FIXED SUBMIT FORM - CALLS EMAIL EDGE FUNCTION DIRECTLY
+// SUBMIT FORM - FIXED FOR VIP
 // --------------------------------------------------
-// This version doesn't rely on database triggers!
-// It updates Supabase AND sends the email in one flow.
 
 async function submitForm() {
   const SUPABASE_URL = "https://dyehxtiozfwlexkbalvn.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs";
 
-  console.log("📤 Starting form submission...");
+  console.log("📤 Starting submission...");
   console.log("📋 Project type:", projectType);
 
   // GET ORDER ID
@@ -1048,22 +1069,21 @@ async function submitForm() {
     orderId = urlParams.get('order') || urlParams.get('orderId') || urlParams.get('orderNumber') || '';
   }
   
-  // FOR VIP AND PHOTOBOOK, GENERATE INQUIRY ID
-  if (!orderId && (projectType === "vip" || projectType === "photobook")) {
-    console.log("✅ Generating inquiry ID for", projectType);
-    const timestamp = Date.now();
-    orderId = projectType === "vip" ? `VIP-${timestamp}` : `PB-${timestamp}`;
+  // VIP doesn't need to ENTER order ID - we'll auto-generate one
+  if (!orderId && projectType === "vip") {
+    console.log("✅ VIP inquiry - auto-generating ID");
+    orderId = `VIP-${Date.now()}`; // Auto-generated, user doesn't see this
   }
   
-  // ONLY require order ID for keepsakes
-  if (!orderId && projectType === "keepsake") {
-    alert("⚠️ No order number found! Please enter your order number or use the link from your email.");
+  // Require order ID for keepsakes and photobooks (they already paid)
+  if (!orderId && (projectType === "keepsake" || projectType === "photobook")) {
+    alert("⚠️ No order number found! Please enter your order number.");
     return;
   }
 
   console.log("🔍 Using ID:", orderId);
 
-  // COLLECT FORM DATA
+  // COLLECT DATA
   const formData = {
     fullName: document.getElementById("fullName").value,
     email: document.getElementById("email").value,
@@ -1090,7 +1110,7 @@ async function submitForm() {
   }
 
   try {
-    console.log("📡 Saving to database...");
+    console.log("📡 Saving...");
 
     const saveData = {
       order_id: orderId,
@@ -1103,7 +1123,7 @@ async function submitForm() {
       updated_at: new Date().toISOString()
     };
 
-    // ADD PROJECT-SPECIFIC FIELDS
+    // ADD FIELDS
     if (projectType === "keepsake") {
       saveData.honored_name = formData.honoredName;
       saveData.dates = formData.dates;
@@ -1128,7 +1148,7 @@ async function submitForm() {
       saveData.status = "Photo Book Inquiry Received";
     }
 
-    // TRY UPDATE FIRST
+    // TRY UPDATE
     let response = await fetch(
       `${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderId}`,
       {
@@ -1148,7 +1168,7 @@ async function submitForm() {
 
     if (!response.ok || patchResult.length === 0) {
       // INSERT NEW
-      console.log("📝 Creating new record...");
+      console.log("📝 Creating new...");
       
       response = await fetch(
         `${SUPABASE_URL}/rest/v1/orders`,
@@ -1167,18 +1187,18 @@ async function submitForm() {
       if (!response.ok) {
         const errorText = await response.text();
         console.error("❌ Error:", errorText);
-        throw new Error(`Failed to save: ${errorText}`);
+        throw new Error(`Failed: ${errorText}`);
       }
 
       savedOrder = await response.json();
-      console.log("✅ Created:", savedOrder);
+      console.log("✅ Created!");
     } else {
       savedOrder = patchResult;
-      console.log("✅ Updated:", savedOrder);
+      console.log("✅ Updated!");
     }
 
     // SEND EMAIL
-    console.log("📧 Sending confirmation...");
+    console.log("📧 Sending email...");
 
     const orderRecord = Array.isArray(savedOrder) ? savedOrder[0] : savedOrder;
 
@@ -1207,9 +1227,10 @@ async function submitForm() {
     
   } catch (err) {
     console.error("❌ Error:", err);
-    alert(`⚠️ Error: ${err.message}\n\nPlease contact support.`);
+    alert(`⚠️ Error: ${err.message}\n\nContact support.`);
   }
 }
+
 // --------------------------------------------------
 // CONFETTI
 // --------------------------------------------------
@@ -1246,62 +1267,42 @@ function launchConfetti() {
 }
 
 // --------------------------------------------------
-// UPDATE TRACK ORDER LINK
-// --------------------------------------------------
-
-function updateTrackOrderLink() {
-  const email = document.getElementById('email').value;
-  const trackBtn = document.getElementById('trackOrderBtn');
-  
-  if (email) {
-    trackBtn.href = `https://dopeleeprezzed-oss.github.io/dopelee-believer-portal/?email=${encodeURIComponent(email)}`;
-  } else {
-    trackBtn.href = 'https://dopeleeprezzed-oss.github.io/dopelee-believer-portal/';
-  }
-}
-
-// --------------------------------------------------
-// INITIALIZE - FIXED PRE-FILL
+// INITIALIZE
 // --------------------------------------------------
 
 window.addEventListener('DOMContentLoaded', () => {
   const urlParams = new URLSearchParams(window.location.search);
   
-  console.log('🔍 Form initialized - checking for pre-fill data');
-  console.log('📋 URL params:', Object.fromEntries(urlParams));
+  console.log('🔍 Form initialized');
   
-  // GET ORDER ID FROM URL (MULTIPLE FORMATS)
   const orderId = urlParams.get('order') || urlParams.get('orderId') || urlParams.get('orderNumber') || '';
   const email = urlParams.get('email') || '';
   const name = urlParams.get('name') || '';
   
-  // PRE-FILL AVAILABLE FIELDS
   if (email) {
     document.getElementById('email').value = decodeURIComponent(email);
-    console.log('✅ Pre-filled email:', email);
+    console.log('✅ Pre-filled email');
   }
   
   if (orderId) {
-    // Handle both full UUID and short version
     const orderField = document.getElementById('orderNumber');
     if (orderField) {
       orderField.value = orderId;
-      console.log('✅ Pre-filled order:', orderId);
+      console.log('✅ Pre-filled order');
     }
   }
   
   if (name) {
     document.getElementById('fullName').value = decodeURIComponent(name);
-    console.log('✅ Pre-filled name:', name);
+    console.log('✅ Pre-filled name');
   }
   
-  // AUTO-SELECT KEEPSAKE PROJECT TYPE (since they came from a payment)
   if (orderId && email) {
-    console.log('🎯 Auto-selecting Keepsake project type');
+    console.log('🎯 Auto-selecting Keepsake');
     selectProjectType('keepsake');
   }
   
-  console.log('✨ Form ready!');
+  console.log('✨ Ready!');
 });
 </script>
 
