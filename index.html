@@ -535,7 +535,7 @@ input[readonly] {
         </div>
       </div>
 
-      <button class="btn btn-primary" onclick="validateStep1()">Continue →</button>
+      <button class="btn btn-primary" onclick="continueFromStep1()">Continue →</button>
     </section>
 
     <!-- STEP 2A — WHO WE'RE HONORING (KEEPSAKE) -->
@@ -866,6 +866,18 @@ function updateOrderNumberVisibility() {
     orderFieldGroup.style.display = 'none';
   } else {
     orderFieldGroup.style.display = 'block';
+  }
+}
+
+  function continueFromStep1() {
+  if (projectType === "keepsake") {
+    goToStep("step2Keepsake");
+  } else if (projectType === "vip") {
+    goToStep("step2VIP");
+  } else if (projectType === "photobook") {
+    goToStep("step2PhotoBook");
+  } else {
+    alert("Please select a project type.");
   }
 }
 
