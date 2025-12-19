@@ -826,11 +826,13 @@ function updateProgressBar(stepId) {
   const orderFieldGroup = document.querySelector('#orderNumber')?.closest('.form-group');
   if (!orderFieldGroup) return;
 
-  if (projectType === 'vip') {
-    orderFieldGroup.style.display = 'none';
+  if (projectType === "vip") {
+    orderFieldGroup.style.display = "none";
   } else {
-    orderFieldGroup.style.display = 'block';
+    orderFieldGroup.style.display = "block";
   }
+}
+
     
 // --------------------------------------------------
 // SHOW SELECTED TEMPLATE PREVIEW ON STEP 4
