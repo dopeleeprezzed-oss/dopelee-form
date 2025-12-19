@@ -822,6 +822,16 @@ function updateProgressBar(stepId) {
   text.textContent = stepId === "successScreen" ? "Complete! ✓" : `Step ${num} of 4`;
 }
 
+  function updateOrderNumberVisibility() {
+  const orderFieldGroup = document.querySelector('#orderNumber')?.closest('.form-group');
+  if (!orderFieldGroup) return;
+
+  if (projectType === 'vip') {
+    orderFieldGroup.style.display = 'none';
+  } else {
+    orderFieldGroup.style.display = 'block';
+  }
+    
 // --------------------------------------------------
 // SHOW SELECTED TEMPLATE PREVIEW ON STEP 4
 // --------------------------------------------------
