@@ -847,30 +847,38 @@ function showSelectedTemplatePreview() {
 }
 
 // --------------------------------------------------
-// SELECT PROJECT TYPE
+// SELECT PROJECT TYPE + HIDE ORDER NUMBER FOR VIP
 // --------------------------------------------------
+function selectProjectType(type) {
+  projectType = type;
 
-selectProjectType()
-// --------------------------------------------------
-// STEP 1 VALIDATION
-// --------------------------------------------------
+  // highlight selected option
+  document.querySelectorAll(".option-card").forEach(card => {
+    const input = card.querySelector("input[name='projectType']");
+    if (input && input.value === type) {
+      input.checked = true;
+      card.classList.add("selected");
+    } else {
+      card.classList.remove("selected");
+    }
+  });
 
-function validateStep1() {
-  const name = document.getElementById("fullName").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const selected = document.querySelector("input[name='projectType']:checked");
-
-  if (!name || !email || !selected) {
-    alert("Please complete all required fields.");
-    return;
-  }
-
-  projectType = selected.value;
-
-  if (projectType === "keepsake") goToStep("step2aKeepsake");
-  else if (projectType === "vip") goToStep("step2bVIP");
-  else goToStep("step2cPhotobook");
+  // hide order number for VIP
+  updateOrderNumberVisibility();
 }
+
+// FIXED FUNCTION — hides order number when VIP is selected
+function updateOrderNumberVisibility() {
+  const orderFieldGroup = document.querySelector('#orderNumber')?.closest('.form-group');
+  if (!orderFieldGroup) return;
+
+  if (projectType === "vip") {
+    orderFieldGroup.style.display = 'none';
+  } else {
+    orderFieldGroup.style.display = 'block';
+  }
+}
+
 
 // --------------------------------------------------
 // CHOOSE PERSON OR PET - FIXED TO FILTER PROPERLY
