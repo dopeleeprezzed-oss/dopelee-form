@@ -800,31 +800,6 @@ let uploadedImage = null;
 // NAVIGATION
 // --------------------------------------------------
 
-  function validateStep1() {
-  const fullName = document.getElementById("fullName").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const projectType = document.querySelector("input[name='projectType']:checked");
-
-  if (!fullName) {
-    alert("Please enter your full name.");
-    return false;
-  }
-
-  if (!email) {
-    alert("Please enter your email address.");
-    return false;
-  }
-
-  if (!projectType) {
-    alert("Please select a project type.");
-    return false;
-  }
-
-  // Passed validation — move to next step
-  goToStep(2);
-  return true;
-}
-
 function goToStep(id) {
   document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
@@ -846,19 +821,7 @@ function updateProgressBar(stepId) {
   bar.style.width = (num / 4) * 100 + "%";
   text.textContent = stepId === "successScreen" ? "Complete! ✓" : `Step ${num} of 4`;
 }
-
-  function updateOrderNumberVisibility() {
-  const orderFieldGroup = document.querySelector('#orderNumber')?.closest('.form-group');
-  if (!orderFieldGroup) return;
-
-  if (projectType === "vip") {
-    orderFieldGroup.style.display = "none";
-  } else {
-    orderFieldGroup.style.display = "block";
-  }
-}
-
-    
+   
 // --------------------------------------------------
 // SHOW SELECTED TEMPLATE PREVIEW ON STEP 4
 // --------------------------------------------------
@@ -905,7 +868,6 @@ function updateOrderNumberVisibility() {
     orderFieldGroup.style.display = 'block';
   }
 }
-
 
 // --------------------------------------------------
 // CHOOSE PERSON OR PET - FIXED TO FILTER PROPERLY
