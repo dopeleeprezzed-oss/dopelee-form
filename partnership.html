@@ -647,6 +647,19 @@ select:focus {
 
       <!-- Other fields -->
       <div class="form-group">
+        <label>Estimated Foot Traffic Per Week *</label>
+        <select id="footTraffic" required>
+          <option value="">Select traffic level...</option>
+          <option value="under-50">Under 50 visitors/week</option>
+          <option value="50-100">50-100 visitors/week</option>
+          <option value="100-250">100-250 visitors/week</option>
+          <option value="250-500">250-500 visitors/week</option>
+          <option value="500+">500+ visitors/week</option>
+        </select>
+        <div class="helper-text">This helps us optimize your display setup and inventory.</div>
+      </div>
+
+      <div class="form-group">
         <label>Preferred Installation Area *</label>
         <input id="installationArea" type="text" placeholder="e.g., Lobby, Reception, Memorial Room" required />
         <div class="helper-text">Where would you like your Legacy Lounge™ display installed?</div>
@@ -794,8 +807,8 @@ select:focus {
             </a>
           </p>
           <p style="margin: 8px 0;">
-            <a href="mailto:info@dopeleeprezzedbysllc.com" style="color: var(--accent-cyan); text-decoration: none; font-weight: 600;">
-              📧 info@dopeleeprezzedbysllc.com
+            <a href="/cdn-cgi/l/email-protection#c6afa8a0a986a2a9b6a3aaa3a3b6b4a3bcbca3a2a4bfb5aaaaa5e8a5a9ab" style="color: var(--accent-cyan); text-decoration: none; font-weight: 600;">
+              📧 <span class="__cf_email__" data-cfemail="99f0f7fff6d9fdf6e9fcf5fcfce9ebfce3e3fcfdfbe0eaf5f5fab7faf6f4">[email&#160;protected]</span>
             </a>
           </p>
         </div>
@@ -808,7 +821,7 @@ select:focus {
 
   </div><!-- end form-container -->
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // --------------------------------------------------
 // CONFIGURATION
 // --------------------------------------------------
@@ -1014,6 +1027,7 @@ async function submitPartnershipForm() {
       business_name: document.getElementById("businessName").value.trim(),
       business_address: document.getElementById("businessAddress").value.trim(),
       venue_type: document.getElementById("venueType").value,
+      foot_traffic: document.getElementById("footTraffic").value,
       installation_area: document.getElementById("installationArea").value.trim(),
       electrical_access: document.getElementById("electricalAccess").value,
       commission_address: document.getElementById("mailingAddressType").value === 'other' 
@@ -1099,16 +1113,4 @@ function launchConfetti() {
     document.body.appendChild(p);
 
     setTimeout(() => {
-      p.style.transform = `translateY(${window.innerHeight + 50}px) rotate(${Math.random() * 360}deg)`;
-      p.style.opacity = "0";
-    }, 10);
-
-    setTimeout(() => p.remove(), 3100);
-
-    if (Date.now() < end) requestAnimationFrame(frame);
-  })();
-}
-</script>
-
-</body>
-</html>
+      p.style.tra
