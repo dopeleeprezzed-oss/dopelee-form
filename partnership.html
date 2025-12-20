@@ -821,7 +821,7 @@ select:focus {
 
   </div><!-- end form-container -->
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // --------------------------------------------------
 // CONFIGURATION
 // --------------------------------------------------
@@ -1060,7 +1060,8 @@ async function submitPartnershipForm() {
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to submit agreement');
+      console.error('❌ Supabase error:', errorData);
+      throw new Error(JSON.stringify(errorData));
     }
 
     console.log('✅ Partner created successfully!');
@@ -1113,4 +1114,16 @@ function launchConfetti() {
     document.body.appendChild(p);
 
     setTimeout(() => {
-      p.style.tra
+      p.style.transform = `translateY(${window.innerHeight + 50}px) rotate(${Math.random() * 360}deg)`;
+      p.style.opacity = "0";
+    }, 10);
+
+    setTimeout(() => p.remove(), 3100);
+
+    if (Date.now() < end) requestAnimationFrame(frame);
+  })();
+}
+</script>
+
+</body>
+</html>
