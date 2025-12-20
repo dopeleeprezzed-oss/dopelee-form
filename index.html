@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Dopelee Prezzed by S™ | Order Personalization</title>
-
+  
   <!-- GOOGLE FONTS -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
@@ -52,7 +51,7 @@ body {
 }
 
 /* --------------------------------------------------
-   BRAND HEADER - FIXED BLACK TEXT
+   BRAND HEADER
 -------------------------------------------------- */
 .brand-header {
   display: flex;
@@ -238,7 +237,7 @@ input[readonly] {
 }
 
 /* --------------------------------------------------
-   OPTION CARDS - CENTERED
+   OPTION CARDS
 -------------------------------------------------- */
 .options-grid {
   display: flex;
@@ -287,7 +286,7 @@ input[readonly] {
 }
 
 /* --------------------------------------------------
-   TEMPLATE GRID - FIXED
+   TEMPLATE GRID
 -------------------------------------------------- */
 .template-grid {
   display: grid;
@@ -510,10 +509,24 @@ input[readonly] {
       </div>
 
       <div class="form-group" id="orderNumberField">
-  <label>Order Number (optional)</label>
-  <input id="orderNumber" type="text" />
-  <div class="helper-text">Enter your order number from your purchase confirmation email.</div>
-</div>
+        <label>Order Number (optional)</label>
+        <input id="orderNumber" type="text" />
+        <div class="helper-text">Enter your order number from your purchase confirmation email.</div>
+      </div>
+
+      <!-- PARTNER REFERRAL DROPDOWN -->
+      <div class="form-group">
+        <label>How did you hear about us? *</label>
+        <select id="partnerReferral" required>
+          <option value="">Select an option...</option>
+          <option value="website">Website</option>
+          <option value="social">Social Media</option>
+          <option value="friend">Friend/Family</option>
+          <option value="other">Other</option>
+          <!-- Partner locations will be loaded here dynamically -->
+        </select>
+        <div class="helper-text">If you saw our display at a partner location, please select it from the list.</div>
+      </div>
 
       <div class="form-group">
         <label>Select Project Type *</label>
@@ -681,7 +694,7 @@ input[readonly] {
       <div class="form-group">
         <label>Order Link (Auto-filled) *</label>
         <input id="photoBookOrderLink" type="text" readonly style="background: rgba(233, 255, 96, 0.05); border-color: var(--accent-gold);" />
-        <div class="helper-text" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 6px;">This link is automatically filled from your order confirmation.</div>
+        <div class="helper-text">This link is automatically filled from your order confirmation.</div>
       </div>
 
       <div class="form-group">
@@ -715,7 +728,7 @@ input[readonly] {
       <div class="form-group">
         <label>Who will this book honor or feature? *</label>
         <textarea id="bookHonor" placeholder="Share names, relationships, and the story you want to tell..."></textarea>
-        <div class="helper-text" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 6px;">Example: "Celebrating Mom's 60 years of life - Mary Johnson, beloved mother, grandmother, and teacher."</div>
+        <div class="helper-text">Example: "Celebrating Mom's 60 years of life - Mary Johnson, beloved mother, grandmother, and teacher."</div>
       </div>
 
       <div class="form-group">
@@ -736,40 +749,47 @@ input[readonly] {
     </section>
 
     <!-- SUCCESS SCREEN -->
-<section id="successScreen" class="step success-screen">
-  <div style="text-align: center;">
-    <div style="font-size: 4rem; margin-bottom: 20px;">✨</div>
-    <h2>Design Submitted!</h2>
-    <p style="color: var(--text-muted); margin: 20px 0;">
-      Thank you! Your personalization details have been received.
-    </p>
-    
-    <div style="background:rgba(233,255,96,0.1);border:2px solid var(--accent-gold);border-radius:16px;padding:24px;margin:30px auto;max-width:400px;">
-      <p style="font-size:1.1rem;margin:0 0 10px;color:var(--accent-gold);font-weight:600;">
-        📧 Check Your Email!
-      </p>
-      <p style="font-size:0.95rem;color:var(--text-muted);margin:0;line-height:1.5;">
-        We just sent you a confirmation with your tracking link. 
-        You'll be creating magic in no time! ✨
-      </p>
-    </div>
-    
-    <p style="color: var(--text-dim); font-size:0.9rem; margin-top:30px;">
-      We got you! 💪
-    </p>
-    
-    <button class="btn btn-secondary" onclick="window.location.reload()" style="margin-top:20px;">
-      Submit Another Order
-    </button>
-  </div>
-</section>
+    <section id="successScreen" class="step success-screen">
+      <div style="text-align: center;">
+        <div style="font-size: 4rem; margin-bottom: 20px;">✨</div>
+        <h2>Design Submitted!</h2>
+        <p style="color: var(--text-muted); margin: 20px 0;">
+          Thank you! Your personalization details have been received.
+        </p>
+        
+        <div style="background:rgba(233,255,96,0.1);border:2px solid var(--accent-gold);border-radius:16px;padding:24px;margin:30px auto;max-width:400px;">
+          <p style="font-size:1.1rem;margin:0 0 10px;color:var(--accent-gold);font-weight:600;">
+            📧 Check Your Email!
+          </p>
+          <p style="font-size:0.95rem;color:var(--text-muted);margin:0;line-height:1.5;">
+            We just sent you a confirmation with your tracking link. 
+            You'll be creating magic in no time! ✨
+          </p>
+        </div>
+        
+        <p style="color: var(--text-dim); font-size:0.9rem; margin-top:30px;">
+          We got you! 💪
+        </p>
+        
+        <button class="btn btn-secondary" onclick="window.location.reload()" style="margin-top:20px;">
+          Submit Another Order
+        </button>
+      </div>
+    </section>
 
   </div><!-- end form-container -->
 
 <script>
-// --------------------------------------------------
-// TEMPLATE ARRAYS - SEPARATED FOR HUMAN VS PET
-// --------------------------------------------------
+// ═══════════════════════════════════════════════════════════════
+// SUPABASE CONFIG
+// ═══════════════════════════════════════════════════════════════
+
+const SUPABASE_URL = "https://dyehxtiozfwlexkbalvn.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs";
+
+// ═══════════════════════════════════════════════════════════════
+// TEMPLATE ARRAYS
+// ═══════════════════════════════════════════════════════════════
 
 const HUMAN_TEMPLATES = [
   { name: "Golden Legacy", file: "Golden Legacy template.png" },
@@ -797,9 +817,46 @@ let selectedTemplate = "";
 let selectedTemplateName = "";
 let uploadedImage = null;
 
-// --------------------------------------------------
+// ═══════════════════════════════════════════════════════════════
+// LOAD PARTNER LOCATIONS
+// ═══════════════════════════════════════════════════════════════
+
+async function loadPartnerLocations() {
+  try {
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/partners?select=partner_id,business_name&status=eq.active&order=business_name`,
+      {
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+        }
+      }
+    );
+    
+    const partners = await response.json();
+    
+    if (partners && partners.length > 0) {
+      const dropdown = document.getElementById('partnerReferral');
+      
+      // Add partner locations to dropdown
+      partners.forEach(partner => {
+        const option = document.createElement('option');
+        option.value = partner.partner_id;
+        option.textContent = partner.business_name;
+        dropdown.appendChild(option);
+      });
+      
+      console.log(`✅ Loaded ${partners.length} partner locations`);
+    }
+  } catch (error) {
+    console.error('⚠️ Error loading partners:', error);
+    // Form still works even if partners don't load
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
 // NAVIGATION
-// --------------------------------------------------
+// ═══════════════════════════════════════════════════════════════
 
 function goToStep(id) {
   document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
@@ -808,7 +865,6 @@ function goToStep(id) {
   if (id === "step3aKeepsake") loadTemplates();
   if (id === "step4aKeepsake") showSelectedTemplatePreview();
   
-  // UPDATE ORDER FIELD VISIBILITY WHEN GOING BACK TO STEP 1
   if (id === "step1" && projectType) {
     const orderNumberField = document.getElementById('orderNumberField');
     if (orderNumberField) {
@@ -836,10 +892,6 @@ function updateProgressBar(stepId) {
   text.textContent = stepId === "successScreen" ? "Complete! ✓" : `Step ${num} of 4`;
 }
 
-// --------------------------------------------------
-// SHOW SELECTED TEMPLATE PREVIEW ON STEP 4
-// --------------------------------------------------
-
 function showSelectedTemplatePreview() {
   const previewImg = document.getElementById("selectedTemplateImage");
   const previewName = document.getElementById("selectedTemplateName");
@@ -850,9 +902,9 @@ function showSelectedTemplatePreview() {
   }
 }
 
-// --------------------------------------------------
-// SELECT PROJECT TYPE - FIXED TO HIDE ORDER NUMBER ONLY FOR VIP
-// --------------------------------------------------
+// ═══════════════════════════════════════════════════════════════
+// SELECT PROJECT TYPE
+// ═══════════════════════════════════════════════════════════════
 
 function selectProjectType(type) {
   projectType = type;
@@ -863,7 +915,6 @@ function selectProjectType(type) {
   const selectedCard = document.querySelector(`input[name="projectType"][value="${type}"]`)?.closest('.option-card');
   if (selectedCard) selectedCard.classList.add('selected');
   
-  // HIDE ORDER NUMBER ONLY FOR VIP (they haven't paid yet)
   const orderNumberField = document.getElementById('orderNumberField');
   if (orderNumberField) {
     if (type === 'vip') {
@@ -874,23 +925,23 @@ function selectProjectType(type) {
   }
 }
 
-// --------------------------------------------------
+// ═══════════════════════════════════════════════════════════════
 // STEP 1 VALIDATION
-// --------------------------------------------------
+// ═══════════════════════════════════════════════════════════════
 
 function validateStep1() {
   const name = document.getElementById("fullName").value.trim();
   const email = document.getElementById("email").value.trim();
   const selected = document.querySelector("input[name='projectType']:checked");
+  const referral = document.getElementById("partnerReferral").value;
 
-  if (!name || !email || !selected) {
+  if (!name || !email || !selected || !referral) {
     alert("Please complete all required fields.");
     return;
   }
 
   projectType = selected.value;
 
-  // HIDE ORDER NUMBER ONLY FOR VIP
   const orderNumberField = document.getElementById('orderNumberField');
   if (orderNumberField) {
     if (projectType === 'vip') {
@@ -905,9 +956,9 @@ function validateStep1() {
   else goToStep("step2cPhotobook");
 }
 
-// --------------------------------------------------
-// CHOOSE PERSON OR PET
-// --------------------------------------------------
+// ═══════════════════════════════════════════════════════════════
+// PERSON OR PET
+// ═══════════════════════════════════════════════════════════════
 
 function setPersonOrPet(type) {
   selectedPersonOrPet = type;
@@ -929,9 +980,9 @@ function setPersonOrPet(type) {
   loadTemplates();
 }
 
-// --------------------------------------------------
+// ═══════════════════════════════════════════════════════════════
 // LOAD TEMPLATES
-// --------------------------------------------------
+// ═══════════════════════════════════════════════════════════════
 
 function loadTemplates() {
   console.log("🔍 LOADING TEMPLATES FOR:", selectedPersonOrPet);
@@ -944,10 +995,8 @@ function loadTemplates() {
   let list = [];
   if (selectedPersonOrPet === "human") {
     list = HUMAN_TEMPLATES;
-    console.log("👤 LOADING", list.length, "HUMAN TEMPLATES");
   } else if (selectedPersonOrPet === "pet") {
     list = PET_TEMPLATES;
-    console.log("🐾 LOADING", list.length, "PET TEMPLATES");
   }
 
   if (list.length === 0) {
@@ -980,9 +1029,9 @@ function loadTemplates() {
   });
 }
 
-// --------------------------------------------------
+// ═══════════════════════════════════════════════════════════════
 // IMAGE UPLOAD
-// --------------------------------------------------
+// ═══════════════════════════════════════════════════════════════
 
 function handleImageUpload(event) {
   const file = event.target.files[0];
@@ -1000,9 +1049,9 @@ function handleImageUpload(event) {
   reader.readAsDataURL(file);
 }
 
-// --------------------------------------------------
+// ═══════════════════════════════════════════════════════════════
 // LIVE MOCKUP
-// --------------------------------------------------
+// ═══════════════════════════════════════════════════════════════
 
 function updateMockup() {
   if (!selectedTemplate || !uploadedImage) return;
@@ -1048,14 +1097,11 @@ function updateMockup() {
   template.src = selectedTemplate.replace(/ /g, "%20");
 }
 
-// --------------------------------------------------
-// SUBMIT FORM - FIXED FOR VIP
-// --------------------------------------------------
+// ═══════════════════════════════════════════════════════════════
+// SUBMIT FORM - WITH PARTNER TRACKING
+// ═══════════════════════════════════════════════════════════════
 
 async function submitForm() {
-  const SUPABASE_URL = "https://dyehxtiozfwlexkbalvn.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs";
-
   console.log("📤 Starting submission...");
   console.log("📋 Project type:", projectType);
 
@@ -1069,13 +1115,10 @@ async function submitForm() {
     orderId = urlParams.get('order') || urlParams.get('orderId') || urlParams.get('orderNumber') || '';
   }
   
-  // VIP doesn't need to ENTER order ID - we'll auto-generate one
   if (!orderId && projectType === "vip") {
-    console.log("✅ VIP inquiry - auto-generating ID");
-    orderId = `VIP-${Date.now()}`; // Auto-generated, user doesn't see this
+    orderId = `VIP-${Date.now()}`;
   }
   
-  // Require order ID for keepsakes and photobooks (they already paid)
   if (!orderId && (projectType === "keepsake" || projectType === "photobook")) {
     alert("⚠️ No order number found! Please enter your order number.");
     return;
@@ -1123,7 +1166,25 @@ async function submitForm() {
       updated_at: new Date().toISOString()
     };
 
-    // ADD FIELDS
+    // ═══════════════════════════════════════════════════════════
+    // ADD PARTNER TRACKING
+    // ═══════════════════════════════════════════════════════════
+    
+    const partnerReferralSelect = document.getElementById('partnerReferral');
+    const partnerReferralValue = partnerReferralSelect ? partnerReferralSelect.value : '';
+    
+    if (partnerReferralValue && partnerReferralValue.length > 10) {
+      // It's a partner ID (UUID format)
+      saveData.partner_id = partnerReferralValue;
+      saveData.referral_source = 'partner_location';
+      console.log("🤝 Partner referral:", partnerReferralValue);
+    } else if (partnerReferralValue) {
+      // It's a generic option (website, social, etc.)
+      saveData.referral_source = partnerReferralValue;
+      console.log("📣 Referral source:", partnerReferralValue);
+    }
+
+    // ADD PROJECT-SPECIFIC FIELDS
     if (projectType === "keepsake") {
       saveData.honored_name = formData.honoredName;
       saveData.dates = formData.dates;
@@ -1168,7 +1229,7 @@ async function submitForm() {
 
     if (!response.ok || patchResult.length === 0) {
       // INSERT NEW
-      console.log("📝 Creating new...");
+      console.log("📝 Creating new order...");
       
       response = await fetch(
         `${SUPABASE_URL}/rest/v1/orders`,
@@ -1191,14 +1252,14 @@ async function submitForm() {
       }
 
       savedOrder = await response.json();
-      console.log("✅ Created!");
+      console.log("✅ Order created!");
     } else {
       savedOrder = patchResult;
-      console.log("✅ Updated!");
+      console.log("✅ Order updated!");
     }
 
     // SEND EMAIL
-    console.log("📧 Sending email...");
+    console.log("📧 Sending confirmation email...");
 
     const orderRecord = Array.isArray(savedOrder) ? savedOrder[0] : savedOrder;
 
@@ -1221,19 +1282,19 @@ async function submitForm() {
     }
 
     // SUCCESS
-    console.log("🎉 Complete!");
+    console.log("🎉 Form submission complete!");
     goToStep("successScreen");
     setTimeout(() => launchConfetti(), 300);
     
   } catch (err) {
     console.error("❌ Error:", err);
-    alert(`⚠️ Error: ${err.message}\n\nContact support.`);
+    alert(`⚠️ Submission error: ${err.message}\n\nPlease contact support.`);
   }
 }
 
-// --------------------------------------------------
+// ═══════════════════════════════════════════════════════════════
 // CONFETTI
-// --------------------------------------------------
+// ═══════════════════════════════════════════════════════════════
 
 function launchConfetti() {
   const end = Date.now() + 3000;
@@ -1266,11 +1327,14 @@ function launchConfetti() {
   })();
 }
 
-// --------------------------------------------------
+// ═══════════════════════════════════════════════════════════════
 // INITIALIZE
-// --------------------------------------------------
+// ═══════════════════════════════════════════════════════════════
 
 window.addEventListener('DOMContentLoaded', () => {
+  // Load partner locations into dropdown
+  loadPartnerLocations();
+  
   const urlParams = new URLSearchParams(window.location.search);
   
   console.log('🔍 Form initialized');
@@ -1302,7 +1366,7 @@ window.addEventListener('DOMContentLoaded', () => {
     selectProjectType('keepsake');
   }
   
-  console.log('✨ Ready!');
+  console.log('✨ Form ready!');
 });
 </script>
 
