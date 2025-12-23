@@ -855,21 +855,23 @@ a {
 }
 
   
-/* Desktop: Template grid and preview side-by-side */
-@media (min-width: 1024px) {
-  #step3aKeepsake .step-description {
-    margin-bottom: 20px;
-  }
-  
+/* Side-by-side for ALL screen sizes */
+.template-section-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.template-section-wrapper .template-grid {
+  margin-top: 0;
+}
+
+/* Tablet: Side by side */
+@media (min-width: 768px) {
   .template-section-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: 30px;
-    align-items: start;
-  }
-  
-  .template-section-wrapper .template-grid {
-    margin-top: 0;
+    grid-template-columns: 1fr 300px;
+    gap: 20px;
   }
   
   .template-section-wrapper .preview-wrapper {
@@ -878,15 +880,37 @@ a {
   }
 }
 
+/* Desktop: Wider preview */
+@media (min-width: 1024px) {
+  #step3aKeepsake .step-description {
+    margin-bottom: 20px;
+  }
   
-/* Show desktop template preview only on large screens */
-.desktop-template-preview {
-  display: none !important;
+  .template-section-wrapper {
+    grid-template-columns: 1fr 400px;
+    gap: 30px;
+  }
 }
 
-@media (min-width: 1024px) {
+  
+/* Show template preview on ALL screens */
+.desktop-template-preview {
+  display: block !important;
+}
+
+/* Mobile: Stack vertically */
+@media (max-width: 767px) {
+  .template-section-wrapper {
+    grid-template-columns: 1fr;
+  }
+  
   .desktop-template-preview {
-    display: block !important;
+    order: 1;
+    margin-bottom: 20px;
+  }
+  
+  .template-grid {
+    order: 2;
   }
 }
 
@@ -898,6 +922,27 @@ a {
   
   .brand-title {
     font-size: 28px;
+  }
+}
+
+  
+/* Mobile-specific adjustments for preview */
+@media (max-width: 767px) {
+  .desktop-template-preview .preview-wrapper {
+    padding: 14px;
+  }
+  
+  .desktop-template-preview .preview-box img {
+    max-height: 200px;
+    object-fit: contain;
+  }
+  
+  .desktop-template-preview .preview-header h3 {
+    font-size: 0.9rem;
+  }
+  
+  .desktop-template-preview .preview-header p {
+    font-size: 0.75rem;
   }
 }
 
@@ -1045,7 +1090,7 @@ a {
         <div id="templateGrid" class="template-grid"></div>
         
         <!-- Desktop Template Preview -->
-        <div class="preview-wrapper desktop-template-preview" style="display: none;">
+        <div class="preview-wrapper desktop-template-preview">
           <div class="preview-header">
             <h3>✨ SELECTED TEMPLATE</h3>
             <p>Your chosen design</p>
