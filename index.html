@@ -51,54 +51,122 @@ body {
 }
 
 /* --------------------------------------------------
-   BRAND HEADER
+   BLACK BUBBLE HEADER - MATCHES WEBSITE/EMAILS
 -------------------------------------------------- */
 .brand-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 0;
-  margin-bottom: 25px;
-  background: linear-gradient(
-      90deg,
-      var(--accent-blue),
-      var(--accent-cyan),
-      var(--accent-gold),
-      var(--accent-pink),
-      var(--accent-violet)
-  );
-  border-radius: 50px;
-  width: 90%;
-  max-width: 650px;
+  background: #000;
+  padding: 40px 30px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-top: 2px solid #d4af37;
+  border-bottom: 2px solid #d4af37;
+  margin-bottom: 40px;
+  border-radius: 20px;
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  box-shadow: var(--shadow-card);
+}
+
+/* Blue Bling Background Effect */
+.brand-header::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: 
+    radial-gradient(circle at 25% 35%, rgba(15, 240, 184, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 75% 65%, rgba(10, 149, 168, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(15, 240, 184, 0.1) 0%, transparent 60%);
+  pointer-events: none;
+  animation: heroBling 5s ease-in-out infinite;
+}
+
+@keyframes heroBling {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+/* Floating Colored Bubbles */
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: bubbleRise 8s infinite ease-in-out;
+  pointer-events: none;
+  box-shadow: 0 0 30px currentColor, 0 0 60px currentColor, inset 0 0 20px rgba(255, 255, 255, 0.3);
+  filter: blur(1px);
+}
+
+@keyframes bubbleRise {
+  0% {
+    transform: translateY(100vh) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-100px) scale(1);
+    opacity: 0;
+  }
+}
+
+.brand-header .bubble:nth-child(1) { left: 10%; width: 40px; height: 40px; background: #0ff0b8; animation-delay: 0s; animation-duration: 10s; }
+.brand-header .bubble:nth-child(2) { left: 25%; width: 60px; height: 60px; background: #d3fb1b; animation-delay: 2s; animation-duration: 12s; }
+.brand-header .bubble:nth-child(3) { left: 45%; width: 50px; height: 50px; background: #fd26fd; animation-delay: 1s; animation-duration: 11s; }
+.brand-header .bubble:nth-child(4) { left: 65%; width: 35px; height: 35px; background: #3461fa; animation-delay: 3s; animation-duration: 9s; }
+.brand-header .bubble:nth-child(5) { left: 80%; width: 55px; height: 55px; background: #0a95a8; animation-delay: 4s; animation-duration: 13s; }
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+@keyframes logoGlow {
+  0%, 100% { filter: drop-shadow(0 0 30px rgba(211, 251, 27, 0.6)) drop-shadow(0 0 60px rgba(15, 240, 184, 0.4)); }
+  50% { filter: drop-shadow(0 0 50px rgba(253, 38, 253, 0.8)) drop-shadow(0 0 80px rgba(52, 97, 250, 0.6)); }
 }
 
 .brand-logo-large {
-  width: 95px;
+  max-width: 120px;
   height: auto;
+  margin: 0 auto 15px;
   border-radius: 12px;
-  margin-bottom: 10px;
-  object-fit: contain;
+  position: relative;
+  z-index: 2;
+  animation: logoFloat 4s ease-in-out infinite, logoGlow 3s ease-in-out infinite;
 }
 
 .brand-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #000000 !important;
-  text-align: center;
-  letter-spacing: 0.5px;
-  -webkit-text-fill-color: #000000 !important;
-  text-shadow: none;
+  font-size: 26px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 2px 20px rgba(15, 240, 184, 0.5);
+}
+
+.brand-tagline {
+  margin: 8px 0 0;
+  color: #ccc;
+  font-size: 13px;
+  font-weight: 600;
+  position: relative;
+  z-index: 2;
 }
 
 /* --------------------------------------------------
    HEADER
 -------------------------------------------------- */
 .header {
-  max-width: 720px;
+  max-width: 1200px;
   margin: 0 auto 40px;
   text-align: center;
 }
@@ -124,7 +192,7 @@ h1 {
    PROGRESS BAR
 -------------------------------------------------- */
 .progress-container {
-  max-width: 720px;
+  max-width: 1200px;
   margin: 0 auto 30px;
 }
 
@@ -150,16 +218,36 @@ h1 {
 }
 
 /* --------------------------------------------------
-   FORM CARD
+   FORM CONTAINER - SPLIT LAYOUT
 -------------------------------------------------- */
 .form-container {
-  max-width: 720px;
+  max-width: 1200px;
   margin: 0 auto;
   background: var(--bg-card);
   padding: 40px;
   border-radius: 24px;
   border: 1px solid var(--border-soft);
   box-shadow: var(--shadow-heavy);
+}
+
+/* SPLIT LAYOUT FOR STEP 4 */
+.split-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+  width: 100%;
+}
+
+.form-fields-column {
+  min-width: 0;
+}
+
+.preview-column {
+  position: sticky;
+  top: 20px;
+  align-self: start;
+  min-width: 0;
 }
 
 .step {
@@ -342,30 +430,186 @@ input[readonly] {
 }
 
 /* --------------------------------------------------
-   PREVIEW CANVAS
+   SIMPLE PREVIEW BOXES
 -------------------------------------------------- */
 .preview-wrapper {
-  background: rgba(233, 255, 96, 0.03);
+  background: rgba(15, 240, 184, 0.03);
   padding: 24px;
   border-radius: 16px;
+  border: 2px solid var(--accent-cyan);
+  box-shadow: 0 0 30px rgba(15, 240, 184, 0.15);
+}
+
+.preview-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.preview-header h3 {
+  color: var(--accent-cyan);
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.preview-header p {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.preview-box {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.preview-box:last-child {
+  margin-bottom: 0;
+}
+
+.preview-box-title {
+  color: var(--accent-gold);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.preview-box img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.preview-box-text {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.quality-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 8px;
+}
+
+.quality-excellent {
+  background: rgba(15, 240, 184, 0.2);
+  border: 1px solid var(--accent-cyan);
+  color: var(--accent-cyan);
+}
+
+.quality-good {
+  background: rgba(233, 255, 96, 0.2);
+  border: 1px solid var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+.quality-poor {
+  background: rgba(253, 38, 253, 0.2);
+  border: 1px solid var(--accent-pink);
+  color: var(--accent-pink);
+}
+
+.preview-placeholder {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+.template-notice {
+  background: rgba(253, 38, 253, 0.1);
+  border: 2px solid var(--accent-pink);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.template-notice p {
+  color: var(--accent-pink);
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.template-notice span {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------
+   FINAL REVIEW SCREEN
+-------------------------------------------------- */
+.review-panel {
+  background: rgba(233, 255, 96, 0.05);
   border: 2px solid var(--accent-gold);
-  margin-top: 30px;
+  border-radius: 16px;
+  padding: 30px;
   margin-bottom: 30px;
 }
 
-.preview-container {
-  max-width: 420px;
-  margin: 0 auto;
-  background: #000;
-  border-radius: 12px;
-  overflow: hidden;
+.review-title {
+  color: var(--accent-gold);
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
-#mockupCanvas {
-  width: 100%;
+.review-section {
+  margin-bottom: 25px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.review-section:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.review-section h4 {
+  color: var(--accent-cyan);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+
+.review-section img {
+  max-width: 100%;
   height: auto;
-  display: block;
   border-radius: 12px;
+  margin: 10px 0;
+}
+
+.review-text {
+  color: var(--text-main);
+  font-size: 1rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
 }
 
 /* --------------------------------------------------
@@ -441,7 +685,41 @@ input[readonly] {
 /* --------------------------------------------------
    RESPONSIVE
 -------------------------------------------------- */
+@media (max-width: 1024px) {
+  .split-layout {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .preview-column {
+    position: relative;
+    top: 0;
+    order: -1;
+    margin-bottom: 20px;
+  }
+  
+  .form-fields-column {
+    order: 1;
+  }
+}
+
 @media (max-width: 640px) {
+  body {
+    padding: 10px;
+  }
+  
+  .brand-header {
+    padding: 30px 20px;
+  }
+  
+  .brand-title {
+    font-size: 20px;
+  }
+  
+  .brand-logo-large {
+    max-width: 80px;
+  }
+  
   .form-container {
     padding: 28px 20px;
   }
@@ -452,6 +730,7 @@ input[readonly] {
   
   .template-grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
   }
   
   .button-group {
@@ -461,6 +740,10 @@ input[readonly] {
   .btn {
     width: 100%;
   }
+  
+  .preview-wrapper {
+    padding: 16px;
+  }
 }
   </style>
 
@@ -468,14 +751,23 @@ input[readonly] {
 
 <body>
 
+  <!-- BLACK BUBBLE HEADER -->
+  <header class="brand-header">
+    <!-- Floating Bubbles -->
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    
+    <img src="https://dopeleeprezzed-oss.github.io/dopelee-form/logo.png" 
+         alt="Dopelee Prezzed Logo" class="brand-logo-large">
+    <h1 class="brand-title">DOPELEE PREZZED BY S™</h1>
+    <p class="brand-tagline">Luxury • Legacy • Keepsakes</p>
+  </header>
+
   <!-- HEADER -->
   <header class="header">
-    <div class="brand-header">
-      <img src="https://dopeleeprezzed-oss.github.io/dopelee-form/logo.png" 
-           alt="Dopelee Prezzed Logo" class="brand-logo-large">
-      <div class="brand-title">DOPELEE PREZZED BY S™</div>
-    </div>
-
     <h1>Order Personalization</h1>
     <p class="subtitle">
       Tell us about your project so we can create your custom keepsake,
@@ -574,12 +866,12 @@ input[readonly] {
 
       <div class="form-group">
         <label>Name *</label>
-        <input id="honoredName" type="text" />
+        <input id="honoredName" type="text" oninput="updatePreview()" />
       </div>
 
       <div class="form-group">
         <label>Dates (optional)</label>
-        <input id="dates" type="text" placeholder="e.g., 2010 - 2024" />
+        <input id="dates" type="text" placeholder="e.g., 2010 - 2024" oninput="updatePreview()" />
       </div>
 
       <div class="button-group">
@@ -601,42 +893,114 @@ input[readonly] {
       </div>
     </section>
 
-    <!-- STEP 4A — UPLOAD & PREVIEW (KEEPSAKE) -->
+    <!-- STEP 4A — UPLOAD & PREVIEW (KEEPSAKE) - SPLIT LAYOUT -->
     <section id="step4aKeepsake" class="step">
       <h2 class="step-title">Step 4 — Upload Photo & Add Wording</h2>
+      <p class="step-description">Your design details with live preview! ✨</p>
 
-      <!-- SELECTED TEMPLATE PREVIEW -->
-      <div id="selectedTemplatePreview" style="margin-bottom: 32px; padding: 20px; background: rgba(233, 255, 96, 0.03); border: 2px solid var(--accent-gold); border-radius: 16px; text-align: center;">
-        <p style="color: var(--accent-gold); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px;">✨ Your Selected Template</p>
-        <img id="selectedTemplateImage" src="" alt="Selected Template" style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.6);">
-        <p id="selectedTemplateName" style="color: var(--text-muted); margin-top: 12px; font-size: 0.9rem;"></p>
+      <div class="split-layout">
+        <!-- LEFT COLUMN: FORM FIELDS -->
+        <div class="form-fields-column">
+          
+          <!-- IMPORTANT NOTICE -->
+          <div class="template-notice">
+            <p>
+              <span>💡</span>
+              <span>The text you see on the template is just a placeholder example. Your custom text below will replace it completely!</span>
+            </p>
+          </div>
+          
+          <div class="form-group">
+            <label>Upload Photo *</label>
+            <input id="fileInput" type="file" accept="image/*" onchange="handleImageUpload(event)" />
+            <div class="helper-text">Choose a high-quality photo for the best results</div>
+          </div>
+
+          <div class="form-group">
+            <label>What do you want the keepsake to say? *</label>
+            <textarea id="customWording" placeholder="Type exactly what you want to appear..." oninput="updatePreview()"></textarea>
+            <div class="helper-text">This will be your actual text (not the template placeholder)</div>
+          </div>
+
+          <div class="form-group">
+            <label>Designer Notes (optional)</label>
+            <textarea id="designerNotes" placeholder="Any special instructions for your designer..."></textarea>
+          </div>
+
+          <div class="button-group">
+            <button class="btn btn-secondary" onclick="goToStep('step3aKeepsake')">← Back</button>
+            <button class="btn btn-primary" onclick="goToReview()">Review Your Design →</button>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: SIMPLE PREVIEW -->
+        <div class="preview-column">
+          <div class="preview-wrapper">
+            <div class="preview-header">
+              <h3>✨ YOUR DESIGN</h3>
+              <p>Updates as you fill in the details</p>
+            </div>
+            
+            <!-- Template Preview -->
+            <div class="preview-box" id="templatePreviewBox">
+              <div class="preview-box-title">🎨 Selected Template</div>
+              <div id="templatePreviewContent" class="preview-placeholder">
+                Select a template in Step 3
+              </div>
+            </div>
+
+            <!-- Photo Preview -->
+            <div class="preview-box" id="photoPreviewBox">
+              <div class="preview-box-title">📸 Your Photo</div>
+              <div id="photoPreviewContent" class="preview-placeholder">
+                Upload your photo above
+              </div>
+            </div>
+
+            <!-- Text Preview -->
+            <div class="preview-box" id="textPreviewBox">
+              <div class="preview-box-title">💬 Your Text</div>
+              <div id="textPreviewContent" class="preview-placeholder">
+                Type your text above
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <div class="form-group">
-        <label>Upload Photo *</label>
-        <input id="fileInput" type="file" accept="image/*" onchange="handleImageUpload(event)" />
-      </div>
+    <!-- FINAL REVIEW SCREEN -->
+    <section id="reviewScreen" class="step">
+      <h2 class="step-title">Review Your Design</h2>
+      <p class="step-description">Make sure everything looks perfect before submitting!</p>
 
-      <div class="form-group">
-        <label>What do you want the keepsake to say? *</label>
-        <textarea id="customWording" placeholder="Type exactly what you want to appear..." oninput="updateMockup()"></textarea>
-      </div>
+      <div class="review-panel">
+        <h3 class="review-title">✅ Your Keepsake Design</h3>
 
-      <div class="form-group">
-        <label>Designer Notes (optional)</label>
-        <textarea id="designerNotes" placeholder="Any special instructions for your designer..."></textarea>
-      </div>
+        <div class="review-section" id="reviewTemplate">
+          <h4>🎨 Template</h4>
+          <div id="reviewTemplateContent"></div>
+        </div>
 
-      <div id="mockupPreviewSection" class="preview-wrapper" style="display:none;">
-        <h3 style="text-align: center; color: var(--accent-gold); margin-bottom: 16px;">✨ Live Preview</h3>
-        <div class="preview-container">
-          <canvas id="mockupCanvas" width="800" height="1000"></canvas>
+        <div class="review-section" id="reviewPhoto">
+          <h4>📸 Photo</h4>
+          <div id="reviewPhotoContent"></div>
+        </div>
+
+        <div class="review-section" id="reviewText">
+          <h4>💬 What It Will Say</h4>
+          <div id="reviewTextContent" class="review-text"></div>
+        </div>
+
+        <div class="review-section" id="reviewDetails">
+          <h4>👤 Honoring</h4>
+          <div id="reviewDetailsContent" class="review-text"></div>
         </div>
       </div>
 
       <div class="button-group">
-        <button class="btn btn-secondary" onclick="goToStep('step3aKeepsake')">← Back</button>
-        <button class="btn btn-primary" onclick="submitForm()">Submit Design</button>
+        <button class="btn btn-secondary" onclick="goToStep('step4aKeepsake')">← Back to Edit</button>
+        <button class="btn btn-primary" onclick="submitForm()">✓ Submit My Design</button>
       </div>
     </section>
 
@@ -816,6 +1180,7 @@ let selectedPersonOrPet = "";
 let selectedTemplate = "";
 let selectedTemplateName = "";
 let uploadedImage = null;
+let uploadedImageFile = null;
 
 // ═══════════════════════════════════════════════════════════════
 // LOAD PARTNER LOCATIONS
@@ -838,7 +1203,6 @@ async function loadPartnerLocations() {
     if (partners && partners.length > 0) {
       const dropdown = document.getElementById('partnerReferral');
       
-      // Add partner locations to dropdown
       partners.forEach(partner => {
         const option = document.createElement('option');
         option.value = partner.partner_id;
@@ -850,7 +1214,6 @@ async function loadPartnerLocations() {
     }
   } catch (error) {
     console.error('⚠️ Error loading partners:', error);
-    // Form still works even if partners don't load
   }
 }
 
@@ -862,17 +1225,14 @@ function goToStep(id) {
   document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
   updateProgressBar(id);
+  
   if (id === "step3aKeepsake") loadTemplates();
-  if (id === "step4aKeepsake") showSelectedTemplatePreview();
+  if (id === "step4aKeepsake") updatePreview();
   
   if (id === "step1" && projectType) {
     const orderNumberField = document.getElementById('orderNumberField');
     if (orderNumberField) {
-      if (projectType === 'vip') {
-        orderNumberField.style.display = 'none';
-      } else {
-        orderNumberField.style.display = 'block';
-      }
+      orderNumberField.style.display = projectType === 'vip' ? 'none' : 'block';
     }
   }
   
@@ -886,20 +1246,10 @@ function updateProgressBar(stepId) {
   let num = 1;
   if (stepId.includes("step2")) num = 2;
   if (stepId.includes("step3")) num = 3;
-  if (stepId.includes("step4") || stepId === "successScreen") num = 4;
+  if (stepId.includes("step4") || stepId === "reviewScreen" || stepId === "successScreen") num = 4;
 
   bar.style.width = (num / 4) * 100 + "%";
   text.textContent = stepId === "successScreen" ? "Complete! ✓" : `Step ${num} of 4`;
-}
-
-function showSelectedTemplatePreview() {
-  const previewImg = document.getElementById("selectedTemplateImage");
-  const previewName = document.getElementById("selectedTemplateName");
-  
-  if (previewImg && previewName && selectedTemplate) {
-    previewImg.src = selectedTemplate.replace(/ /g, "%20");
-    previewName.textContent = selectedTemplateName;
-  }
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -917,11 +1267,7 @@ function selectProjectType(type) {
   
   const orderNumberField = document.getElementById('orderNumberField');
   if (orderNumberField) {
-    if (type === 'vip') {
-      orderNumberField.style.display = 'none';
-    } else {
-      orderNumberField.style.display = 'block';
-    }
+    orderNumberField.style.display = type === 'vip' ? 'none' : 'block';
   }
 }
 
@@ -944,11 +1290,7 @@ function validateStep1() {
 
   const orderNumberField = document.getElementById('orderNumberField');
   if (orderNumberField) {
-    if (projectType === 'vip') {
-      orderNumberField.style.display = 'none';
-    } else {
-      orderNumberField.style.display = 'block';
-    }
+    orderNumberField.style.display = projectType === 'vip' ? 'none' : 'block';
   }
 
   if (projectType === "keepsake") goToStep("step2aKeepsake");
@@ -1030,82 +1372,158 @@ function loadTemplates() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// IMAGE UPLOAD
+// IMAGE UPLOAD WITH QUALITY CHECK
 // ═══════════════════════════════════════════════════════════════
 
 function handleImageUpload(event) {
   const file = event.target.files[0];
   if (!file) return;
+  
+  uploadedImageFile = file;
 
   const reader = new FileReader();
   reader.onload = function(e) {
     const img = new Image();
     img.onload = () => {
       uploadedImage = img;
-      updateMockup();
+      updatePreview();
     };
     img.src = e.target.result;
   };
   reader.readAsDataURL(file);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// LIVE MOCKUP
-// ═══════════════════════════════════════════════════════════════
-
-function updateMockup() {
-  if (!selectedTemplate || !uploadedImage) return;
-
-  const canvas = document.getElementById("mockupCanvas");
-  const previewSection = document.getElementById("mockupPreviewSection");
-  if (!canvas || !previewSection) return;
-
-  const ctx = canvas.getContext("2d");
-  const template = new Image();
-  template.crossOrigin = "anonymous";
+function getImageQuality(img) {
+  const width = img.naturalWidth || img.width;
+  const height = img.naturalHeight || img.height;
   
-  template.onload = () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(template, 0, 0, canvas.width, canvas.height);
-
-    const photoWidth = canvas.width * 0.65;
-    const photoHeight = photoWidth * (uploadedImage.height / uploadedImage.width);
-    const photoX = (canvas.width - photoWidth) / 2;
-    const photoY = (canvas.height - photoHeight) / 2;
-
-    ctx.drawImage(uploadedImage, photoX, photoY, photoWidth, photoHeight);
-
-    const text = document.getElementById("customWording")?.value || "";
-    if (text) {
-      ctx.font = "bold 32px 'Playfair Display', serif";
-      ctx.fillStyle = "white";
-      ctx.textAlign = "center";
-      ctx.shadowColor = "rgba(0, 0, 0, 0.8)";
-      ctx.shadowBlur = 10;
-      
-      const lines = text.split('\n');
-      let y = canvas.height - 60 - (lines.length * 40);
-      lines.forEach(line => {
-        ctx.fillText(line, canvas.width / 2, y);
-        y += 40;
-      });
-    }
-
-    previewSection.style.display = "block";
-  };
-
-  template.src = selectedTemplate.replace(/ /g, "%20");
+  if (width >= 2000 || height >= 2000) {
+    return { level: 'excellent', text: '✅ Excellent Quality', class: 'quality-excellent', details: `${width} × ${height}px` };
+  } else if (width >= 1000 || height >= 1000) {
+    return { level: 'good', text: '✅ Good Quality', class: 'quality-good', details: `${width} × ${height}px` };
+  } else {
+    return { level: 'poor', text: '⚠️ Low Resolution', class: 'quality-poor', details: `${width} × ${height}px - May appear blurry when printed` };
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════
-// SUBMIT FORM - WITH PARTNER TRACKING
+// UPDATE PREVIEW (SIMPLE BOXES)
+// ═══════════════════════════════════════════════════════════════
+
+function updatePreview() {
+  // Template Preview
+  const templateContent = document.getElementById('templatePreviewContent');
+  if (selectedTemplate && selectedTemplateName) {
+    templateContent.innerHTML = `
+      <img src="${selectedTemplate.replace(/ /g, '%20')}" alt="${selectedTemplateName}">
+      <div class="preview-box-text"><strong>${selectedTemplateName}</strong></div>
+    `;
+  } else {
+    templateContent.innerHTML = '<div class="preview-placeholder">Select a template in Step 3</div>';
+  }
+  
+  // Photo Preview
+  const photoContent = document.getElementById('photoPreviewContent');
+  if (uploadedImage) {
+    const quality = getImageQuality(uploadedImage);
+    photoContent.innerHTML = `
+      <img src="${uploadedImage.src}" alt="Your photo">
+      <div class="preview-box-text">
+        <strong>${uploadedImageFile ? uploadedImageFile.name : 'Uploaded Photo'}</strong><br>
+        <span class="quality-badge ${quality.class}">${quality.text}</span><br>
+        <small style="color: var(--text-dim); font-size: 0.8rem;">${quality.details}</small>
+      </div>
+    `;
+  } else {
+    photoContent.innerHTML = '<div class="preview-placeholder">Upload your photo above</div>';
+  }
+  
+  // Text Preview
+  const textContent = document.getElementById('textPreviewContent');
+  const customWording = document.getElementById('customWording')?.value || '';
+  const honoredName = document.getElementById('honoredName')?.value || '';
+  const dates = document.getElementById('dates')?.value || '';
+  
+  let textPreview = '';
+  if (customWording) textPreview += customWording + '\n';
+  if (honoredName) textPreview += honoredName + '\n';
+  if (dates) textPreview += dates;
+  
+  if (textPreview.trim()) {
+    textContent.innerHTML = `<div class="preview-box-text" style="white-space: pre-wrap; font-size: 1rem; line-height: 1.6;">${textPreview.trim()}</div>`;
+  } else {
+    textContent.innerHTML = '<div class="preview-placeholder">Type your text above</div>';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// GO TO REVIEW SCREEN
+// ═══════════════════════════════════════════════════════════════
+
+function goToReview() {
+  // Populate review screen
+  const reviewTemplateContent = document.getElementById('reviewTemplateContent');
+  const reviewPhotoContent = document.getElementById('reviewPhotoContent');
+  const reviewTextContent = document.getElementById('reviewTextContent');
+  const reviewDetailsContent = document.getElementById('reviewDetailsContent');
+  
+  // Template
+  if (selectedTemplate && selectedTemplateName) {
+    reviewTemplateContent.innerHTML = `
+      <img src="${selectedTemplate.replace(/ /g, '%20')}" alt="${selectedTemplateName}" style="max-width: 300px;">
+      <p style="color: var(--text-main); margin-top: 10px;"><strong>${selectedTemplateName}</strong></p>
+    `;
+  } else {
+    reviewTemplateContent.innerHTML = '<p style="color: var(--text-dim);">No template selected</p>';
+  }
+  
+  // Photo
+  if (uploadedImage) {
+    const quality = getImageQuality(uploadedImage);
+    reviewPhotoContent.innerHTML = `
+      <img src="${uploadedImage.src}" alt="Your photo" style="max-width: 300px;">
+      <p style="color: var(--text-main); margin-top: 10px;">
+        <strong>${uploadedImageFile ? uploadedImageFile.name : 'Uploaded Photo'}</strong><br>
+        <span class="quality-badge ${quality.class}" style="margin-top: 8px;">${quality.text}</span><br>
+        <small style="color: var(--text-dim);">${quality.details}</small>
+      </p>
+    `;
+  } else {
+    reviewPhotoContent.innerHTML = '<p style="color: var(--text-dim);">No photo uploaded</p>';
+  }
+  
+  // Text
+  const customWording = document.getElementById('customWording')?.value || '';
+  if (customWording.trim()) {
+    reviewTextContent.textContent = customWording;
+  } else {
+    reviewTextContent.innerHTML = '<span style="color: var(--text-dim);">No custom text provided</span>';
+  }
+  
+  // Details
+  const honoredName = document.getElementById('honoredName')?.value || '';
+  const dates = document.getElementById('dates')?.value || '';
+  let detailsText = '';
+  if (honoredName) detailsText += `Name: ${honoredName}\n`;
+  if (dates) detailsText += `Dates: ${dates}`;
+  
+  if (detailsText.trim()) {
+    reviewDetailsContent.textContent = detailsText;
+  } else {
+    reviewDetailsContent.innerHTML = '<span style="color: var(--text-dim);">No additional details</span>';
+  }
+  
+  goToStep('reviewScreen');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SUBMIT FORM
 // ═══════════════════════════════════════════════════════════════
 
 async function submitForm() {
   console.log("📤 Starting submission...");
   console.log("📋 Project type:", projectType);
 
-  // GET ORDER ID
   const urlParams = new URLSearchParams(window.location.search);
   const orderNumberField = document.getElementById("orderNumber");
   
@@ -1126,7 +1544,6 @@ async function submitForm() {
 
   console.log("🔍 Using ID:", orderId);
 
-  // COLLECT DATA
   const formData = {
     fullName: document.getElementById("fullName").value,
     email: document.getElementById("email").value,
@@ -1166,25 +1583,18 @@ async function submitForm() {
       updated_at: new Date().toISOString()
     };
 
-    // ═══════════════════════════════════════════════════════════
-    // ADD PARTNER TRACKING
-    // ═══════════════════════════════════════════════════════════
-    
     const partnerReferralSelect = document.getElementById('partnerReferral');
     const partnerReferralValue = partnerReferralSelect ? partnerReferralSelect.value : '';
     
     if (partnerReferralValue && partnerReferralValue.length > 10) {
-      // It's a partner ID (UUID format)
       saveData.partner_id = partnerReferralValue;
       saveData.referral_source = 'partner_location';
       console.log("🤝 Partner referral:", partnerReferralValue);
     } else if (partnerReferralValue) {
-      // It's a generic option (website, social, etc.)
       saveData.referral_source = partnerReferralValue;
       console.log("📣 Referral source:", partnerReferralValue);
     }
 
-    // ADD PROJECT-SPECIFIC FIELDS
     if (projectType === "keepsake") {
       saveData.honored_name = formData.honoredName;
       saveData.dates = formData.dates;
@@ -1209,7 +1619,6 @@ async function submitForm() {
       saveData.status = "Photo Book Inquiry Received";
     }
 
-    // TRY UPDATE
     let response = await fetch(
       `${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderId}`,
       {
@@ -1228,7 +1637,6 @@ async function submitForm() {
     const patchResult = await response.clone().json();
 
     if (!response.ok || patchResult.length === 0) {
-      // INSERT NEW
       console.log("📝 Creating new order...");
       
       response = await fetch(
@@ -1258,7 +1666,6 @@ async function submitForm() {
       console.log("✅ Order updated!");
     }
 
-    // SEND EMAIL
     console.log("📧 Sending confirmation email...");
 
     const orderRecord = Array.isArray(savedOrder) ? savedOrder[0] : savedOrder;
@@ -1281,7 +1688,6 @@ async function submitForm() {
       console.log("✅ Email sent!");
     }
 
-    // SUCCESS
     console.log("🎉 Form submission complete!");
     goToStep("successScreen");
     setTimeout(() => launchConfetti(), 300);
@@ -1332,7 +1738,6 @@ function launchConfetti() {
 // ═══════════════════════════════════════════════════════════════
 
 window.addEventListener('DOMContentLoaded', () => {
-  // Load partner locations into dropdown
   loadPartnerLocations();
   
   const urlParams = new URLSearchParams(window.location.search);
