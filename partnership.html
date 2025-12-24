@@ -47,96 +47,208 @@ body {
   background: radial-gradient(circle at top, #181829 0%, #050509 40%, #000 100%);
   color: var(--text-main);
   min-height: 100vh;
-  padding: 20px;
+  padding: 0;
+  margin: 0;
 }
 
 /* --------------------------------------------------
-   BRAND HEADER
+   BRAND HEADER (Navigation Bar)
 -------------------------------------------------- */
 .brand-header {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 30px 0;
-  margin-bottom: 25px;
-  background: linear-gradient(
-      90deg,
-      var(--accent-blue),
-      var(--accent-cyan),
-      var(--accent-gold),
-      var(--accent-pink),
-      var(--accent-violet)
-  );
-  border-radius: 50px;
-  width: 90%;
-  max-width: 650px;
-  margin-left: auto;
-  margin-right: auto;
-  box-shadow: var(--shadow-card);
+  padding: 20px 20px;
+  margin-bottom: 0;
+  background: linear-gradient(135deg, #0a95a8, #3461fa, #fd26fd, #d3fb1b, #0ff0b8, #0a95a8);
+  background-size: 400% 400%;
+  animation: gradientShift 8s ease infinite;
+  border-radius: 0;
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  position: relative;
+  overflow: visible;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .brand-logo-large {
-  width: 180px;
+  width: 200px;
   height: auto;
-  border-radius: 12px;
-  margin-bottom: 15px;
+  border-radius: 20px;
+  margin-bottom: 5px;
   object-fit: contain;
+  animation: logoFloat 4s ease-in-out infinite, logoGlow 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 30px rgba(211, 251, 27, 0.6)) drop-shadow(0 0 60px rgba(15, 240, 184, 0.4));
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+@keyframes logoGlow {
+  0%, 100% { 
+    filter: drop-shadow(0 0 30px rgba(211, 251, 27, 0.6)) drop-shadow(0 0 60px rgba(15, 240, 184, 0.4));
+  }
+  50% { 
+    filter: drop-shadow(0 0 50px rgba(253, 38, 253, 0.8)) drop-shadow(0 0 80px rgba(52, 97, 250, 0.6));
+  }
 }
 
 .brand-title {
-  font-size: 1.8rem;
-  font-weight: 700;
+  font-size: 1.3rem;
+  font-weight: 800;
   color: #000000 !important;
   text-align: center;
   letter-spacing: 0.5px;
   -webkit-text-fill-color: #000000 !important;
-  text-shadow: none;
+  text-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
 }
 
 /* --------------------------------------------------
-   HEADER
+   HEADER / HERO SECTION
 -------------------------------------------------- */
 .header {
-  max-width: 720px;
-  margin: 0 auto 40px;
+  max-width: 100%;
+  margin: 0 auto;
   text-align: center;
+  background: #000;
+  padding: 80px 20px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 2px solid #d4af37;
 }
+
+/* Blue Bling Bubbles for Hero */
+.header::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: 
+    radial-gradient(circle at 25% 35%, rgba(15, 240, 184, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 75% 65%, rgba(10, 149, 168, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(15, 240, 184, 0.1) 0%, transparent 60%);
+  pointer-events: none;
+  animation: heroBling 5s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes heroBling {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+/* Floating Colored Bubbles */
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: bubbleRise 8s infinite ease-in-out;
+  pointer-events: none;
+  box-shadow: 0 0 30px currentColor, 0 0 60px currentColor, inset 0 0 20px rgba(255, 255, 255, 0.3);
+  filter: blur(1px);
+  z-index: 0;
+}
+
+@keyframes bubbleRise {
+  0% {
+    transform: translateY(100vh) scale(0);
+    opacity: 0;
+    box-shadow: 0 0 30px currentColor, 0 0 60px currentColor;
+  }
+  10% {
+    opacity: 0.6;
+    box-shadow: 0 0 40px currentColor, 0 0 80px currentColor;
+  }
+  50% {
+    box-shadow: 0 0 50px currentColor, 0 0 100px currentColor;
+  }
+  90% {
+    opacity: 0.3;
+    box-shadow: 0 0 30px currentColor, 0 0 60px currentColor;
+  }
+  100% {
+    transform: translateY(-100px) scale(1);
+    opacity: 0;
+  }
+}
+
+.bubble:nth-child(1) { left: 10%; width: 40px; height: 40px; background: #0ff0b8; animation-delay: 0s; animation-duration: 10s; }
+.bubble:nth-child(2) { left: 25%; width: 60px; height: 60px; background: #d3fb1b; animation-delay: 2s; animation-duration: 12s; }
+.bubble:nth-child(3) { left: 45%; width: 50px; height: 50px; background: #fd26fd; animation-delay: 1s; animation-duration: 11s; }
+.bubble:nth-child(4) { left: 65%; width: 35px; height: 35px; background: #3461fa; animation-delay: 3s; animation-duration: 9s; }
+.bubble:nth-child(5) { left: 80%; width: 55px; height: 55px; background: #0a95a8; animation-delay: 4s; animation-duration: 13s; }
+.bubble:nth-child(6) { left: 15%; width: 45px; height: 45px; background: #0ff0b8; animation-delay: 5s; animation-duration: 10s; }
+.bubble:nth-child(7) { left: 70%; width: 40px; height: 40px; background: #d3fb1b; animation-delay: 2.5s; animation-duration: 11.5s; }
+.bubble:nth-child(8) { left: 35%; width: 50px; height: 50px; background: #fd26fd; animation-delay: 6s; animation-duration: 12s; }
 
 h1 {
   font-family: 'Playfair Display', serif;
-  font-size: 2.2rem;
-  background: linear-gradient(120deg, var(--accent-gold), var(--accent-cyan));
+  font-size: 2.8rem;
+  background: linear-gradient(135deg, #d4af37, #0ff0b8, #d4af37);
+  background-size: 200% 200%;
   -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   background-clip: text;
-  color: transparent;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  font-weight: 800;
+  letter-spacing: 5px;
+  position: relative;
+  z-index: 2;
+  animation: titleGlow 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.5));
+  text-transform: uppercase;
+}
+
+@keyframes titleGlow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 .subtitle {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  max-width: 580px;
+  color: #fff;
+  font-size: 1.05rem;
+  max-width: 650px;
   margin: 0 auto;
-  line-height: 1.6;
+  line-height: 1.8;
+  position: relative;
+  z-index: 2;
+  font-weight: 300;
+  text-shadow: 0 2px 15px rgba(15, 240, 184, 0.4);
 }
 
 .video-link {
   display: inline-block;
-  margin-top: 20px;
-  padding: 12px 24px;
-  background: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan));
+  margin-top: 30px;
+  padding: 16px 40px;
+  background: linear-gradient(135deg, #0a95a8, #0ff0b8);
   color: #000;
   text-decoration: none;
-  border-radius: 12px;
-  font-weight: 600;
-  box-shadow: 0 4px 16px rgba(233, 255, 96, 0.3);
-  transition: all 0.2s ease;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: 0 8px 30px rgba(15, 240, 184, 0.4);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
 }
 
 .video-link:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(233, 255, 96, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(15, 240, 184, 0.6);
+  background: linear-gradient(135deg, #0ff0b8, #0a95a8);
 }
 
 /* --------------------------------------------------
@@ -144,7 +256,8 @@ h1 {
 -------------------------------------------------- */
 .progress-container {
   max-width: 720px;
-  margin: 0 auto 30px;
+  margin: 30px auto;
+  padding: 0 20px;
 }
 
 .progress-bar {
@@ -173,7 +286,7 @@ h1 {
 -------------------------------------------------- */
 .form-container {
   max-width: 720px;
-  margin: 0 auto;
+  margin: 0 auto 40px;
   background: var(--bg-card);
   padding: 40px;
   border-radius: 24px;
@@ -502,11 +615,24 @@ select:focus {
   }
   
   h1 {
-    font-size: 1.8rem;
+    font-size: 2rem;
+    letter-spacing: 2px;
   }
 
   .brand-logo-large {
-    width: 140px;
+    width: 150px;
+  }
+  
+  .brand-title {
+    font-size: 1.1rem;
+  }
+  
+  .header {
+    padding: 50px 20px;
+  }
+  
+  .subtitle {
+    font-size: 0.95rem;
   }
   
   .button-group {
@@ -526,13 +652,24 @@ select:focus {
 
 <body>
 
-  <!-- HEADER -->
+  <!-- BRAND HEADER (Navigation Bar) -->
+  <div class="brand-header">
+    <img src="https://dopeleeprezzed-oss.github.io/dopelee-form/logo.png" 
+         alt="Dopelee Prezzed Logo" class="brand-logo-large">
+    <div class="brand-title">DOPELEE PREZZED BY S™</div>
+  </div>
+
+  <!-- HERO SECTION -->
   <header class="header">
-    <div class="brand-header">
-      <img src="https://dopeleeprezzed-oss.github.io/dopelee-form/logo.png" 
-           alt="Dopelee Prezzed Logo" class="brand-logo-large">
-      <div class="brand-title">DOPELEE PREZZED BY S™</div>
-    </div>
+    <!-- Floating Bubbles -->
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
 
     <h1>Legacy Lounge™ Partner Network</h1>
     <p class="subtitle">
@@ -541,7 +678,7 @@ select:focus {
       through luxury design, technology, and ease.
     </p>
     <a href="https://drive.google.com/file/d/1l68Z2V7XOujwNQI2nsaegpyQxHq9r0Rv/view?usp=drive_link" class="video-link" target="_blank">
-      👉 Watch The Legacy Lounge™ Overview Video
+      🎥 Watch The Legacy Lounge™ Overview Video
     </a>
   </header>
 
@@ -784,9 +921,8 @@ select:focus {
             📧 Check Your Email!
           </p>
           <p style="color: var(--text-muted); margin: 0; line-height: 1.6;">
-            Within the next <strong style="color: var(--accent-gold);">24 hours</strong>, you'll receive your welcome package.
+            Within the next <strong style="color: var(--accent-gold);">48 hours</strong>, you'll receive your welcome package.
           </p>
-          </ul>
         </div>
         
         <p style="color: var(--accent-gold); font-weight: 600; font-size: 1.2rem; margin: 25px 0;">
@@ -803,8 +939,8 @@ select:focus {
             </a>
           </p>
           <p style="margin: 8px 0;">
-            <a href="/cdn-cgi/l/email-protection#c6afa8a0a986a2a9b6a3aaa3a3b6b4a3bcbca3a2a4bfb5aaaaa5e8a5a9ab" style="color: var(--accent-cyan); text-decoration: none; font-weight: 600;">
-              📧 <span class="__cf_email__" data-cfemail="99f0f7fff6d9fdf6e9fcf5fcfce9ebfce3e3fcfdfbe0eaf5f5fab7faf6f4">[email&#160;protected]</span>
+            <a href="mailto:info@dopeleeprezzedbysllc.com" style="color: var(--accent-cyan); text-decoration: none; font-weight: 600;">
+              📧 info@dopeleeprezzedbysllc.com
             </a>
           </p>
         </div>
@@ -817,7 +953,7 @@ select:focus {
 
   </div><!-- end form-container -->
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // --------------------------------------------------
 // CONFIGURATION
 // --------------------------------------------------
