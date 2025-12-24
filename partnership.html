@@ -52,18 +52,16 @@ body {
 }
 
 /* --------------------------------------------------
-   BRAND HEADER (Navigation Bar)
+   BRAND HEADER (Navigation Bar with Blue Bling)
 -------------------------------------------------- */
 .brand-header {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px 20px;
+  padding: 40px 20px;
   margin-bottom: 0;
-  background: linear-gradient(135deg, #0a95a8, #3461fa, #fd26fd, #d3fb1b, #0ff0b8, #0a95a8);
-  background-size: 400% 400%;
-  animation: gradientShift 8s ease infinite;
+  background: #000;
   border-radius: 0;
   width: 100%;
   max-width: 100%;
@@ -71,65 +69,12 @@ body {
   margin-right: 0;
   box-shadow: 0 4px 20px rgba(0,0,0,0.5);
   position: relative;
-  overflow: visible;
-}
-
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.brand-logo-large {
-  width: 200px;
-  height: auto;
-  border-radius: 20px;
-  margin-bottom: 5px;
-  object-fit: contain;
-  animation: logoFloat 4s ease-in-out infinite, logoGlow 3s ease-in-out infinite;
-  filter: drop-shadow(0 0 30px rgba(211, 251, 27, 0.6)) drop-shadow(0 0 60px rgba(15, 240, 184, 0.4));
-}
-
-@keyframes logoFloat {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-10px) rotate(5deg); }
-}
-
-@keyframes logoGlow {
-  0%, 100% { 
-    filter: drop-shadow(0 0 30px rgba(211, 251, 27, 0.6)) drop-shadow(0 0 60px rgba(15, 240, 184, 0.4));
-  }
-  50% { 
-    filter: drop-shadow(0 0 50px rgba(253, 38, 253, 0.8)) drop-shadow(0 0 80px rgba(52, 97, 250, 0.6));
-  }
-}
-
-.brand-title {
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: #000000 !important;
-  text-align: center;
-  letter-spacing: 0.5px;
-  -webkit-text-fill-color: #000000 !important;
-  text-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
-}
-
-/* --------------------------------------------------
-   HEADER / HERO SECTION
--------------------------------------------------- */
-.header {
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  background: #000;
-  padding: 80px 20px;
-  position: relative;
   overflow: hidden;
   border-bottom: 2px solid #d4af37;
 }
 
-/* Blue Bling Bubbles for Hero */
-.header::after {
+/* Blue Bling Background Effect */
+.brand-header::after {
   content: '';
   position: absolute;
   width: 100%;
@@ -150,7 +95,7 @@ body {
   50% { opacity: 1; transform: scale(1.05); }
 }
 
-/* Floating Colored Bubbles */
+/* Floating Colored Bubbles in Brand Header */
 .bubble {
   position: absolute;
   border-radius: 50%;
@@ -185,70 +130,104 @@ body {
   }
 }
 
-.bubble:nth-child(1) { left: 10%; width: 40px; height: 40px; background: #0ff0b8; animation-delay: 0s; animation-duration: 10s; }
-.bubble:nth-child(2) { left: 25%; width: 60px; height: 60px; background: #d3fb1b; animation-delay: 2s; animation-duration: 12s; }
-.bubble:nth-child(3) { left: 45%; width: 50px; height: 50px; background: #fd26fd; animation-delay: 1s; animation-duration: 11s; }
-.bubble:nth-child(4) { left: 65%; width: 35px; height: 35px; background: #3461fa; animation-delay: 3s; animation-duration: 9s; }
-.bubble:nth-child(5) { left: 80%; width: 55px; height: 55px; background: #0a95a8; animation-delay: 4s; animation-duration: 13s; }
-.bubble:nth-child(6) { left: 15%; width: 45px; height: 45px; background: #0ff0b8; animation-delay: 5s; animation-duration: 10s; }
-.bubble:nth-child(7) { left: 70%; width: 40px; height: 40px; background: #d3fb1b; animation-delay: 2.5s; animation-duration: 11.5s; }
-.bubble:nth-child(8) { left: 35%; width: 50px; height: 50px; background: #fd26fd; animation-delay: 6s; animation-duration: 12s; }
+.brand-header .bubble:nth-child(1) { left: 10%; width: 40px; height: 40px; background: #0ff0b8; animation-delay: 0s; animation-duration: 10s; }
+.brand-header .bubble:nth-child(2) { left: 25%; width: 60px; height: 60px; background: #d3fb1b; animation-delay: 2s; animation-duration: 12s; }
+.brand-header .bubble:nth-child(3) { left: 45%; width: 50px; height: 50px; background: #fd26fd; animation-delay: 1s; animation-duration: 11s; }
+.brand-header .bubble:nth-child(4) { left: 65%; width: 35px; height: 35px; background: #3461fa; animation-delay: 3s; animation-duration: 9s; }
+.brand-header .bubble:nth-child(5) { left: 80%; width: 55px; height: 55px; background: #0a95a8; animation-delay: 4s; animation-duration: 13s; }
+.brand-header .bubble:nth-child(6) { left: 15%; width: 45px; height: 45px; background: #0ff0b8; animation-delay: 5s; animation-duration: 10s; }
+.brand-header .bubble:nth-child(7) { left: 70%; width: 40px; height: 40px; background: #d3fb1b; animation-delay: 2.5s; animation-duration: 11.5s; }
+.brand-header .bubble:nth-child(8) { left: 35%; width: 50px; height: 50px; background: #fd26fd; animation-delay: 6s; animation-duration: 12s; }
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+@keyframes logoGlow {
+  0%, 100% { 
+    filter: drop-shadow(0 0 30px rgba(211, 251, 27, 0.6)) drop-shadow(0 0 60px rgba(15, 240, 184, 0.4));
+  }
+  50% { 
+    filter: drop-shadow(0 0 50px rgba(253, 38, 253, 0.8)) drop-shadow(0 0 80px rgba(52, 97, 250, 0.6));
+  }
+}
+
+.brand-logo-large {
+  max-width: 120px;
+  height: auto;
+  margin: 0 auto 15px;
+  border-radius: 12px;
+  position: relative;
+  z-index: 2;
+  animation: logoFloat 4s ease-in-out infinite, logoGlow 3s ease-in-out infinite;
+}
+
+.brand-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 2px 20px rgba(15, 240, 184, 0.5);
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.brand-tagline {
+  margin: 8px 0 0;
+  color: #ccc;
+  font-size: 0.9rem;
+  font-weight: 600;
+  position: relative;
+  z-index: 2;
+}
+
+/* --------------------------------------------------
+   HEADER / HERO SECTION
+-------------------------------------------------- */
+.header {
+  max-width: 720px;
+  margin: 40px auto;
+  text-align: center;
+  padding: 0 20px;
+}
 
 h1 {
   font-family: 'Playfair Display', serif;
-  font-size: 2.8rem;
-  background: linear-gradient(135deg, #d4af37, #0ff0b8, #d4af37);
-  background-size: 200% 200%;
+  font-size: 2.2rem;
+  background: linear-gradient(120deg, var(--accent-gold), var(--accent-pink));
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: 20px;
-  font-weight: 800;
-  letter-spacing: 5px;
-  position: relative;
-  z-index: 2;
-  animation: titleGlow 4s ease-in-out infinite;
-  filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.5));
-  text-transform: uppercase;
-}
-
-@keyframes titleGlow {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  color: transparent;
+  margin-bottom: 15px;
 }
 
 .subtitle {
-  color: #fff;
-  font-size: 1.05rem;
-  max-width: 650px;
-  margin: 0 auto;
-  line-height: 1.8;
-  position: relative;
-  z-index: 2;
-  font-weight: 300;
-  text-shadow: 0 2px 15px rgba(15, 240, 184, 0.4);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  max-width: 580px;
+  margin: 0 auto 20px;
+  line-height: 1.6;
 }
 
 .video-link {
   display: inline-block;
-  margin-top: 30px;
-  padding: 16px 40px;
-  background: linear-gradient(135deg, #0a95a8, #0ff0b8);
+  margin-top: 10px;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan));
   color: #000;
   text-decoration: none;
-  border-radius: 50px;
-  font-weight: 700;
-  font-size: 1rem;
-  box-shadow: 0 8px 30px rgba(15, 240, 184, 0.4);
-  transition: all 0.3s ease;
-  position: relative;
-  z-index: 2;
+  border-radius: 12px;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(233, 255, 96, 0.3);
+  transition: all 0.2s ease;
 }
 
 .video-link:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 40px rgba(15, 240, 184, 0.6);
-  background: linear-gradient(135deg, #0ff0b8, #0a95a8);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(233, 255, 96, 0.4);
 }
 
 /* --------------------------------------------------
@@ -610,29 +589,34 @@ select:focus {
    RESPONSIVE
 -------------------------------------------------- */
 @media (max-width: 640px) {
+  .brand-header {
+    padding: 30px 15px;
+  }
+
+  .brand-logo-large {
+    max-width: 100px;
+  }
+  
+  .brand-title {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+  }
+
   .form-container {
     padding: 28px 20px;
   }
   
   h1 {
-    font-size: 2rem;
-    letter-spacing: 2px;
-  }
-
-  .brand-logo-large {
-    width: 150px;
-  }
-  
-  .brand-title {
-    font-size: 1.1rem;
+    font-size: 1.8rem;
   }
   
   .header {
-    padding: 50px 20px;
+    padding: 0 15px;
+    margin: 30px auto;
   }
   
   .subtitle {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
   
   .button-group {
@@ -652,15 +636,8 @@ select:focus {
 
 <body>
 
-  <!-- BRAND HEADER (Navigation Bar) -->
+  <!-- BRAND HEADER (Navigation Bar with Blue Bling) -->
   <div class="brand-header">
-    <img src="https://dopeleeprezzed-oss.github.io/dopelee-form/logo.png" 
-         alt="Dopelee Prezzed Logo" class="brand-logo-large">
-    <div class="brand-title">DOPELEE PREZZED BY S™</div>
-  </div>
-
-  <!-- HERO SECTION -->
-  <header class="header">
     <!-- Floating Bubbles -->
     <div class="bubble"></div>
     <div class="bubble"></div>
@@ -671,7 +648,14 @@ select:focus {
     <div class="bubble"></div>
     <div class="bubble"></div>
 
-    <h1>Legacy Lounge™ Partner Network</h1>
+    <img src="https://dopeleeprezzed-oss.github.io/dopelee-form/logo.png" 
+         alt="Dopelee Prezzed Logo" class="brand-logo-large">
+    <div class="brand-title">Legacy Lounge™ Partner Network</div>
+  </div>
+
+  <!-- HERO SECTION -->
+  <header class="header">
+    <h1>Welcome to The Legacy Lounge™</h1>
     <p class="subtitle">
       Thank you for your interest in hosting a Legacy Lounge™ display at your location. 
       Our mission is simple: to help families and communities preserve their most meaningful moments 
