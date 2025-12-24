@@ -385,10 +385,9 @@ input[readonly] {
 }
 
 /* --------------------------------------------------
-   TEMPLATE GRID - SMART RESPONSIVE
+   TEMPLATE GRID - SQUARE BOXES SIDE-BY-SIDE
 -------------------------------------------------- */
 
-/* MOBILE FIRST: Stacked layout (preview top, templates below) */
 .template-section-wrapper {
   display: flex;
   flex-direction: column;
@@ -418,12 +417,15 @@ input[readonly] {
   border: 2px solid transparent;
   overflow: hidden;
   -webkit-tap-highlight-color: transparent;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .template-card img,
 .template-thumb {
   width: 100%;
-  height: 150px;
+  flex: 1;
   object-fit: cover;
   border-radius: 8px;
   background: rgba(255,255,255,0.05);
@@ -434,10 +436,11 @@ input[readonly] {
   display: block;
   margin-top: 8px;
   color: #dcdcdc;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 500;
-  line-height: 1.3;
+  line-height: 1.2;
   text-align: center;
+  padding: 4px 0;
 }
 
 .template-card:active {
@@ -454,7 +457,7 @@ input[readonly] {
   font-weight: 600;
 }
 
-/* TABLET & UP: Side-by-side layout */
+/* TABLET & UP */
 @media (min-width: 768px) {
   .template-section-wrapper {
     display: grid;
@@ -471,22 +474,16 @@ input[readonly] {
   
   .template-grid {
     order: 1;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
-  }
-  
-  .template-card img,
-  .template-thumb {
-    height: 200px;
   }
   
   .template-title {
     font-size: 0.85rem;
-    margin-top: 10px;
   }
 }
 
-/* DESKTOP: Wider preview */
+/* DESKTOP */
 @media (min-width: 1024px) {
   .template-section-wrapper {
     grid-template-columns: 1fr 400px;
@@ -494,22 +491,17 @@ input[readonly] {
   }
   
   .template-grid {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 24px;
-  }
-  
-  .template-card img,
-  .template-thumb {
-    height: 220px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
   }
   
   .template-title {
-    font-size: 15px;
+    font-size: 0.9rem;
   }
 }
 
 /* --------------------------------------------------
-   PREVIEW BOXES - MOBILE OPTIMIZED
+   PREVIEW BOXES - SQUARE SIDE-BY-SIDE
 -------------------------------------------------- */
 .preview-wrapper {
   background: rgba(15, 240, 184, 0.03);
@@ -538,12 +530,27 @@ input[readonly] {
   font-size: 0.8rem;
 }
 
+/* PREVIEW BOXES IN GRID - SQUARE SIDE-BY-SIDE */
+.preview-boxes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
 .preview-box {
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid var(--border-soft);
   border-radius: 10px;
-  padding: 16px;
-  margin-bottom: 14px;
+  padding: 12px;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Text box spans full width on mobile */
+#textPreviewBox {
+  grid-column: 1 / -1;
 }
 
 .preview-box:last-child {
@@ -552,43 +559,46 @@ input[readonly] {
 
 .preview-box-title {
   color: var(--accent-gold);
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-shrink: 0;
 }
 
 .preview-box img {
   width: 100%;
-  height: auto;
+  flex: 1;
   border-radius: 8px;
-  margin-bottom: 10px;
-  max-height: 250px;
   object-fit: contain;
+  margin-bottom: 6px;
 }
 
 .preview-box-text {
   color: var(--text-muted);
-  font-size: 0.85rem;
-  line-height: 1.6;
+  font-size: 0.75rem;
+  line-height: 1.4;
   word-break: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0;
 }
 
 .quality-badge {
   display: inline-block;
-  padding: 5px 10px;
-  border-radius: 16px;
-  font-size: 0.7rem;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.65rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-top: 8px;
+  margin-top: 4px;
 }
 
 .quality-excellent {
@@ -611,10 +621,58 @@ input[readonly] {
 
 .preview-placeholder {
   text-align: center;
-  padding: 30px 15px;
+  padding: 20px 10px;
   color: var(--text-dim);
-  font-size: 0.85rem;
-  line-height: 1.5;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+/* TABLET & DESKTOP - SIDE-BY-SIDE */
+@media (min-width: 768px) {
+  .preview-boxes-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  
+  /* Text box spans full width */
+  #textPreviewBox {
+    grid-column: 1 / -1;
+  }
+  
+  .preview-box {
+    aspect-ratio: 1 / 1;
+    padding: 16px;
+  }
+  
+  .preview-box-title {
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+  }
+  
+  .preview-box img {
+    margin-bottom: 10px;
+  }
+  
+  .preview-box-text {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  
+  .quality-badge {
+    padding: 5px 10px;
+    font-size: 0.7rem;
+    margin-top: 8px;
+  }
+  
+  .preview-placeholder {
+    padding: 30px 15px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
 }
 
 .template-notice {
@@ -1086,27 +1144,29 @@ a {
               <p>Updates as you fill in the details</p>
             </div>
             
-            <!-- Template Preview -->
-            <div class="preview-box" id="templatePreviewBox">
-              <div class="preview-box-title">🎨 Selected Template</div>
-              <div id="templatePreviewContent" class="preview-placeholder">
-                Select a template in Step 3
+            <div class="preview-boxes-grid">
+              <!-- Template Preview -->
+              <div class="preview-box" id="templatePreviewBox">
+                <div class="preview-box-title">🎨 Template</div>
+                <div id="templatePreviewContent" class="preview-placeholder">
+                  Select a template in Step 3
+                </div>
               </div>
-            </div>
 
-            <!-- Photo Preview -->
-            <div class="preview-box" id="photoPreviewBox" style="cursor: pointer;" onclick="document.getElementById('fileInput').click();" title="Click to upload photo">
-              <div class="preview-box-title">📸 Your Photo</div>
-              <div id="photoPreviewContent" class="preview-placeholder">
-                📤 Click here to upload<br><small style="font-size: 0.75rem; opacity: 0.8;">(or use button below)</small>
+              <!-- Photo Preview -->
+              <div class="preview-box" id="photoPreviewBox" style="cursor: pointer;" onclick="document.getElementById('fileInput').click();" title="Click to upload photo">
+                <div class="preview-box-title">📸 Photo</div>
+                <div id="photoPreviewContent" class="preview-placeholder">
+                  📤 Click to upload
+                </div>
               </div>
-            </div>
 
-            <!-- Text Preview -->
-            <div class="preview-box" id="textPreviewBox">
-              <div class="preview-box-title">💬 Your Text</div>
-              <div id="textPreviewContent" class="preview-placeholder">
-                Type your text below
+              <!-- Text Preview -->
+              <div class="preview-box" id="textPreviewBox">
+                <div class="preview-box-title">💬 Text</div>
+                <div id="textPreviewContent" class="preview-placeholder">
+                  Type below
+                </div>
               </div>
             </div>
           </div>
