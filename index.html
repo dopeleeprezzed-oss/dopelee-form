@@ -666,7 +666,7 @@ input[readonly] {
 }
 
 /* --------------------------------------------------
-   FINAL REVIEW SCREEN - MOBILE OPTIMIZED
+   FINAL REVIEW SCREEN - SIDE-BY-SIDE ON DESKTOP
 -------------------------------------------------- */
 .review-panel {
   background: rgba(233, 255, 96, 0.05);
@@ -687,16 +687,17 @@ input[readonly] {
   line-height: 1.3;
 }
 
-.review-section {
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--border-soft);
+.review-sections-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
 }
 
-.review-section:last-child {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  border-bottom: none;
+.review-section {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border-soft);
 }
 
 .review-section h4 {
@@ -713,6 +714,8 @@ input[readonly] {
   height: auto;
   border-radius: 10px;
   margin: 10px 0;
+  max-height: 300px;
+  object-fit: contain;
 }
 
 .review-text {
@@ -721,6 +724,26 @@ input[readonly] {
   line-height: 1.6;
   white-space: pre-wrap;
   word-break: break-word;
+}
+
+/* DESKTOP - 2 COLUMN GRID */
+@media (min-width: 768px) {
+  .review-panel {
+    padding: 30px;
+  }
+  
+  .review-sections-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  
+  .review-section {
+    padding: 20px;
+  }
+  
+  .review-section img {
+    max-height: 350px;
+  }
 }
 
 /* --------------------------------------------------
@@ -1172,24 +1195,26 @@ a {
       <div class="review-panel">
         <h3 class="review-title">✅ Your Keepsake Design</h3>
 
-        <div class="review-section" id="reviewTemplate">
-          <h4>🎨 Template</h4>
-          <div id="reviewTemplateContent"></div>
-        </div>
+        <div class="review-sections-grid">
+          <div class="review-section" id="reviewTemplate">
+            <h4>🎨 Template</h4>
+            <div id="reviewTemplateContent"></div>
+          </div>
 
-        <div class="review-section" id="reviewPhoto">
-          <h4>📸 Photo</h4>
-          <div id="reviewPhotoContent"></div>
-        </div>
+          <div class="review-section" id="reviewPhoto">
+            <h4>📸 Photo</h4>
+            <div id="reviewPhotoContent"></div>
+          </div>
 
-        <div class="review-section" id="reviewText">
-          <h4>💬 What It Will Say</h4>
-          <div id="reviewTextContent" class="review-text"></div>
-        </div>
+          <div class="review-section" id="reviewText">
+            <h4>💬 What It Will Say</h4>
+            <div id="reviewTextContent" class="review-text"></div>
+          </div>
 
-        <div class="review-section" id="reviewDetails">
-          <h4>👤 Honoring</h4>
-          <div id="reviewDetailsContent" class="review-text"></div>
+          <div class="review-section" id="reviewDetails">
+            <h4>👤 Honoring</h4>
+            <div id="reviewDetailsContent" class="review-text"></div>
+          </div>
         </div>
       </div>
 
