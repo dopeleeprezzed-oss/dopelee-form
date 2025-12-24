@@ -306,7 +306,7 @@ select {
   border-radius: 10px;
   border: 1px solid var(--border-soft);
   color: var(--text-main);
-  font-size: 16px; /* Prevents zoom on iOS */
+  font-size: 16px;
   font-family: inherit;
 }
 
@@ -385,13 +385,27 @@ input[readonly] {
 }
 
 /* --------------------------------------------------
-   TEMPLATE GRID - MOBILE OPTIMIZED
+   TEMPLATE GRID - SMART RESPONSIVE
 -------------------------------------------------- */
+
+/* MOBILE FIRST: Stacked layout (preview top, templates below) */
+.template-section-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.desktop-template-preview {
+  order: 1;
+  display: block;
+}
+
 .template-grid {
+  order: 2;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  margin-top: 20px;
+  margin-top: 0;
 }
 
 .template-card {
@@ -438,6 +452,60 @@ input[readonly] {
 .template-card.selected .template-title {
   color: var(--accent-gold);
   font-weight: 600;
+}
+
+/* TABLET & UP: Side-by-side layout */
+@media (min-width: 768px) {
+  .template-section-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 20px;
+    align-items: start;
+  }
+  
+  .desktop-template-preview {
+    order: 2;
+    position: sticky;
+    top: 20px;
+  }
+  
+  .template-grid {
+    order: 1;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+  }
+  
+  .template-card img,
+  .template-thumb {
+    height: 200px;
+  }
+  
+  .template-title {
+    font-size: 0.85rem;
+    margin-top: 10px;
+  }
+}
+
+/* DESKTOP: Wider preview */
+@media (min-width: 1024px) {
+  .template-section-wrapper {
+    grid-template-columns: 1fr 400px;
+    gap: 30px;
+  }
+  
+  .template-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px;
+  }
+  
+  .template-card img,
+  .template-thumb {
+    height: 220px;
+  }
+  
+  .template-title {
+    font-size: 15px;
+  }
 }
 
 /* --------------------------------------------------
@@ -723,12 +791,12 @@ input[readonly] {
   }
   
   .brand-logo-large {
-    max-width: 120px;
+    max-width: 160px;
     margin-bottom: 15px;
   }
   
   .brand-title {
-    font-size: 26px;
+    font-size: 28px;
   }
   
   .brand-tagline {
@@ -759,21 +827,6 @@ input[readonly] {
     position: sticky;
     top: 20px;
     order: 2;
-  }
-  
-  .template-grid {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 24px;
-  }
-  
-  .template-card img,
-  .template-thumb {
-    height: 220px;
-  }
-  
-  .template-title {
-    font-size: 15px;
-    margin-top: 10px;
   }
   
   .button-group {
@@ -852,98 +905,6 @@ a {
 
 .preview-box[onclick]:active {
   transform: scale(0.98);
-}
-
-  
-/* Side-by-side for ALL screen sizes */
-.template-section-wrapper {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-  align-items: start;
-}
-
-.template-section-wrapper .template-grid {
-  margin-top: 0;
-}
-
-/* Tablet: Side by side */
-@media (min-width: 768px) {
-  .template-section-wrapper {
-    grid-template-columns: 1fr 300px;
-    gap: 20px;
-  }
-  
-  .template-section-wrapper .preview-wrapper {
-    position: sticky;
-    top: 20px;
-  }
-}
-
-/* Desktop: Wider preview */
-@media (min-width: 1024px) {
-  #step3aKeepsake .step-description {
-    margin-bottom: 20px;
-  }
-  
-  .template-section-wrapper {
-    grid-template-columns: 1fr 400px;
-    gap: 30px;
-  }
-}
-
-  
-/* Show template preview on ALL screens */
-.desktop-template-preview {
-  display: block !important;
-}
-
-/* Mobile: Stack vertically */
-@media (max-width: 767px) {
-  .template-section-wrapper {
-    grid-template-columns: 1fr;
-  }
-  
-  .desktop-template-preview {
-    order: 1;
-    margin-bottom: 20px;
-  }
-  
-  .template-grid {
-    order: 2;
-  }
-}
-
-  
-@media (min-width: 768px) {
-  .brand-logo-large {
-    max-width: 160px;
-  }
-  
-  .brand-title {
-    font-size: 28px;
-  }
-}
-
-  
-/* Mobile-specific adjustments for preview */
-@media (max-width: 767px) {
-  .desktop-template-preview .preview-wrapper {
-    padding: 14px;
-  }
-  
-  .desktop-template-preview .preview-box img {
-    max-height: 200px;
-    object-fit: contain;
-  }
-  
-  .desktop-template-preview .preview-header h3 {
-    font-size: 0.9rem;
-  }
-  
-  .desktop-template-preview .preview-header p {
-    font-size: 0.75rem;
-  }
 }
 
   </style>
@@ -1359,20 +1320,12 @@ a {
       </div>
     </section>
 
-  </div><!-- end form-container -->
+  </div>
 
 <script>
 
-// ═══════════════════════════════════════════════════════════════
-// SUPABASE CONFIG
-// ═══════════════════════════════════════════════════════════════
-
 const SUPABASE_URL = "https://dyehxtiozfwlexkbalvn.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs";
-
-// ═══════════════════════════════════════════════════════════════
-// TEMPLATE ARRAYS
-// ═══════════════════════════════════════════════════════════════
 
 const HUMAN_TEMPLATES = [
   { name: "Golden Legacy", file: "Golden Legacy template.png" },
@@ -1400,10 +1353,6 @@ let selectedTemplate = "";
 let selectedTemplateName = "";
 let uploadedImage = null;
 let uploadedImageFile = null;
-
-// ═══════════════════════════════════════════════════════════════
-// LOAD PARTNER LOCATIONS
-// ═══════════════════════════════════════════════════════════════
 
 async function loadPartnerLocations() {
   try {
@@ -1436,10 +1385,6 @@ async function loadPartnerLocations() {
   }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// NAVIGATION
-// ═══════════════════════════════════════════════════════════════
-
 function goToStep(id) {
   document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
@@ -1471,10 +1416,6 @@ function updateProgressBar(stepId) {
   text.textContent = stepId === "successScreen" ? "Complete! ✓" : `Step ${num} of 4`;
 }
 
-// ═══════════════════════════════════════════════════════════════
-// SELECT PROJECT TYPE
-// ═══════════════════════════════════════════════════════════════
-
 function selectProjectType(type) {
   projectType = type;
   const radio = document.querySelector(`input[name="projectType"][value="${type}"]`);
@@ -1489,10 +1430,6 @@ function selectProjectType(type) {
     orderNumberField.style.display = type === 'vip' ? 'none' : 'block';
   }
 }
-
-// ═══════════════════════════════════════════════════════════════
-// STEP 1 VALIDATION
-// ═══════════════════════════════════════════════════════════════
 
 function validateStep1() {
   const name = document.getElementById("fullName").value.trim();
@@ -1517,10 +1454,6 @@ function validateStep1() {
   else goToStep("step2cPhotobook");
 }
 
-// ═══════════════════════════════════════════════════════════════
-// PERSON OR PET
-// ═══════════════════════════════════════════════════════════════
-
 function setPersonOrPet(type) {
   selectedPersonOrPet = type;
   console.log("✅ SET PERSON OR PET TO:", type);
@@ -1540,10 +1473,6 @@ function setPersonOrPet(type) {
 
   loadTemplates();
 }
-
-// ═══════════════════════════════════════════════════════════════
-// LOAD TEMPLATES
-// ═══════════════════════════════════════════════════════════════
 
 function loadTemplates() {
   console.log("🔍 LOADING TEMPLATES FOR:", selectedPersonOrPet);
@@ -1585,7 +1514,6 @@ function loadTemplates() {
       document.querySelectorAll(".template-card").forEach(c => c.classList.remove("selected"));
       card.classList.add("selected");
       
-      // Update desktop template preview
       const desktopPreview = document.getElementById('desktopTemplatePreview');
       if (desktopPreview) {
         desktopPreview.innerHTML = `
@@ -1598,10 +1526,6 @@ function loadTemplates() {
     container.appendChild(card);
   });
 }
-
-// ═══════════════════════════════════════════════════════════════
-// IMAGE UPLOAD WITH QUALITY CHECK
-// ═══════════════════════════════════════════════════════════════
 
 function handleImageUpload(event) {
   const file = event.target.files[0];
@@ -1634,12 +1558,7 @@ function getImageQuality(img) {
   }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// UPDATE PREVIEW (SIMPLE BOXES)
-// ═══════════════════════════════════════════════════════════════
-
 function updatePreview() {
-  // Template Preview
   const templateContent = document.getElementById('templatePreviewContent');
   if (selectedTemplate && selectedTemplateName) {
     templateContent.innerHTML = `
@@ -1650,7 +1569,6 @@ function updatePreview() {
     templateContent.innerHTML = '<div class="preview-placeholder">Select a template in Step 3</div>';
   }
   
-  // Photo Preview
   const photoContent = document.getElementById('photoPreviewContent');
   if (uploadedImage) {
     const quality = getImageQuality(uploadedImage);
@@ -1666,7 +1584,6 @@ function updatePreview() {
     photoContent.innerHTML = '<div class="preview-placeholder">Upload your photo below</div>';
   }
   
-  // Text Preview
   const textContent = document.getElementById('textPreviewContent');
   const customWording = document.getElementById('customWording')?.value || '';
   const honoredName = document.getElementById('honoredName')?.value || '';
@@ -1684,18 +1601,12 @@ function updatePreview() {
   }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// GO TO REVIEW SCREEN
-// ═══════════════════════════════════════════════════════════════
-
 function goToReview() {
-  // Populate review screen
   const reviewTemplateContent = document.getElementById('reviewTemplateContent');
   const reviewPhotoContent = document.getElementById('reviewPhotoContent');
   const reviewTextContent = document.getElementById('reviewTextContent');
   const reviewDetailsContent = document.getElementById('reviewDetailsContent');
   
-  // Template
   if (selectedTemplate && selectedTemplateName) {
     reviewTemplateContent.innerHTML = `
       <img src="${selectedTemplate.replace(/ /g, '%20')}" alt="${selectedTemplateName}" style="max-width: 300px;">
@@ -1705,7 +1616,6 @@ function goToReview() {
     reviewTemplateContent.innerHTML = '<p style="color: var(--text-dim);">No template selected</p>';
   }
   
-  // Photo
   if (uploadedImage) {
     const quality = getImageQuality(uploadedImage);
     reviewPhotoContent.innerHTML = `
@@ -1720,7 +1630,6 @@ function goToReview() {
     reviewPhotoContent.innerHTML = '<p style="color: var(--text-dim);">No photo uploaded</p>';
   }
   
-  // Text
   const customWording = document.getElementById('customWording')?.value || '';
   if (customWording.trim()) {
     reviewTextContent.textContent = customWording;
@@ -1728,7 +1637,6 @@ function goToReview() {
     reviewTextContent.innerHTML = '<span style="color: var(--text-dim);">No custom text provided</span>';
   }
   
-  // Details
   const honoredName = document.getElementById('honoredName')?.value || '';
   const dates = document.getElementById('dates')?.value || '';
   let detailsText = '';
@@ -1743,10 +1651,6 @@ function goToReview() {
   
   goToStep('reviewScreen');
 }
-
-// ═══════════════════════════════════════════════════════════════
-// SUBMIT FORM
-// ═══════════════════════════════════════════════════════════════
 
 async function submitForm() {
   console.log("📤 Starting submission...");
@@ -1926,10 +1830,6 @@ async function submitForm() {
   }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// CONFETTI
-// ═══════════════════════════════════════════════════════════════
-
 function launchConfetti() {
   const end = Date.now() + 3000;
   const colors = ["#e9ff60", "#0a95a8", "#fd26fd", "#3461fa", "#0ff0b8"];
@@ -1960,10 +1860,6 @@ function launchConfetti() {
     if (Date.now() < end) requestAnimationFrame(frame);
   })();
 }
-
-// ═══════════════════════════════════════════════════════════════
-// INITIALIZE
-// ═══════════════════════════════════════════════════════════════
 
 window.addEventListener('DOMContentLoaded', () => {
   loadPartnerLocations();
