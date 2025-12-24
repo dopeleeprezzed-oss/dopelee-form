@@ -239,7 +239,7 @@ h1 {
   box-shadow: var(--shadow-heavy);
 }
 
-/* SPLIT LAYOUT - MOBILE FIRST */
+/* SPLIT LAYOUT - PREVIEW BELOW FORM */
 .split-layout {
   display: flex;
   flex-direction: column;
@@ -249,14 +249,15 @@ h1 {
 
 .form-fields-column {
   width: 100%;
-  order: 2;
+  order: 1;
 }
 
 .preview-column {
   width: 100%;
-  order: 1;
+  max-width: 600px;
+  margin: 0 auto;
+  order: 2;
   position: relative;
-  top: 0;
 }
 
 .step {
@@ -501,11 +502,11 @@ input[readonly] {
 }
 
 /* --------------------------------------------------
-   PREVIEW BOXES - SQUARE SIDE-BY-SIDE
+   PREVIEW BOXES - STACKED VERTICALLY, AUTO-WIDTH
 -------------------------------------------------- */
 .preview-wrapper {
   background: rgba(15, 240, 184, 0.03);
-  padding: 18px;
+  padding: 20px;
   border-radius: 14px;
   border: 2px solid var(--accent-cyan);
   box-shadow: 0 0 20px rgba(15, 240, 184, 0.15);
@@ -530,30 +531,20 @@ input[readonly] {
   font-size: 0.8rem;
 }
 
-/* PREVIEW BOXES IN GRID - SQUARE SIDE-BY-SIDE */
+/* PREVIEW BOXES STACKED */
 .preview-boxes-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .preview-box {
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid var(--border-soft);
   border-radius: 10px;
-  padding: 12px;
-  aspect-ratio: 1 / 1;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  min-height: 200px;
-}
-
-/* Text box spans full width on mobile */
-#textPreviewBox {
-  grid-column: 1 / -1;
-  aspect-ratio: auto;
-  min-height: auto;
 }
 
 .preview-box:last-child {
@@ -562,48 +553,42 @@ input[readonly] {
 
 .preview-box-title {
   color: var(--accent-gold);
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
   gap: 6px;
-  flex-shrink: 0;
-  height: auto;
 }
 
 .preview-box img {
   width: 100%;
-  flex: 1;
+  max-height: 300px;
   border-radius: 8px;
   object-fit: contain;
-  margin-bottom: 6px;
-  min-height: 0;
+  margin-bottom: 10px;
 }
 
 .preview-box-text {
   color: var(--text-muted);
-  font-size: 0.75rem;
-  line-height: 1.4;
+  font-size: 0.85rem;
+  line-height: 1.6;
   word-break: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
-  overflow-y: auto;
-  flex-shrink: 1;
-  max-height: 100%;
 }
 
 .quality-badge {
   display: inline-block;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 0.65rem;
+  padding: 5px 10px;
+  border-radius: 16px;
+  font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-top: 4px;
+  margin-top: 8px;
 }
 
 .quality-excellent {
@@ -626,61 +611,24 @@ input[readonly] {
 
 .preview-placeholder {
   text-align: center;
-  padding: 20px 10px;
+  padding: 30px 15px;
   color: var(--text-dim);
-  font-size: 0.75rem;
-  line-height: 1.4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
+  font-size: 0.85rem;
+  line-height: 1.5;
 }
 
-/* TABLET & DESKTOP - SIDE-BY-SIDE */
+/* TABLET & DESKTOP - SAME STACKED LAYOUT */
 @media (min-width: 768px) {
-  .preview-boxes-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-  
-  /* Text box spans full width */
-  #textPreviewBox {
-    grid-column: 1 / -1;
-    aspect-ratio: auto;
-    min-height: 120px;
+  .preview-wrapper {
+    padding: 24px;
   }
   
   .preview-box {
-    aspect-ratio: 1 / 1;
-    padding: 16px;
-    min-height: 250px;
-  }
-  
-  .preview-box-title {
-    font-size: 0.85rem;
-    margin-bottom: 10px;
+    padding: 20px;
   }
   
   .preview-box img {
-    margin-bottom: 10px;
-    min-height: 0;
-  }
-  
-  .preview-box-text {
-    font-size: 0.85rem;
-    line-height: 1.6;
-  }
-  
-  .quality-badge {
-    padding: 5px 10px;
-    font-size: 0.7rem;
-    margin-top: 8px;
-  }
-  
-  .preview-placeholder {
-    padding: 30px 15px;
-    font-size: 0.85rem;
-    line-height: 1.5;
+    max-height: 400px;
   }
 }
 
@@ -880,20 +828,19 @@ input[readonly] {
   }
   
   .split-layout {
-    flex-direction: row;
-    gap: 40px;
+    flex-direction: column;
+    gap: 30px;
   }
   
   .form-fields-column {
-    flex: 1;
     order: 1;
   }
   
   .preview-column {
-    flex: 0 0 400px;
-    position: sticky;
-    top: 20px;
+    max-width: 800px;
+    margin: 0 auto;
     order: 2;
+    position: relative;
   }
   
   .button-group {
