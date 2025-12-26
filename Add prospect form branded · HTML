@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Dopelee Prezzed by S™ | Add Partner Prospect</title>
+  
+  <!-- GOOGLE FONTS -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+/* --------------------------------------------------
+   BRAND VARIABLES
+-------------------------------------------------- */
+:root {
+  --bg-dark: #050509;
+  --bg-card: #0f1018;
+  --bg-input: #1a1b26;
+
+  --text-main: #f5f5ff;
+  --text-muted: #b9bed8;
+  --text-dim: #7a7f9a;
+
+  --accent-gold: #e9ff60;
+  --accent-blue: #0a95a8;
+  --accent-pink: #fd26fd;
+  --accent-violet: #3461fa;
+  --accent-cyan: #0ff0b8;
+
+  --border-soft: rgba(255, 255, 255, 0.08);
+
+  --shadow-heavy: 0 24px 60px rgba(0, 0, 0, 0.9);
+  --shadow-card: 0 12px 40px rgba(0, 0, 0, 0.7);
+}
+
+/* --------------------------------------------------
+   GLOBAL
+-------------------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: radial-gradient(circle at top, #181829 0%, #050509 40%, #000 100%);
+  color: var(--text-main);
+  min-height: 100vh;
+  padding: 15px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --------------------------------------------------
+   BLACK BUBBLE HEADER - MATCHES WEBSITE/EMAILS
+-------------------------------------------------- */
+.brand-header {
+  background: #000;
+  padding: 30px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-top: 2px solid #d4af37;
+  border-bottom: 2px solid #d4af37;
+  margin-bottom: 25px;
+  border-radius: 16px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Blue Bling Background Effect */
+.brand-header::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: 
+    radial-gradient(circle at 25% 35%, rgba(15, 240, 184, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 75% 65%, rgba(10, 149, 168, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(15, 240, 184, 0.1) 0%, transparent 60%);
+  pointer-events: none;
+  animation: heroBling 5s ease-in-out infinite;
+}
+
+@keyframes heroBling {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+/* Floating Colored Bubbles */
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: bubbleRise 8s infinite ease-in-out;
+  pointer-events: none;
+  box-shadow: 0 0 30px currentColor, 0 0 60px currentColor, inset 0 0 20px rgba(255, 255, 255, 0.3);
+  filter: blur(1px);
+}
+
+@keyframes bubbleRise {
+  0% {
+    transform: translateY(100vh) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-100px) scale(1);
+    opacity: 0;
+  }
+}
+
+.brand-header .bubble:nth-child(1) { left: 10%; width: 30px; height: 30px; background: #0ff0b8; animation-delay: 0s; animation-duration: 10s; }
+.brand-header .bubble:nth-child(2) { left: 25%; width: 40px; height: 40px; background: #d3fb1b; animation-delay: 2s; animation-duration: 12s; }
+.brand-header .bubble:nth-child(3) { left: 45%; width: 35px; height: 35px; background: #fd26fd; animation-delay: 1s; animation-duration: 11s; }
+.brand-header .bubble:nth-child(4) { left: 65%; width: 25px; height: 25px; background: #3461fa; animation-delay: 3s; animation-duration: 9s; }
+.brand-header .bubble:nth-child(5) { left: 80%; width: 38px; height: 38px; background: #0a95a8; animation-delay: 4s; animation-duration: 13s; }
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(3deg); }
+}
+
+@keyframes logoGlow {
+  0%, 100% { filter: drop-shadow(0 0 20px rgba(211, 251, 27, 0.6)) drop-shadow(0 0 40px rgba(15, 240, 184, 0.4)); }
+  50% { filter: drop-shadow(0 0 30px rgba(253, 38, 253, 0.8)) drop-shadow(0 0 50px rgba(52, 97, 250, 0.6)); }
+}
+
+.brand-logo-large {
+  max-width: 140px;
+  height: auto;
+  margin: 0 auto 16px;
+  border-radius: 12px;
+  position: relative;
+  z-index: 2;
+  animation: logoFloat 4s ease-in-out infinite, logoGlow 3s ease-in-out infinite;
+  filter: brightness(1.1) contrast(1.1);
+}
+
+.brand-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 3px 20px rgba(15, 240, 184, 0.6), 0 0 40px rgba(255, 255, 255, 0.3);
+  line-height: 1.3;
+  letter-spacing: 0.5px;
+}
+
+.brand-tagline {
+  margin: 6px 0 0;
+  color: #ccc;
+  font-size: 11px;
+  font-weight: 600;
+  position: relative;
+  z-index: 2;
+}
+
+/* --------------------------------------------------
+   HEADER
+-------------------------------------------------- */
+.header {
+  max-width: 800px;
+  margin: 0 auto 25px;
+  text-align: center;
+  padding: 0 10px;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  background: linear-gradient(120deg, var(--accent-gold), var(--accent-pink));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  max-width: 580px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------
+   FORM CONTAINER
+-------------------------------------------------- */
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  padding: 25px 18px;
+  border-radius: 20px;
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-heavy);
+}
+
+/* --------------------------------------------------
+   FORM ELEMENTS
+-------------------------------------------------- */
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+  line-height: 1.4;
+}
+
+label .required {
+  color: var(--accent-pink);
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--bg-input);
+  border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  color: var(--text-main);
+  font-size: 16px;
+  font-family: inherit;
+}
+
+textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+}
+
+select option {
+  background: var(--bg-input);
+  color: var(--text-main);
+}
+
+.helper-text {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+/* --------------------------------------------------
+   RADIO OPTION CARDS
+-------------------------------------------------- */
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.radio-option {
+  position: relative;
+}
+
+.radio-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.radio-option label {
+  display: block;
+  padding: 14px 18px;
+  background: var(--bg-input);
+  border: 2px solid var(--border-soft);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  margin: 0;
+  text-transform: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.radio-option input[type="radio"]:checked + label {
+  border-color: var(--accent-gold);
+  background: rgba(233, 255, 96, 0.08);
+  color: var(--accent-gold);
+}
+
+.radio-option label:active {
+  transform: scale(0.98);
+}
+
+/* --------------------------------------------------
+   PREVIEW SECTION
+-------------------------------------------------- */
+.preview-section {
+  background: rgba(15, 240, 184, 0.03);
+  padding: 20px;
+  border-radius: 14px;
+  border: 2px solid var(--accent-cyan);
+  box-shadow: 0 0 20px rgba(15, 240, 184, 0.15);
+  margin-top: 25px;
+}
+
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.preview-header h3 {
+  color: var(--accent-cyan);
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.preview-count {
+  background: rgba(15, 240, 184, 0.2);
+  color: var(--accent-cyan);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.prospect-item {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 10px;
+  border-left: 3px solid var(--accent-gold);
+}
+
+.prospect-item:last-child {
+  margin-bottom: 0;
+}
+
+.prospect-item strong {
+  color: var(--accent-gold);
+  font-size: 1rem;
+}
+
+.prospect-item small {
+  color: var(--text-dim);
+  display: block;
+  margin-top: 5px;
+  font-size: 0.85rem;
+}
+
+/* --------------------------------------------------
+   BUTTONS
+-------------------------------------------------- */
+.btn-group {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 10px;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.btn {
+  padding: 14px 20px;
+  width: 100%;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  border: none;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan));
+  color: #000;
+  box-shadow: 0 4px 16px rgba(233, 255, 96, 0.3);
+}
+
+.btn-secondary {
+  background: var(--bg-input);
+  border: 1px solid var(--border-soft);
+  color: var(--text-main);
+}
+
+/* --------------------------------------------------
+   SUCCESS SCREEN
+-------------------------------------------------- */
+.success-screen {
+  text-align: center;
+  padding: 40px 15px;
+}
+
+.success-screen h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  background: linear-gradient(120deg, var(--accent-gold), var(--accent-pink));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+
+.success-screen p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.success-message-box {
+  background: rgba(233, 255, 96, 0.1);
+  border: 2px solid var(--accent-gold);
+  border-radius: 14px;
+  padding: 20px;
+  margin: 25px auto;
+  max-width: 400px;
+}
+
+/* --------------------------------------------------
+   TABLET & DESKTOP
+-------------------------------------------------- */
+@media (min-width: 768px) {
+  .brand-header {
+    padding: 40px 30px;
+    margin-bottom: 40px;
+    border-radius: 20px;
+  }
+  
+  .brand-logo-large {
+    max-width: 160px;
+  }
+  
+  .brand-title {
+    font-size: 28px;
+  }
+  
+  .brand-tagline {
+    font-size: 13px;
+  }
+  
+  h1 {
+    font-size: 2.2rem;
+  }
+  
+  .form-container {
+    padding: 40px;
+    border-radius: 24px;
+  }
+  
+  .radio-group {
+    flex-direction: row;
+  }
+  
+  .btn-group {
+    flex-direction: row;
+    gap: 12px;
+  }
+  
+  .btn {
+    flex: 1;
+  }
+}
+
+/* --------------------------------------------------
+   HOVER STATES (DESKTOP)
+-------------------------------------------------- */
+@media (min-width: 1024px) {
+  .radio-option label:hover {
+    border-color: var(--accent-blue);
+    transform: translateY(-2px);
+  }
+  
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(233, 255, 96, 0.4);
+  }
+  
+  .btn-secondary:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* --------------------------------------------------
+   PREVENT ZOOM ON DOUBLE TAP (iOS)
+-------------------------------------------------- */
+button, 
+a {
+  touch-action: manipulation;
+}
+
+.hidden {
+  display: none;
+}
+  </style>
+
+</head>
+
+<body>
+
+  <!-- BLACK BUBBLE HEADER -->
+  <header class="brand-header">
+    <!-- Floating Bubbles -->
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    
+    <img src="https://dopeleeprezzed-oss.github.io/dopelee-form/logo.png" 
+         alt="Dopelee Prezzed Logo" class="brand-logo-large">
+    <h1 class="brand-title">LEGACY LOUNGE™ OUTREACH</h1>
+    <p class="brand-tagline">Partner • Grow • Prosper</p>
+  </header>
+
+  <!-- HEADER -->
+  <header class="header">
+    <h1>✨ Add Partner Prospect</h1>
+    <p class="subtitle">
+      Add prospects one at a time in the field, or bulk add up to 10 at home.
+      They'll automatically receive your outreach emails!
+    </p>
+  </header>
+
+  <!-- FORM CONTAINER -->
+  <div class="form-container">
+
+    <!-- FORM SECTION -->
+    <div id="formSection">
+      <form id="prospectForm" onsubmit="return false;">
+        
+        <div class="form-group">
+          <label>Business Name <span class="required">*</span></label>
+          <input type="text" id="businessName" required placeholder="Smith & Sons Funeral Home">
+        </div>
+
+        <div class="form-group">
+          <label>Contact Name</label>
+          <input type="text" id="contactName" placeholder="John Smith (optional - uses 'believer' if empty)">
+          <div class="helper-text">Leave blank and emails will say "Hey believer,"</div>
+        </div>
+
+        <div class="form-group">
+          <label>Email Address <span class="required">*</span></label>
+          <input type="email" id="email" required placeholder="john@smithfuneral.com">
+        </div>
+
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" id="phone" placeholder="555-1234 (optional)">
+        </div>
+
+        <div class="form-group">
+          <label>Business Type <span class="required">*</span></label>
+          <select id="businessType" required>
+            <option value="">Select type...</option>
+            <option value="Funeral Home">Funeral Home</option>
+            <option value="Cremation Service">Cremation Service</option>
+            <option value="Veterinary Clinic">Veterinary Clinic</option>
+            <option value="Cemetery & Memorial Park">Cemetery & Memorial Park</option>
+            <option value="Hospice Center">Hospice Center</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>How did you connect? <span class="required">*</span></label>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" id="outreachCold" name="outreachType" value="cold" checked>
+              <label for="outreachCold">❄️ Cold Outreach</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="outreachWarm" name="outreachType" value="warm">
+              <label for="outreachWarm">🤝 Met In Person</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea id="notes" placeholder="Met at trade show. Loved the concept. (optional)"></textarea>
+          <div class="helper-text">Any details about the conversation or connection</div>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn btn-secondary" onclick="addToQueue()">+ Add Another</button>
+          <button type="button" class="btn btn-primary" onclick="submitProspects()">✅ Submit</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- PREVIEW SECTION -->
+    <div id="previewSection" class="preview-section hidden">
+      <div class="preview-header">
+        <h3>📋 Ready to Send</h3>
+        <span class="preview-count" id="prospectCount">0 Prospects</span>
+      </div>
+      <div id="prospectList"></div>
+      <div class="btn-group">
+        <button class="btn btn-secondary" onclick="clearQueue()">❌ Clear All</button>
+        <button class="btn btn-primary" onclick="submitProspects()">✅ Send Emails</button>
+      </div>
+    </div>
+
+    <!-- SUCCESS SECTION -->
+    <div id="successSection" class="success-screen hidden">
+      <div style="font-size: 3.5rem; margin-bottom: 20px;">🎉</div>
+      <h2>Prospects Added!</h2>
+      <p id="successMessage"></p>
+      
+      <div class="success-message-box">
+        <p style="font-size: 1rem; margin: 0 0 10px; color: var(--accent-gold); font-weight: 600;">
+          📧 Emails Sending Now!
+        </p>
+        <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0; line-height: 1.5;">
+          Your prospects will receive Email #1 (video introduction) shortly.
+          Follow-ups happen automatically on Days 5 and 31! 🚀
+        </p>
+      </div>
+      
+      <button class="btn btn-primary" onclick="resetForm()" style="margin-top: 20px;">
+        Add More Prospects
+      </button>
+    </div>
+
+  </div>
+
+<script>
+    const SUPABASE_URL = "https://dyehxtiozfwlexkbalvn.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs";
+
+    let prospectQueue = [];
+
+    function addToQueue() {
+      const prospect = getFormData();
+      
+      if (!prospect) {
+        alert('Please fill in all required fields!');
+        return;
+      }
+
+      // Check if email already in queue
+      if (prospectQueue.find(p => p.email === prospect.email)) {
+        alert('This email is already in the queue!');
+        return;
+      }
+
+      prospectQueue.push(prospect);
+      updatePreview();
+      clearFormFields();
+      
+      document.getElementById('previewSection').classList.remove('hidden');
+    }
+
+    function getFormData() {
+      const businessName = document.getElementById('businessName').value.trim();
+      const contactName = document.getElementById('contactName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const businessType = document.getElementById('businessType').value;
+      const outreachType = document.querySelector('input[name="outreachType"]:checked').value;
+      const notes = document.getElementById('notes').value.trim();
+
+      if (!businessName || !email || !businessType) {
+        return null;
+      }
+
+      return {
+        business_name: businessName,
+        contact_name: contactName || null,
+        email: email,
+        phone: phone || null,
+        business_type: businessType,
+        outreach_type: outreachType,
+        notes: notes || null
+      };
+    }
+
+    function clearFormFields() {
+      document.getElementById('businessName').value = '';
+      document.getElementById('contactName').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('phone').value = '';
+      document.getElementById('businessType').value = '';
+      document.getElementById('notes').value = '';
+      document.getElementById('businessName').focus();
+    }
+
+    function updatePreview() {
+      const count = document.getElementById('prospectCount');
+      const list = document.getElementById('prospectList');
+      
+      count.textContent = `${prospectQueue.length} Prospect${prospectQueue.length !== 1 ? 's' : ''}`;
+      
+      list.innerHTML = prospectQueue.map((p, index) => `
+        <div class="prospect-item">
+          <strong>${index + 1}. ${p.business_name}</strong>
+          <small>${p.email} • ${p.business_type} • ${p.outreach_type === 'cold' ? '❄️ Cold' : '🤝 Warm'}</small>
+        </div>
+      `).join('');
+    }
+
+    function clearQueue() {
+      if (confirm('Clear all prospects from the queue?')) {
+        prospectQueue = [];
+        document.getElementById('previewSection').classList.add('hidden');
+      }
+    }
+
+    async function submitProspects() {
+      // If queue is empty, add current form
+      if (prospectQueue.length === 0) {
+        const prospect = getFormData();
+        if (!prospect) {
+          alert('Please fill in all required fields!');
+          return;
+        }
+        prospectQueue = [prospect];
+      }
+
+      try {
+        // Save to Supabase
+        const response = await fetch(
+          `${SUPABASE_URL}/rest/v1/outreach_prospects`,
+          {
+            method: 'POST',
+            headers: {
+              'apikey': SUPABASE_ANON_KEY,
+              'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+              'Content-Type': 'application/json',
+              'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify(prospectQueue)
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error('Failed to save prospects');
+        }
+
+        // Show success
+        const count = prospectQueue.length;
+        document.getElementById('successMessage').textContent = 
+          `${count} prospect${count !== 1 ? 's' : ''} added successfully! Emails will be sent shortly.`;
+        
+        document.getElementById('formSection').classList.add('hidden');
+        document.getElementById('previewSection').classList.add('hidden');
+        document.getElementById('successSection').classList.remove('hidden');
+
+        prospectQueue = [];
+        
+        // Launch confetti
+        setTimeout(() => launchConfetti(), 300);
+
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error saving prospects. Please try again.');
+      }
+    }
+
+    function resetForm() {
+      document.getElementById('formSection').classList.remove('hidden');
+      document.getElementById('successSection').classList.add('hidden');
+      clearFormFields();
+    }
+
+    function launchConfetti() {
+      const end = Date.now() + 3000;
+      const colors = ["#e9ff60", "#0a95a8", "#fd26fd", "#3461fa", "#0ff0b8"];
+
+      (function frame() {
+        const p = document.createElement("div");
+        p.style.position = "fixed";
+        p.style.zIndex = "9999";
+        p.style.width = "10px";
+        p.style.height = "10px";
+        p.style.background = colors[Math.floor(Math.random() * colors.length)];
+        p.style.borderRadius = "50%";
+        p.style.top = "-20px";
+        p.style.left = Math.random() * window.innerWidth + "px";
+        p.style.opacity = "1";
+        p.style.transition = "transform 3s linear, opacity 3s ease-out";
+        p.style.pointerEvents = "none";
+
+        document.body.appendChild(p);
+
+        setTimeout(() => {
+          p.style.transform = `translateY(${window.innerHeight + 50}px) rotate(${Math.random() * 360}deg)`;
+          p.style.opacity = "0";
+        }, 10);
+
+        setTimeout(() => p.remove(), 3100);
+
+        if (Date.now() < end) requestAnimationFrame(frame);
+      })();
+    }
+
+    // Initialize
+    document.getElementById('businessName').focus();
+  </script>
+
+</body>
+</html>
