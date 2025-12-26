@@ -664,7 +664,15 @@ a {
 
   </div>
 
+  <!-- FOOTER WITH AUTO-UPDATING COPYRIGHT -->
+  <footer style="text-align: center; padding: 30px 20px; color: var(--text-dim); font-size: 0.85rem; max-width: 800px; margin: 0 auto;">
+    <p style="margin: 0;">© <span id="copyrightYear"></span> Dopelee Prezzed by S LLC</p>
+  </footer>
+
 <script>
+    // Auto-update copyright year
+    document.getElementById('copyrightYear').textContent = new Date().getFullYear();
+
     const SUPABASE_URL = "https://dyehxtiozfwlexkbalvn.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs";
 
