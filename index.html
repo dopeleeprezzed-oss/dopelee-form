@@ -330,11 +330,61 @@ input[readonly] {
   opacity: 0.9;
 }
 
+/* DATE INPUT CALENDAR STYLING */
+input[type="date"] {
+  position: relative;
+  cursor: pointer;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+input[type="date"]:focus {
+  border-color: var(--accent-cyan);
+}
+
 .helper-text {
   color: var(--text-dim);
   font-size: 0.8rem;
   margin-top: 6px;
   line-height: 1.4;
+}
+
+/* FILE UPLOAD PREVIEW */
+.file-preview-list {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.file-preview-item {
+  background: rgba(15, 240, 184, 0.1);
+  border: 1px solid var(--accent-cyan);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+}
+
+.file-preview-item span {
+  flex: 1;
+  color: var(--text-main);
+  word-break: break-word;
+}
+
+.file-preview-item small {
+  color: var(--text-dim);
+  font-size: 0.75rem;
 }
 
 /* --------------------------------------------------
@@ -774,6 +824,11 @@ input[readonly] {
 
 .btn:active {
   transform: scale(0.98);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .btn-primary {
@@ -1245,7 +1300,11 @@ a {
 
       <div class="form-group">
         <label>Ideal Delivery Date *</label>
-        <input id="vipDeliveryDate" type="date" />
+        <div style="position: relative;">
+          <input id="vipDeliveryDate" type="date" style="padding-right: 45px;" />
+          <span style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; font-size: 1.2rem;">📅</span>
+        </div>
+        <div class="helper-text">Click the calendar icon to select your ideal delivery date</div>
       </div>
 
       <div class="form-group">
@@ -1260,6 +1319,14 @@ a {
         </select>
       </div>
 
+      <!-- ✨ NEW VIP FILE UPLOAD ✨ -->
+      <div class="form-group">
+        <label>Upload Logo / Inspiration Photos (optional)</label>
+        <input id="vipFileInput" type="file" accept="image/*" multiple onchange="handleVIPFilesUpload(event)" />
+        <div class="helper-text">Upload your company logo, brand materials, or inspiration photos (multiple files allowed)</div>
+        <div id="vipFilePreviewList" class="file-preview-list"></div>
+      </div>
+
       <div class="form-group">
         <label>Additional Notes (optional)</label>
         <textarea id="vipNotes" placeholder="Any other details we should know..."></textarea>
@@ -1267,7 +1334,7 @@ a {
 
       <div class="button-group">
         <button class="btn btn-secondary" onclick="goToStep('step1')">← Back</button>
-        <button class="btn btn-primary" onclick="submitForm()">Submit VIP Request</button>
+        <button class="btn btn-primary" id="vipSubmitBtn" onclick="submitForm()">Submit VIP Request</button>
       </div>
     </section>
 
@@ -1394,6 +1461,7 @@ let selectedTemplate = "";
 let selectedTemplateName = "";
 let uploadedImage = null;
 let uploadedImageFile = null;
+let vipUploadedFiles = [];
 
 async function loadPartnerLocations() {
   try {
@@ -1586,6 +1654,30 @@ function handleImageUpload(event) {
   reader.readAsDataURL(file);
 }
 
+// ✨ NEW FUNCTION FOR VIP FILE UPLOADS ✨
+function handleVIPFilesUpload(event) {
+  const files = Array.from(event.target.files);
+  vipUploadedFiles = files;
+  
+  const previewList = document.getElementById('vipFilePreviewList');
+  previewList.innerHTML = '';
+  
+  if (files.length === 0) return;
+  
+  files.forEach((file, index) => {
+    const fileSize = (file.size / 1024 / 1024).toFixed(2); // MB
+    const item = document.createElement('div');
+    item.className = 'file-preview-item';
+    item.innerHTML = `
+      <span>📎 ${file.name}</span>
+      <small>${fileSize} MB</small>
+    `;
+    previewList.appendChild(item);
+  });
+  
+  console.log(`✅ ${files.length} VIP files selected`);
+}
+
 function getImageQuality(img) {
   const width = img.naturalWidth || img.width;
   const height = img.naturalHeight || img.height;
@@ -1693,6 +1785,51 @@ function goToReview() {
   goToStep('reviewScreen');
 }
 
+// ✨ NEW FUNCTION: UPLOAD FILES TO SUPABASE STORAGE ✨
+async function uploadVIPFilesToStorage(orderId) {
+  if (!vipUploadedFiles || vipUploadedFiles.length === 0) {
+    return [];
+  }
+  
+  console.log(`📤 Uploading ${vipUploadedFiles.length} VIP files...`);
+  const uploadedUrls = [];
+  
+  for (let i = 0; i < vipUploadedFiles.length; i++) {
+    const file = vipUploadedFiles[i];
+    const timestamp = Date.now();
+    const fileName = `${orderId}_${timestamp}_${i}_${file.name}`;
+    const filePath = `vip-uploads/${fileName}`;
+    
+    try {
+      // Upload to Supabase Storage
+      const uploadResponse = await fetch(
+        `${SUPABASE_URL}/storage/v1/object/order-files/${filePath}`,
+        {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Content-Type': file.type
+          },
+          body: file
+        }
+      );
+      
+      if (uploadResponse.ok) {
+        const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/order-files/${filePath}`;
+        uploadedUrls.push(publicUrl);
+        console.log(`✅ Uploaded: ${file.name}`);
+      } else {
+        console.error(`❌ Failed to upload: ${file.name}`);
+      }
+    } catch (error) {
+      console.error(`❌ Error uploading ${file.name}:`, error);
+    }
+  }
+  
+  return uploadedUrls;
+}
+
 async function submitForm() {
   console.log("📤 Starting submission...");
   console.log("📋 Project type:", projectType);
@@ -1717,6 +1854,13 @@ async function submitForm() {
 
   console.log("🔍 Using ID:", orderId);
 
+  // Disable submit button
+  const submitBtn = document.getElementById('vipSubmitBtn');
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Uploading...';
+  }
+
   const formData = {
     fullName: document.getElementById("fullName").value,
     email: document.getElementById("email").value,
@@ -1735,6 +1879,14 @@ async function submitForm() {
     formData.vipDeliveryDate = document.getElementById("vipDeliveryDate")?.value || "";
     formData.vipBudget = document.getElementById("vipBudget")?.value || "";
     formData.vipNotes = document.getElementById("vipNotes")?.value || "";
+    
+    // ✨ UPLOAD VIP FILES ✨
+    if (vipUploadedFiles && vipUploadedFiles.length > 0) {
+      console.log("📤 Uploading VIP files to storage...");
+      const uploadedUrls = await uploadVIPFilesToStorage(orderId);
+      formData.vipFileUrls = uploadedUrls.join(', ');
+      console.log(`✅ ${uploadedUrls.length} files uploaded successfully`);
+    }
   } else if (projectType === "photobook") {
     formData.photoBookOrderLink = document.getElementById("photoBookOrderLink")?.value || "";
     formData.photobookPages = document.getElementById("photobookPages")?.value || "";
@@ -1743,7 +1895,7 @@ async function submitForm() {
   }
 
   try {
-    console.log("📡 Saving...");
+    console.log("📡 Saving to database...");
 
     const saveData = {
       order_id: orderId,
@@ -1783,6 +1935,7 @@ async function submitForm() {
       saveData.vip_delivery_date = formData.vipDeliveryDate;
       saveData.vip_budget = formData.vipBudget;
       saveData.vip_notes = formData.vipNotes;
+      saveData.vip_file_urls = formData.vipFileUrls || null; // ✨ SAVE FILE URLS ✨
       saveData.status = "VIP Inquiry Received";
     } else if (projectType === "photobook") {
       saveData.photobook_order_link = formData.photoBookOrderLink;
@@ -1868,6 +2021,12 @@ async function submitForm() {
   } catch (err) {
     console.error("❌ Error:", err);
     alert(`⚠️ Submission error: ${err.message}\n\nPlease contact support.`);
+    
+    // Re-enable submit button
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit VIP Request';
+    }
   }
 }
 
@@ -1934,6 +2093,14 @@ window.addEventListener('DOMContentLoaded', () => {
   if (orderId && email) {
     console.log('🎯 Auto-selecting Keepsake');
     selectProjectType('keepsake');
+  }
+  
+  // Set minimum date for VIP Delivery Date to today
+  const vipDateField = document.getElementById('vipDeliveryDate');
+  if (vipDateField) {
+    const today = new Date().toISOString().split('T')[0];
+    vipDateField.setAttribute('min', today);
+    console.log('📅 Set minimum delivery date to today');
   }
   
   console.log('✨ Form ready!');
