@@ -303,7 +303,11 @@
     const preview = document.getElementById('preview');
 
     // Click to upload
-    uploadZone.addEventListener('click', () => fileInput.click());
+    uploadZone.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      fileInput.click();
+    });
 
     // Drag and drop
     uploadZone.addEventListener('dragover', (e) => {
@@ -326,8 +330,14 @@
 
     // File input change
     fileInput.addEventListener('change', (e) => {
+      console.log('📂 File selected:', e.target.files);
       const file = e.target.files[0];
-      if (file) handleFile(file);
+      if (file) {
+        console.log('✅ File found:', file.name, file.type);
+        handleFile(file);
+      } else {
+        console.log('❌ No file selected');
+      }
     });
 
     // Upload button
@@ -337,12 +347,25 @@
      * Handle file upload
      */
     function handleFile(file) {
+      console.log('🔄 Processing file:', file.name);
+      
+      if (!file.name.endsWith('.csv')) {
+        showStatus('error', '❌ Please upload a CSV file');
+        console.error('Wrong file type:', file.type);
+        return;
+      }
+      
       showStatus('processing', 'Processing CSV file...');
       
       const reader = new FileReader();
       reader.onload = (e) => {
+        console.log('✅ File loaded, parsing...');
         const csv = e.target.result;
         parseCSV(csv);
+      };
+      reader.onerror = (e) => {
+        console.error('❌ File read error:', e);
+        showStatus('error', 'Failed to read file');
       };
       reader.readAsText(file);
     }
