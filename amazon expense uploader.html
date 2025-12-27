@@ -291,7 +291,7 @@
     // Supabase config
     const SUPABASE_URL = 'https://dyehxtiozfwlexkbalvn.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs';
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     let parsedData = [];
     
@@ -544,7 +544,7 @@
       status.innerHTML = '<div class="spinner"></div>Uploading to Supabase...';
 
       try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
           .from('expenses')
           .insert(parsedData);
 
