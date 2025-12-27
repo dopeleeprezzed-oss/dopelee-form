@@ -382,40 +382,50 @@
       }
 
       // Parse headers
-      const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/"/g, ''));
+      const headers = lines[0].split('\t').map(h => h.trim().replace(/"/g, ''));
+      console.log('📋 CSV Headers:', headers);
       
       // Parse rows
       parsedData = [];
       for (let i = 1; i < lines.length; i++) {
-        const values = parseCSVLine(lines[i]);
+        const values = lines[i].split('\t').map(v => v.trim().replace(/^"|"$/g, ''));
         
-        if (values.length !== headers.length) continue;
+        if (values.length < 5) continue; // Skip invalid rows
         
         const row = {};
         headers.forEach((header, index) => {
-          row[header] = values[index];
+          row[header] = values[index] || '';
         });
         
-        // Extract data (flexible column mapping)
+        // Extract data using EXACT Amazon Business column names
         const expense = {
-          order_id: row['order id'] || row['orderid'] || row['order number'] || `AMZ-${Date.now()}-${i}`,
-          order_date: parseDate(row['order date'] || row['date'] || row['order placed']),
-          item_description: row['title'] || row['product name'] || row['item'] || row['description'] || 'Unknown Item',
-          amount: parseFloat(row['item total'] || row['price'] || row['subtotal'] || '0'),
-          tax: parseFloat(row['tax'] || row['estimated tax'] || '0'),
-          shipping: parseFloat(row['shipping'] || row['shipping cost'] || '0'),
-          total: 0, // Will calculate
+          order_id: row['Order ID'] || `AMZ-${Date.now()}-${i}`,
+          order_date: parseDate(row['Order Date']),
+          item_description: row['Title'] || row['ASIN'] || 'Unknown Item',
+          amount: parseFloat(row['Item Subtotal']?.replace(/[^0-9.-]/g, '') || '0'),
+          tax: parseFloat(row['Item Tax']?.replace(/[^0-9.-]/g, '') || '0'),
+          shipping: parseFloat(row['Item Shipping & Handling']?.replace(/[^0-9.-]/g, '') || '0'),
+          total: parseFloat(row['Item Net Total']?.replace(/[^0-9.-]/g, '') || '0'),
           category: 'Uncategorized',
-          vendor: 'Amazon Business'
+          vendor: 'Amazon Business',
+          notes: [
+            row['Brand'] ? `Brand: ${row['Brand']}` : '',
+            row['ASIN'] ? `ASIN: ${row['ASIN']}` : '',
+            row['Order Quantity'] ? `Qty: ${row['Order Quantity']}` : ''
+          ].filter(Boolean).join(' | ')
         };
 
-        // Calculate total
-        expense.total = expense.amount + expense.tax + expense.shipping;
+        // If total is 0, calculate it
+        if (expense.total === 0) {
+          expense.total = expense.amount + expense.tax + expense.shipping;
+        }
 
         // Auto-categorize
         expense.category = categorizeItem(expense.item_description);
 
         parsedData.push(expense);
+        
+        console.log(`Row ${i}:`, expense);
       }
 
       if (parsedData.length === 0) {
@@ -423,34 +433,10 @@
         return;
       }
 
+      console.log('✅ Total parsed:', parsedData.length);
       showStatus('success', `✅ Parsed ${parsedData.length} expense${parsedData.length > 1 ? 's' : ''}`);
       showPreview();
       uploadBtn.disabled = false;
-    }
-
-    /**
-     * Parse CSV line (handles commas in quotes)
-     */
-    function parseCSVLine(line) {
-      const result = [];
-      let current = '';
-      let inQuotes = false;
-
-      for (let i = 0; i < line.length; i++) {
-        const char = line[i];
-        
-        if (char === '"') {
-          inQuotes = !inQuotes;
-        } else if (char === ',' && !inQuotes) {
-          result.push(current.trim());
-          current = '';
-        } else {
-          current += char;
-        }
-      }
-      
-      result.push(current.trim());
-      return result.map(v => v.replace(/^"|"$/g, ''));
     }
 
     /**
@@ -474,23 +460,62 @@
     function categorizeItem(description) {
       const desc = description.toLowerCase();
       
-      if (desc.includes('box') || desc.includes('packaging') || desc.includes('bubble') || desc.includes('tape') || desc.includes('mailer')) {
+      // Packaging & Shipping
+      if (desc.includes('box') || desc.includes('packaging') || desc.includes('bubble') || 
+          desc.includes('tape') || desc.includes('mailer') || desc.includes('envelope') ||
+          desc.includes('packing') || desc.includes('wrap') || desc.includes('padded')) {
         return 'Packaging';
       }
-      if (desc.includes('label') || desc.includes('printer') || desc.includes('ink') || desc.includes('toner')) {
+      
+      // Labels & Printing
+      if (desc.includes('label') || desc.includes('printer') || desc.includes('ink') || 
+          desc.includes('toner') || desc.includes('cartridge') || desc.includes('dymo') ||
+          desc.includes('zebra') || desc.includes('thermal')) {
         return 'Supplies';
       }
-      if (desc.includes('tool') || desc.includes('drill') || desc.includes('saw') || desc.includes('hardware')) {
+      
+      // Tools & Equipment
+      if (desc.includes('tool') || desc.includes('drill') || desc.includes('saw') || 
+          desc.includes('hardware') || desc.includes('screwdriver') || desc.includes('hammer') ||
+          desc.includes('blade') || desc.includes('bit')) {
         return 'Tools';
       }
-      if (desc.includes('glass') || desc.includes('wood') || desc.includes('metal') || desc.includes('material') || desc.includes('slate')) {
+      
+      // Raw Materials
+      if (desc.includes('glass') || desc.includes('wood') || desc.includes('metal') || 
+          desc.includes('material') || desc.includes('slate') || desc.includes('acrylic') ||
+          desc.includes('resin') || desc.includes('vinyl') || desc.includes('fabric')) {
         return 'Materials';
       }
-      if (desc.includes('shipping') || desc.includes('postage')) {
+      
+      // Shipping Costs
+      if (desc.includes('shipping') || desc.includes('postage') || desc.includes('freight')) {
         return 'Shipping';
       }
-      if (desc.includes('office') || desc.includes('pen') || desc.includes('paper') || desc.includes('notebook')) {
+      
+      // Office Supplies
+      if (desc.includes('office') || desc.includes('pen') || desc.includes('paper') || 
+          desc.includes('notebook') || desc.includes('folder') || desc.includes('stapler') ||
+          desc.includes('clip') || desc.includes('sticky')) {
         return 'Office Supplies';
+      }
+      
+      // Safety & PPE
+      if (desc.includes('glove') || desc.includes('mask') || desc.includes('safety') ||
+          desc.includes('goggles') || desc.includes('ppe')) {
+        return 'Safety';
+      }
+      
+      // Electronics
+      if (desc.includes('cable') || desc.includes('charger') || desc.includes('battery') ||
+          desc.includes('usb') || desc.includes('adapter') || desc.includes('computer')) {
+        return 'Electronics';
+      }
+      
+      // Cleaning Supplies
+      if (desc.includes('clean') || desc.includes('wipe') || desc.includes('sanitize') ||
+          desc.includes('disinfect') || desc.includes('soap')) {
+        return 'Cleaning';
       }
       
       return 'Other';
@@ -506,6 +531,7 @@
       let html = `
         <thead>
           <tr>
+            <th>Order ID</th>
             <th>Date</th>
             <th>Description</th>
             <th>Category</th>
@@ -518,10 +544,12 @@
       `;
       
       previewRows.forEach(row => {
+        const orderId = row.order_id.length > 15 ? '...' + row.order_id.slice(-12) : row.order_id;
         html += `
           <tr>
-            <td>${row.order_date}</td>
-            <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;">${row.item_description}</td>
+            <td style="font-family: monospace; font-size: 11px;">${orderId}</td>
+            <td style="white-space: nowrap;">${row.order_date}</td>
+            <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis;" title="${row.item_description}">${row.item_description}</td>
             <td><span class="category-badge">${row.category}</span></td>
             <td>$${row.amount.toFixed(2)}</td>
             <td>$${row.tax.toFixed(2)}</td>
