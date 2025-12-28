@@ -765,6 +765,7 @@
         
         const expense = {
           order_id: row['Bank Ref'] || `CA-${Date.now()}-${i}`,
+          date: parseDate(row['Date'] || row['Posted date']),
           order_date: parseDate(row['Date'] || row['Posted date']),
           vendor: merchant,
           item_description: merchant,
@@ -862,6 +863,7 @@
         
         const expense = {
           order_id: row['Order ID'] || `AMZ-${Date.now()}-${i}`,
+          date: parseDate(row['Order Date']),
           order_date: parseDate(row['Order Date']),
           item_description: title,
           amount: itemSubtotal,
@@ -1110,7 +1112,7 @@
           <tbody>
             ${data.slice(0, 5).map(row => `
               <tr>
-                <td>${row.order_date}</td>
+                <td>${row.date || row.order_date}</td>
                 <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;" title="${row.item_description}">${row.vendor || row.item_description}</td>
                 <td><span class="category-badge">${row.category}</span></td>
                 <td><strong>$${row.total.toFixed(2)}</strong></td>
