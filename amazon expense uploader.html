@@ -203,6 +203,10 @@
       transform: none;
     }
 
+    .btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+
     .status {
       padding: 15px;
       border-radius: 8px;
@@ -399,9 +403,14 @@
         <div id="ccStatus" class="status"></div>
         <div id="ccPreview" class="preview"></div>
         
-        <button id="ccUploadBtn" class="btn btn-primary" disabled>
-          Upload to Dashboard
-        </button>
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+          <button id="ccUploadBtn" class="btn btn-primary" disabled style="flex: 1;">
+            Upload to Dashboard
+          </button>
+          <button id="ccClearBtn" class="btn" style="flex: 0 0 auto; padding: 14px 20px; background: rgba(253, 38, 253, 0.2); border: 1px solid #fd26fd; color: #fd26fd; display: none;" onclick="clearData('cc')">
+            🗑️ Clear
+          </button>
+        </div>
       </div>
     </div>
 
@@ -429,9 +438,14 @@
         <div id="amzStatus" class="status"></div>
         <div id="amzPreview" class="preview"></div>
         
-        <button id="amzUploadBtn" class="btn btn-primary" disabled>
-          Upload to Dashboard
-        </button>
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+          <button id="amzUploadBtn" class="btn btn-primary" disabled style="flex: 1;">
+            Upload to Dashboard
+          </button>
+          <button id="amzClearBtn" class="btn" style="flex: 0 0 auto; padding: 14px 20px; background: rgba(253, 38, 253, 0.2); border: 1px solid #fd26fd; color: #fd26fd; display: none;" onclick="clearData('amz')">
+            🗑️ Clear
+          </button>
+        </div>
       </div>
     </div>
 
@@ -696,24 +710,58 @@
         return;
       }
 
+      // Auto-detect delimiter (tab or comma)
+      const firstLine = lines[0];
+      const delimiter = firstLine.includes('\t') ? '\t' : ',';
+      console.log('🔍 Detected delimiter:', delimiter === '\t' ? 'TAB' : 'COMMA');
+      
       // Headers: Date, Posted date, Status, Merchant, Amount, Category, City, Last four, Name on card, MCC, Trans Type, Bank Ref, Original Currency Amount, Merchant Currency Description, Merchant Country
-      const headers = lines[0].split('\t').map(h => h.trim().replace(/"/g, ''));
-      console.log('Headers:', headers);
+      const headers = lines[0].split(delimiter).map(h => h.trim().replace(/"/g, ''));
+      console.log('📋 Headers:', headers.join(', '));
+      console.log('📊 Total lines in file:', lines.length);
       
       parsedData = [];
+      let skipped = 0;
+      
       for (let i = 1; i < lines.length; i++) {
-        const values = lines[i].split('\t').map(v => v.trim().replace(/^"|"$/g, ''));
+        const values = lines[i].split(delimiter).map(v => v.trim().replace(/^"|"$/g, ''));
         
         const row = {};
         headers.forEach((header, index) => {
           row[header] = values[index] || '';
         });
         
-        const merchant = row['Merchant'] || 'Unknown';
-        const amount = Math.abs(parseFloat(row['Amount']?.replace(/[^0-9.-]/g, '') || '0'));
+        // Debug first few rows
+        if (i <= 3) {
+          console.log(`\n📝 Row ${i}:`);
+          console.log('  Merchant:', row['Merchant']);
+          console.log('  Amount:', row['Amount']);
+          console.log('  Status:', row['Status']);
+          console.log('  Date:', row['Date']);
+        }
         
-        // Skip if amount is 0 or merchant is payment
-        if (amount === 0 || merchant.toLowerCase().includes('payment')) continue;
+        const merchant = row['Merchant'] || '';
+        const amountStr = row['Amount'] || '0';
+        const amount = Math.abs(parseFloat(amountStr.replace(/[^0-9.-]/g, '') || '0'));
+        const status = row['Status'] || '';
+        
+        // Skip if no merchant
+        if (!merchant || merchant.trim() === '') {
+          skipped++;
+          continue;
+        }
+        
+        // Skip if amount is 0
+        if (amount === 0) {
+          skipped++;
+          continue;
+        }
+        
+        // Skip PAYMENTS (credits to your card)
+        if (status.toLowerCase().includes('credit') || merchant.toLowerCase().includes('payment thank you')) {
+          skipped++;
+          continue;
+        }
         
         const expense = {
           order_id: row['Bank Ref'] || `CA-${Date.now()}-${i}`,
@@ -725,18 +773,20 @@
           shipping: 0,
           total: amount,
           category: categorizeTransaction(merchant),
-          notes: `${row['Category'] || ''} | ${row['City'] || ''}`
+          notes: `${row['Category'] || ''} | ${row['City'] || ''} | ${status}`
         };
 
         parsedData.push(expense);
       }
 
+      console.log(`\n✅ Results: Found ${parsedData.length} expenses, skipped ${skipped} rows`);
+
       if (parsedData.length === 0) {
-        showStatus(prefix, 'error', 'No valid transactions found');
+        showStatus(prefix, 'error', `No valid transactions found. Skipped ${skipped} rows (payments/empty). Check console for details.`);
         return;
       }
 
-      showStatus(prefix, 'success', `✅ Parsed ${parsedData.length} expenses`);
+      showStatus(prefix, 'success', `✅ Parsed ${parsedData.length} expenses (skipped ${skipped} payments/empty rows)`);
       showPreview(prefix, parsedData);
       document.getElementById(prefix + 'UploadBtn').disabled = false;
     }
@@ -761,45 +811,123 @@
         return;
       }
 
-      const headers = lines[0].split('\t').map(h => h.trim().replace(/"/g, ''));
+      // Auto-detect delimiter (tab or comma)
+      const firstLine = lines[0];
+      const delimiter = firstLine.includes('\t') ? '\t' : ',';
+      console.log('🔍 Amazon - Detected delimiter:', delimiter === '\t' ? 'TAB' : 'COMMA');
+
+      const headers = lines[0].split(delimiter).map(h => h.trim().replace(/"/g, ''));
+      console.log('📋 Amazon Headers:', headers.join(', '));
+      console.log('📊 Total lines:', lines.length);
       
       parsedData = [];
+      let skipped = 0;
+      
       for (let i = 1; i < lines.length; i++) {
-        const values = lines[i].split('\t').map(v => v.trim().replace(/^"|"$/g, ''));
+        const values = lines[i].split(delimiter).map(v => v.trim().replace(/^"|"$/g, ''));
         
         const row = {};
         headers.forEach((header, index) => {
           row[header] = values[index] || '';
         });
         
+        // Debug first few rows
+        if (i <= 3) {
+          console.log(`\n📝 Amazon Row ${i}:`);
+          console.log('  Title:', row['Title']);
+          console.log('  Item Subtotal:', row['Item Subtotal']);
+          console.log('  Item Net Total:', row['Item Net Total']);
+          console.log('  Order Date:', row['Order Date']);
+          console.log('  ASIN:', row['ASIN']);
+        }
+        
+        const title = row['Title'] || row['ASIN'] || 'Unknown Item';
+        const itemSubtotal = parseFloat(row['Item Subtotal']?.replace(/[^0-9.-]/g, '') || '0');
+        const itemTax = parseFloat(row['Item Tax']?.replace(/[^0-9.-]/g, '') || '0');
+        const itemShipping = parseFloat(row['Item Shipping & Handling']?.replace(/[^0-9.-]/g, '') || '0');
+        const itemNetTotal = parseFloat(row['Item Net Total']?.replace(/[^0-9.-]/g, '') || '0');
+        
+        // Calculate total if net total is 0
+        let total = itemNetTotal;
+        if (total === 0) {
+          total = itemSubtotal + itemTax + itemShipping;
+        }
+        
+        // Skip if total is still 0
+        if (total === 0) {
+          skipped++;
+          if (i <= 3) console.log('  ⚠️ SKIPPED - Total is $0');
+          continue;
+        }
+        
         const expense = {
           order_id: row['Order ID'] || `AMZ-${Date.now()}-${i}`,
           order_date: parseDate(row['Order Date']),
-          item_description: row['Title'] || row['ASIN'] || 'Unknown Item',
-          amount: parseFloat(row['Item Subtotal']?.replace(/[^0-9.-]/g, '') || '0'),
-          tax: parseFloat(row['Item Tax']?.replace(/[^0-9.-]/g, '') || '0'),
-          shipping: parseFloat(row['Item Shipping & Handling']?.replace(/[^0-9.-]/g, '') || '0'),
-          total: parseFloat(row['Item Net Total']?.replace(/[^0-9.-]/g, '') || '0'),
-          category: categorizeTransaction(row['Title'] || ''),
+          item_description: title,
+          amount: itemSubtotal,
+          tax: itemTax,
+          shipping: itemShipping,
+          total: total,
+          category: categorizeAmazonItem(title),
           vendor: 'Amazon Business',
-          notes: `Brand: ${row['Brand'] || 'N/A'} | ASIN: ${row['ASIN'] || 'N/A'}`
+          notes: `Brand: ${row['Brand'] || 'N/A'} | ASIN: ${row['ASIN'] || 'N/A'} | Qty: ${row['Item Quantity'] || '1'}`
         };
-
-        if (expense.total === 0) {
-          expense.total = expense.amount + expense.tax + expense.shipping;
-        }
 
         parsedData.push(expense);
       }
 
+      console.log(`\n✅ Amazon Results: Found ${parsedData.length} items, skipped ${skipped} rows`);
+
       if (parsedData.length === 0) {
-        showStatus(prefix, 'error', 'No valid data found');
+        showStatus(prefix, 'error', `No valid items found. Skipped ${skipped} rows. Check console for details.`);
         return;
       }
 
-      showStatus(prefix, 'success', `✅ Parsed ${parsedData.length} expenses`);
+      showStatus(prefix, 'success', `✅ Parsed ${parsedData.length} Amazon items (skipped ${skipped} empty rows)`);
       showPreview(prefix, parsedData);
       document.getElementById(prefix + 'UploadBtn').disabled = false;
+    }
+
+    /**
+     * Categorize Amazon items more specifically
+     */
+    function categorizeAmazonItem(title) {
+      const t = title.toLowerCase();
+      
+      // Packaging
+      if (t.includes('box') || t.includes('mailer') || t.includes('bubble') || t.includes('packaging') || t.includes('poly bag')) {
+        return 'Packaging';
+      }
+      // Labels & Shipping
+      if (t.includes('label') || t.includes('shipping') || t.includes('postage')) {
+        return 'Postage/Shipping';
+      }
+      // Office supplies
+      if (t.includes('printer') || t.includes('ink') || t.includes('toner') || t.includes('paper') || t.includes('pen')) {
+        return 'Office Expense';
+      }
+      // Tools
+      if (t.includes('tool') || t.includes('drill') || t.includes('saw') || t.includes('hammer')) {
+        return 'Supplies';
+      }
+      // Craft/memorial supplies
+      if (t.includes('slate') || t.includes('wood') || t.includes('glass') || t.includes('metal') || t.includes('vinyl') || t.includes('resin')) {
+        return 'Supplies';
+      }
+      // Safety
+      if (t.includes('glove') || t.includes('mask') || t.includes('safety')) {
+        return 'Supplies';
+      }
+      // Electronics
+      if (t.includes('computer') || t.includes('monitor') || t.includes('keyboard') || t.includes('mouse')) {
+        return 'Office Expense';
+      }
+      // Cleaning
+      if (t.includes('clean') || t.includes('sanitiz') || t.includes('wipe')) {
+        return 'Supplies';
+      }
+      
+      return 'Supplies'; // Default for Amazon
     }
 
     /**
@@ -944,6 +1072,20 @@
     }
 
     /**
+     * CLEAR DATA
+     */
+    function clearData(prefix) {
+      parsedData = [];
+      document.getElementById(prefix + 'FileInput').value = '';
+      document.getElementById(prefix + 'Preview').style.display = 'none';
+      document.getElementById(prefix + 'Preview').innerHTML = '';
+      document.getElementById(prefix + 'UploadBtn').disabled = true;
+      document.getElementById(prefix + 'ClearBtn').style.display = 'none';
+      showStatus(prefix, '', '');
+      console.log('🗑️ Data cleared for', prefix);
+    }
+
+    /**
      * HELPERS
      */
     function showStatus(prefix, type, message) {
@@ -960,7 +1102,7 @@
           <thead>
             <tr>
               <th>Date</th>
-              <th>Vendor</th>
+              <th>Vendor/Item</th>
               <th>Category</th>
               <th>Amount</th>
             </tr>
@@ -969,15 +1111,18 @@
             ${data.slice(0, 5).map(row => `
               <tr>
                 <td>${row.order_date}</td>
-                <td>${row.vendor}</td>
+                <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;" title="${row.item_description}">${row.vendor || row.item_description}</td>
                 <td><span class="category-badge">${row.category}</span></td>
-                <td>$${row.total.toFixed(2)}</td>
+                <td><strong>$${row.total.toFixed(2)}</strong></td>
               </tr>
             `).join('')}
           </tbody>
         </table>
       `;
       preview.style.display = 'block';
+      
+      // Show clear button
+      document.getElementById(prefix + 'ClearBtn').style.display = 'block';
     }
 
     function parseDate(dateStr) {
