@@ -625,7 +625,18 @@
       
       // Update tab buttons
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
+      
+      // Find and activate the correct button
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => {
+        const btnText = btn.textContent.toLowerCase();
+        if ((tab === 'creditcard' && btnText.includes('credit card')) ||
+            (tab === 'amazon' && btnText.includes('amazon')) ||
+            (tab === 'mileage' && btnText.includes('mileage')) ||
+            (tab === 'utilities' && btnText.includes('utilities'))) {
+          btn.classList.add('active');
+        }
+      });
       
       // Update tab content
       document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
@@ -636,6 +647,12 @@
     document.addEventListener('DOMContentLoaded', () => {
       // Set default date
       document.getElementById('tripDate').valueAsDate = new Date();
+      
+      // Check for hash in URL (for deep linking from dashboard)
+      const hash = window.location.hash.replace('#', '');
+      if (hash && ['creditcard', 'amazon', 'mileage', 'utilities'].includes(hash)) {
+        switchTab(hash);
+      }
       
       // Setup upload zones
       setupUploadZone('cc', handleCreditCardFile);
