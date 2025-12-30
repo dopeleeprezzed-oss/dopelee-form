@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Engraving Log | Dopelee</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: radial-gradient(circle at top, #181829 0%, #050509 40%, #000 100%);
+      color: #f5f5ff;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: #000;
+      padding: 30px;
+      text-align: center;
+      border-top: 2px solid #d4af37;
+      border-bottom: 2px solid #d4af37;
+      border-radius: 16px;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+      text-shadow: 0 3px 20px rgba(15, 240, 184, 0.6);
+    }
+
+    .header p {
+      color: #ccc;
+      font-size: 14px;
+    }
+
+    .form-card {
+      background: #0f1018;
+      border: 2px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 30px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      color: #0ff0b8;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      color: #b9bed8;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    label .required {
+      color: #fd26fd;
+    }
+
+    input, select, textarea {
+      background: #1a1b26;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 12px;
+      color: #fff;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #0ff0b8;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .toggle-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 5px;
+    }
+
+    .toggle-btn {
+      flex: 1;
+      padding: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      background: #1a1b26;
+      color: #b9bed8;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .toggle-btn:hover {
+      border-color: #0ff0b8;
+    }
+
+    .toggle-btn.active {
+      background: #0ff0b8;
+      color: #000;
+      border-color: #0ff0b8;
+    }
+
+    .star-rating {
+      display: flex;
+      gap: 5px;
+      margin-top: 5px;
+    }
+
+    .star {
+      font-size: 32px;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.2);
+      transition: all 0.2s;
+    }
+
+    .star:hover, .star.active {
+      color: #e9ff60;
+    }
+
+    .btn {
+      padding: 14px 28px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #e9ff60, #0ff0b8);
+      color: #000;
+      box-shadow: 0 4px 16px rgba(233, 255, 96, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(233, 255, 96, 0.4);
+    }
+
+    .status {
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      text-align: center;
+      font-weight: 600;
+      display: none;
+    }
+
+    .status.success {
+      background: rgba(15, 240, 184, 0.2);
+      border: 1px solid #0ff0b8;
+      color: #0ff0b8;
+      display: block;
+    }
+
+    .status.error {
+      background: rgba(253, 38, 253, 0.2);
+      border: 1px solid #fd26fd;
+      color: #fd26fd;
+      display: block;
+    }
+
+    .quick-fill {
+      background: rgba(233, 255, 96, 0.1);
+      border: 1px solid #e9ff60;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .quick-fill h4 {
+      color: #e9ff60;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .quick-fill-btns {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .quick-btn {
+      padding: 8px 12px;
+      background: rgba(233, 255, 96, 0.2);
+      border: 1px solid #e9ff60;
+      border-radius: 6px;
+      color: #e9ff60;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .quick-btn:hover {
+      background: #e9ff60;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>⚡ Engraving Log</h1>
+      <p>Track your laser settings, materials & results</p>
+    </div>
+
+    <form id="engravingForm">
+      <!-- MATERIAL INFO -->
+      <div class="form-card">
+        <h3 class="section-title">📦 Material</h3>
+        
+        <div class="quick-fill">
+          <h4>⚡ Quick Fill Common Materials:</h4>
+          <div class="quick-fill-btns">
+            <button type="button" class="quick-btn" onclick="quickFill('basswood')">Basswood</button>
+            <button type="button" class="quick-btn" onclick="quickFill('oak')">Oak</button>
+            <button type="button" class="quick-btn" onclick="quickFill('slate')">Slate</button>
+            <button type="button" class="quick-btn" onclick="quickFill('glass')">Glass</button>
+            <button type="button" class="quick-btn" onclick="quickFill('acrylic')">Acrylic</button>
+            <button type="button" class="quick-btn" onclick="quickFill('bamboo')">Bamboo</button>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Material Type <span class="required">*</span></label>
+            <select id="materialType" required>
+              <option value="">Select...</option>
+              <option value="Wood - Basswood">Wood - Basswood</option>
+              <option value="Wood - Oak">Wood - Oak</option>
+              <option value="Wood - Bamboo">Wood - Bamboo</option>
+              <option value="Wood - Cherry">Wood - Cherry</option>
+              <option value="Wood - Maple">Wood - Maple</option>
+              <option value="Wood - Walnut">Wood - Walnut</option>
+              <option value="Wood - Pine">Wood - Pine</option>
+              <option value="Wood - MDF">Wood - MDF</option>
+              <option value="Slate">Slate</option>
+              <option value="Glass">Glass</option>
+              <option value="Metal - Aluminum">Metal - Aluminum</option>
+              <option value="Metal - Stainless Steel">Metal - Stainless Steel</option>
+              <option value="Acrylic - Clear">Acrylic - Clear</option>
+              <option value="Acrylic - Colored">Acrylic - Colored</option>
+              <option value="Leather">Leather</option>
+              <option value="Fabric">Fabric</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Thickness (mm)</label>
+            <input type="number" id="thickness" step="0.1" placeholder="3.0">
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Material Details</label>
+            <input type="text" id="materialDetails" placeholder="e.g., Basswood 1/8&quot; plywood">
+          </div>
+
+          <div class="form-group">
+            <label>Color/Finish</label>
+            <input type="text" id="materialColor" placeholder="e.g., Natural, Black, Clear">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Brand/Supplier</label>
+          <input type="text" id="materialBrand" placeholder="e.g., Michaels, Amazon, Hobby Lobby">
+        </div>
+      </div>
+
+      <!-- LASER SETTINGS -->
+      <div class="form-card">
+        <h3 class="section-title">⚡ Laser Settings</h3>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Power % <span class="required">*</span></label>
+            <input type="number" id="power" min="0" max="100" required placeholder="45">
+          </div>
+
+          <div class="form-group">
+            <label>Speed (mm/s)</label>
+            <input type="number" id="speed" min="0" placeholder="300">
+          </div>
+
+          <div class="form-group">
+            <label>Number of Passes</label>
+            <input type="number" id="passes" min="1" value="1">
+          </div>
+
+          <div class="form-group">
+            <label>Focus Height (mm)</label>
+            <input type="number" id="focusHeight" step="0.1" placeholder="Optional">
+          </div>
+        </div>
+      </div>
+
+      <!-- DESIGN INFO -->
+      <div class="form-card">
+        <h3 class="section-title">🎨 Design</h3>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Design Type</label>
+            <select id="designType">
+              <option value="">Select...</option>
+              <option value="Photo Engraving">Photo Engraving</option>
+              <option value="Text">Text</option>
+              <option value="Logo">Logo</option>
+              <option value="Pattern">Pattern/Design</option>
+              <option value="Memorial">Memorial Keepsake</option>
+              <option value="Test">Test Pattern</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Test or Production?</label>
+            <div class="toggle-group">
+              <div class="toggle-btn active" onclick="setTestType('test', this)">🧪 Test</div>
+              <div class="toggle-btn" onclick="setTestType('production', this)">📦 Production</div>
+            </div>
+            <input type="hidden" id="testType" value="test">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Design Notes</label>
+          <textarea id="designNotes" placeholder="What are you engraving? Any special details?"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Project Name (Optional)</label>
+          <input type="text" id="projectName" placeholder="e.g., Smith Memorial Order #123">
+        </div>
+      </div>
+
+      <!-- RESULTS -->
+      <div class="form-card">
+        <h3 class="section-title">✅ Results</h3>
+        
+        <div class="form-group">
+          <label>Success?</label>
+          <div class="toggle-group">
+            <div class="toggle-btn active" onclick="setSuccess(true, this)">✅ Success</div>
+            <div class="toggle-btn" onclick="setSuccess(false, this)">❌ Failed</div>
+          </div>
+          <input type="hidden" id="success" value="true">
+        </div>
+
+        <div class="form-group">
+          <label>Quality Rating</label>
+          <div class="star-rating" id="starRating">
+            <span class="star" data-rating="1" onclick="setRating(1)">★</span>
+            <span class="star" data-rating="2" onclick="setRating(2)">★</span>
+            <span class="star" data-rating="3" onclick="setRating(3)">★</span>
+            <span class="star" data-rating="4" onclick="setRating(4)">★</span>
+            <span class="star" data-rating="5" onclick="setRating(5)">★</span>
+          </div>
+          <input type="hidden" id="rating" value="0">
+        </div>
+
+        <div class="form-group">
+          <label>Result Notes</label>
+          <textarea id="resultNotes" placeholder="What happened? What worked? What didn't? Any observations?"></textarea>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary">💾 Save to Log</button>
+      <div id="status" class="status"></div>
+    </form>
+  </div>
+
+  <script>
+    // Supabase config
+    const SUPABASE_URL = 'https://dyehxtiozfwlexkbalvn.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // Quick fill presets
+    const presets = {
+      basswood: { type: 'Wood - Basswood', details: 'Basswood 1/8" plywood', power: 45, speed: 300, passes: 1 },
+      oak: { type: 'Wood - Oak', details: 'Oak 1/4" solid', power: 50, speed: 250, passes: 1 },
+      slate: { type: 'Slate', details: 'Natural slate 1/4"', power: 100, speed: 100, passes: 1 },
+      glass: { type: 'Glass', details: 'Clear glass 3mm', power: 80, speed: 150, passes: 1 },
+      acrylic: { type: 'Acrylic - Clear', details: 'Clear acrylic 1/8"', power: 30, speed: 400, passes: 1 },
+      bamboo: { type: 'Wood - Bamboo', details: 'Bamboo plywood 1/8"', power: 40, speed: 350, passes: 1 }
+    };
+
+    function quickFill(material) {
+      const preset = presets[material];
+      if (preset) {
+        document.getElementById('materialType').value = preset.type;
+        document.getElementById('materialDetails').value = preset.details;
+        document.getElementById('power').value = preset.power;
+        document.getElementById('speed').value = preset.speed;
+        document.getElementById('passes').value = preset.passes;
+      }
+    }
+
+    function setTestType(type, btn) {
+      document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('testType').value = type;
+    }
+
+    function setSuccess(isSuccess, btn) {
+      const parent = btn.parentElement;
+      parent.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('success').value = isSuccess;
+    }
+
+    function setRating(rating) {
+      document.getElementById('rating').value = rating;
+      const stars = document.querySelectorAll('.star');
+      stars.forEach((star, index) => {
+        if (index < rating) {
+          star.classList.add('active');
+        } else {
+          star.classList.remove('active');
+        }
+      });
+    }
+
+    // Form submit
+    document.getElementById('engravingForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const data = {
+        material_type: document.getElementById('materialType').value,
+        material_details: document.getElementById('materialDetails').value || null,
+        material_color: document.getElementById('materialColor').value || null,
+        material_brand: document.getElementById('materialBrand').value || null,
+        thickness_mm: parseFloat(document.getElementById('thickness').value) || null,
+        power_percent: parseInt(document.getElementById('power').value),
+        speed_mm_per_sec: parseInt(document.getElementById('speed').value) || null,
+        passes: parseInt(document.getElementById('passes').value) || 1,
+        focus_height_mm: parseFloat(document.getElementById('focusHeight').value) || null,
+        design_type: document.getElementById('designType').value || null,
+        design_notes: document.getElementById('designNotes').value || null,
+        project_name: document.getElementById('projectName').value || null,
+        test_or_production: document.getElementById('testType').value,
+        success: document.getElementById('success').value === 'true',
+        quality_rating: parseInt(document.getElementById('rating').value) || null,
+        result_notes: document.getElementById('resultNotes').value || null
+      };
+
+      try {
+        const { error } = await supabaseClient
+          .from('engraving_log')
+          .insert([data]);
+
+        if (error) throw error;
+
+        showStatus('success', '✅ Logged successfully! Keep engraving! 🔥');
+        
+        // Reset form after 2 seconds
+        setTimeout(() => {
+          document.getElementById('engravingForm').reset();
+          document.getElementById('testType').value = 'test';
+          document.getElementById('success').value = 'true';
+          document.getElementById('rating').value = '0';
+          document.querySelectorAll('.star').forEach(s => s.classList.remove('active'));
+          showStatus('', '');
+        }, 2000);
+
+      } catch (error) {
+        console.error('Error:', error);
+        showStatus('error', `❌ Error: ${error.message}`);
+      }
+    });
+
+    function showStatus(type, message) {
+      const status = document.getElementById('status');
+      status.className = `status ${type}`;
+      status.textContent = message;
+    }
+  </script>
+</body>
+</html>
