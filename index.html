@@ -1603,6 +1603,46 @@ function loadTemplates() {
     return;
   }
 
+  // ✨ ADD CUSTOM DESIGN CARD FIRST ✨
+  const customCard = document.createElement("div");
+  customCard.className = "template-card";
+  customCard.style.background = "linear-gradient(135deg, rgba(233, 255, 96, 0.15), rgba(15, 240, 184, 0.15))";
+  customCard.style.border = "2px solid var(--accent-gold)";
+  
+  customCard.innerHTML = `
+    <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px;">
+      <div style="font-size: 3rem; margin-bottom: 10px;">🎨</div>
+      <div style="font-weight: 700; font-size: 1rem; color: var(--accent-gold); margin-bottom: 5px;">Custom Design</div>
+      <div style="font-size: 0.8rem; color: var(--text-muted);">+$10</div>
+    </div>
+    <p class="template-title" style="color: var(--accent-gold);">Custom Design (+$10)</p>
+  `;
+  
+  customCard.onclick = () => {
+    selectedTemplate = "CUSTOM_DESIGN";
+    selectedTemplateName = "Custom Design (+$10)";
+    document.querySelectorAll(".template-card").forEach(c => c.classList.remove("selected"));
+    customCard.classList.add("selected");
+    
+    const desktopPreview = document.getElementById('desktopTemplatePreview');
+    if (desktopPreview) {
+      desktopPreview.innerHTML = `
+        <div style="text-align: center; padding: 30px;">
+          <div style="font-size: 4rem; margin-bottom: 15px;">🎨</div>
+          <div style="font-size: 1.2rem; font-weight: 700; color: var(--accent-gold); margin-bottom: 8px;">Custom Design</div>
+          <div style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+            Our design team will create something unique just for you! 
+            <br><br>
+            <strong style="color: var(--accent-gold);">+$10</strong>
+          </div>
+        </div>
+      `;
+    }
+  };
+  
+  container.appendChild(customCard);
+
+  // THEN ADD REGULAR TEMPLATES
   list.forEach(template => {
     const card = document.createElement("div");
     card.className = "template-card";
@@ -1654,7 +1694,6 @@ function handleImageUpload(event) {
   reader.readAsDataURL(file);
 }
 
-// ✨ NEW FUNCTION FOR VIP FILE UPLOADS ✨
 function handleVIPFilesUpload(event) {
   const files = Array.from(event.target.files);
   vipUploadedFiles = files;
@@ -1665,7 +1704,7 @@ function handleVIPFilesUpload(event) {
   if (files.length === 0) return;
   
   files.forEach((file, index) => {
-    const fileSize = (file.size / 1024 / 1024).toFixed(2); // MB
+    const fileSize = (file.size / 1024 / 1024).toFixed(2);
     const item = document.createElement('div');
     item.className = 'file-preview-item';
     item.innerHTML = `
@@ -1694,10 +1733,19 @@ function getImageQuality(img) {
 function updatePreview() {
   const templateContent = document.getElementById('templatePreviewContent');
   if (selectedTemplate && selectedTemplateName) {
-    templateContent.innerHTML = `
-      <img src="${selectedTemplate.replace(/ /g, '%20')}" alt="${selectedTemplateName}">
-      <div class="preview-box-text"><strong>${selectedTemplateName}</strong></div>
-    `;
+    if (selectedTemplate === 'CUSTOM_DESIGN') {
+      templateContent.innerHTML = `
+        <div style="text-align: center; padding: 30px;">
+          <div style="font-size: 3rem; margin-bottom: 10px;">🎨</div>
+          <div class="preview-box-text"><strong>Custom Design (+$10)</strong></div>
+        </div>
+      `;
+    } else {
+      templateContent.innerHTML = `
+        <img src="${selectedTemplate.replace(/ /g, '%20')}" alt="${selectedTemplateName}">
+        <div class="preview-box-text"><strong>${selectedTemplateName}</strong></div>
+      `;
+    }
   } else {
     templateContent.innerHTML = '<div class="preview-placeholder">Select a template in Step 3</div>';
   }
@@ -1741,10 +1789,19 @@ function goToReview() {
   const reviewDetailsContent = document.getElementById('reviewDetailsContent');
   
   if (selectedTemplate && selectedTemplateName) {
-    reviewTemplateContent.innerHTML = `
-      <img src="${selectedTemplate.replace(/ /g, '%20')}" alt="${selectedTemplateName}" style="max-width: 300px;">
-      <p style="color: var(--text-main); margin-top: 10px;"><strong>${selectedTemplateName}</strong></p>
-    `;
+    if (selectedTemplate === 'CUSTOM_DESIGN') {
+      reviewTemplateContent.innerHTML = `
+        <div style="text-align: center; padding: 20px;">
+          <div style="font-size: 3rem; margin-bottom: 10px;">🎨</div>
+          <p style="color: var(--text-main);"><strong>Custom Design (+$10)</strong></p>
+        </div>
+      `;
+    } else {
+      reviewTemplateContent.innerHTML = `
+        <img src="${selectedTemplate.replace(/ /g, '%20')}" alt="${selectedTemplateName}" style="max-width: 300px;">
+        <p style="color: var(--text-main); margin-top: 10px;"><strong>${selectedTemplateName}</strong></p>
+      `;
+    }
   } else {
     reviewTemplateContent.innerHTML = '<p style="color: var(--text-dim);">No template selected</p>';
   }
@@ -1785,7 +1842,6 @@ function goToReview() {
   goToStep('reviewScreen');
 }
 
-// ✨ NEW FUNCTION: UPLOAD FILES TO SUPABASE STORAGE ✨
 async function uploadVIPFilesToStorage(orderId) {
   if (!vipUploadedFiles || vipUploadedFiles.length === 0) {
     return [];
@@ -1801,7 +1857,6 @@ async function uploadVIPFilesToStorage(orderId) {
     const filePath = `vip-uploads/${fileName}`;
     
     try {
-      // Upload to Supabase Storage
       const uploadResponse = await fetch(
         `${SUPABASE_URL}/storage/v1/object/order-files/${filePath}`,
         {
@@ -1854,7 +1909,6 @@ async function submitForm() {
 
   console.log("🔍 Using ID:", orderId);
 
-  // Disable submit button
   const submitBtn = document.getElementById('vipSubmitBtn');
   if (submitBtn) {
     submitBtn.disabled = true;
@@ -1880,7 +1934,6 @@ async function submitForm() {
     formData.vipBudget = document.getElementById("vipBudget")?.value || "";
     formData.vipNotes = document.getElementById("vipNotes")?.value || "";
     
-    // ✨ UPLOAD VIP FILES ✨
     if (vipUploadedFiles && vipUploadedFiles.length > 0) {
       console.log("📤 Uploading VIP files to storage...");
       const uploadedUrls = await uploadVIPFilesToStorage(orderId);
@@ -1928,6 +1981,11 @@ async function submitForm() {
       saveData.custom_wording = formData.customWording;
       saveData.designer_notes = formData.designerNotes;
       saveData.status = "Form Received";
+      
+      // ✨ FLAG IF CUSTOM DESIGN SELECTED ✨
+      if (selectedTemplate === 'CUSTOM_DESIGN') {
+        saveData.custom_design = true;
+      }
     } else if (projectType === "vip") {
       saveData.vip_business_name = formData.vipBusinessName;
       saveData.vip_gifts_for = formData.vipGiftsFor;
@@ -1935,7 +1993,7 @@ async function submitForm() {
       saveData.vip_delivery_date = formData.vipDeliveryDate;
       saveData.vip_budget = formData.vipBudget;
       saveData.vip_notes = formData.vipNotes;
-      saveData.vip_file_urls = formData.vipFileUrls || null; // ✨ SAVE FILE URLS ✨
+      saveData.vip_file_urls = formData.vipFileUrls || null;
       saveData.status = "VIP Inquiry Received";
     } else if (projectType === "photobook") {
       saveData.photobook_order_link = formData.photoBookOrderLink;
@@ -2022,7 +2080,6 @@ async function submitForm() {
     console.error("❌ Error:", err);
     alert(`⚠️ Submission error: ${err.message}\n\nPlease contact support.`);
     
-    // Re-enable submit button
     if (submitBtn) {
       submitBtn.disabled = false;
       submitBtn.textContent = 'Submit VIP Request';
@@ -2095,7 +2152,6 @@ window.addEventListener('DOMContentLoaded', () => {
     selectProjectType('keepsake');
   }
   
-  // Set minimum date for VIP Delivery Date to today
   const vipDateField = document.getElementById('vipDeliveryDate');
   if (vipDateField) {
     const today = new Date().toISOString().split('T')[0];
