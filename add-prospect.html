@@ -585,6 +585,14 @@ a {
         </div>
 
         <div class="form-group">
+          <label>Full Address <span class="required">*</span></label>
+          <input type="text" id="address" required placeholder="123 Main St, Kansas City, MO 64101">
+        <div class="helper-text">
+    📍 Full street address needed for AI expansion to find nearby prospects
+       </div>
+     </div>
+
+        <div class="form-group">
           <label>Phone</label>
           <input type="tel" id="phone" placeholder="555-1234 (optional)">
         </div>
@@ -700,38 +708,41 @@ a {
     }
 
     function getFormData() {
-      const businessName = document.getElementById('businessName').value.trim();
-      const contactName = document.getElementById('contactName').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const businessType = document.getElementById('businessType').value;
-      const outreachType = document.querySelector('input[name="outreachType"]:checked').value;
-      const notes = document.getElementById('notes').value.trim();
+  const businessName = document.getElementById('businessName').value.trim();
+  const contactName = document.getElementById('contactName').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const address = document.getElementById('address').value.trim(); // 🔥 NEW
+  const phone = document.getElementById('phone').value.trim();
+  const businessType = document.getElementById('businessType').value;
+  const outreachType = document.querySelector('input[name="outreachType"]:checked').value;
+  const notes = document.getElementById('notes').value.trim();
 
-      if (!businessName || !email || !businessType) {
-        return null;
-      }
+  if (!businessName || !email || !businessType || !address) { // 🔥 NEW
+    return null;
+  }
 
-      return {
-        business_name: businessName,
-        contact_name: contactName || null,
-        email: email,
-        phone: phone || null,
-        business_type: businessType,
-        outreach_type: outreachType,
-        notes: notes || null
-      };
-    }
+  return {
+    business_name: businessName,
+    contact_name: contactName || null,
+    email: email,
+    address: address, // 🔥 NEW
+    phone: phone || null,
+    business_type: businessType,
+    outreach_type: outreachType,
+    notes: notes || null
+  };
+}
 
     function clearFormFields() {
-      document.getElementById('businessName').value = '';
-      document.getElementById('contactName').value = '';
-      document.getElementById('email').value = '';
-      document.getElementById('phone').value = '';
-      document.getElementById('businessType').value = '';
-      document.getElementById('notes').value = '';
-      document.getElementById('businessName').focus();
-    }
+  document.getElementById('businessName').value = '';
+  document.getElementById('contactName').value = '';
+  document.getElementById('email').value = '';
+  document.getElementById('address').value = ''; // 🔥 NEW
+  document.getElementById('phone').value = '';
+  document.getElementById('businessType').value = '';
+  document.getElementById('notes').value = '';
+  document.getElementById('businessName').focus();
+}
 
     function updatePreview() {
       const count = document.getElementById('prospectCount');
