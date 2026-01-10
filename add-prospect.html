@@ -733,18 +733,19 @@ a {
   }
 
   return {
-    business_name: businessName,
-    contact_name: contactName || null,
-    email: email,
-    address: address,      // 123 Main St
-    city: city,            // Kansas City
-    zipcode: zipcode,      // 64101
-    phone: phone || null,
-    business_type: businessType,
-    outreach_type: outreachType,
-    notes: notes || null
-  };
-}
+  business_name: businessName,
+  contact_name: contactName || null,
+  email: email,
+  address: address,      // 123 Main St
+  city: city,            // Kansas City
+  state: 'MO',           // 🔥 ADD THIS - hardcoded Missouri
+  zipcode: zipcode,      // 64101
+  phone: phone || null,
+  business_type: businessType,
+  outreach_type: outreachType,
+  status: 'new',         // 🔥 ADD THIS - default status
+  notes: notes || null
+};
 
     function clearFormFields() {
   document.getElementById('businessName').value = '';
