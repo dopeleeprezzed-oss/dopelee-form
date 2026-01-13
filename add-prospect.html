@@ -413,83 +413,140 @@ button, a { touch-action: manipulation; }
   <div class="form-container">
 
     <div id="formSection">
-      <form id="prospectForm" onsubmit="return false;">
-        
-        <div class="form-group">
-          <label>Business Name <span class="required">*</span></label>
-          <input type="text" id="businessName" required placeholder="Smith & Sons Funeral Home">
-        </div>
+<form id="prospectForm" onsubmit="return false;">
+  
+  <div class="form-group">
+    <label>Business Name <span class="required">*</span></label>
+    <input type="text" id="businessName" required placeholder="Smith & Sons Funeral Home">
+  </div>
 
-        <div class="form-group">
-          <label>Contact Name</label>
-          <input type="text" id="contactName" placeholder="John Smith (optional - uses 'believer' if empty)">
-          <div class="helper-text">Leave blank and emails will say "Hey believer,"</div>
-        </div>
+  <div class="form-group">
+    <label>Contact Name</label>
+    <input type="text" id="contactName" placeholder="John Smith (optional - uses 'there' if empty)">
+    <div class="helper-text">Leave blank and emails will say "Hey there,"</div>
+  </div>
 
-        <div class="form-group">
-          <label>Email Address <span class="required">*</span></label>
-          <input type="email" id="email" required placeholder="john@smithfuneral.com">
-        </div>
+  <div class="form-group">
+    <label>Email Address <span class="required">*</span></label>
+    <input type="email" id="email" required placeholder="john@smithfuneral.com">
+  </div>
 
-        <div class="form-group">
-          <label>Street Address <span class="required">*</span></label>
-          <input type="text" id="address" required placeholder="123 Main Street">
-          <div class="helper-text">Street number and name</div>
-        </div>
+  <div class="form-group">
+    <label>Street Address <span class="required">*</span></label>
+    <input type="text" id="address" required placeholder="123 Main Street">
+    <div class="helper-text">Street number and name</div>
+  </div>
 
-        <div class="form-group">
-          <label>City <span class="required">*</span></label>
-          <input type="text" id="city" required placeholder="Kansas City">
-        </div>
+  <div class="form-group">
+    <label>City <span class="required">*</span></label>
+    <input type="text" id="city" required placeholder="Kansas City">
+  </div>
 
-        <div class="form-group">
-          <label>ZIP Code <span class="required">*</span></label>
-          <input type="text" id="zipcode" required placeholder="64101" pattern="[0-9]{5}">
-          <div class="helper-text">5-digit ZIP code</div>
-        </div>
+  <div class="form-group">
+    <label>ZIP Code <span class="required">*</span></label>
+    <input type="text" id="zipcode" required placeholder="64101" pattern="[0-9]{5}">
+    <div class="helper-text">5-digit ZIP code</div>
+  </div>
 
-        <div class="form-group">
-          <label>Phone</label>
-          <input type="tel" id="phone" placeholder="555-1234 (optional)">
-        </div>
+  <div class="form-group">
+    <label>Phone</label>
+    <input type="tel" id="phone" placeholder="555-1234 (optional)">
+  </div>
 
-        <div class="form-group">
-          <label>Business Type <span class="required">*</span></label>
-          <select id="businessType" required>
-            <option value="">Select type...</option>
-            <option value="Funeral Home">Funeral Home</option>
-            <option value="Cremation Service">Cremation Service</option>
-            <option value="Veterinary Clinic">Veterinary Clinic</option>
-            <option value="Cemetery & Memorial Park">Cemetery & Memorial Park</option>
-            <option value="Hospice Center">Hospice Center</option>
-          </select>
-        </div>
+  <div class="form-group">
+    <label>Business Type <span class="required">*</span></label>
+    <select id="businessType" required onchange="toggleCustomType()">
+      <option value="">Select type...</option>
+      <optgroup label="Death Care">
+        <option value="Funeral Home">Funeral Home</option>
+        <option value="Cremation Service">Cremation Service</option>
+        <option value="Cemetery & Memorial Park">Cemetery & Memorial Park</option>
+        <option value="Mortuary">Mortuary</option>
+        <option value="Memorial Chapel">Memorial Chapel</option>
+        <option value="Crematory">Crematory</option>
+      </optgroup>
+      <optgroup label="Healthcare">
+        <option value="Hospice Center">Hospice Center</option>
+        <option value="Nursing Home">Nursing Home</option>
+        <option value="Assisted Living Facility">Assisted Living Facility</option>
+        <option value="Hospital">Hospital</option>
+        <option value="Senior Care Center">Senior Care Center</option>
+      </optgroup>
+      <optgroup label="Pet Services">
+        <option value="Veterinary Clinic">Veterinary Clinic</option>
+        <option value="Pet Cremation Service">Pet Cremation Service</option>
+        <option value="Animal Hospital">Animal Hospital</option>
+        <option value="Pet Cemetery">Pet Cemetery</option>
+      </optgroup>
+      <optgroup label="Religious & Community">
+        <option value="Church">Church</option>
+        <option value="Mosque">Mosque</option>
+        <option value="Synagogue">Synagogue</option>
+        <option value="Temple">Temple</option>
+        <option value="Community Center">Community Center</option>
+      </optgroup>
+      <optgroup label="Other">
+        <option value="Insurance Agency">Insurance Agency</option>
+        <option value="Estate Planning Attorney">Estate Planning Attorney</option>
+        <option value="Florist">Florist</option>
+        <option value="Monument Company">Monument Company</option>
+        <option value="Other">✏️ Other (Custom)</option>
+      </optgroup>
+    </select>
+  </div>
 
-        <div class="form-group">
-          <label>How did you connect? <span class="required">*</span></label>
-          <div class="radio-group">
-            <div class="radio-option">
-              <input type="radio" id="outreachCold" name="outreachType" value="cold" checked>
-              <label for="outreachCold">❄️ Cold Outreach</label>
-            </div>
-            <div class="radio-option">
-              <input type="radio" id="outreachWarm" name="outreachType" value="warm">
-              <label for="outreachWarm">🤝 Met In Person</label>
-            </div>
-          </div>
-        </div>
+  <!-- CUSTOM BUSINESS TYPE (hidden by default) -->
+  <div class="form-group hidden" id="customTypeGroup">
+    <label>Custom Business Type <span class="required">*</span></label>
+    <input type="text" id="customBusinessType" placeholder="Enter custom business type...">
+    <div class="helper-text">Type the business category not listed above</div>
+  </div>
 
-        <div class="form-group">
-          <label>Notes</label>
-          <textarea id="notes" placeholder="Met at trade show. Loved the concept. (optional)"></textarea>
-          <div class="helper-text">Any details about the conversation or connection</div>
-        </div>
+  <div class="form-group">
+    <label>How did you connect? <span class="required">*</span></label>
+    <div class="radio-group">
+      <div class="radio-option">
+        <input type="radio" id="outreachCold" name="outreachType" value="cold" checked>
+        <label for="outreachCold">❄️ Cold Outreach</label>
+      </div>
+      <div class="radio-option">
+        <input type="radio" id="outreachWarm" name="outreachType" value="warm">
+        <label for="outreachWarm">🤝 Met In Person</label>
+      </div>
+    </div>
+  </div>
 
-        <div class="btn-group">
-          <button type="button" class="btn btn-secondary" onclick="addToQueue()">+ Add Another</button>
-          <button type="button" class="btn btn-primary" onclick="submitProspects()">✅ Submit</button>
-        </div>
-      </form>
+  <!-- NEW: CONTACT METHOD (prospect_type) -->
+  <div class="form-group">
+    <label>Contact Method <span class="required">*</span></label>
+    <div class="radio-group" style="flex-direction: column;">
+      <div class="radio-option">
+        <input type="radio" id="typeBoth" name="prospectType" value="both" checked>
+        <label for="typeBoth">📧🚗 Email + Field Visit</label>
+      </div>
+      <div class="radio-option">
+        <input type="radio" id="typeEmail" name="prospectType" value="email_outreach">
+        <label for="typeEmail">📧 Email Only</label>
+      </div>
+      <div class="radio-option">
+        <input type="radio" id="typeField" name="prospectType" value="field_visit">
+        <label for="typeField">🚗 Field Visit Only (No Emails)</label>
+      </div>
+    </div>
+    <div class="helper-text">Choose how you want to reach out to this prospect</div>
+  </div>
+
+  <div class="form-group">
+    <label>Notes</label>
+    <textarea id="notes" placeholder="Met at trade show. Loved the concept. (optional)"></textarea>
+    <div class="helper-text">Any details about the conversation or connection</div>
+  </div>
+
+  <div class="btn-group">
+    <button type="button" class="btn btn-secondary" onclick="addToQueue()">+ Add Another</button>
+    <button type="button" class="btn btn-primary" onclick="submitProspects()">✅ Submit</button>
+  </div>
+</form>
     </div>
 
     <div id="previewSection" class="preview-section hidden">
@@ -563,6 +620,25 @@ function detectProspectType(email, address) {
   }
 }
 
+  // ═══════════════════════════════════════════════════════════════
+// TOGGLE CUSTOM BUSINESS TYPE INPUT
+// ═══════════════════════════════════════════════════════════════
+function toggleCustomType() {
+  const select = document.getElementById('businessType');
+  const customGroup = document.getElementById('customTypeGroup');
+  const customInput = document.getElementById('customBusinessType');
+  
+  if (select.value === 'Other') {
+    customGroup.classList.remove('hidden');
+    customInput.required = true;
+    customInput.focus();
+  } else {
+    customGroup.classList.add('hidden');
+    customInput.required = false;
+    customInput.value = '';
+  }
+}
+
 function getFormData() {
   const businessName = document.getElementById('businessName').value.trim();
   const contactName = document.getElementById('contactName').value.trim();
@@ -571,9 +647,19 @@ function getFormData() {
   const city = document.getElementById('city').value.trim();
   const zipcode = document.getElementById('zipcode').value.trim();
   const phone = document.getElementById('phone').value.trim();
-  const businessType = document.getElementById('businessType').value;
   const outreachType = document.querySelector('input[name="outreachType"]:checked').value;
+  const prospectType = document.querySelector('input[name="prospectType"]:checked').value;
   const notes = document.getElementById('notes').value.trim();
+  
+  // Handle business type (regular or custom)
+  let businessType = document.getElementById('businessType').value;
+  if (businessType === 'Other') {
+    businessType = document.getElementById('customBusinessType').value.trim();
+    if (!businessType) {
+      alert('Please enter a custom business type!');
+      return null;
+    }
+  }
 
   // Validate required fields
   if (!businessName || !email || !businessType || !address || !city || !zipcode) {
@@ -592,7 +678,7 @@ function getFormData() {
     business_type: businessType,
     outreach_type: outreachType,
     notes: notes || null,
-    prospect_type: detectProspectType(email, address),  // 🛡️ AUTO-DETECT!
+    prospect_type: prospectType,  // 🛡️ NOW USER-SELECTED!
     status: 'pending'
   };
 }
@@ -626,7 +712,11 @@ function clearFormFields() {
   document.getElementById('zipcode').value = '';
   document.getElementById('phone').value = '';
   document.getElementById('businessType').value = '';
+  document.getElementById('customBusinessType').value = '';
+  document.getElementById('customTypeGroup').classList.add('hidden');
   document.getElementById('notes').value = '';
+  document.getElementById('typeBoth').checked = true;  // Reset to default
+  document.getElementById('outreachCold').checked = true;  // Reset to default
   document.getElementById('businessName').focus();
 }
 
