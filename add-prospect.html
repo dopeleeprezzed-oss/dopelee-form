@@ -531,6 +531,7 @@ button, a { touch-action: manipulation; }
   </footer>
 
 <script>
+<script>
 // Auto-update copyright year
 document.getElementById('copyrightYear').textContent = new Date().getFullYear();
 
@@ -538,6 +539,30 @@ const SUPABASE_URL = "https://dyehxtiozfwlexkbalvn.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs";
 
 let prospectQueue = [];
+
+// ═══════════════════════════════════════════════════════════════
+// AUTO-DETECT PROSPECT TYPE
+// ═══════════════════════════════════════════════════════════════
+function detectProspectType(email, address) {
+  const isFakeEmail = !email || 
+                      email === '' || 
+                      email.toLowerCase().includes('unknown') || 
+                      email.toLowerCase().includes('lookup') ||
+                      email.toLowerCase().includes('fake') ||
+                      email.toLowerCase().includes('noemail') ||
+                      !email.includes('@');
+  
+  const hasAddress = address && address.trim() !== '';
+  const hasRealEmail = !isFakeEmail;
+  
+  if (hasRealEmail && hasAddress) {
+    return 'both';  // Real email AND physical location
+  } else if (hasRealEmail) {
+    return 'email_outreach';  // Only email outreach
+  } else {
+    return 'field_visit';  // Physical visit only, NO emails
+  }
+}
 
 function getFormData() {
   const businessName = document.getElementById('businessName').value.trim();
@@ -556,8 +581,6 @@ function getFormData() {
     return null;
   }
 
-  // Return data matching Supabase columns EXACTLY
-  // NOTE: No 'status' field - let Supabase use default 'pending'
   return {
     business_name: businessName,
     contact_name: contactName || null,
@@ -569,7 +592,9 @@ function getFormData() {
     phone: phone || null,
     business_type: businessType,
     outreach_type: outreachType,
-    notes: notes || null
+    notes: notes || null,
+    prospect_type: detectProspectType(email, address),  // 🛡️ AUTO-DETECT!
+    status: 'pending'
   };
 }
 
@@ -615,7 +640,7 @@ function updatePreview() {
   list.innerHTML = prospectQueue.map((p, index) => `
     <div class="prospect-item">
       <strong>${index + 1}. ${p.business_name}</strong>
-      <small>${p.email} • ${p.business_type} • ${p.outreach_type === 'cold' ? '❄️ Cold' : '🤝 Warm'}</small>
+      <small>${p.email} • ${p.business_type} • ${p.outreach_type === 'cold' ? '❄️ Cold' : '🤝 Warm'} • ${p.prospect_type === 'field_visit' ? '🚗 Field Only' : '📧 Email'}</small>
     </div>
   `).join('');
 }
