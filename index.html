@@ -2128,6 +2128,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const orderId = urlParams.get('order') || urlParams.get('orderId') || urlParams.get('orderNumber') || '';
   const email = urlParams.get('email') || '';
   const name = urlParams.get('name') || '';
+  const projectParam = urlParams.get('project') || '';
   
   if (email) {
     document.getElementById('email').value = decodeURIComponent(email);
@@ -2147,7 +2148,76 @@ window.addEventListener('DOMContentLoaded', () => {
     console.log('✅ Pre-filled name');
   }
   
-  if (orderId && email) {
+  // ═══════════════════════════════════════════════════════════════
+  // AUTO-SELECT VIP FROM URL PARAMETER (?project=vip)
+  // ═══════════════════════════════════════════════════════════════
+  if (projectParam.toLowerCase() === 'vip') {
+    console.log('✨ VIP mode activated from URL parameter');
+    
+    // Auto-select VIP
+    selectProjectType('vip');
+    
+    // Disable other project type options
+    const allOptionCards = document.querySelectorAll('.option-card');
+    allOptionCards.forEach(card => {
+      const radio = card.querySelector('input[type="radio"]');
+      if (radio && radio.value !== 'vip') {
+        // Disable the card
+        card.style.opacity = '0.4';
+        card.style.pointerEvents = 'none';
+        card.style.cursor = 'not-allowed';
+        radio.disabled = true;
+        
+        // Add strikethrough to text
+        const span = card.querySelector('span');
+        if (span) {
+          span.style.textDecoration = 'line-through';
+        }
+      } else if (radio && radio.value === 'vip') {
+        // Highlight the VIP card
+        card.classList.add('selected');
+        card.style.borderColor = 'var(--accent-gold)';
+        card.style.boxShadow = '0 0 20px rgba(233, 255, 96, 0.3)';
+      }
+    });
+    
+    // Add VIP badge to header
+    const pageTitle = document.querySelector('h1');
+    if (pageTitle && !document.querySelector('.vip-badge')) {
+      const badge = document.createElement('div');
+      badge.className = 'vip-badge';
+      badge.innerHTML = '✨ VIP REQUEST';
+      badge.style.cssText = `
+        display: inline-block;
+        background: linear-gradient(135deg, #d4af37, #f5d76e);
+        color: #000;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 0.7em;
+        font-weight: 700;
+        font-family: 'Inter', sans-serif;
+        margin-top: 10px;
+        animation: vipPulse 2s ease-in-out infinite;
+      `;
+      pageTitle.appendChild(document.createElement('br'));
+      pageTitle.appendChild(badge);
+      
+      // Add pulse animation
+      if (!document.querySelector('#vip-pulse-style')) {
+        const style = document.createElement('style');
+        style.id = 'vip-pulse-style';
+        style.textContent = `
+          @keyframes vipPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
+            50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(212, 175, 55, 0.8); }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    }
+    
+    console.log('🎯 VIP project type locked in');
+  } else if (orderId && email) {
     console.log('🎯 Auto-selecting Keepsake');
     selectProjectType('keepsake');
   }
