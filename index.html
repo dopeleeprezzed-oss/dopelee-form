@@ -2181,40 +2181,24 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
     
-    // Add VIP badge to header
-    const pageTitle = document.querySelector('h1');
-    if (pageTitle && !document.querySelector('.vip-badge')) {
-      const badge = document.createElement('div');
-      badge.className = 'vip-badge';
-      badge.innerHTML = '✨ VIP REQUEST';
-      badge.style.cssText = `
-        display: inline-block;
-        background: linear-gradient(135deg, #d4af37, #f5d76e);
-        color: #000;
-        padding: 6px 16px;
-        border-radius: 20px;
-        font-size: 0.7em;
-        font-weight: 700;
-        font-family: 'Inter', sans-serif;
-        margin-top: 10px;
-        animation: vipPulse 2s ease-in-out infinite;
-      `;
-      pageTitle.appendChild(document.createElement('br'));
-      pageTitle.appendChild(badge);
-      
-      // Add pulse animation
-      if (!document.querySelector('#vip-pulse-style')) {
-        const style = document.createElement('style');
-        style.id = 'vip-pulse-style';
-        style.textContent = `
-          @keyframes vipPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
-            50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(212, 175, 55, 0.8); }
-          }
-        `;
-        document.head.appendChild(style);
-      }
+    // ═══════════════════════════════════════════════════════════════
+    // ELEGANT HEADER SWAP (NO BADGE)
+    // ═══════════════════════════════════════════════════════════════
+    
+    // Change main brand title
+    const brandTitle = document.querySelector('.brand-title');
+    if (brandTitle) {
+      brandTitle.textContent = 'VIP EXPERIENCE REQUEST';
     }
+    
+    // Change tagline
+    const brandTagline = document.querySelector('.brand-tagline');
+    if (brandTagline) {
+      brandTagline.textContent = 'Curated Gift Experiences for Life\'s Meaningful Moments';
+    }
+    
+    // Update page title too
+    document.title = 'Dopelee Prezzed by S™ | VIP Experience Request';
     
     console.log('🎯 VIP project type locked in');
   } else if (orderId && email) {
