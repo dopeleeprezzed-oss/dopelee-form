@@ -2,7 +2,1730 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Dopelee Prezzed by S™ | Let's Get Personal🖤 </title>
+  
+  <!-- GOOGLE FONTS -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+/* --------------------------------------------------
+   BRAND VARIABLES
+-------------------------------------------------- */
+:root {
+  --bg-dark: #050509;
+  --bg-card: #0f1018;
+  --bg-input: #1a1b26;
+
+  --text-main: #f5f5ff;
+  --text-muted: #b9bed8;
+  --text-dim: #7a7f9a;
+
+  --accent-gold: #e9ff60;
+  --accent-blue: #0a95a8;
+  --accent-pink: #fd26fd;
+  --accent-violet: #3461fa;
+  --accent-cyan: #0ff0b8;
+
+  --border-soft: rgba(255, 255, 255, 0.08);
+
+  --shadow-heavy: 0 24px 60px rgba(0, 0, 0, 0.9);
+  --shadow-card: 0 12px 40px rgba(0, 0, 0, 0.7);
+}
+
+/* --------------------------------------------------
+   GLOBAL
+-------------------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: radial-gradient(circle at top, #181829 0%, #050509 40%, #000 100%);
+  color: var(--text-main);
+  min-height: 100vh;
+  padding: 15px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --------------------------------------------------
+   BLACK BUBBLE HEADER - MATCHES WEBSITE/EMAILS
+-------------------------------------------------- */
+.brand-header {
+  background: #000;
+  padding: 30px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-top: 2px solid #d4af37;
+  border-bottom: 2px solid #d4af37;
+  margin-bottom: 25px;
+  border-radius: 16px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Blue Bling Background Effect */
+.brand-header::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: 
+    radial-gradient(circle at 25% 35%, rgba(15, 240, 184, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 75% 65%, rgba(10, 149, 168, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(15, 240, 184, 0.1) 0%, transparent 60%);
+  pointer-events: none;
+  animation: heroBling 5s ease-in-out infinite;
+}
+
+@keyframes heroBling {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+/* Floating Colored Bubbles */
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: bubbleRise 8s infinite ease-in-out;
+  pointer-events: none;
+  box-shadow: 0 0 30px currentColor, 0 0 60px currentColor, inset 0 0 20px rgba(255, 255, 255, 0.3);
+  filter: blur(1px);
+}
+
+@keyframes bubbleRise {
+  0% {
+    transform: translateY(100vh) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-100px) scale(1);
+    opacity: 0;
+  }
+}
+
+.brand-header .bubble:nth-child(1) { left: 10%; width: 30px; height: 30px; background: #0ff0b8; animation-delay: 0s; animation-duration: 10s; }
+.brand-header .bubble:nth-child(2) { left: 25%; width: 40px; height: 40px; background: #d3fb1b; animation-delay: 2s; animation-duration: 12s; }
+.brand-header .bubble:nth-child(3) { left: 45%; width: 35px; height: 35px; background: #fd26fd; animation-delay: 1s; animation-duration: 11s; }
+.brand-header .bubble:nth-child(4) { left: 65%; width: 25px; height: 25px; background: #3461fa; animation-delay: 3s; animation-duration: 9s; }
+.brand-header .bubble:nth-child(5) { left: 80%; width: 38px; height: 38px; background: #0a95a8; animation-delay: 4s; animation-duration: 13s; }
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(3deg); }
+}
+
+@keyframes logoGlow {
+  0%, 100% { filter: drop-shadow(0 0 20px rgba(211, 251, 27, 0.6)) drop-shadow(0 0 40px rgba(15, 240, 184, 0.4)); }
+  50% { filter: drop-shadow(0 0 30px rgba(253, 38, 253, 0.8)) drop-shadow(0 0 50px rgba(52, 97, 250, 0.6)); }
+}
+
+.brand-logo-large {
+  max-width: 140px;
+  height: auto;
+  margin: 0 auto 16px;
+  border-radius: 12px;
+  position: relative;
+  z-index: 2;
+  animation: logoFloat 4s ease-in-out infinite, logoGlow 3s ease-in-out infinite;
+  filter: brightness(1.1) contrast(1.1);
+}
+
+.brand-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 3px 20px rgba(15, 240, 184, 0.6), 0 0 40px rgba(255, 255, 255, 0.3);
+  line-height: 1.3;
+  letter-spacing: 0.5px;
+}
+
+.brand-tagline {
+  margin: 6px 0 0;
+  color: #ccc;
+  font-size: 11px;
+  font-weight: 600;
+  position: relative;
+  z-index: 2;
+}
+
+/* --------------------------------------------------
+   HEADER
+-------------------------------------------------- */
+.header {
+  max-width: 1200px;
+  margin: 0 auto 25px;
+  text-align: center;
+  padding: 0 10px;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  background: linear-gradient(120deg, var(--accent-gold), var(--accent-pink));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  max-width: 580px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------
+   PROGRESS BAR
+-------------------------------------------------- */
+.progress-container {
+  max-width: 1200px;
+  margin: 0 auto 25px;
+  padding: 0 5px;
+}
+
+.progress-bar {
+  height: 4px;
+  background: #222;
+  border-radius: 20px;
+}
+
+.progress-fill {
+  height: 4px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-gold));
+  border-radius: 20px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-top: 8px;
+}
+
+/* --------------------------------------------------
+   FORM CONTAINER - MOBILE OPTIMIZED
+-------------------------------------------------- */
+.form-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  padding: 25px 18px;
+  border-radius: 20px;
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-heavy);
+}
+
+.step {
+  display: none;
+}
+
+.step.active {
+  display: block;
+}
+
+.step-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.step-description {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------
+   FORM ELEMENTS - MOBILE OPTIMIZED
+-------------------------------------------------- */
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+  line-height: 1.4;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--bg-input);
+  border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  color: var(--text-main);
+  font-size: 16px;
+  font-family: inherit;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+}
+
+.helper-text {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+/* --------------------------------------------------
+   OPTION CARDS - MOBILE OPTIMIZED
+-------------------------------------------------- */
+.options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch;
+  width: 100%;
+}
+
+.option-card {
+  width: 100%;
+  padding: 16px 18px;
+  background: var(--bg-input);
+  border-radius: 10px;
+  border: 2px solid var(--border-soft);
+  cursor: pointer;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.option-card:active {
+  transform: scale(0.98);
+}
+
+.option-card.selected {
+  border-color: var(--accent-gold);
+  background: rgba(233, 255, 96, 0.08);
+}
+
+.option-card input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  cursor: pointer;
+  accent-color: var(--accent-gold);
+}
+
+.option-card span {
+  flex: 1;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* --------------------------------------------------
+   LOOK & FEEL SECTION
+-------------------------------------------------- */
+.look-feel-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.look-feel-card {
+  width: 100%;
+  padding: 18px 20px;
+  background: var(--bg-input);
+  border-radius: 12px;
+  border: 2px solid var(--border-soft);
+  cursor: pointer;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  transition: all 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.look-feel-card:hover {
+  border-color: var(--accent-blue);
+  transform: translateY(-2px);
+}
+
+.look-feel-card:active {
+  transform: scale(0.98);
+}
+
+.look-feel-card.selected {
+  border-color: var(--accent-gold);
+  background: rgba(233, 255, 96, 0.1);
+  box-shadow: 0 0 20px rgba(233, 255, 96, 0.2);
+}
+
+.look-feel-card input[type="radio"] {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  cursor: pointer;
+  accent-color: var(--accent-gold);
+}
+
+.look-feel-card .lf-content {
+  flex: 1;
+}
+
+.look-feel-card .lf-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.look-feel-card .lf-description {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+/* --------------------------------------------------
+   VIBE IMAGES GRID (AUTO-REVEAL)
+-------------------------------------------------- */
+.vibe-section {
+  margin-top: 30px;
+  padding: 25px;
+  background: rgba(15, 240, 184, 0.03);
+  border: 2px solid var(--accent-cyan);
+  border-radius: 16px;
+  display: none;
+  animation: fadeInUp 0.4s ease;
+}
+
+.vibe-section.visible {
+  display: block;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.vibe-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.vibe-header h3 {
+  color: var(--accent-cyan);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.vibe-header p {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.vibe-images-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.vibe-image-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  aspect-ratio: 3/4;
+}
+
+.vibe-image-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-blue);
+}
+
+.vibe-image-card.selected {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 25px rgba(233, 255, 96, 0.4);
+}
+
+.vibe-image-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.vibe-image-card .select-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.9));
+  padding: 30px 10px 12px;
+  text-align: center;
+}
+
+.vibe-image-card .select-btn {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vibe-image-card:hover .select-btn {
+  background: rgba(255,255,255,0.25);
+}
+
+.vibe-image-card.selected .select-btn {
+  background: var(--accent-gold);
+  color: #000;
+  border-color: var(--accent-gold);
+}
+
+.vibe-image-card.selected .select-overlay {
+  background: linear-gradient(transparent, rgba(233, 255, 96, 0.3));
+}
+
+/* Mobile: 2 columns */
+@media (max-width: 500px) {
+  .vibe-images-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .vibe-image-card:nth-child(3) {
+    grid-column: span 2;
+    max-width: 60%;
+    margin: 0 auto;
+  }
+}
+
+/* --------------------------------------------------
+   LUXURY PREVIEW CARD
+-------------------------------------------------- */
+.luxury-preview-card {
+  background: linear-gradient(145deg, #0f1018 0%, #1a1b26 100%);
+  border: 2px solid;
+  border-image: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan), var(--accent-pink)) 1;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 30px;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.8),
+    0 0 40px rgba(233, 255, 96, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.luxury-preview-header {
+  background: linear-gradient(135deg, rgba(233, 255, 96, 0.1), rgba(15, 240, 184, 0.05));
+  padding: 20px 25px;
+  border-bottom: 1px solid var(--border-soft);
+  text-align: center;
+}
+
+.luxury-preview-header h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  background: linear-gradient(120deg, var(--accent-gold), var(--accent-cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0;
+}
+
+.luxury-preview-header p {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-top: 6px;
+}
+
+.luxury-preview-body {
+  padding: 25px;
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 25px;
+  align-items: start;
+}
+
+.preview-style-image {
+  width: 140px;
+  height: 180px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid var(--accent-gold);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+.preview-style-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.preview-details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.preview-detail-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.preview-detail-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+.preview-detail-value {
+  font-size: 1rem;
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+.preview-detail-value.large {
+  font-size: 1.3rem;
+  font-weight: 700;
+  background: linear-gradient(120deg, var(--accent-gold), #fff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.preview-photos-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(15, 240, 184, 0.1);
+  border: 1px solid var(--accent-cyan);
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: var(--accent-cyan);
+  width: fit-content;
+}
+
+.luxury-preview-footer {
+  padding: 20px 25px;
+  background: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid var(--border-soft);
+}
+
+/* Mobile: Stack layout */
+@media (max-width: 600px) {
+  .luxury-preview-body {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .preview-style-image {
+    width: 100%;
+    max-width: 200px;
+    height: 250px;
+    margin: 0 auto;
+  }
+}
+
+/* --------------------------------------------------
+   BUTTONS - MOBILE OPTIMIZED
+-------------------------------------------------- */
+.button-group {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 10px;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.btn {
+  padding: 14px 20px;
+  width: 100%;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  border: none;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan));
+  color: #000;
+  box-shadow: 0 4px 16px rgba(233, 255, 96, 0.3);
+}
+
+.btn-secondary {
+  background: var(--bg-input);
+  border: 1px solid var(--border-soft);
+  color: var(--text-main);
+}
+
+.btn-submit {
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan));
+  color: #000;
+  font-size: 1.1rem;
+  padding: 18px 30px;
+  box-shadow: 0 6px 25px rgba(233, 255, 96, 0.4);
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(233, 255, 96, 0.5);
+}
+
+.btn-edit {
+  background: transparent;
+  border: 1px solid var(--border-soft);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* --------------------------------------------------
+   SUCCESS SCREEN
+-------------------------------------------------- */
+.success-screen {
+  text-align: center;
+  padding: 40px 15px;
+}
+
+.success-screen h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  background: linear-gradient(120deg, var(--accent-gold), var(--accent-pink));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+
+.success-screen p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* --------------------------------------------------
+   TABLET & DESKTOP (768px+)
+-------------------------------------------------- */
+@media (min-width: 768px) {
+  body {
+    padding: 20px;
+  }
+  
+  .brand-header {
+    padding: 40px 30px;
+    margin-bottom: 40px;
+    border-radius: 20px;
+  }
+  
+  .brand-logo-large {
+    max-width: 160px;
+    margin-bottom: 15px;
+  }
+  
+  .brand-title {
+    font-size: 28px;
+  }
+  
+  .brand-tagline {
+    font-size: 13px;
+  }
+  
+  h1 {
+    font-size: 2.2rem;
+  }
+  
+  .form-container {
+    padding: 40px;
+    border-radius: 24px;
+  }
+  
+  .button-group {
+    flex-direction: row;
+    gap: 12px;
+  }
+  
+  .btn {
+    flex: 1;
+  }
+  
+  .success-screen {
+    padding: 60px 20px;
+  }
+  
+  .success-screen h2 {
+    font-size: 2rem;
+  }
+  
+  .look-feel-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+  
+  .look-feel-card:last-child {
+    grid-column: span 2;
+    max-width: 50%;
+    margin: 0 auto;
+  }
+}
+
+/* --------------------------------------------------
+   LARGE DESKTOP (1024px+)
+-------------------------------------------------- */
+@media (min-width: 1024px) {
+  .option-card:hover {
+    border-color: var(--accent-blue);
+    transform: translateY(-2px);
+  }
+  
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(233, 255, 96, 0.4);
+  }
+  
+  .btn-secondary:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .look-feel-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .look-feel-card:last-child {
+    grid-column: span 1;
+    max-width: 100%;
+  }
+}
+
+/* --------------------------------------------------
+   PREVENT ZOOM ON DOUBLE TAP (iOS)
+-------------------------------------------------- */
+button, 
+a {
+  touch-action: manipulation;
+}
+
+  </style>
+
+</head>
+
+<body>
+
+  <!-- BLACK BUBBLE HEADER -->
+  <header class="brand-header">
+    <!-- Floating Bubbles -->
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    
+    <img src="https://dopeleeprezzed-oss.github.io/dopelee-form/logo.png" 
+         alt="Dopelee Prezzed Logo" class="brand-logo-large">
+    <h1 class="brand-title">ORDER PERSONALIZATION FORM</h1>
+    <p class="brand-tagline">Luxury • Legacy • Keepsakes</p>
+  </header>
+
+  <!-- HEADER -->
+  <header class="header">
+    <h1>Let's Get Personal🖤</h1>
+    <p class="subtitle">
+      Tell us about your project so we can create your custom keepsake,
+      VIP experience, or legacy photo book.
+    </p>
+  </header>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress-container">
+    <div class="progress-bar">
+      <div id="progressBar" class="progress-fill"></div>
+    </div>
+    <div id="progressText" class="progress-text">Step 1 of 5</div>
+  </div>
+
+  <!-- FORM CONTAINER -->
+  <div class="form-container">
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- STEP 1: BASIC INFO -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="step1" class="step active">
+      <h2 class="step-title">Step 1: Basic Information</h2>
+
+      <div class="form-group">
+        <label>Your Full Name *</label>
+        <input id="fullName" type="text" />
+      </div>
+
+      <div class="form-group">
+        <label>Email Address *</label>
+        <input id="email" type="email" />
+      </div>
+
+      <div class="form-group" id="orderNumberField">
+        <label>Order Number (optional)</label>
+        <input id="orderNumber" type="text" />
+        <div class="helper-text">Enter your order number from your purchase confirmation email.</div>
+      </div>
+
+      <!-- PARTNER REFERRAL DROPDOWN -->
+      <div class="form-group">
+        <label>How did you hear about us? *</label>
+        <select id="partnerReferral" required>
+          <option value="">Select an option...</option>
+          <option value="website">Website</option>
+          <option value="social">Social Media</option>
+          <option value="friend">Friend/Family</option>
+          <option value="other">Other</option>
+          <!-- Partner locations will be loaded here dynamically -->
+        </select>
+        <div class="helper-text">If you saw our display at a partner location, please select it from the list.</div>
+      </div>
+
+      <div class="form-group">
+        <label>Select Project Type *</label>
+
+        <div class="options-grid">
+          <div class="option-card" onclick="selectProjectType('keepsake')">
+            <input type="radio" name="projectType" value="keepsake" />
+            <span>Keepsake Order</span>
+          </div>
+
+          <div class="option-card" onclick="selectProjectType('vip')">
+            <input type="radio" name="projectType" value="vip" />
+            <span>VIP Bulk Gift</span>
+          </div>
+
+          <div class="option-card" onclick="selectProjectType('photobook')">
+            <input type="radio" name="projectType" value="photobook" />
+            <span>Photo Book Project</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="validateStep1()">Continue →</button>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- STEP 2: WHO WE'RE HONORING (KEEPSAKE) -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="step2aKeepsake" class="step">
+      <h2 class="step-title">Step 2: Who or What Are We Honoring?</h2>
+
+      <div class="form-group">
+        <label>Person or Pet *</label>
+
+        <div class="options-grid">
+          <div class="option-card" onclick="setPersonOrPet('human')">
+            <input type="radio" name="honorType" value="human" />
+            <span>Person</span>
+          </div>
+
+          <div class="option-card" onclick="setPersonOrPet('pet')">
+            <input type="radio" name="honorType" value="pet" />
+            <span>Pet</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Name *</label>
+        <input id="honoredName" type="text" />
+      </div>
+
+      <div class="form-group">
+        <label>Dates (optional)</label>
+        <input id="dates" type="text" placeholder="e.g., 2010 - 2024" />
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('step1')">← Back</button>
+        <button class="btn btn-primary" onclick="goToStep('step3aLookFeel')">Continue →</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- STEP 3: LOOK & FEEL SELECTION (REPLACES TEMPLATE GALLERY) -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="step3aLookFeel" class="step">
+      <h2 class="step-title">Step 3: Choose the Look & Feel</h2>
+      <p class="step-description">What vibe fits this keepsake best?</p>
+
+      <div class="look-feel-grid">
+        <div class="look-feel-card" onclick="selectLookFeel('honoring')">
+          <input type="radio" name="lookFeel" value="honoring" />
+          <div class="lf-content">
+            <div class="lf-title">Honoring & Respectful</div>
+            <div class="lf-description">Dignified, reverent, classic memorial style</div>
+          </div>
+        </div>
+
+        <div class="look-feel-card" onclick="selectLookFeel('warm')">
+          <input type="radio" name="lookFeel" value="warm" />
+          <div class="lf-content">
+            <div class="lf-title">Warm & Celebratory</div>
+            <div class="lf-description">Joyful, bright, celebration of life</div>
+          </div>
+        </div>
+
+        <div class="look-feel-card" onclick="selectLookFeel('timeless')">
+          <input type="radio" name="lookFeel" value="timeless" />
+          <div class="lf-content">
+            <div class="lf-title">Timeless & Elegant</div>
+            <div class="lf-description">Classic, refined, sophisticated</div>
+          </div>
+        </div>
+
+        <div class="look-feel-card" onclick="selectLookFeel('bold')">
+          <input type="radio" name="lookFeel" value="bold" />
+          <div class="lf-content">
+            <div class="lf-title">Bold & Powerful</div>
+            <div class="lf-description">Strong, proud, military/achievement style</div>
+          </div>
+        </div>
+
+        <div class="look-feel-card" onclick="selectLookFeel('soft')">
+          <input type="radio" name="lookFeel" value="soft" />
+          <div class="lf-content">
+            <div class="lf-title">Soft & Comforting</div>
+            <div class="lf-description">Gentle, peaceful, healing</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIBE IMAGES - AUTO REVEAL -->
+      <div id="vibeSection" class="vibe-section">
+        <div class="vibe-header">
+          <h3>✨ Here's the vibe</h3>
+          <p>Select the style that speaks to you</p>
+        </div>
+        
+        <div id="vibeImagesGrid" class="vibe-images-grid">
+          <!-- Images loaded dynamically -->
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('step2aKeepsake')">← Back</button>
+        <button class="btn btn-primary" onclick="validateLookFeel()">Continue →</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- STEP 4: UPLOAD PHOTOS & DETAILS -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="step4aUpload" class="step">
+      <h2 class="step-title">Step 4: Upload Photos & Add Details</h2>
+      <p class="step-description">Almost there! Add your photos and any special wording.</p>
+
+      <div class="form-group">
+        <label>Upload Photo *</label>
+        <input id="fileInput" type="file" accept="image/*" onchange="handleImageUpload(event)" />
+        <div class="helper-text">Choose a high-quality photo for the best results</div>
+        <div id="photoPreview" style="margin-top: 15px;"></div>
+      </div>
+
+      <div class="form-group">
+        <label>What do you want the keepsake to say? *</label>
+        <textarea id="customWording" placeholder="Type exactly what you want to appear..."></textarea>
+        <div class="helper-text">Names and dates are already included. Add any special quotes or messages here.</div>
+      </div>
+
+      <div class="form-group">
+        <label>Designer Notes (optional)</label>
+        <textarea id="designerNotes" placeholder="Any special instructions for your designer..."></textarea>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('step3aLookFeel')">← Back</button>
+        <button class="btn btn-primary" onclick="goToPreview()">Review My Keepsake →</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- STEP 5: LUXURY PREVIEW CARD -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="step5Preview" class="step">
+      <h2 class="step-title">Step 5: Review Your Keepsake</h2>
+      <p class="step-description">Make sure everything looks perfect!</p>
+
+      <div class="luxury-preview-card">
+        <div class="luxury-preview-header">
+          <h3>✨ Your Keepsake Details</h3>
+          <p>Here's what we'll create for you</p>
+        </div>
+        
+        <div class="luxury-preview-body">
+          <div class="preview-style-image">
+            <img id="previewStyleImg" src="" alt="Selected style" />
+          </div>
+          
+          <div class="preview-details">
+            <div class="preview-detail-row">
+              <span class="preview-detail-label">Honoring</span>
+              <span id="previewName" class="preview-detail-value large"></span>
+            </div>
+            
+            <div class="preview-detail-row">
+              <span class="preview-detail-label">Dates</span>
+              <span id="previewDates" class="preview-detail-value"></span>
+            </div>
+            
+            <div class="preview-detail-row">
+              <span class="preview-detail-label">Look & Feel</span>
+              <span id="previewLookFeel" class="preview-detail-value"></span>
+            </div>
+            
+            <div class="preview-detail-row">
+              <span class="preview-detail-label">Custom Message</span>
+              <span id="previewMessage" class="preview-detail-value"></span>
+            </div>
+            
+            <div id="previewPhotos" class="preview-photos-badge">
+              📷 <span id="photoCount">1 photo</span> attached
+            </div>
+          </div>
+        </div>
+        
+        <div class="luxury-preview-footer">
+          <div class="button-group" style="margin: 0; padding: 0; border: none;">
+            <button class="btn btn-edit" onclick="goToStep('step4aUpload')">← Edit Details</button>
+            <button class="btn btn-submit" onclick="submitForm()">✨ Submit My Keepsake →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SUCCESS SCREEN -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="successScreen" class="step">
+      <div class="success-screen">
+        <h2>🎉 You're All Set!</h2>
+        <p>
+          Your keepsake details have been received. Our design team will get started on your beautiful piece.
+          <br><br>
+          Check your email for confirmation and updates on your order.
+        </p>
+        <button class="btn btn-primary" onclick="window.location.href='https://www.dopeleeprezzedbys.com'">
+          Visit Our Website →
+        </button>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // ═══════════════════════════════════════════════════════════════
+    // CONFIGURATION
+    // ═══════════════════════════════════════════════════════════════
+    const SUPABASE_URL = 'https://dyehxtiozfwlexkbalvn.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs';
+    const STORAGE_URL = `${SUPABASE_URL}/storage/v1/object/public/look-and-feel`;
+
+    // ═══════════════════════════════════════════════════════════════
+    // LOOK & FEEL IMAGES
+    // ═══════════════════════════════════════════════════════════════
+    const LOOK_FEEL_IMAGES = {
+      honoring: [
+        { id: 'honoring_1', url: `${STORAGE_URL}/honoring_1.jpg`, name: 'Classic Memorial' },
+        { id: 'honoring_2', url: `${STORAGE_URL}/honoring_2.jpg`, name: 'Human Memorial' },
+        { id: 'honoring_3', url: `${STORAGE_URL}/honoring_3.jpg`, name: 'Homegoing' }
+      ],
+      warm: [
+        { id: 'warm_1', url: `${STORAGE_URL}/warm_1.jpg`, name: 'Birthday Celebration' },
+        { id: 'warm_2', url: `${STORAGE_URL}/warm_2.jpg`, name: 'Baby/First Birthday' },
+        { id: 'warm_3', url: `${STORAGE_URL}/warm_3.jpg`, name: 'Retirement' }
+      ],
+      timeless: [
+        { id: 'timeless_1', url: `${STORAGE_URL}/timeless_1.jpg`, name: 'Wedding' },
+        { id: 'timeless_2', url: `${STORAGE_URL}/timeless_2.jpg`, name: 'Anniversary' },
+        { id: 'timeless_3', url: `${STORAGE_URL}/timeless_3.jpg`, name: 'Peaceful Moment' }
+      ],
+      bold: [
+        { id: 'bold_1', url: `${STORAGE_URL}/bold_1.jpg`, name: 'Military Hero' },
+        { id: 'bold_2', url: `${STORAGE_URL}/bold_2.jpg`, name: 'Military Remembrance' },
+        { id: 'bold_3', url: `${STORAGE_URL}/bold_3.jpg`, name: 'Sports Achievement' }
+      ],
+      soft: [
+        { id: 'soft_1', url: `${STORAGE_URL}/soft_1.jpg`, name: 'Healing Quote' },
+        { id: 'soft_2', url: `${STORAGE_URL}/soft_2.jpg`, name: 'Pet Memorial' },
+        { id: 'soft_3', url: `${STORAGE_URL}/soft_3.jpg`, name: 'Graduation' }
+      ]
+    };
+
+    const LOOK_FEEL_NAMES = {
+      honoring: 'Honoring & Respectful',
+      warm: 'Warm & Celebratory',
+      timeless: 'Timeless & Elegant',
+      bold: 'Bold & Powerful',
+      soft: 'Soft & Comforting'
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    // STATE
+    // ═══════════════════════════════════════════════════════════════
+    let projectType = null;
+    let selectedPersonOrPet = null;
+    let selectedLookFeel = null;
+    let selectedVibeImage = null;
+    let uploadedImage = null;
+    let uploadedImageFile = null;
+
+    // ═══════════════════════════════════════════════════════════════
+    // NAVIGATION
+    // ═══════════════════════════════════════════════════════════════
+    function goToStep(stepId) {
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById(stepId)?.classList.add('active');
+      updateProgressBar(stepId);
+      window.scrollTo(0, 0);
+    }
+
+    function updateProgressBar(stepId) {
+      const bar = document.getElementById("progressBar");
+      const text = document.getElementById("progressText");
+
+      let num = 1;
+      if (stepId.includes("step2")) num = 2;
+      if (stepId.includes("step3")) num = 3;
+      if (stepId.includes("step4")) num = 4;
+      if (stepId.includes("step5") || stepId === "successScreen") num = 5;
+
+      bar.style.width = (num / 5) * 100 + "%";
+      text.textContent = stepId === "successScreen" ? "Complete! ✓" : `Step ${num} of 5`;
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // STEP 1: PROJECT TYPE
+    // ═══════════════════════════════════════════════════════════════
+    function selectProjectType(type) {
+      projectType = type;
+      const radio = document.querySelector(`input[name="projectType"][value="${type}"]`);
+      if (radio) radio.checked = true;
+      
+      document.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected'));
+      const selectedCard = document.querySelector(`input[name="projectType"][value="${type}"]`)?.closest('.option-card');
+      if (selectedCard) selectedCard.classList.add('selected');
+      
+      const orderNumberField = document.getElementById('orderNumberField');
+      if (orderNumberField) {
+        orderNumberField.style.display = type === 'vip' ? 'none' : 'block';
+      }
+    }
+
+    function validateStep1() {
+      const name = document.getElementById("fullName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const selected = document.querySelector("input[name='projectType']:checked");
+      const referral = document.getElementById("partnerReferral").value;
+
+      if (!name || !email || !selected || !referral) {
+        alert("Please complete all required fields.");
+        return;
+      }
+
+      projectType = selected.value;
+
+      if (projectType === "keepsake") goToStep("step2aKeepsake");
+      else if (projectType === "vip") goToStep("step2bVIP");
+      else goToStep("step2cPhotobook");
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // STEP 2: PERSON OR PET
+    // ═══════════════════════════════════════════════════════════════
+    function setPersonOrPet(type) {
+      selectedPersonOrPet = type;
+      
+      document.querySelectorAll("input[name='honorType']").forEach(r => {
+        r.checked = (r.value === type);
+      });
+      
+      document.querySelectorAll('.option-card').forEach(card => {
+        const input = card.querySelector('input[name="honorType"]');
+        if (input && input.value === type) {
+          card.classList.add('selected');
+        } else if (input && input.name === 'honorType') {
+          card.classList.remove('selected');
+        }
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // STEP 3: LOOK & FEEL
+    // ═══════════════════════════════════════════════════════════════
+    function selectLookFeel(type) {
+      selectedLookFeel = type;
+      selectedVibeImage = null; // Reset vibe image selection
+      
+      // Update radio buttons
+      document.querySelectorAll("input[name='lookFeel']").forEach(r => {
+        r.checked = (r.value === type);
+      });
+      
+      // Update card styles
+      document.querySelectorAll('.look-feel-card').forEach(card => {
+        const input = card.querySelector('input[name="lookFeel"]');
+        if (input && input.value === type) {
+          card.classList.add('selected');
+        } else {
+          card.classList.remove('selected');
+        }
+      });
+      
+      // Show vibe images
+      showVibeImages(type);
+    }
+
+    function showVibeImages(type) {
+      const vibeSection = document.getElementById('vibeSection');
+      const vibeGrid = document.getElementById('vibeImagesGrid');
+      
+      const images = LOOK_FEEL_IMAGES[type];
+      if (!images) return;
+      
+      vibeGrid.innerHTML = '';
+      
+      images.forEach((img, index) => {
+        const card = document.createElement('div');
+        card.className = 'vibe-image-card';
+        card.onclick = () => selectVibeImage(img.id, img.url);
+        
+        card.innerHTML = `
+          <img src="${img.url}" alt="${img.name}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22260%22%3E%3Crect fill=%22%23222%22 width=%22200%22 height=%22260%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23666%22 font-size=%2212%22%3ELoading...%3C/text%3E%3C/svg%3E'">
+          <div class="select-overlay">
+            <button class="select-btn">Select This One</button>
+          </div>
+        `;
+        
+        vibeGrid.appendChild(card);
+      });
+      
+      // Show the section with animation
+      vibeSection.classList.add('visible');
+    }
+
+    function selectVibeImage(imageId, imageUrl) {
+      selectedVibeImage = { id: imageId, url: imageUrl };
+      
+      // Update card styles
+      document.querySelectorAll('.vibe-image-card').forEach((card, index) => {
+        const images = LOOK_FEEL_IMAGES[selectedLookFeel];
+        if (images && images[index] && images[index].id === imageId) {
+          card.classList.add('selected');
+        } else {
+          card.classList.remove('selected');
+        }
+      });
+    }
+
+    function validateLookFeel() {
+      if (!selectedLookFeel) {
+        alert("Please select a look & feel for your keepsake.");
+        return;
+      }
+      
+      if (!selectedVibeImage) {
+        alert("Please select one of the style images.");
+        return;
+      }
+      
+      goToStep('step4aUpload');
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // STEP 4: UPLOAD
+    // ═══════════════════════════════════════════════════════════════
+    function handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      uploadedImageFile = file;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        uploadedImage = e.target.result;
+        
+        const preview = document.getElementById('photoPreview');
+        preview.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(15, 240, 184, 0.1); border: 1px solid var(--accent-cyan); border-radius: 10px;">
+            <img src="${uploadedImage}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;" alt="Preview">
+            <div>
+              <div style="color: var(--text-main); font-weight: 500;">${file.name}</div>
+              <div style="color: var(--accent-cyan); font-size: 0.85rem;">✓ Photo uploaded</div>
+            </div>
+          </div>
+        `;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // STEP 5: PREVIEW
+    // ═══════════════════════════════════════════════════════════════
+    function goToPreview() {
+      // Validate required fields
+      if (!uploadedImage) {
+        alert("Please upload a photo.");
+        return;
+      }
+      
+      const customWording = document.getElementById('customWording').value.trim();
+      if (!customWording) {
+        alert("Please add what you want the keepsake to say.");
+        return;
+      }
+      
+      // Populate preview card
+      const honoredName = document.getElementById('honoredName').value || 'Not specified';
+      const dates = document.getElementById('dates').value || 'Not specified';
+      
+      document.getElementById('previewStyleImg').src = selectedVibeImage?.url || '';
+      document.getElementById('previewName').textContent = honoredName;
+      document.getElementById('previewDates').textContent = dates;
+      document.getElementById('previewLookFeel').textContent = LOOK_FEEL_NAMES[selectedLookFeel] || '';
+      document.getElementById('previewMessage').textContent = customWording.length > 100 ? customWording.substring(0, 100) + '...' : customWording;
+      document.getElementById('photoCount').textContent = '1 photo';
+      
+      goToStep('step5Preview');
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // SUBMIT
+    // ═══════════════════════════════════════════════════════════════
+    async function submitForm() {
+      const submitBtn = document.querySelector('.btn-submit');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting...';
+      }
+
+      const orderId = document.getElementById('orderNumber')?.value || `WEB-${Date.now()}`;
+      
+      const formData = {
+        fullName: document.getElementById('fullName').value,
+        email: document.getElementById('email').value,
+        orderNumber: orderId,
+        honoredName: document.getElementById('honoredName')?.value || '',
+        dates: document.getElementById('dates')?.value || '',
+        customWording: document.getElementById('customWording')?.value || '',
+        designerNotes: document.getElementById('designerNotes')?.value || ''
+      };
+
+      try {
+        console.log("📡 Saving to database...");
+
+        const saveData = {
+          order_id: orderId,
+          customer_name: formData.fullName,
+          customer_email: formData.email,
+          project_type: projectType,
+          person_or_pet: selectedPersonOrPet,
+          honored_name: formData.honoredName,
+          dates: formData.dates,
+          look_and_feel: selectedLookFeel,
+          selected_style_image: selectedVibeImage?.id || null,
+          custom_wording: formData.customWording,
+          designer_notes: formData.designerNotes,
+          form_completed: true,
+          form_completed_at: new Date().toISOString(),
+          status: "Form Received",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        };
+
+        // Get partner referral
+        const partnerReferralSelect = document.getElementById('partnerReferral');
+        const partnerReferralValue = partnerReferralSelect ? partnerReferralSelect.value : '';
+        
+        if (partnerReferralValue && partnerReferralValue.length > 10) {
+          saveData.partner_id = partnerReferralValue;
+          saveData.referral_source = 'partner_location';
+        } else if (partnerReferralValue) {
+          saveData.referral_source = partnerReferralValue;
+        }
+
+        // Try to update existing order, else create new
+        let response = await fetch(
+          `${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderId}`,
+          {
+            method: "PATCH",
+            headers: {
+              "apikey": SUPABASE_ANON_KEY,
+              "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+              "Content-Type": "application/json",
+              "Prefer": "return=representation"
+            },
+            body: JSON.stringify(saveData)
+          }
+        );
+
+        let savedOrder;
+        const patchResult = await response.clone().json();
+
+        if (!response.ok || patchResult.length === 0) {
+          console.log("📝 Creating new order...");
+          
+          response = await fetch(
+            `${SUPABASE_URL}/rest/v1/orders`,
+            {
+              method: "POST",
+              headers: {
+                "apikey": SUPABASE_ANON_KEY,
+                "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+                "Content-Type": "application/json",
+                "Prefer": "return=representation"
+              },
+              body: JSON.stringify(saveData)
+            }
+          );
+
+          if (!response.ok) {
+            const errorText = await response.text();
+            console.error("❌ Error:", errorText);
+            throw new Error(`Failed: ${errorText}`);
+          }
+
+          savedOrder = await response.json();
+          console.log("✅ Order created!");
+        } else {
+          savedOrder = patchResult;
+          console.log("✅ Order updated!");
+        }
+
+        // Send confirmation email
+        console.log("📧 Sending confirmation email...");
+        const orderRecord = Array.isArray(savedOrder) ? savedOrder[0] : savedOrder;
+
+        const emailResponse = await fetch(
+          `${SUPABASE_URL}/functions/v1/send-confirmation-email`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+            },
+            body: JSON.stringify({ record: orderRecord })
+          }
+        );
+
+        if (!emailResponse.ok) {
+          console.error("⚠️ Email may have failed");
+        } else {
+          console.log("✅ Email sent!");
+        }
+
+        console.log("🎉 Form submission complete!");
+        goToStep("successScreen");
+        setTimeout(() => launchConfetti(), 300);
+        
+      } catch (err) {
+        console.error("❌ Error:", err);
+        alert(`⚠️ Submission error: ${err.message}\n\nPlease contact support.`);
+        
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = '✨ Submit My Keepsake →';
+        }
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // CONFETTI
+    // ═══════════════════════════════════════════════════════════════
+    function launchConfetti() {
+      const end = Date.now() + 3000;
+      const colors = ["#e9ff60", "#0a95a8", "#fd26fd", "#3461fa", "#0ff0b8"];
+
+      (function frame() {
+        const p = document.createElement("div");
+        p.style.position = "fixed";
+        p.style.zIndex = "9999";
+        p.style.width = "10px";
+        p.style.height = "10px";
+        p.style.background = colors[Math.floor(Math.random() * colors.length)];
+        p.style.borderRadius = "50%";
+        p.style.top = "-20px";
+        p.style.left = Math.random() * window.innerWidth + "px";
+        p.style.opacity = "1";
+        p.style.transition = "transform 3s linear, opacity 3s ease-out";
+        p.style.pointerEvents = "none";
+
+        document.body.appendChild(p);
+
+        setTimeout(() => {
+          p.style.transform = `translateY(${window.innerHeight + 50}px) rotate(${Math.random() * 360}deg)`;
+          p.style.opacity = "0";
+        }, 10);
+
+        setTimeout(() => p.remove(), 3100);
+
+        if (Date.now() < end) requestAnimationFrame(frame);
+      })();
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // LOAD PARTNER LOCATIONS
+    // ═══════════════════════════════════════════════════════════════
+    async function loadPartnerLocations() {
+      try {
+        const response = await fetch(
+          `${SUPABASE_URL}/rest/v1/partners?is_active=eq.true&select=id,business_name,city,state`,
+          {
+            headers: {
+              "apikey": SUPABASE_ANON_KEY,
+              "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+            }
+          }
+        );
+
+        if (!response.ok) return;
+
+        const partners = await response.json();
+        const select = document.getElementById('partnerReferral');
+        
+        if (partners.length > 0 && select) {
+          const optgroup = document.createElement('optgroup');
+          optgroup.label = '📍 Partner Locations';
+          
+          partners.forEach(partner => {
+            const option = document.createElement('option');
+            option.value = partner.id;
+            option.textContent = `${partner.business_name} - ${partner.city}, ${partner.state}`;
+            optgroup.appendChild(option);
+          });
+          
+          select.appendChild(optgroup);
+        }
+      } catch (err) {
+        console.log("Could not load partner locations");
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // INIT
+    // ═══════════════════════════════════════════════════════════════
+    window.addEventListener('DOMContentLoaded', () => {
+      loadPartnerLocations();
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      
+      const orderId = urlParams.get('order') || urlParams.get('orderId') || '';
+      const email = urlParams.get('email') || '';
+      const name = urlParams.get('name') || '';
+      const projectParam = urlParams.get('project') || '';
+      
+      if (email) {
+        document.getElementById('email').value = decodeURIComponent(email);
+      }
+      
+      if (orderId) {
+        const orderField = document.getElementById('orderNumber');
+        if (orderField) {
+          orderField.value = orderId;
+        }
+      }
+      
+      if (name) {
+        document.getElementById('fullName').value = decodeURIComponent(name);
+      }
+      
+      // Auto-select VIP from URL parameter
+      if (projectParam.toLowerCase() === 'vip') {
+        selectProjectType('vip');
+        
+        const allOptionCards = document.querySelectorAll('.option-card');
+        allOptionCards.forEach(card => {
+          const radio = card.querySelector('input[type="radio"][name="projectType"]');
+          if (radio && radio.value !== 'vip') {
+            card.style.opacity = '0.4';
+            card.style.pointerEvents = 'none';
+            radio.disabled = true;
+          }
+        });
+      }
+      
+      console.log('✨ Smart Form ready!');
+    });
+
+  </script>
+
+</body>
+</html>
   <title>Dopelee Prezzed by S™ | Let's Get Personal🖤 </title>
   
   <!-- GOOGLE FONTS -->
