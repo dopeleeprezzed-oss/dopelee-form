@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Share Your Words | Dopelee Prezzed by S™</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+:root {
+  --bg-primary: #000;
+  --bg-secondary: #0a0a0a;
+  --bg-card: #111;
+  --text-primary: #fff;
+  --text-muted: #b8bac0;
+  --text-dim: #666;
+  --accent-cyan: #0ff0b8;
+  --accent-cyan-dim: rgba(15, 240, 184, 0.15);
+  --accent-gold: #d4af37;
+  --accent-blue: #0a95a8;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MAIN CONTAINER
+═══════════════════════════════════════════════════════════════ */
+.form-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HEADER - MINIMAL
+═══════════════════════════════════════════════════════════════ */
+.form-header {
+  padding: 20px 0 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.header-logo {
+  height: 36px;
+  border-radius: 6px;
+}
+
+.header-badge {
+  background: var(--accent-cyan-dim);
+  border: 1px solid rgba(15, 240, 184, 0.3);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--accent-cyan);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PROGRESS INDICATOR
+═══════════════════════════════════════════════════════════════ */
+.progress-bar {
+  padding: 15px 0;
+  flex-shrink: 0;
+}
+
+.progress-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.progress-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.progress-dot.active {
+  background: var(--accent-cyan);
+  box-shadow: 0 0 10px var(--accent-cyan);
+}
+
+.progress-dot.completed {
+  background: var(--accent-cyan);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STEPS CONTAINER
+═══════════════════════════════════════════════════════════════ */
+.steps-container {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.step {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 30px 0 20px;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  overflow-y: auto;
+}
+
+.step.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.step.exit-left {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STEP CONTENT
+═══════════════════════════════════════════════════════════════ */
+.step-question {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  line-height: 1.3;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #fff 0%, var(--accent-cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.step-subtitle {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INPUTS
+═══════════════════════════════════════════════════════════════ */
+textarea, input {
+  width: 100%;
+  padding: 18px 20px;
+  background: var(--bg-card);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  color: var(--text-primary);
+  font-size: 18px;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  -webkit-appearance: none;
+}
+
+textarea:focus, input:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 4px var(--accent-cyan-dim);
+}
+
+textarea {
+  min-height: 140px;
+  resize: none;
+  line-height: 1.6;
+}
+
+textarea.saying-input {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-style: italic;
+  min-height: 160px;
+  background: linear-gradient(135deg, var(--bg-card), rgba(15, 240, 184, 0.03));
+  border-color: rgba(15, 240, 184, 0.3);
+}
+
+::placeholder {
+  color: var(--text-dim);
+}
+
+.char-count {
+  text-align: right;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-top: 8px;
+}
+
+.char-count.warning {
+  color: #ff6b6b;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PRODUCT VISUAL CARDS
+═══════════════════════════════════════════════════════════════ */
+.product-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.product-card {
+  background: var(--bg-card);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 20px 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.product-card:hover, .product-card:active {
+  border-color: rgba(15, 240, 184, 0.4);
+  background: rgba(15, 240, 184, 0.05);
+}
+
+.product-card.selected {
+  border-color: var(--accent-cyan);
+  background: var(--accent-cyan-dim);
+  box-shadow: 0 0 20px var(--accent-cyan-dim);
+}
+
+.product-card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.product-card-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.product-other {
+  margin-top: 15px;
+}
+
+.product-other-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PERMISSION CARDS
+═══════════════════════════════════════════════════════════════ */
+.permission-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.permission-card {
+  background: var(--bg-card);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 24px 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.permission-card:active {
+  transform: scale(0.98);
+}
+
+.permission-card.yes {
+  border-color: rgba(15, 240, 184, 0.3);
+}
+
+.permission-card.yes:hover, .permission-card.yes.selected {
+  border-color: var(--accent-cyan);
+  background: var(--accent-cyan-dim);
+}
+
+.permission-card.no {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.permission-card.no:hover, .permission-card.no.selected {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.permission-card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.permission-card.yes .permission-card-title {
+  color: var(--accent-cyan);
+}
+
+.permission-card-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.permission-benefits {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.permission-benefit {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.permission-benefit span {
+  color: var(--accent-cyan);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   OPTIONAL FIELDS
+═══════════════════════════════════════════════════════════════ */
+.optional-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.optional-field label {
+  display: block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NAVIGATION BUTTONS
+═══════════════════════════════════════════════════════════════ */
+.step-nav {
+  padding: 20px 0 40px;
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.btn {
+  flex: 1;
+  padding: 18px 24px;
+  border-radius: 14px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 60px;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-back {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-muted);
+  flex: 0 0 auto;
+  padding: 18px 24px;
+}
+
+.btn-back:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  color: var(--text-primary);
+}
+
+.btn-next {
+  background: linear-gradient(135deg, var(--accent-cyan), #7fffd4);
+  border: none;
+  color: #000;
+  box-shadow: 0 6px 25px rgba(15, 240, 184, 0.3);
+}
+
+.btn-next:hover {
+  box-shadow: 0 8px 35px rgba(15, 240, 184, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-next:active {
+  transform: scale(0.98) translateY(0);
+}
+
+.btn-next:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-skip {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-dim);
+  flex: 0 0 auto;
+  padding: 18px 24px;
+}
+
+.btn-skip:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--text-muted);
+}
+
+.btn-submit {
+  background: linear-gradient(135deg, var(--accent-gold), #f5d76e);
+  border: none;
+  color: #000;
+  box-shadow: 0 6px 25px rgba(212, 175, 55, 0.3);
+}
+
+.btn-submit:hover {
+  box-shadow: 0 8px 35px rgba(212, 175, 55, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SUCCESS SCREEN
+═══════════════════════════════════════════════════════════════ */
+.success-screen {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.success-icon {
+  font-size: 5rem;
+  margin-bottom: 25px;
+  animation: successPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes successPop {
+  0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+  50% { transform: scale(1.2) rotate(5deg); }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+.success-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  margin-bottom: 15px;
+  background: linear-gradient(135deg, #fff, var(--accent-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.success-message {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 30px;
+}
+
+.success-quote {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-style: italic;
+  color: var(--accent-cyan);
+  padding: 25px;
+  background: var(--accent-cyan-dim);
+  border: 1px solid rgba(15, 240, 184, 0.3);
+  border-radius: 16px;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+.success-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-explore {
+  background: linear-gradient(135deg, var(--accent-cyan), #7fffd4);
+  border: none;
+  color: #000;
+  padding: 18px 24px;
+  border-radius: 14px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-another {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-muted);
+  padding: 16px 24px;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE - TABLET
+═══════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+  .step-question {
+    font-size: 2.2rem;
+  }
+  
+  .product-cards {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .btn {
+    min-height: 65px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE - SMALL PHONES
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 380px) {
+  .step-question {
+    font-size: 1.5rem;
+  }
+  
+  .product-card {
+    padding: 15px 10px;
+  }
+  
+  .product-card-icon {
+    font-size: 2rem;
+  }
+  
+  .btn {
+    padding: 16px 20px;
+    font-size: 1rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SAFE AREA (NOTCH PHONES)
+═══════════════════════════════════════════════════════════════ */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .step-nav {
+    padding-bottom: calc(30px + env(safe-area-inset-bottom));
+  }
+}
+  </style>
+</head>
+<body>
+
+<div class="form-wrapper">
+  
+  <!-- HEADER -->
+  <header class="form-header">
+    <img src="https://dopeleeprezzed-oss.github.io/dopelee-form/logo.png" alt="Dopelee Prezzed" class="header-logo">
+    <div class="header-badge">🎖️ YOUR VOICE</div>
+  </header>
+
+  <!-- PROGRESS -->
+  <div class="progress-bar">
+    <div class="progress-dots">
+      <div class="progress-dot active" data-step="1"></div>
+      <div class="progress-dot" data-step="2"></div>
+      <div class="progress-dot" data-step="3"></div>
+      <div class="progress-dot" data-step="4"></div>
+      <div class="progress-dot" data-step="5"></div>
+    </div>
+  </div>
+
+  <!-- STEPS CONTAINER -->
+  <div class="steps-container">
+
+    <!-- STEP 1: THE SAYING -->
+    <div class="step active" data-step="1">
+      <div class="step-content">
+        <h2 class="step-question">What's a saying that's carried you through life?</h2>
+        <p class="step-subtitle">A family motto, something grandma said, words you live by.</p>
+        <textarea 
+          id="saying" 
+          class="saying-input" 
+          placeholder="Enter your saying here..."
+          maxlength="300"
+          oninput="updateCharCount(this, 'sayingCount', 300); validateStep1()"
+        ></textarea>
+        <div class="char-count" id="sayingCount">0 / 300</div>
+      </div>
+    </div>
+
+    <!-- STEP 2: THE STORY -->
+    <div class="step" data-step="2">
+      <div class="step-content">
+        <h2 class="step-question">Tell us the story behind those words</h2>
+        <p class="step-subtitle">Who said it? When do you think of it? What does it mean to you?</p>
+        <textarea 
+          id="meaning" 
+          placeholder="My grandmother used to say this every Sunday morning before church..."
+          maxlength="500"
+          oninput="updateCharCount(this, 'meaningCount', 500)"
+        ></textarea>
+        <div class="char-count" id="meaningCount">0 / 500</div>
+      </div>
+    </div>
+
+    <!-- STEP 3: THE VISION -->
+    <div class="step" data-step="3">
+      <div class="step-content">
+        <h2 class="step-question">Imagine seeing your words on...</h2>
+        <p class="step-subtitle">Tap all that speak to you</p>
+        <div class="product-cards">
+          <div class="product-card" data-product="mug" onclick="toggleProduct(this)">
+            <div class="product-card-icon">☕</div>
+            <div class="product-card-label">Mug</div>
+          </div>
+          <div class="product-card" data-product="wood" onclick="toggleProduct(this)">
+            <div class="product-card-icon">🪵</div>
+            <div class="product-card-label">Wood</div>
+          </div>
+          <div class="product-card" data-product="slate" onclick="toggleProduct(this)">
+            <div class="product-card-icon">🪨</div>
+            <div class="product-card-label">Slate</div>
+          </div>
+          <div class="product-card" data-product="surprise" onclick="toggleProduct(this)">
+            <div class="product-card-icon">✨</div>
+            <div class="product-card-label">Surprise Me</div>
+          </div>
+        </div>
+        <div class="product-other">
+          <div class="product-other-label">Or tell us your own idea:</div>
+          <input type="text" id="productIdea" placeholder="I'd love to see this on a...">
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: PERMISSION -->
+    <div class="step" data-step="4">
+      <div class="step-content">
+        <h2 class="step-question">Can we share your legacy?</h2>
+        <p class="step-subtitle">If chosen, your saying could become part of something bigger.</p>
+        <div class="permission-cards">
+          <div class="permission-card yes" onclick="selectPermission(true)">
+            <div class="permission-card-title">
+              <span>✨</span> Yes, Share My Words!
+            </div>
+            <div class="permission-card-desc">I'd love for my saying to be featured.</div>
+            <div class="permission-benefits">
+              <div class="permission-benefit"><span>✓</span> Featured on social media</div>
+              <div class="permission-benefit"><span>✓</span> Turned into a product</div>
+              <div class="permission-benefit"><span>✓</span> Part of community collection</div>
+            </div>
+          </div>
+          <div class="permission-card no" onclick="selectPermission(false)">
+            <div class="permission-card-title">
+              🔒 Keep It Private
+            </div>
+            <div class="permission-card-desc">Just for my personal keepsake, not for public sharing.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: CONNECTION -->
+    <div class="step" data-step="5">
+      <div class="step-content">
+        <h2 class="step-question">Want to know if your saying gets picked?</h2>
+        <p class="step-subtitle">Totally optional. Your words matter either way.</p>
+        <div class="optional-fields">
+          <div class="optional-field">
+            <label>Your Name</label>
+            <input type="text" id="name" placeholder="First name or 'Anonymous'">
+          </div>
+          <div class="optional-field">
+            <label>Where You're From</label>
+            <input type="text" id="location" placeholder="e.g., Fort Leavenworth, KS">
+          </div>
+          <div class="optional-field">
+            <label>Email</label>
+            <input type="email" id="email" placeholder="you@example.com">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUCCESS SCREEN -->
+    <div class="step" data-step="success">
+      <div class="success-screen">
+        <div class="success-icon">🎖️✨</div>
+        <h2 class="success-title">Your words are now part of something bigger.</h2>
+        <p class="success-message">Thank you for sharing your legacy with us.</p>
+        <div class="success-quote" id="submittedSaying">"Your saying here"</div>
+        <div class="success-actions">
+          <a href="https://dopeleeprezzed.com" class="btn-explore">
+            Explore Our Collection →
+          </a>
+          <button class="btn-another" onclick="resetForm()">
+            Submit Another Saying
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav class="step-nav" id="stepNav">
+    <button class="btn btn-back" id="btnBack" onclick="prevStep()" style="display: none;">
+      ← Back
+    </button>
+    <button class="btn btn-next" id="btnNext" onclick="nextStep()" disabled>
+      Next →
+    </button>
+  </nav>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════
+let currentStep = 1;
+const totalSteps = 5;
+
+const formData = {
+  saying: '',
+  meaning: '',
+  products: [],
+  productIdea: '',
+  shareConsent: null,
+  name: '',
+  location: '',
+  email: ''
+};
+
+// ═══════════════════════════════════════════════════════════════
+// SUPABASE CONFIG
+// ═══════════════════════════════════════════════════════════════
+const SUPABASE_URL = 'https://dyehxtiozfwlexkbalvn.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs';
+
+// ═══════════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════════
+function nextStep() {
+  if (currentStep === totalSteps) {
+    submitForm();
+    return;
+  }
+  
+  saveCurrentStepData();
+  
+  const currentEl = document.querySelector(`.step[data-step="${currentStep}"]`);
+  currentEl.classList.remove('active');
+  currentEl.classList.add('exit-left');
+  
+  currentStep++;
+  
+  const nextEl = document.querySelector(`.step[data-step="${currentStep}"]`);
+  nextEl.classList.add('active');
+  
+  updateProgress();
+  updateButtons();
+  
+  setTimeout(() => {
+    currentEl.classList.remove('exit-left');
+  }, 400);
+}
+
+function prevStep() {
+  if (currentStep === 1) return;
+  
+  const currentEl = document.querySelector(`.step[data-step="${currentStep}"]`);
+  currentEl.classList.remove('active');
+  
+  currentStep--;
+  
+  const prevEl = document.querySelector(`.step[data-step="${currentStep}"]`);
+  prevEl.classList.remove('exit-left');
+  prevEl.classList.add('active');
+  
+  updateProgress();
+  updateButtons();
+}
+
+function goToSuccess() {
+  const currentEl = document.querySelector(`.step[data-step="${currentStep}"]`);
+  currentEl.classList.remove('active');
+  currentEl.classList.add('exit-left');
+  
+  const successEl = document.querySelector('.step[data-step="success"]');
+  successEl.classList.add('active');
+  
+  document.getElementById('stepNav').style.display = 'none';
+  document.querySelector('.progress-bar').style.display = 'none';
+  
+  document.getElementById('submittedSaying').textContent = `"${formData.saying}"`;
+  
+  launchConfetti();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// UPDATE UI
+// ═══════════════════════════════════════════════════════════════
+function updateProgress() {
+  document.querySelectorAll('.progress-dot').forEach((dot, i) => {
+    const stepNum = i + 1;
+    dot.classList.remove('active', 'completed');
+    if (stepNum === currentStep) {
+      dot.classList.add('active');
+    } else if (stepNum < currentStep) {
+      dot.classList.add('completed');
+    }
+  });
+}
+
+function updateButtons() {
+  const backBtn = document.getElementById('btnBack');
+  const nextBtn = document.getElementById('btnNext');
+  
+  // Back button
+  backBtn.style.display = currentStep > 1 ? 'flex' : 'none';
+  
+  // Next button text
+  if (currentStep === totalSteps) {
+    nextBtn.innerHTML = '✨ Submit';
+    nextBtn.classList.remove('btn-next');
+    nextBtn.classList.add('btn-submit');
+  } else {
+    nextBtn.innerHTML = 'Next →';
+    nextBtn.classList.remove('btn-submit');
+    nextBtn.classList.add('btn-next');
+  }
+  
+  // Validate current step
+  validateCurrentStep();
+}
+
+function validateCurrentStep() {
+  const nextBtn = document.getElementById('btnNext');
+  let isValid = false;
+  
+  switch(currentStep) {
+    case 1:
+      isValid = document.getElementById('saying').value.trim().length > 0;
+      break;
+    case 2:
+      isValid = true; // Optional
+      break;
+    case 3:
+      isValid = true; // Optional
+      break;
+    case 4:
+      isValid = formData.shareConsent !== null;
+      break;
+    case 5:
+      isValid = true; // Optional
+      break;
+  }
+  
+  nextBtn.disabled = !isValid;
+}
+
+function validateStep1() {
+  validateCurrentStep();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SAVE DATA
+// ═══════════════════════════════════════════════════════════════
+function saveCurrentStepData() {
+  switch(currentStep) {
+    case 1:
+      formData.saying = document.getElementById('saying').value.trim();
+      break;
+    case 2:
+      formData.meaning = document.getElementById('meaning').value.trim();
+      break;
+    case 3:
+      formData.productIdea = document.getElementById('productIdea').value.trim();
+      break;
+    case 5:
+      formData.name = document.getElementById('name').value.trim();
+      formData.location = document.getElementById('location').value.trim();
+      formData.email = document.getElementById('email').value.trim();
+      break;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// INTERACTIONS
+// ═══════════════════════════════════════════════════════════════
+function toggleProduct(card) {
+  card.classList.toggle('selected');
+  
+  const product = card.dataset.product;
+  const index = formData.products.indexOf(product);
+  
+  if (index > -1) {
+    formData.products.splice(index, 1);
+  } else {
+    formData.products.push(product);
+  }
+}
+
+function selectPermission(consent) {
+  formData.shareConsent = consent;
+  
+  document.querySelectorAll('.permission-card').forEach(card => {
+    card.classList.remove('selected');
+  });
+  
+  if (consent) {
+    document.querySelector('.permission-card.yes').classList.add('selected');
+  } else {
+    document.querySelector('.permission-card.no').classList.add('selected');
+  }
+  
+  validateCurrentStep();
+  
+  // Auto-advance after selection
+  setTimeout(() => {
+    nextStep();
+  }, 300);
+}
+
+function updateCharCount(textarea, countId, max) {
+  const count = textarea.value.length;
+  const countEl = document.getElementById(countId);
+  countEl.textContent = `${count} / ${max}`;
+  countEl.classList.toggle('warning', count > max * 0.9);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SOURCE DETECTION
+// ═══════════════════════════════════════════════════════════════
+function getSource() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const source = urlParams.get('source');
+  if (source === 'qr' || source === 'instore') return 'qr_instore';
+  if (source === 'px' || source === 'pxlanding') return 'px_landing';
+  return 'website';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SUBMIT
+// ═══════════════════════════════════════════════════════════════
+async function submitForm() {
+  saveCurrentStepData();
+  
+  const nextBtn = document.getElementById('btnNext');
+  nextBtn.disabled = true;
+  nextBtn.innerHTML = '⏳ Submitting...';
+  
+  // Combine product selections and custom idea
+  let productIdeas = formData.products.join(', ');
+  if (formData.productIdea) {
+    productIdeas += (productIdeas ? ', ' : '') + formData.productIdea;
+  }
+  
+  const data = {
+    saying: formData.saying,
+    meaning: formData.meaning || null,
+    product_ideas: productIdeas || null,
+    name: formData.name || 'Anonymous',
+    location: formData.location || null,
+    email: formData.email || null,
+    share_consent: formData.shareConsent,
+    source: getSource(),
+    status: 'new',
+    created_at: new Date().toISOString()
+  };
+  
+  console.log('📦 Submitting:', data);
+  
+  try {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/community_submissions`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation'
+      },
+      body: JSON.stringify(data)
+    });
+    
+    if (!response.ok) throw new Error(await response.text());
+    
+    console.log('✅ Submitted successfully!');
+    goToSuccess();
+    
+  } catch (error) {
+    console.error('❌ Error:', error);
+    alert('Something went wrong. Please try again.');
+    nextBtn.disabled = false;
+    nextBtn.innerHTML = '✨ Submit';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RESET
+// ═══════════════════════════════════════════════════════════════
+function resetForm() {
+  // Reset state
+  currentStep = 1;
+  formData.saying = '';
+  formData.meaning = '';
+  formData.products = [];
+  formData.productIdea = '';
+  formData.shareConsent = null;
+  formData.name = '';
+  formData.location = '';
+  formData.email = '';
+  
+  // Reset UI
+  document.querySelectorAll('input, textarea').forEach(el => el.value = '');
+  document.querySelectorAll('.product-card, .permission-card').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('.char-count').forEach(el => el.textContent = '0 / 300');
+  
+  // Reset steps
+  document.querySelectorAll('.step').forEach(step => {
+    step.classList.remove('active', 'exit-left');
+  });
+  document.querySelector('.step[data-step="1"]').classList.add('active');
+  
+  // Show nav
+  document.getElementById('stepNav').style.display = 'flex';
+  document.querySelector('.progress-bar').style.display = 'block';
+  
+  updateProgress();
+  updateButtons();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CONFETTI
+// ═══════════════════════════════════════════════════════════════
+function launchConfetti() {
+  const colors = ['#0ff0b8', '#0a95a8', '#d4af37', '#7fffd4', '#fff'];
+  const end = Date.now() + 3000;
+  
+  (function frame() {
+    for (let i = 0; i < 3; i++) {
+      const p = document.createElement('div');
+      p.style.cssText = `
+        position: fixed;
+        z-index: 9999;
+        width: ${Math.random() * 10 + 6}px;
+        height: ${Math.random() * 10 + 6}px;
+        background: ${colors[Math.floor(Math.random() * colors.length)]};
+        border-radius: 50%;
+        top: -20px;
+        left: ${Math.random() * window.innerWidth}px;
+        opacity: 1;
+        pointer-events: none;
+        transition: transform 3s ease-out, opacity 3s ease-out;
+      `;
+      document.body.appendChild(p);
+      
+      setTimeout(() => {
+        p.style.transform = `translateY(${window.innerHeight + 100}px) rotate(${Math.random() * 720}deg)`;
+        p.style.opacity = '0';
+      }, 10);
+      
+      setTimeout(() => p.remove(), 3100);
+    }
+    
+    if (Date.now() < end) requestAnimationFrame(frame);
+  })();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('📝 Share Your Words - Guided Form');
+  console.log('📍 Source:', getSource());
+  updateButtons();
+});
+</script>
+
+</body>
+</html>
