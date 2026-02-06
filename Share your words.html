@@ -667,7 +667,7 @@ textarea.saying-input {
             <div class="product-card-label">Slate</div>
           </div>
           <div class="product-card" data-product="surprise" onclick="toggleProduct(this)">
-            <div class="product-card-icon">✨</div>
+            <div class="product-card-icon">🤎 </div>
             <div class="product-card-label">Surprise Me</div>
           </div>
         </div>
@@ -686,7 +686,7 @@ textarea.saying-input {
         <div class="permission-cards">
           <div class="permission-card yes" onclick="selectPermission(true)">
             <div class="permission-card-title">
-              <span>✨</span> Yes, Share My Words!
+              <span>🤎 </span> Yes, Share My Words!
             </div>
             <div class="permission-card-desc">I'd love for my saying to be featured.</div>
             <div class="permission-benefits">
@@ -730,7 +730,7 @@ textarea.saying-input {
     <!-- SUCCESS SCREEN -->
     <div class="step" data-step="success">
       <div class="success-screen">
-        <div class="success-icon">🎖️✨</div>
+        <div class="success-icon">🎖️🤎 </div>
         <h2 class="success-title">Your words are now part of something bigger.</h2>
         <p class="success-message">Thank you for sharing your legacy with us.</p>
         <div class="success-quote" id="submittedSaying">"Your saying here"</div>
@@ -867,7 +867,7 @@ function updateButtons() {
   
   // Next button text
   if (currentStep === totalSteps) {
-    nextBtn.innerHTML = '✨ Submit';
+    nextBtn.innerHTML = '🤎  Submit';
     nextBtn.classList.remove('btn-next');
     nextBtn.classList.add('btn-submit');
   } else {
@@ -1038,7 +1038,7 @@ async function submitForm() {
     console.error('❌ Error:', error);
     alert('Something went wrong. Please try again.');
     nextBtn.disabled = false;
-    nextBtn.innerHTML = '✨ Submit';
+    nextBtn.innerHTML = '🤎 Submit';
   }
 }
 
