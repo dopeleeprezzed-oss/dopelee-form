@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Let's Build Legacy Together | Dopelee Prezzed by S™</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-card: #161616;
+      --bg-input: #1a1a1a;
+      --text-primary: #f5f5f5;
+      --text-muted: #8a8a8a;
+      --text-soft: #b8b8b8;
+      --accent-gold: #c9a962;
+      --accent-gold-soft: rgba(201, 169, 98, 0.15);
+      --accent-cyan: #6ec6c6;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-gold: rgba(201, 169, 98, 0.3);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    
+    /* HEADER */
+    .form-header {
+      text-align: center;
+      padding: 3rem 2rem 2rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    
+    .logo-container {
+      margin-bottom: 1.5rem;
+    }
+    
+    .logo-container img {
+      width: 120px;
+      height: auto;
+    }
+    
+    .brand-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 3px;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+      letter-spacing: 1px;
+    }
+    
+    .form-subtitle {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    
+    /* PROGRESS BAR */
+    .progress-container {
+      padding: 1.5rem 2rem;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    
+    .progress-bar {
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+    }
+    
+    .progress-bar::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--border-subtle);
+      transform: translateY(-50%);
+      z-index: 0;
+    }
+    
+    .progress-line {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      height: 2px;
+      background: var(--accent-cyan);
+      transform: translateY(-50%);
+      z-index: 1;
+      transition: width 0.5s ease;
+    }
+    
+    .progress-step {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg-dark);
+      border: 2px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      position: relative;
+      z-index: 2;
+      transition: all 0.3s ease;
+    }
+    
+    .progress-step.active {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+    }
+    
+    .progress-step.completed {
+      background: var(--accent-cyan);
+      border-color: var(--accent-cyan);
+      color: var(--bg-dark);
+    }
+    
+    /* FORM CONTAINER */
+    .form-container {
+      max-width: 650px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    /* STEP SECTIONS */
+    .form-step {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+    
+    .form-step.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .step-header {
+      margin-bottom: 2rem;
+    }
+    
+    .step-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      color: var(--accent-gold);
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+    
+    .step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.75rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+    
+    .step-description {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+    
+    /* FORM FIELDS */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-soft);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.5px;
+    }
+    
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+    }
+    
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 0 3px var(--accent-gold-soft);
+    }
+    
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: var(--text-muted);
+    }
+    
+    .form-select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238a8a8a' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+    }
+    
+    .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    
+    @media (max-width: 500px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    /* OPTION CARDS */
+    .option-cards {
+      display: grid;
+      gap: 0.75rem;
+    }
+    
+    .option-card {
+      padding: 1rem 1.25rem;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .option-card:hover {
+      border-color: var(--border-gold);
+      background: rgba(201, 169, 98, 0.05);
+    }
+    
+    .option-card.selected {
+      border-color: var(--accent-gold);
+      background: var(--accent-gold-soft);
+    }
+    
+    .option-card input {
+      display: none;
+    }
+    
+    .option-check {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border-subtle);
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    
+    .option-card.selected .option-check {
+      border-color: var(--accent-gold);
+      background: var(--accent-gold);
+    }
+    
+    .option-check svg {
+      width: 12px;
+      height: 12px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    
+    .option-card.selected .option-check svg {
+      opacity: 1;
+    }
+    
+    .option-content {
+      flex: 1;
+    }
+    
+    .option-title {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 0.15rem;
+    }
+    
+    .option-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    
+    /* CHECKBOX OPTIONS (multi-select) */
+    .checkbox-card .option-check {
+      border-radius: 4px;
+    }
+    
+    /* SKILL SLIDERS */
+    .skill-assessment {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    
+    .skill-item {
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+    }
+    
+    .skill-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+    
+    .skill-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    
+    .skill-level {
+      font-size: 0.75rem;
+      color: var(--accent-gold);
+      font-weight: 500;
+    }
+    
+    .skill-dots {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .skill-dot {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--bg-dark);
+      border: 2px solid var(--border-subtle);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+    
+    .skill-dot:hover {
+      border-color: var(--border-gold);
+    }
+    
+    .skill-dot.active {
+      background: var(--accent-gold);
+      border-color: var(--accent-gold);
+      color: var(--bg-dark);
+      font-weight: 600;
+    }
+    
+    .skill-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+    
+    /* AI EXPERIENCE SECTION */
+    .ai-branch {
+      display: none;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-subtle);
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .ai-branch.show {
+      display: block;
+    }
+    
+    .ai-tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+    
+    .ai-tool-chip {
+      padding: 0.6rem 1rem;
+      background: var(--bg-dark);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: var(--text-soft);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+    
+    .ai-tool-chip:hover {
+      border-color: var(--border-gold);
+    }
+    
+    .ai-tool-chip.selected {
+      background: var(--accent-gold-soft);
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+    
+    /* AVAILABILITY GRID */
+    .availability-grid {
+      display: grid;
+      grid-template-columns: auto repeat(3, 1fr);
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    
+    .avail-header {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-align: center;
+      padding: 0.5rem;
+    }
+    
+    .avail-day {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-soft);
+      padding: 0.75rem 0.5rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .avail-cell {
+      padding: 0.5rem;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    
+    .avail-cell:hover {
+      border-color: var(--border-gold);
+    }
+    
+    .avail-cell.selected {
+      background: var(--accent-gold);
+      border-color: var(--accent-gold);
+      color: var(--bg-dark);
+      font-weight: 500;
+    }
+    
+    /* NAVIGATION BUTTONS */
+    .form-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+    
+    .btn {
+      padding: 0.9rem 2rem;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+    }
+    
+    .btn-back {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border-subtle);
+    }
+    
+    .btn-back:hover {
+      border-color: var(--text-muted);
+      color: var(--text-primary);
+    }
+    
+    .btn-next,
+    .btn-submit {
+      background: var(--accent-gold);
+      color: var(--bg-dark);
+      margin-left: auto;
+    }
+    
+    .btn-next:hover,
+    .btn-submit:hover {
+      background: #d4b56d;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(201, 169, 98, 0.3);
+    }
+    
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    /* SUCCESS STATE */
+    .success-message {
+      text-align: center;
+      padding: 4rem 2rem;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--accent-gold-soft);
+      border: 2px solid var(--accent-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+    }
+    
+    .success-icon svg {
+      width: 40px;
+      height: 40px;
+      color: var(--accent-gold);
+    }
+    
+    .success-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+    }
+    
+    .success-text {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    
+    .success-quote {
+      margin: 2rem auto;
+      padding: 1.5rem 2rem;
+      background: var(--accent-gold-soft);
+      border-left: 3px solid var(--accent-gold);
+      border-radius: 0 8px 8px 0;
+      max-width: 400px;
+    }
+    
+    .quote-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--text-soft);
+      line-height: 1.8;
+      margin: 0;
+    }
+    
+    .success-tagline {
+      font-size: 1rem;
+      color: var(--accent-gold);
+      margin-top: 1.5rem;
+    }
+    
+    /* FOOTER */
+    .form-footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border-subtle);
+      margin-top: 2rem;
+    }
+    
+    .form-footer p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+    
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      .form-title {
+        font-size: 2rem;
+      }
+      
+      .step-title {
+        font-size: 1.5rem;
+      }
+      
+      .skill-dots {
+        gap: 0.35rem;
+      }
+      
+      .skill-dot {
+        width: 32px;
+        height: 32px;
+      }
+      
+      .availability-grid {
+        font-size: 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="form-header">
+    <div class="logo-container">
+      <img src="https://dopeleeprezzed-oss.github.io/dopelee-form/logo.png" alt="Dopelee Prezzed by S">
+    </div>
+    <div class="brand-name">Dopelee Prezzed by S™</div>
+    <h1 class="form-title">Let's Build Legacy Together</h1>
+    <p class="form-subtitle">Tell us about yourself. This isn't a job application, it's the start of something legendary.</p>
+  </header>
+  
+  <!-- PROGRESS BAR -->
+  <div class="progress-container">
+    <div class="progress-bar">
+      <div class="progress-line" id="progressLine"></div>
+      <div class="progress-step active" data-step="1">1</div>
+      <div class="progress-step" data-step="2">2</div>
+      <div class="progress-step" data-step="3">3</div>
+      <div class="progress-step" data-step="4">4</div>
+      <div class="progress-step" data-step="5">5</div>
+      <div class="progress-step" data-step="6">6</div>
+      <div class="progress-step" data-step="7">7</div>
+    </div>
+  </div>
+  
+  <!-- FORM -->
+  <div class="form-container">
+    <form id="legacyForm">
+      
+      <!-- STEP 1: The Basics -->
+      <div class="form-step active" data-step="1">
+        <div class="step-header">
+          <div class="step-number">STEP 01</div>
+          <h2 class="step-title">The Basics</h2>
+          <p class="step-description">Let's start with who you are.</p>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">First Name *</label>
+            <input type="text" class="form-input" name="firstName" required placeholder="Your first name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Name *</label>
+            <input type="text" class="form-input" name="lastName" required placeholder="Your last name">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Email *</label>
+          <input type="email" class="form-input" name="email" required placeholder="your@email.com">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Phone</label>
+          <input type="tel" class="form-input" name="phone" placeholder="(555) 123-4567">
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">City</label>
+            <input type="text" class="form-input" name="city" placeholder="Your city">
+          </div>
+          <div class="form-group">
+            <label class="form-label">State</label>
+            <input type="text" class="form-input" name="state" placeholder="State">
+          </div>
+        </div>
+        
+        <div class="form-nav">
+          <button type="button" class="btn btn-next" onclick="nextStep()">Continue →</button>
+        </div>
+      </div>
+      
+      <!-- STEP 2: How Did You Find Us -->
+      <div class="form-step" data-step="2">
+        <div class="step-header">
+          <div class="step-number">STEP 02</div>
+          <h2 class="step-title">How Did You Find Us?</h2>
+          <p class="step-description">We love meeting new people. How'd our paths cross?</p>
+        </div>
+        
+        <div class="option-cards" id="sourceOptions">
+          <label class="option-card">
+            <input type="radio" name="source" value="PX Military Family">
+            <div class="option-check">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="option-content">
+              <div class="option-title">PX Military Family</div>
+              <div class="option-desc">Through our military community</div>
+            </div>
+          </label>
+          
+          <label class="option-card">
+            <input type="radio" name="source" value="College Intern Program">
+            <div class="option-check">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="option-content">
+              <div class="option-title">College Intern Program</div>
+              <div class="option-desc">University or college referral</div>
+            </div>
+          </label>
+          
+          <label class="option-card">
+            <input type="radio" name="source" value="Smithville Chamber Referral">
+            <div class="option-check">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="option-content">
+              <div class="option-title">Smithville Chamber Referral</div>
+              <div class="option-desc">Through the Chamber of Commerce</div>
+            </div>
+          </label>
+          
+          <label class="option-card">
+            <input type="radio" name="source" value="Social Media">
+            <div class="option-check">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="option-content">
+              <div class="option-title">Social Media</div>
+              <div class="option-desc">Found us online</div>
+            </div>
+          </label>
+          
+          <label class="option-card">
+            <input type="radio" name="source" value="General Public">
+            <div class="option-check">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="option-content">
+              <div class="option-title">General Public</div>
+              <div class="option-desc">Just discovered you</div>
+            </div>
+          </label>
+          
+          <label class="option-card">
+            <input type="radio" name="source" value="Other">
+            <div class="option-check">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="option-content">
+              <div class="option-title">Other</div>
+              <div class="option-desc">I'll explain below</div>
+            </div>
+          </label>
+        </div>
+        
+        <div class="form-group" style="margin-top: 1rem;" id="sourceOtherGroup" hidden>
+          <label class="form-label">Tell us more</label>
+          <input type="text" class="form-input" name="sourceOther" placeholder="How did you find us?">
+        </div>
+        
+        <div class="form-nav">
+          <button type="button" class="btn btn-back" onclick="prevStep()">← Back</button>
+          <button type="button" class="btn btn-next" onclick="nextStep()">Continue →</button>
+        </div>
+      </div>
+      
+      <!-- STEP 3: What Interests You -->
+      <div class="form-step" data-step="3">
+        <div class="step-header">
+          <div class="step-number">STEP 03</div>
+          <h2 class="step-title">What Interests You?</h2>
+          <p class="step-description">What kind of journey are you looking for?</p>
+        </div>
+        
+        <div class="option-cards">
+          <label class="option-card checkbox-card">
+            <input type="checkbox" name="interest" value="Internship">
+            <div class="option-check">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="option-content">
+              <div class="option-title">Internship</div>
+              <div class="option-desc">Learn, grow, and gain real experience</div>
+            </div>
+          </label>
+          
+          <label class="option-card checkbox-card">
+            <input type="checkbox" name="interest" value="Part-Time">
+            <div class="option-check">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="option-content">
+              <div class="option-title">Part-Time</div>
+              <div class="option-desc">Flexible hours, consistent impact</div>
+            </div>
+          </label>
+          
+          <label class="option-card checkbox-card">
+            <input type="checkbox" name="interest" value="Contract Work">
+            <div class="option-check">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="option-content">
+              <div class="option-title">Contract Work</div>
+              <div class="option-desc">Project-based collaboration</div>
+            </div>
+          </label>
+          
+          <label class="option-card checkbox-card">
+            <input type="checkbox" name="interest" value="Volunteer">
+            <div class="option-check">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="option-content">
+              <div class="option-title">Volunteer</div>
+              <div class="option-desc">Give back and be part of something meaningful</div>
+            </div>
+          </label>
+        </div>
+        
+        <div class="form-nav">
+          <button type="button" class="btn btn-back" onclick="prevStep()">← Back</button>
+          <button type="button" class="btn btn-next" onclick="nextStep()">Continue →</button>
+        </div>
+      </div>
+      
+      <!-- STEP 4: Skills Assessment -->
+      <div class="form-step" data-step="4">
+        <div class="step-header">
+          <div class="step-number">STEP 04</div>
+          <h2 class="step-title">Show Us Your Superpowers</h2>
+          <p class="step-description">Rate yourself honestly, we're all learning here. 1 = Just starting, 5 = I could teach this.</p>
+        </div>
+        
+        <div class="skill-assessment">
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">📱 Social Media</span>
+              <span class="skill-level" id="skill-social-level">Select</span>
+            </div>
+            <div class="skill-dots" data-skill="social">
+              <div class="skill-dot" data-value="1">1</div>
+              <div class="skill-dot" data-value="2">2</div>
+              <div class="skill-dot" data-value="3">3</div>
+              <div class="skill-dot" data-value="4">4</div>
+              <div class="skill-dot" data-value="5">5</div>
+            </div>
+            <div class="skill-labels"><span>Learning</span><span>Expert</span></div>
+          </div>
+          
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">🎨 Graphic Design</span>
+              <span class="skill-level" id="skill-design-level">Select</span>
+            </div>
+            <div class="skill-dots" data-skill="design">
+              <div class="skill-dot" data-value="1">1</div>
+              <div class="skill-dot" data-value="2">2</div>
+              <div class="skill-dot" data-value="3">3</div>
+              <div class="skill-dot" data-value="4">4</div>
+              <div class="skill-dot" data-value="5">5</div>
+            </div>
+            <div class="skill-labels"><span>Learning</span><span>Expert</span></div>
+          </div>
+          
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">🎬 Video Editing</span>
+              <span class="skill-level" id="skill-video-level">Select</span>
+            </div>
+            <div class="skill-dots" data-skill="video">
+              <div class="skill-dot" data-value="1">1</div>
+              <div class="skill-dot" data-value="2">2</div>
+              <div class="skill-dot" data-value="3">3</div>
+              <div class="skill-dot" data-value="4">4</div>
+              <div class="skill-dot" data-value="5">5</div>
+            </div>
+            <div class="skill-labels"><span>Learning</span><span>Expert</span></div>
+          </div>
+          
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">📸 Photography</span>
+              <span class="skill-level" id="skill-photo-level">Select</span>
+            </div>
+            <div class="skill-dots" data-skill="photo">
+              <div class="skill-dot" data-value="1">1</div>
+              <div class="skill-dot" data-value="2">2</div>
+              <div class="skill-dot" data-value="3">3</div>
+              <div class="skill-dot" data-value="4">4</div>
+              <div class="skill-dot" data-value="5">5</div>
+            </div>
+            <div class="skill-labels"><span>Learning</span><span>Expert</span></div>
+          </div>
+          
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">✍️ Writing & Content</span>
+              <span class="skill-level" id="skill-writing-level">Select</span>
+            </div>
+            <div class="skill-dots" data-skill="writing">
+              <div class="skill-dot" data-value="1">1</div>
+              <div class="skill-dot" data-value="2">2</div>
+              <div class="skill-dot" data-value="3">3</div>
+              <div class="skill-dot" data-value="4">4</div>
+              <div class="skill-dot" data-value="5">5</div>
+            </div>
+            <div class="skill-labels"><span>Learning</span><span>Expert</span></div>
+          </div>
+          
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">💬 Customer Service</span>
+              <span class="skill-level" id="skill-customer-level">Select</span>
+            </div>
+            <div class="skill-dots" data-skill="customer">
+              <div class="skill-dot" data-value="1">1</div>
+              <div class="skill-dot" data-value="2">2</div>
+              <div class="skill-dot" data-value="3">3</div>
+              <div class="skill-dot" data-value="4">4</div>
+              <div class="skill-dot" data-value="5">5</div>
+            </div>
+            <div class="skill-labels"><span>Learning</span><span>Expert</span></div>
+          </div>
+          
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">🔥 Laser Engraving</span>
+              <span class="skill-level" id="skill-laser-level">Select</span>
+            </div>
+            <div class="skill-dots" data-skill="laser">
+              <div class="skill-dot" data-value="1">1</div>
+              <div class="skill-dot" data-value="2">2</div>
+              <div class="skill-dot" data-value="3">3</div>
+              <div class="skill-dot" data-value="4">4</div>
+              <div class="skill-dot" data-value="5">5</div>
+            </div>
+            <div class="skill-labels"><span>Learning</span><span>Expert</span></div>
+          </div>
+          
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">📦 Packaging & Assembly</span>
+              <span class="skill-level" id="skill-packaging-level">Select</span>
+            </div>
+            <div class="skill-dots" data-skill="packaging">
+              <div class="skill-dot" data-value="1">1</div>
+              <div class="skill-dot" data-value="2">2</div>
+              <div class="skill-dot" data-value="3">3</div>
+              <div class="skill-dot" data-value="4">4</div>
+              <div class="skill-dot" data-value="5">5</div>
+            </div>
+            <div class="skill-labels"><span>Learning</span><span>Expert</span></div>
+          </div>
+        </div>
+        
+        <div class="form-nav">
+          <button type="button" class="btn btn-back" onclick="prevStep()">← Back</button>
+          <button type="button" class="btn btn-next" onclick="nextStep()">Continue →</button>
+        </div>
+      </div>
+      
+      <!-- STEP 5: AI Experience -->
+      <div class="form-step" data-step="5">
+        <div class="step-header">
+          <div class="step-number">STEP 05</div>
+          <h2 class="step-title">Let's Talk AI</h2>
+          <p class="step-description">We're curious, how comfortable are you with AI tools?</p>
+        </div>
+        
+        <div class="option-cards" id="aiOptions">
+          <label class="option-card">
+            <input type="radio" name="aiExperience" value="Not yet">
+            <div class="option-check">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="option-content">
+              <div class="option-title">Not yet (but curious!)</div>
+              <div class="option-desc">Haven't tried it, but I'm open</div>
+            </div>
+          </label>
+          
+          <label class="option-card">
+            <input type="radio" name="aiExperience" value="Sometimes">
+            <div class="option-check">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="option-content">
+              <div class="option-title">Sometimes</div>
+              <div class="option-desc">I dabble when I need to</div>
+            </div>
+          </label>
+          
+          <label class="option-card">
+            <input type="radio" name="aiExperience" value="Daily">
+            <div class="option-check">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div class="option-content">
+              <div class="option-title">Daily, it's my superpower</div>
+              <div class="option-desc">AI is part of my workflow</div>
+            </div>
+          </label>
+        </div>
+        
+        <!-- AI DEEP DIVE (shows if Sometimes or Daily) -->
+        <div class="ai-branch" id="aiBranch">
+          <div class="form-group">
+            <label class="form-label">Which tools do you use? (Select all that apply)</label>
+            <div class="ai-tools-grid" id="aiToolsGrid">
+              <div class="ai-tool-chip" data-tool="ChatGPT">ChatGPT</div>
+              <div class="ai-tool-chip" data-tool="Claude">Claude</div>
+              <div class="ai-tool-chip" data-tool="Canva AI">Canva AI</div>
+              <div class="ai-tool-chip" data-tool="Midjourney">Midjourney</div>
+              <div class="ai-tool-chip" data-tool="DALL-E">DALL-E</div>
+              <div class="ai-tool-chip" data-tool="Copilot">Copilot</div>
+              <div class="ai-tool-chip" data-tool="Gemini">Gemini</div>
+              <div class="ai-tool-chip" data-tool="Other">Other</div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">What do you use AI for?</label>
+            <textarea class="form-textarea" name="aiUsage" placeholder="Writing? Design? Research? Coding? Tell us..."></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Have you ever built or created something with AI?</label>
+            <textarea class="form-textarea" name="aiBuilt" placeholder="A project, a tool, content, anything you're proud of..." rows="3"></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Have you ever written code or used AI for coding?</label>
+            <div class="option-cards" style="margin-top: 0.5rem;">
+              <label class="option-card" style="padding: 0.75rem 1rem;">
+                <input type="radio" name="aiCoding" value="No">
+                <div class="option-check" style="width: 18px; height: 18px;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <div class="option-content">
+                  <div class="option-title" style="font-size: 0.9rem;">Nope, not my thing</div>
+                </div>
+              </label>
+              <label class="option-card" style="padding: 0.75rem 1rem;">
+                <input type="radio" name="aiCoding" value="A little">
+                <div class="option-check" style="width: 18px; height: 18px;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <div class="option-content">
+                  <div class="option-title" style="font-size: 0.9rem;">A little, I've tried it</div>
+                </div>
+              </label>
+              <label class="option-card" style="padding: 0.75rem 1rem;">
+                <input type="radio" name="aiCoding" value="Yes">
+                <div class="option-check" style="width: 18px; height: 18px;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <div class="option-content">
+                  <div class="option-title" style="font-size: 0.9rem;">Yes, I code with AI regularly</div>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-nav">
+          <button type="button" class="btn btn-back" onclick="prevStep()">← Back</button>
+          <button type="button" class="btn btn-next" onclick="nextStep()">Continue →</button>
+        </div>
+      </div>
+      
+      <!-- STEP 6: Why Dopelee Prezzed by S -->
+      <div class="form-step" data-step="6">
+        <div class="step-header">
+          <div class="step-number">STEP 06</div>
+          <h2 class="step-title">Why Dopelee Prezzed by S™?</h2>
+          <p class="step-description">We want to know the real you.</p>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">What drew you to us?</label>
+          <textarea class="form-textarea" name="whyDrawn" placeholder="Was it something you saw? Heard? Felt? Tell us what caught your attention..."></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">What would you bring to the team?</label>
+          <textarea class="form-textarea" name="whatBring" placeholder="Your energy, your skills, your perspective, what makes you, you?"></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Resume or Portfolio Link (optional)</label>
+          <input type="url" class="form-input" name="portfolioLink" placeholder="https://...">
+        </div>
+        
+        <div class="form-nav">
+          <button type="button" class="btn btn-back" onclick="prevStep()">← Back</button>
+          <button type="button" class="btn btn-next" onclick="nextStep()">Continue →</button>
+        </div>
+      </div>
+      
+      <!-- STEP 7: Availability -->
+      <div class="form-step" data-step="7">
+        <div class="step-header">
+          <div class="step-number">STEP 07</div>
+          <h2 class="step-title">When Are You Available?</h2>
+          <p class="step-description">Tap the times that work for you. We're flexible, just be honest.</p>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">How soon can you start?</label>
+          <div class="option-cards" style="margin-top: 0.5rem;">
+            <label class="option-card" style="padding: 0.75rem 1rem;">
+              <input type="radio" name="startDate" value="Immediately">
+              <div class="option-check" style="width: 18px; height: 18px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <div class="option-content">
+                <div class="option-title" style="font-size: 0.9rem;">Immediately</div>
+              </div>
+            </label>
+            <label class="option-card" style="padding: 0.75rem 1rem;">
+              <input type="radio" name="startDate" value="Within 2 weeks">
+              <div class="option-check" style="width: 18px; height: 18px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <div class="option-content">
+                <div class="option-title" style="font-size: 0.9rem;">Within 2 weeks</div>
+              </div>
+            </label>
+            <label class="option-card" style="padding: 0.75rem 1rem;">
+              <input type="radio" name="startDate" value="Flexible">
+              <div class="option-check" style="width: 18px; height: 18px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <div class="option-content">
+                <div class="option-title" style="font-size: 0.9rem;">Flexible, let's talk</div>
+              </div>
+            </label>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Weekly Availability</label>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">Tap all that apply</p>
+          
+          <div class="availability-grid">
+            <div class="avail-header"></div>
+            <div class="avail-header">Morning</div>
+            <div class="avail-header">Afternoon</div>
+            <div class="avail-header">Evening</div>
+            
+            <div class="avail-day">Monday</div>
+            <div class="avail-cell" data-day="mon" data-time="morning">✓</div>
+            <div class="avail-cell" data-day="mon" data-time="afternoon">✓</div>
+            <div class="avail-cell" data-day="mon" data-time="evening">✓</div>
+            
+            <div class="avail-day">Tuesday</div>
+            <div class="avail-cell" data-day="tue" data-time="morning">✓</div>
+            <div class="avail-cell" data-day="tue" data-time="afternoon">✓</div>
+            <div class="avail-cell" data-day="tue" data-time="evening">✓</div>
+            
+            <div class="avail-day">Wednesday</div>
+            <div class="avail-cell" data-day="wed" data-time="morning">✓</div>
+            <div class="avail-cell" data-day="wed" data-time="afternoon">✓</div>
+            <div class="avail-cell" data-day="wed" data-time="evening">✓</div>
+            
+            <div class="avail-day">Thursday</div>
+            <div class="avail-cell" data-day="thu" data-time="morning">✓</div>
+            <div class="avail-cell" data-day="thu" data-time="afternoon">✓</div>
+            <div class="avail-cell" data-day="thu" data-time="evening">✓</div>
+            
+            <div class="avail-day">Friday</div>
+            <div class="avail-cell" data-day="fri" data-time="morning">✓</div>
+            <div class="avail-cell" data-day="fri" data-time="afternoon">✓</div>
+            <div class="avail-cell" data-day="fri" data-time="evening">✓</div>
+            
+            <div class="avail-day">Saturday</div>
+            <div class="avail-cell" data-day="sat" data-time="morning">✓</div>
+            <div class="avail-cell" data-day="sat" data-time="afternoon">✓</div>
+            <div class="avail-cell" data-day="sat" data-time="evening">✓</div>
+            
+            <div class="avail-day">Sunday</div>
+            <div class="avail-cell" data-day="sun" data-time="morning">✓</div>
+            <div class="avail-cell" data-day="sun" data-time="afternoon">✓</div>
+            <div class="avail-cell" data-day="sun" data-time="evening">✓</div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Anything else we should know?</label>
+          <textarea class="form-textarea" name="additionalNotes" placeholder="Other commitments, preferences, or just say hi..." rows="3"></textarea>
+        </div>
+        
+        <div class="form-nav">
+          <button type="button" class="btn btn-back" onclick="prevStep()">← Back</button>
+          <button type="submit" class="btn btn-submit">Submit Application ✨</button>
+        </div>
+      </div>
+      
+    </form>
+    
+    <!-- SUCCESS MESSAGE -->
+    <div id="successMessage" style="display: none;">
+      <div class="success-message">
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <h2 class="success-title">Thank You for Your Interest!</h2>
+        <p class="success-text">Your submission will be carefully reviewed by our team. If selected, a member of Dopelee Prezzed by S™ will be reaching out to you personally.</p>
+        <p class="success-text" style="margin-top: 1rem;">We appreciate you taking the time to share your story with us.</p>
+        
+        <div class="success-quote">
+          <p class="quote-text">"Faithfulness in small things is never small.<br>What you do when no one is watching<br>is often what prepares you for what's next."</p>
+        </div>
+        
+        <p class="success-tagline">Keep building legacy. 🤎</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- FOOTER -->
+  <footer class="form-footer">
+    <p>© <span id="currentYear"></span> Dopelee Prezzed by S™ LLC. All rights reserved.</p>
+  </footer>
+  
+  <script>
+    // ═══════════════════════════════════════════════════════════════
+    // CONFIGURATION
+    // ═══════════════════════════════════════════════════════════════
+    const SUPABASE_URL = 'https://dyehxtiozfwlexkbalvn.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs';
+    
+    let currentStep = 1;
+    const totalSteps = 7;
+    
+    // Track form data
+    const formData = {
+      skills: {},
+      aiTools: [],
+      availability: []
+    };
+    
+    // ═══════════════════════════════════════════════════════════════
+    // NAVIGATION
+    // ═══════════════════════════════════════════════════════════════
+    function nextStep() {
+      if (currentStep < totalSteps) {
+        currentStep++;
+        updateStep();
+      }
+    }
+    
+    function prevStep() {
+      if (currentStep > 1) {
+        currentStep--;
+        updateStep();
+      }
+    }
+    
+    function updateStep() {
+      // Update step visibility
+      document.querySelectorAll('.form-step').forEach(step => {
+        step.classList.remove('active');
+      });
+      document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.add('active');
+      
+      // Update progress bar
+      document.querySelectorAll('.progress-step').forEach(step => {
+        const stepNum = parseInt(step.dataset.step);
+        step.classList.remove('active', 'completed');
+        if (stepNum === currentStep) {
+          step.classList.add('active');
+        } else if (stepNum < currentStep) {
+          step.classList.add('completed');
+        }
+      });
+      
+      // Update progress line
+      const progressPercent = ((currentStep - 1) / (totalSteps - 1)) * 100;
+      document.getElementById('progressLine').style.width = `${progressPercent}%`;
+      
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    // ═══════════════════════════════════════════════════════════════
+    // OPTION CARDS (Radio & Checkbox)
+    // ═══════════════════════════════════════════════════════════════
+    document.querySelectorAll('.option-card').forEach(card => {
+      card.addEventListener('click', function() {
+        const input = this.querySelector('input');
+        
+        if (input.type === 'radio') {
+          // Deselect siblings
+          const name = input.name;
+          document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+            radio.closest('.option-card').classList.remove('selected');
+          });
+          this.classList.add('selected');
+          input.checked = true;
+          
+          // Handle "Other" source option
+          if (name === 'source') {
+            const otherGroup = document.getElementById('sourceOtherGroup');
+            otherGroup.hidden = input.value !== 'Other';
+          }
+          
+          // Handle AI experience branching
+          if (name === 'aiExperience') {
+            const aiBranch = document.getElementById('aiBranch');
+            if (input.value === 'Sometimes' || input.value === 'Daily') {
+              aiBranch.classList.add('show');
+            } else {
+              aiBranch.classList.remove('show');
+            }
+          }
+        } else if (input.type === 'checkbox') {
+          input.checked = !input.checked;
+          this.classList.toggle('selected', input.checked);
+        }
+      });
+    });
+    
+    // ═══════════════════════════════════════════════════════════════
+    // SKILL DOTS
+    // ═══════════════════════════════════════════════════════════════
+    const skillLabels = {
+      1: 'Learning',
+      2: 'Familiar',
+      3: 'Capable',
+      4: 'Skilled',
+      5: 'Expert'
+    };
+    
+    document.querySelectorAll('.skill-dots').forEach(container => {
+      const skill = container.dataset.skill;
+      const levelEl = document.getElementById(`skill-${skill}-level`);
+      
+      container.querySelectorAll('.skill-dot').forEach(dot => {
+        dot.addEventListener('click', function() {
+          const value = parseInt(this.dataset.value);
+          
+          // Update visual
+          container.querySelectorAll('.skill-dot').forEach((d, i) => {
+            d.classList.toggle('active', i < value);
+          });
+          
+          // Update label
+          levelEl.textContent = skillLabels[value];
+          
+          // Store value
+          formData.skills[skill] = value;
+        });
+      });
+    });
+    
+    // ═══════════════════════════════════════════════════════════════
+    // AI TOOLS CHIPS
+    // ═══════════════════════════════════════════════════════════════
+    document.querySelectorAll('.ai-tool-chip').forEach(chip => {
+      chip.addEventListener('click', function() {
+        this.classList.toggle('selected');
+        const tool = this.dataset.tool;
+        
+        if (this.classList.contains('selected')) {
+          formData.aiTools.push(tool);
+        } else {
+          formData.aiTools = formData.aiTools.filter(t => t !== tool);
+        }
+      });
+    });
+    
+    // ═══════════════════════════════════════════════════════════════
+    // AVAILABILITY GRID
+    // ═══════════════════════════════════════════════════════════════
+    document.querySelectorAll('.avail-cell').forEach(cell => {
+      cell.addEventListener('click', function() {
+        this.classList.toggle('selected');
+        const day = this.dataset.day;
+        const time = this.dataset.time;
+        const key = `${day}-${time}`;
+        
+        if (this.classList.contains('selected')) {
+          formData.availability.push(key);
+        } else {
+          formData.availability = formData.availability.filter(a => a !== key);
+        }
+      });
+    });
+    
+    // ═══════════════════════════════════════════════════════════════
+    // FORM SUBMISSION
+    // ═══════════════════════════════════════════════════════════════
+    document.getElementById('legacyForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const form = e.target;
+      const submitBtn = form.querySelector('.btn-submit');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+      
+      // Gather all form data
+      const data = {
+        // Step 1: Basics
+        first_name: form.firstName.value,
+        last_name: form.lastName.value,
+        email: form.email.value,
+        phone: form.phone.value || null,
+        city: form.city.value || null,
+        state: form.state.value || null,
+        
+        // Step 2: Source
+        source: form.source?.value || null,
+        source_other: form.sourceOther?.value || null,
+        
+        // Step 3: Interests
+        interests: Array.from(form.querySelectorAll('input[name="interest"]:checked')).map(i => i.value),
+        
+        // Step 4: Skills
+        skills: formData.skills,
+        
+        // Step 5: AI Experience
+        ai_experience: form.aiExperience?.value || null,
+        ai_tools: formData.aiTools,
+        ai_usage: form.aiUsage?.value || null,
+        ai_built: form.aiBuilt?.value || null,
+        ai_coding: form.aiCoding?.value || null,
+        
+        // Step 6: Why Dopelee
+        why_drawn: form.whyDrawn?.value || null,
+        what_bring: form.whatBring?.value || null,
+        portfolio_link: form.portfolioLink?.value || null,
+        
+        // Step 7: Availability
+        start_date: form.startDate?.value || null,
+        availability: formData.availability,
+        additional_notes: form.additionalNotes?.value || null,
+        
+        // Meta
+        submitted_at: new Date().toISOString()
+      };
+      
+      try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/legacy_builders`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify(data)
+        });
+        
+        if (response.ok) {
+          // Show success
+          document.getElementById('legacyForm').style.display = 'none';
+          document.querySelector('.progress-container').style.display = 'none';
+          document.getElementById('successMessage').style.display = 'block';
+        } else {
+          throw new Error('Submission failed');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Something went wrong. Please try again.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Application ✨';
+      }
+    });
+    
+    // Auto-update copyright year
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
