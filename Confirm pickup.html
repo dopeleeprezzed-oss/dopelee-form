@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pickup Confirmation | Dopelee Prezzed by S™</title>
+  <title>Confirm Pickup | Dopelee Prezzed by S™</title>
   
   <style>
     * {
@@ -22,228 +22,153 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* GOLD ACCENT LINES */
-    body::before,
-    body::after {
-      content: '';
-      position: fixed;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #e9ff60, #d4af37, #e9ff60, transparent);
-      box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
-      z-index: 1000;
-    }
-
-    body::before { top: 0; }
-    body::after { bottom: 0; }
-
-    /* FLOATING ORBS */
-    .orb {
-      position: fixed;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 0;
-      filter: blur(80px);
-      opacity: 0.5;
-      animation: float 20s infinite ease-in-out;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(-30px, 30px) scale(1.1); }
-    }
-
-    .orb1 { 
-      width: 300px; height: 300px; 
-      top: 10%; left: -10%; 
-      background: radial-gradient(circle, rgba(100, 149, 237, 0.6), transparent); 
-    }
-    .orb2 { 
-      width: 250px; height: 250px; 
-      bottom: 10%; right: -5%; 
-      background: radial-gradient(circle, rgba(212, 175, 55, 0.5), transparent); 
-      animation-delay: 5s;
     }
 
     .container {
-      max-width: 450px;
+      max-width: 400px;
       width: 100%;
-      position: relative;
-      z-index: 1;
     }
 
-    /* CARD */
     .card {
-      background: rgba(20, 20, 20, 0.9);
-      backdrop-filter: blur(20px);
-      border-radius: 24px;
-      padding: 50px 40px;
+      background: rgba(20, 20, 20, 0.95);
+      border-radius: 20px;
+      padding: 40px 30px;
       text-align: center;
       border: 1px solid rgba(212, 175, 55, 0.3);
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     }
 
-    /* LOGO */
     .logo {
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 30px;
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
       background: url('https://25zppb-bv.myshopify.com/cdn/shop/files/dopelee_prezzed_logo.png?v=1755138398&width=450') center/contain no-repeat;
-      filter: drop-shadow(0 0 20px rgba(211, 251, 27, 0.4));
+      filter: drop-shadow(0 0 15px rgba(211, 251, 27, 0.4));
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      border-radius: 20px;
+      font-size: 0.75rem;
+      color: #d4af37;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 25px;
     }
 
     /* STATES */
-    .state {
-      display: none;
-    }
-
-    .state.active {
-      display: block;
-      animation: fadeIn 0.5s ease;
-    }
+    .state { display: none; }
+    .state.active { display: block; animation: fadeIn 0.3s ease; }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* LOADING STATE */
+    /* LOADING */
     .spinner {
-      width: 60px;
-      height: 60px;
+      width: 50px;
+      height: 50px;
       border: 3px solid rgba(212, 175, 55, 0.2);
       border-top-color: #d4af37;
       border-radius: 50%;
       animation: spin 1s linear infinite;
-      margin: 0 auto 24px;
+      margin: 0 auto 20px;
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    .loading-text {
-      font-size: 1.1rem;
-      color: rgba(255, 255, 255, 0.7);
-      letter-spacing: 0.5px;
-    }
-
-    /* SUCCESS STATE */
-    .success-icon {
-      width: 100px;
-      height: 100px;
-      background: linear-gradient(135deg, #d4af37, #e9ff60);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 30px;
-      font-size: 3rem;
-      animation: scaleIn 0.5s ease, pulse 2s infinite ease-in-out;
-      box-shadow: 0 10px 40px rgba(212, 175, 55, 0.4);
-    }
-
-    @keyframes scaleIn {
-      from { transform: scale(0); }
-      to { transform: scale(1); }
-    }
-
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 10px 40px rgba(212, 175, 55, 0.4); }
-      50% { box-shadow: 0 10px 60px rgba(212, 175, 55, 0.6); }
-    }
-
-    .success-title {
-      font-size: 1.8rem;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 12px;
-    }
-
-    .success-subtitle {
-      font-size: 1rem;
-      color: rgba(255, 255, 255, 0.7);
-      margin-bottom: 30px;
-      line-height: 1.6;
-    }
-
-    .order-summary {
+    /* ORDER INFO */
+    .order-info {
       background: rgba(0, 0, 0, 0.3);
-      border-radius: 16px;
+      border-radius: 12px;
       padding: 20px;
-      margin-bottom: 30px;
-      border-left: 4px solid #d4af37;
+      margin-bottom: 25px;
       text-align: left;
     }
 
     .order-row {
       display: flex;
       justify-content: space-between;
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .order-row:last-child {
-      border-bottom: none;
-    }
+    .order-row:last-child { border-bottom: none; }
+    .order-label { color: rgba(255, 255, 255, 0.5); font-size: 0.85rem; }
+    .order-value { color: #fff; font-weight: 600; }
 
-    .order-label {
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.9rem;
-    }
-
-    .order-value {
+    /* PIN INPUT */
+    .pin-section h2 {
+      font-size: 1.1rem;
       color: #fff;
+      margin-bottom: 8px;
       font-weight: 500;
     }
 
-    .timestamp {
+    .pin-subtitle {
       font-size: 0.85rem;
       color: rgba(255, 255, 255, 0.5);
-      margin-top: 20px;
+      margin-bottom: 20px;
     }
 
-    /* ERROR STATE */
-    .error-icon {
-      width: 80px;
-      height: 80px;
-      background: rgba(255, 107, 107, 0.2);
-      border: 2px solid #ff6b6b;
-      border-radius: 50%;
+    .pin-inputs {
       display: flex;
-      align-items: center;
       justify-content: center;
-      margin: 0 auto 24px;
-      font-size: 2.5rem;
+      gap: 12px;
+      margin-bottom: 20px;
     }
 
-    .error-title {
+    .pin-input {
+      width: 55px;
+      height: 60px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      border-radius: 12px;
+      color: #fff;
       font-size: 1.5rem;
-      color: #ff6b6b;
-      margin-bottom: 12px;
+      font-weight: 700;
+      text-align: center;
+      transition: all 0.2s ease;
     }
 
-    .error-message {
-      color: rgba(255, 255, 255, 0.7);
-      margin-bottom: 24px;
+    .pin-input:focus {
+      outline: none;
+      border-color: #d4af37;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    }
+
+    .pin-input.error {
+      border-color: #ff6b6b;
+      animation: shake 0.5s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .pin-error {
+      color: #ff6b6b;
+      font-size: 0.85rem;
+      margin-bottom: 15px;
+      display: none;
     }
 
     .btn {
-      display: inline-block;
-      padding: 14px 32px;
+      width: 100%;
+      padding: 16px;
       background: linear-gradient(135deg, #d4af37, #e9ff60);
-      color: #000;
       border: none;
       border-radius: 12px;
-      font-weight: 600;
+      color: #000;
       font-size: 1rem;
+      font-weight: 700;
       cursor: pointer;
-      text-decoration: none;
       transition: all 0.3s ease;
     }
 
@@ -252,107 +177,292 @@
       box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
     }
 
-    /* BRANDING */
-    .branding {
-      margin-top: 40px;
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn.secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      margin-top: 12px;
+    }
+
+    /* SUCCESS */
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #0ff0b8, #0a95a8);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 2.5rem;
+      animation: scaleIn 0.4s ease;
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(0); }
+      to { transform: scale(1); }
+    }
+
+    .success-title {
+      font-size: 1.4rem;
+      color: #0ff0b8;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .success-subtitle {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 20px;
+    }
+
+    .timestamp {
       font-size: 0.8rem;
       color: rgba(255, 255, 255, 0.4);
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      margin-top: 20px;
+    }
+
+    /* ERROR */
+    .error-icon {
+      width: 70px;
+      height: 70px;
+      background: rgba(255, 107, 107, 0.2);
+      border: 2px solid #ff6b6b;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 2rem;
+    }
+
+    .error-title {
+      color: #ff6b6b;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    /* ALREADY PICKED */
+    .already-icon {
+      width: 70px;
+      height: 70px;
+      background: rgba(100, 149, 237, 0.2);
+      border: 2px solid #6495ED;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 2rem;
     }
   </style>
 </head>
 <body>
 
-  <div class="orb orb1"></div>
-  <div class="orb orb2"></div>
-
   <div class="container">
     <div class="card">
       <div class="logo"></div>
+      <div class="badge">Staff Pickup Confirmation</div>
 
       <!-- LOADING STATE -->
       <div id="loadingState" class="state active">
         <div class="spinner"></div>
-        <p class="loading-text">Confirming pickup...</p>
+        <p style="color: rgba(255,255,255,0.6);">Loading order...</p>
+      </div>
+
+      <!-- PIN ENTRY STATE -->
+      <div id="pinState" class="state">
+        <div class="order-info" id="orderInfo">
+          <!-- Order details populated by JS -->
+        </div>
+
+        <div class="pin-section">
+          <h2>Enter Staff PIN</h2>
+          <p class="pin-subtitle">Confirm pickup for this order</p>
+          
+          <div class="pin-inputs">
+            <input type="tel" class="pin-input" maxlength="1" id="pin1" inputmode="numeric">
+            <input type="tel" class="pin-input" maxlength="1" id="pin2" inputmode="numeric">
+            <input type="tel" class="pin-input" maxlength="1" id="pin3" inputmode="numeric">
+            <input type="tel" class="pin-input" maxlength="1" id="pin4" inputmode="numeric">
+          </div>
+          
+          <p class="pin-error" id="pinError">Incorrect PIN. Try again.</p>
+          
+          <button class="btn" id="confirmBtn" onclick="verifyPin()">Confirm Pickup</button>
+        </div>
       </div>
 
       <!-- SUCCESS STATE -->
       <div id="successState" class="state">
         <div class="success-icon">✓</div>
-        <h1 class="success-title">Pickup Complete!</h1>
-        <p class="success-subtitle">Thank you for choosing Dopelee Prezzed by S™.<br>Your legacy keepsake is now in your hands.</p>
+        <h2 class="success-title">Pickup Confirmed!</h2>
+        <p class="success-subtitle">Order has been marked as picked up.</p>
         
-        <div class="order-summary" id="orderSummary">
-          <!-- Populated by JS -->
+        <div class="order-info" id="successOrderInfo">
+          <!-- Order details populated by JS -->
         </div>
-
+        
         <p class="timestamp" id="pickupTimestamp"></p>
+        
+        <a href="https://www.dopeleeprezzedbys.com" class="btn secondary">Done</a>
       </div>
 
       <!-- ALREADY PICKED UP STATE -->
-      <div id="alreadyPickedState" class="state">
-        <div class="success-icon">📦</div>
-        <h1 class="success-title">Already Picked Up</h1>
-        <p class="success-subtitle">This order was already collected.</p>
+      <div id="alreadyState" class="state">
+        <div class="already-icon">📦</div>
+        <h2 style="color: #6495ED; margin-bottom: 10px;">Already Picked Up</h2>
+        <p style="color: rgba(255,255,255,0.6); margin-bottom: 20px;">This order was already confirmed.</p>
         
-        <div class="order-summary" id="alreadyPickedSummary">
-          <!-- Populated by JS -->
+        <div class="order-info" id="alreadyOrderInfo">
+          <!-- Order details populated by JS -->
         </div>
+        
+        <a href="https://www.dopeleeprezzedbys.com" class="btn secondary">Done</a>
       </div>
 
       <!-- ERROR STATE -->
       <div id="errorState" class="state">
         <div class="error-icon">⚠️</div>
         <h2 class="error-title">Order Not Found</h2>
-        <p class="error-message" id="errorMessage">We couldn't find this order. Please check with staff.</p>
-        <a href="https://www.dopeleeprezzedbys.com" class="btn">Go to Website</a>
+        <p id="errorMessage" style="color: rgba(255,255,255,0.6); margin-bottom: 20px;">Could not find this order.</p>
+        <a href="https://www.dopeleeprezzedbys.com" class="btn secondary">Go Back</a>
       </div>
 
-      <div class="branding">Dopelee Prezzed by S™</div>
     </div>
   </div>
 
   <script>
     const SUPABASE_URL = 'https://dyehxtiozfwlexkbalvn.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs';
+    
+    const STAFF_PIN = '5625';
+    
+    let currentOrder = null;
 
     // Get order ID from URL
     const params = new URLSearchParams(window.location.search);
     const orderId = params.get('order');
 
-    async function confirmPickup() {
+    // PIN input auto-advance
+    document.querySelectorAll('.pin-input').forEach((input, index, inputs) => {
+      input.addEventListener('input', (e) => {
+        if (e.target.value.length === 1 && index < inputs.length - 1) {
+          inputs[index + 1].focus();
+        }
+        // Clear error state
+        document.querySelectorAll('.pin-input').forEach(i => i.classList.remove('error'));
+        document.getElementById('pinError').style.display = 'none';
+      });
+      
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
+          inputs[index - 1].focus();
+        }
+      });
+    });
+
+    async function loadOrder() {
       if (!orderId) {
         showError('No order ID provided.');
         return;
       }
 
       try {
-        // First, fetch the order to check its status
-        const fetchRes = await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderId}&select=*`, {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderId}&select=*`, {
           headers: {
             'apikey': SUPABASE_KEY,
             'Authorization': `Bearer ${SUPABASE_KEY}`
           }
         });
 
-        const orders = await fetchRes.json();
+        const orders = await res.json();
         
         if (!orders || orders.length === 0) {
-          showError('Order not found. Please check with staff.');
+          showError('Order not found.');
           return;
         }
 
-        const order = orders[0];
+        currentOrder = orders[0];
 
         // Check if already picked up
-        if (order.status === 'Picked Up' || order.status === 'Delivered') {
-          showAlreadyPicked(order);
+        if (currentOrder.status === 'Picked Up' || currentOrder.status === 'Delivered') {
+          showAlreadyPicked();
           return;
         }
 
-        // Update status to "Picked Up"
-        const updateRes = await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderId}`, {
+        // Show PIN entry
+        showPinEntry();
+
+      } catch (error) {
+        console.error('Error:', error);
+        showError('Failed to load order.');
+      }
+    }
+
+    function showPinEntry() {
+      hideAll();
+      document.getElementById('pinState').classList.add('active');
+      
+      const orderNum = currentOrder.order_id ? `#${currentOrder.order_id.slice(-4)}` : 'N/A';
+      
+      document.getElementById('orderInfo').innerHTML = `
+        <div class="order-row">
+          <span class="order-label">Order</span>
+          <span class="order-value" style="color: #e9ff60;">${orderNum}</span>
+        </div>
+        <div class="order-row">
+          <span class="order-label">Customer</span>
+          <span class="order-value">${currentOrder.customer_name || 'N/A'}</span>
+        </div>
+        <div class="order-row">
+          <span class="order-label">Product</span>
+          <span class="order-value">${currentOrder.product_type || 'Keepsake'}</span>
+        </div>
+        ${currentOrder.honored_name ? `
+        <div class="order-row">
+          <span class="order-label">Honoring</span>
+          <span class="order-value">${currentOrder.honored_name}</span>
+        </div>
+        ` : ''}
+      `;
+      
+      // Focus first PIN input
+      setTimeout(() => document.getElementById('pin1').focus(), 100);
+    }
+
+    function verifyPin() {
+      const pin = 
+        document.getElementById('pin1').value +
+        document.getElementById('pin2').value +
+        document.getElementById('pin3').value +
+        document.getElementById('pin4').value;
+      
+      if (pin === STAFF_PIN) {
+        confirmPickup();
+      } else {
+        // Wrong PIN
+        document.querySelectorAll('.pin-input').forEach(i => {
+          i.classList.add('error');
+          i.value = '';
+        });
+        document.getElementById('pinError').style.display = 'block';
+        document.getElementById('pin1').focus();
+      }
+    }
+
+    async function confirmPickup() {
+      const btn = document.getElementById('confirmBtn');
+      btn.disabled = true;
+      btn.textContent = 'Confirming...';
+
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderId}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
@@ -366,70 +476,67 @@
           })
         });
 
-        if (updateRes.ok) {
-          showSuccess(order);
+        if (res.ok) {
+          showSuccess();
         } else {
-          throw new Error('Failed to update order');
+          throw new Error('Failed to update');
         }
-
       } catch (error) {
-        console.error('Pickup confirmation error:', error);
-        showError('Something went wrong. Please check with staff.');
+        console.error('Error:', error);
+        btn.disabled = false;
+        btn.textContent = 'Confirm Pickup';
+        alert('Failed to confirm pickup. Please try again.');
       }
     }
 
-    function showSuccess(order) {
+    function showSuccess() {
       hideAll();
       document.getElementById('successState').classList.add('active');
       
-      const summary = document.getElementById('orderSummary');
-      summary.innerHTML = `
+      const orderNum = currentOrder.order_id ? `#${currentOrder.order_id.slice(-4)}` : 'N/A';
+      
+      document.getElementById('successOrderInfo').innerHTML = `
         <div class="order-row">
           <span class="order-label">Order</span>
-          <span class="order-value">#${order.order_id ? order.order_id.slice(-4) : 'N/A'}</span>
+          <span class="order-value" style="color: #0ff0b8;">${orderNum}</span>
         </div>
         <div class="order-row">
           <span class="order-label">Customer</span>
-          <span class="order-value">${order.customer_name || 'Valued Customer'}</span>
+          <span class="order-value">${currentOrder.customer_name || 'N/A'}</span>
         </div>
         <div class="order-row">
           <span class="order-label">Product</span>
-          <span class="order-value">${order.product_type || 'Keepsake'}</span>
+          <span class="order-value">${currentOrder.product_type || 'Keepsake'}</span>
         </div>
-        ${order.honored_name ? `
-        <div class="order-row">
-          <span class="order-label">Honoring</span>
-          <span class="order-value">${order.honored_name}</span>
-        </div>
-        ` : ''}
       `;
-
+      
       document.getElementById('pickupTimestamp').textContent = 
-        `Picked up on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}`;
+        `Confirmed ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}`;
     }
 
-    function showAlreadyPicked(order) {
+    function showAlreadyPicked() {
       hideAll();
-      document.getElementById('alreadyPickedState').classList.add('active');
+      document.getElementById('alreadyState').classList.add('active');
       
-      const summary = document.getElementById('alreadyPickedSummary');
-      summary.innerHTML = `
+      const orderNum = currentOrder.order_id ? `#${currentOrder.order_id.slice(-4)}` : 'N/A';
+      
+      document.getElementById('alreadyOrderInfo').innerHTML = `
         <div class="order-row">
           <span class="order-label">Order</span>
-          <span class="order-value">#${order.order_id ? order.order_id.slice(-4) : 'N/A'}</span>
+          <span class="order-value">${orderNum}</span>
         </div>
         <div class="order-row">
           <span class="order-label">Customer</span>
-          <span class="order-value">${order.customer_name || 'Valued Customer'}</span>
+          <span class="order-value">${currentOrder.customer_name || 'N/A'}</span>
         </div>
         <div class="order-row">
           <span class="order-label">Status</span>
-          <span class="order-value" style="color: #0ff0b8;">${order.status}</span>
+          <span class="order-value" style="color: #0ff0b8;">${currentOrder.status}</span>
         </div>
-        ${order.picked_up_at ? `
+        ${currentOrder.picked_up_at ? `
         <div class="order-row">
           <span class="order-label">Picked Up</span>
-          <span class="order-value">${new Date(order.picked_up_at).toLocaleDateString()}</span>
+          <span class="order-value">${new Date(currentOrder.picked_up_at).toLocaleString()}</span>
         </div>
         ` : ''}
       `;
@@ -445,8 +552,8 @@
       document.querySelectorAll('.state').forEach(s => s.classList.remove('active'));
     }
 
-    // Run on page load
-    confirmPickup();
+    // Load order on page load
+    loadOrder();
   </script>
 
 </body>
