@@ -875,6 +875,43 @@ a {
   touch-action: manipulation;
 }
 
+/* --------------------------------------------------
+   CHARACTER COUNTER FOR IN-STORE ENGRAVING
+-------------------------------------------------- */
+.char-counter {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: #b9bed8;
+}
+
+.char-counter #charCount {
+  font-weight: 700;
+  color: #0ff0b8;
+}
+
+.char-counter #charLevel {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+.char-counter #charLevel.simple {
+  background: rgba(15, 240, 184, 0.2);
+  color: #0ff0b8;
+}
+
+.char-counter #charLevel.standard {
+  background: rgba(233, 255, 96, 0.2);
+  color: #e9ff60;
+}
+
+.char-counter #charLevel.complex {
+  background: rgba(253, 38, 253, 0.2);
+  color: #fd26fd;
+}
+
   </style>
 
 </head>
@@ -969,6 +1006,12 @@ a {
           <div class="option-card" onclick="selectProjectType('photobook')">
             <input type="radio" name="projectType" value="photobook" />
             <span>Photo Book Project</span>
+          </div>
+
+          <div class="option-card" onclick="selectProjectType('instore')">
+            <input type="radio" name="projectType" value="instore" />
+            <span>🏪 In-Store Personalization</span>
+            <small style="display:block;font-size:0.75rem;color:#b9bed8;margin-top:4px;">(Text/Engraving Only)</small>
           </div>
         </div>
       </div>
@@ -1078,6 +1121,122 @@ a {
       <div class="button-group">
         <button class="btn btn-secondary" onclick="goToStep('step2aKeepsake')">← Back</button>
         <button class="btn btn-primary" onclick="validateLookFeel()">Continue →</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- IN-STORE PERSONALIZATION STEP -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="stepInstore" class="step">
+      <h2 class="step-title">🏪 In-Store Personalization</h2>
+      <p class="step-description">Tell us what you'd like engraved or personalized.</p>
+
+      <!-- ENGRAVING TYPE -->
+      <div class="form-group">
+        <label>What type of personalization? *</label>
+        <div class="options-grid">
+          <div class="option-card" onclick="selectEngravingType('text')">
+            <input type="radio" name="engravingType" value="text" />
+            <span>✏️ Text Only</span>
+          </div>
+          <div class="option-card" onclick="selectEngravingType('photo')">
+            <input type="radio" name="engravingType" value="photo" />
+            <span>📷 Photo Engraving</span>
+          </div>
+          <div class="option-card" onclick="selectEngravingType('combo')">
+            <input type="radio" name="engravingType" value="combo" />
+            <span>📷✏️ Photo + Text</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TEXT INPUT WITH CHARACTER COUNTER -->
+      <div class="form-group" id="engravingTextGroup">
+        <label>What text do you want? *</label>
+        <textarea id="engravingText" maxlength="50" placeholder="Type exactly what you want engraved..." oninput="updateCharCount()"></textarea>
+        <div class="char-counter">
+          <span id="charCount">0</span>/50 characters
+          <span id="charLevel" style="margin-left: 10px; font-weight: 600;"></span>
+        </div>
+        <div class="helper-text">
+          Simple (1-15 chars) • Standard (16-35 chars) • Complex (36-50 chars)
+        </div>
+      </div>
+
+      <!-- PHOTO UPLOAD FOR ENGRAVING (only shows if photo or combo selected) -->
+      <div class="form-group" id="engravingPhotoGroup" style="display: none;">
+        <label>Upload Photo for Engraving *</label>
+        <input id="engravingPhotoInput" type="file" accept="image/*" onchange="handleEngravingPhoto(event)" />
+        <div class="helper-text">High contrast images work best for engraving</div>
+        <div id="engravingPhotoPreview" style="margin-top: 15px;"></div>
+      </div>
+
+      <!-- ITEM DESCRIPTION -->
+      <div class="form-group">
+        <label>What item are we personalizing? *</label>
+        <input id="itemDescription" type="text" placeholder="e.g., Wooden Tray, Cutting Board, Customer's own item..." />
+      </div>
+
+      <!-- SPECIAL INSTRUCTIONS -->
+      <div class="form-group">
+        <label>Special Instructions (optional)</label>
+        <textarea id="instoreNotes" placeholder="Font preference, placement, size, etc."></textarea>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('step1')">← Back</button>
+        <button class="btn btn-primary" onclick="goToInstorePreview()">Review →</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- IN-STORE PREVIEW -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="stepInstorePreview" class="step">
+      <h2 class="step-title">Review Your Request</h2>
+      <p class="step-description">Make sure everything looks correct!</p>
+
+      <div class="luxury-preview-card">
+        <div class="luxury-preview-header">
+          <h3>🏪 In-Store Personalization</h3>
+          <p>Here's what we'll create</p>
+        </div>
+        
+        <div class="luxury-preview-body">
+          <div class="preview-details">
+            <div class="preview-detail-row">
+              <span class="preview-detail-label">Type</span>
+              <span id="previewEngravingType" class="preview-detail-value"></span>
+            </div>
+            
+            <div class="preview-detail-row">
+              <span class="preview-detail-label">Item</span>
+              <span id="previewItem" class="preview-detail-value"></span>
+            </div>
+            
+            <div class="preview-detail-row" id="previewTextRow">
+              <span class="preview-detail-label">Text</span>
+              <span id="previewEngravingText" class="preview-detail-value large" style="font-family: 'Playfair Display', serif;"></span>
+            </div>
+            
+            <div class="preview-detail-row" id="previewInstorePhotoRow" style="display:none;">
+              <span class="preview-detail-label">Photo</span>
+              <span class="preview-detail-value">📷 Photo attached</span>
+            </div>
+            
+            <div class="preview-detail-row" id="previewInstoreNotesRow">
+              <span class="preview-detail-label">Notes</span>
+              <span id="previewInstoreNotes" class="preview-detail-value"></span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="luxury-preview-footer">
+          <div class="button-group" style="margin: 0; padding: 0; border: none;">
+            <button class="btn btn-edit" onclick="goToStep('stepInstore')">← Edit Details</button>
+            <button class="btn btn-submit" onclick="submitInstoreForm()">✨ Submit Request →</button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1299,6 +1458,7 @@ a {
 
       if (projectType === "keepsake") goToStep("step2aKeepsake");
       else if (projectType === "vip") goToStep("step2bVIP");
+      else if (projectType === "instore") goToStep("stepInstore");
       else goToStep("step2cPhotobook");
     }
 
@@ -1718,6 +1878,238 @@ a {
       
       console.log('✨ Smart Form ready!');
     });
+
+    // ═══════════════════════════════════════════════════════════════
+    // IN-STORE PERSONALIZATION FUNCTIONS
+    // ═══════════════════════════════════════════════════════════════
+    
+    let selectedEngravingType = null;
+    let engravingPhotoData = null;
+
+    function selectEngravingType(type) {
+      selectedEngravingType = type;
+      
+      // Update radio buttons
+      document.querySelectorAll('input[name="engravingType"]').forEach(r => {
+        r.checked = (r.value === type);
+      });
+      
+      // Update card selection
+      document.querySelectorAll('.option-card').forEach(card => {
+        const input = card.querySelector('input[name="engravingType"]');
+        if (input) {
+          if (input.value === type) {
+            card.classList.add('selected');
+          } else {
+            card.classList.remove('selected');
+          }
+        }
+      });
+      
+      // Show/hide photo upload
+      const photoGroup = document.getElementById('engravingPhotoGroup');
+      const textGroup = document.getElementById('engravingTextGroup');
+      
+      if (type === 'photo') {
+        photoGroup.style.display = 'block';
+        textGroup.style.display = 'none';
+      } else if (type === 'combo') {
+        photoGroup.style.display = 'block';
+        textGroup.style.display = 'block';
+      } else {
+        photoGroup.style.display = 'none';
+        textGroup.style.display = 'block';
+      }
+    }
+
+    function updateCharCount() {
+      const text = document.getElementById('engravingText').value;
+      const count = text.length;
+      const countEl = document.getElementById('charCount');
+      const levelEl = document.getElementById('charLevel');
+      
+      countEl.textContent = count;
+      
+      if (count <= 15) {
+        levelEl.textContent = 'Simple ($15)';
+        levelEl.className = 'simple';
+      } else if (count <= 35) {
+        levelEl.textContent = 'Standard ($25)';
+        levelEl.className = 'standard';
+      } else {
+        levelEl.textContent = 'Complex ($35)';
+        levelEl.className = 'complex';
+      }
+    }
+
+    function handleEngravingPhoto(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        engravingPhotoData = e.target.result;
+        document.getElementById('engravingPhotoPreview').innerHTML = `
+          <img src="${e.target.result}" style="max-width: 200px; border-radius: 8px; border: 2px solid #0ff0b8;" />
+        `;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function goToInstorePreview() {
+      const type = selectedEngravingType;
+      const text = document.getElementById('engravingText')?.value.trim();
+      const item = document.getElementById('itemDescription')?.value.trim();
+      const notes = document.getElementById('instoreNotes')?.value.trim();
+      
+      if (!type) {
+        alert('Please select a personalization type.');
+        return;
+      }
+      
+      if (!item) {
+        alert('Please describe the item being personalized.');
+        return;
+      }
+      
+      if ((type === 'text' || type === 'combo') && !text) {
+        alert('Please enter the text you want engraved.');
+        return;
+      }
+      
+      if ((type === 'photo' || type === 'combo') && !engravingPhotoData) {
+        alert('Please upload a photo for engraving.');
+        return;
+      }
+      
+      // Populate preview
+      const typeLabels = {
+        'text': '✏️ Text Only',
+        'photo': '📷 Photo Engraving',
+        'combo': '📷✏️ Photo + Text'
+      };
+      
+      document.getElementById('previewEngravingType').textContent = typeLabels[type];
+      document.getElementById('previewItem').textContent = item;
+      
+      if (type === 'text' || type === 'combo') {
+        document.getElementById('previewTextRow').style.display = 'flex';
+        document.getElementById('previewEngravingText').textContent = `"${text}"`;
+      } else {
+        document.getElementById('previewTextRow').style.display = 'none';
+      }
+      
+      if (type === 'photo' || type === 'combo') {
+        document.getElementById('previewInstorePhotoRow').style.display = 'flex';
+      } else {
+        document.getElementById('previewInstorePhotoRow').style.display = 'none';
+      }
+      
+      if (notes) {
+        document.getElementById('previewInstoreNotesRow').style.display = 'flex';
+        document.getElementById('previewInstoreNotes').textContent = notes;
+      } else {
+        document.getElementById('previewInstoreNotesRow').style.display = 'none';
+      }
+      
+      goToStep('stepInstorePreview');
+    }
+
+    async function submitInstoreForm() {
+      const submitBtn = document.querySelector('#stepInstorePreview .btn-submit');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+      
+      const name = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const referral = document.getElementById('partnerReferral').value;
+      const orderNumber = document.getElementById('orderNumber')?.value.trim() || null;
+      
+      const engravingText = document.getElementById('engravingText')?.value.trim() || '';
+      const itemDescription = document.getElementById('itemDescription')?.value.trim() || '';
+      const notes = document.getElementById('instoreNotes')?.value.trim() || '';
+      
+      // Determine pricing tier based on text length
+      let pricingTier = 'N/A';
+      if (selectedEngravingType === 'text') {
+        if (engravingText.length <= 15) pricingTier = 'Simple ($15)';
+        else if (engravingText.length <= 35) pricingTier = 'Standard ($25)';
+        else pricingTier = 'Complex ($35)';
+      } else if (selectedEngravingType === 'photo') {
+        pricingTier = 'Photo Engraving ($50)';
+      } else if (selectedEngravingType === 'combo') {
+        pricingTier = 'Photo + Text ($65)';
+      }
+      
+      const formData = {
+        customer_name: name,
+        customer_email: email,
+        partner_referral: referral,
+        external_order_number: orderNumber,
+        project_type: 'instore',
+        product_type: 'In-Store Personalization',
+        engraving_type: selectedEngravingType,
+        engraving_text: engravingText,
+        item_description: itemDescription,
+        pricing_tier: pricingTier,
+        designer_notes: notes,
+        form_completed: true,
+        status: 'Form Received',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+      
+      // If there's a photo, we'd upload it here (simplified for now)
+      if (engravingPhotoData) {
+        formData.has_engraving_photo = true;
+      }
+      
+      try {
+        // Check if order exists (from URL param)
+        const urlParams = new URLSearchParams(window.location.search);
+        const existingOrderId = urlParams.get('order');
+        
+        let response;
+        if (existingOrderId) {
+          // Update existing order
+          response = await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${existingOrderId}`, {
+            method: 'PATCH',
+            headers: {
+              'apikey': SUPABASE_KEY,
+              'Authorization': `Bearer ${SUPABASE_KEY}`,
+              'Content-Type': 'application/json',
+              'Prefer': 'return=representation'
+            },
+            body: JSON.stringify(formData)
+          });
+        } else {
+          // Create new order
+          response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
+            method: 'POST',
+            headers: {
+              'apikey': SUPABASE_KEY,
+              'Authorization': `Bearer ${SUPABASE_KEY}`,
+              'Content-Type': 'application/json',
+              'Prefer': 'return=representation'
+            },
+            body: JSON.stringify(formData)
+          });
+        }
+        
+        if (!response.ok) {
+          throw new Error('Failed to submit');
+        }
+        
+        // Show success
+        goToStep('successScreen');
+        
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Something went wrong. Please try again.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = '✨ Submit Request →';
+      }
+    }
 
   </script>
 
