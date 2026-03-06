@@ -1013,6 +1013,12 @@ a {
             <span>🏪 In-Store Personalization</span>
             <small style="display:block;font-size:0.75rem;color:#b9bed8;margin-top:4px;">(Text/Engraving Only)</small>
           </div>
+
+          <div class="option-card" onclick="selectProjectType('recognition')">
+            <input type="radio" name="projectType" value="recognition" />
+            <span>🎖️ Legacy Recognition Award</span>
+            <small style="display:block;font-size:0.75rem;color:#b9bed8;margin-top:4px;">(Military • Graduation • Achievement)</small>
+          </div>
         </div>
       </div>
 
@@ -1241,6 +1247,236 @@ a {
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- LEGACY RECOGNITION - STEP 1: QUANTITY -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="stepRecognition" class="step">
+      <h2 class="step-title">🎖️ Legacy Recognition Award</h2>
+      <p class="step-description">Custom engraved awards for military, graduations & achievements.</p>
+
+      <!-- Award Type -->
+      <div class="form-group">
+        <label>Which award did you order? *</label>
+        <div class="options-grid">
+          <div class="option-card" onclick="selectAwardType('slate')">
+            <input type="radio" name="awardType" value="slate" />
+            <span>Legacy Slate ($65)</span>
+          </div>
+          <div class="option-card" onclick="selectAwardType('wood')">
+            <input type="radio" name="awardType" value="wood" />
+            <span>Live Edge Wood ($95)</span>
+          </div>
+          <div class="option-card" onclick="selectAwardType('medallion')">
+            <input type="radio" name="awardType" value="medallion" />
+            <span>Metal Medallion ($45)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quantity Selection -->
+      <div class="form-group">
+        <label>How many awards are you ordering? *</label>
+        <div class="options-grid">
+          <div class="option-card" onclick="selectRecognitionQty('manual')">
+            <input type="radio" name="recognitionQty" value="manual" />
+            <span>✍️ 1-5 Awards</span>
+            <small style="display:block;font-size:0.75rem;color:#b9bed8;margin-top:4px;">Enter details manually</small>
+          </div>
+          <div class="option-card" onclick="selectRecognitionQty('bulk')">
+            <input type="radio" name="recognitionQty" value="bulk" />
+            <span>📊 6+ Awards</span>
+            <small style="display:block;font-size:0.75rem;color:#b9bed8;margin-top:4px;">Upload a spreadsheet</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('step1')">← Back</button>
+        <button class="btn btn-primary" onclick="validateRecognitionStep1()">Continue →</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- LEGACY RECOGNITION - STEP 2: MANUAL ENTRY (1-5 recipients) -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="stepRecognitionManual" class="step">
+      <h2 class="step-title">✍️ Recipient Details</h2>
+      <p class="step-description">Enter the details for each award recipient.</p>
+
+      <div id="recipientContainer">
+        <!-- Recipient cards added dynamically -->
+      </div>
+
+      <button class="add-recipient-btn" onclick="addRecipient()" id="addRecipientBtn" style="
+        width: 100%;
+        padding: 15px;
+        background: rgba(233, 255, 96, 0.1);
+        border: 2px dashed rgba(233, 255, 96, 0.4);
+        border-radius: 12px;
+        color: var(--accent-gold);
+        font-size: 1rem;
+        cursor: pointer;
+        margin-top: 15px;
+        transition: all 0.3s;
+      ">+ Add Another Recipient</button>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('stepRecognition')">← Back</button>
+        <button class="btn btn-primary" onclick="goToRecognitionDesign()">Continue →</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- LEGACY RECOGNITION - STEP 2B: BULK UPLOAD (6+ recipients) -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="stepRecognitionBulk" class="step">
+      <h2 class="step-title">📊 Upload Roster</h2>
+      <p class="step-description">Download our template, fill in your recipients, and upload it here.</p>
+
+      <div style="text-align: center; margin-bottom: 25px;">
+        <a href="https://dopeleeprezzed-oss.github.io/dopelee-form/legacy-recognition-template.xlsx" download 
+           style="
+             display: inline-flex;
+             align-items: center;
+             gap: 8px;
+             padding: 14px 28px;
+             background: linear-gradient(135deg, var(--accent-gold), #c9a227);
+             color: #000;
+             text-decoration: none;
+             border-radius: 10px;
+             font-weight: 600;
+             transition: all 0.3s;
+           ">
+          ⬇️ Download Excel Template
+        </a>
+      </div>
+
+      <div class="form-group">
+        <label>Upload Your Completed Roster *</label>
+        <input id="rosterFile" type="file" accept=".xlsx,.xls,.csv" onchange="handleRosterUpload(event)" />
+        <div id="rosterFileName" class="helper-text">Accepts .xlsx, .xls, or .csv files</div>
+      </div>
+
+      <div class="form-group">
+        <label>How many recipients total? *</label>
+        <input id="bulkQuantity" type="number" min="6" placeholder="Enter number of recipients" />
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('stepRecognition')">← Back</button>
+        <button class="btn btn-primary" onclick="goToRecognitionDesign()">Continue →</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- LEGACY RECOGNITION - STEP 3: DESIGN DETAILS -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="stepRecognitionDesign" class="step">
+      <h2 class="step-title">🎨 Design Details</h2>
+      <p class="step-description">Tell us about the occasion and any custom elements.</p>
+
+      <div class="form-group">
+        <label>Occasion / Achievement *</label>
+        <select id="recognitionOccasion" style="width:100%;padding:14px;background:var(--bg-input);border:1px solid var(--border-soft);border-radius:10px;color:var(--text-main);font-size:1rem;">
+          <option value="">Select occasion...</option>
+          <option value="graduation">Graduation</option>
+          <option value="promotion">Promotion</option>
+          <option value="retirement">Retirement</option>
+          <option value="achievement">Achievement Award</option>
+          <option value="recognition">Service Recognition</option>
+          <option value="memorial">Memorial / Homegoing</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Organization / Unit Name</label>
+        <input id="recognitionOrg" type="text" placeholder="e.g., CGSC Class 2026, 101st Airborne" />
+      </div>
+
+      <div class="form-group">
+        <label>Location (if applicable)</label>
+        <input id="recognitionLocation" type="text" placeholder="e.g., Fort Leavenworth, Kansas" />
+      </div>
+
+      <div class="form-group">
+        <label>Date to Display</label>
+        <input id="recognitionDate" type="text" placeholder="e.g., May 2026" />
+      </div>
+
+      <div class="form-group">
+        <label>Upload Logo / Insignia (optional)</label>
+        <input id="recognitionLogo" type="file" accept="image/*" onchange="handleRecognitionLogo(event)" />
+        <div id="logoFileName" class="helper-text">PNG or JPG, high resolution preferred</div>
+      </div>
+
+      <div class="form-group">
+        <label>Additional Notes or Custom Text</label>
+        <textarea id="recognitionNotes" placeholder="Any special requests, custom wording, or design notes..."></textarea>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goBackFromDesign()">← Back</button>
+        <button class="btn btn-primary" onclick="goToRecognitionPreview()">Review Order →</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- LEGACY RECOGNITION - STEP 4: PREVIEW -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="stepRecognitionPreview" class="step">
+      <h2 class="step-title">✅ Review Your Order</h2>
+      <p class="step-description">Make sure everything looks correct before submitting.</p>
+
+      <div class="luxury-preview-card">
+        <div class="luxury-preview-header">
+          <h3>🎖️ Legacy Recognition Award</h3>
+          <p>Here's what we'll create</p>
+        </div>
+        
+        <div class="luxury-preview-body" style="display:block;">
+          <div class="preview-details">
+            <div class="preview-detail-row">
+              <span class="preview-detail-label">Award Type</span>
+              <span id="previewRecAward" class="preview-detail-value"></span>
+            </div>
+            
+            <div class="preview-detail-row">
+              <span class="preview-detail-label">Recipients</span>
+              <span id="previewRecRecipients" class="preview-detail-value"></span>
+            </div>
+            
+            <div class="preview-detail-row">
+              <span class="preview-detail-label">Occasion</span>
+              <span id="previewRecOccasion" class="preview-detail-value"></span>
+            </div>
+            
+            <div class="preview-detail-row">
+              <span class="preview-detail-label">Organization</span>
+              <span id="previewRecOrg" class="preview-detail-value"></span>
+            </div>
+            
+            <div class="preview-detail-row">
+              <span class="preview-detail-label">Location</span>
+              <span id="previewRecLocation" class="preview-detail-value"></span>
+            </div>
+            
+            <div class="preview-detail-row">
+              <span class="preview-detail-label">Date</span>
+              <span id="previewRecDate" class="preview-detail-value"></span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="luxury-preview-footer">
+          <div class="button-group" style="margin: 0; padding: 0; border: none;">
+            <button class="btn btn-edit" onclick="goToStep('stepRecognitionDesign')">← Edit Details</button>
+            <button class="btn btn-submit" onclick="submitRecognitionForm()">✨ Submit Order →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- STEP 4: UPLOAD PHOTOS & DETAILS -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <section id="step4aUpload" class="step">
@@ -1459,6 +1695,7 @@ a {
       if (projectType === "keepsake") goToStep("step2aKeepsake");
       else if (projectType === "vip") goToStep("step2bVIP");
       else if (projectType === "instore") goToStep("stepInstore");
+      else if (projectType === "recognition") goToStep("stepRecognition");
       else goToStep("step2cPhotobook");
     }
 
@@ -2108,6 +2345,259 @@ a {
         alert('Something went wrong. Please try again.');
         submitBtn.disabled = false;
         submitBtn.textContent = '✨ Submit Request →';
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // LEGACY RECOGNITION FUNCTIONS
+    // ═══════════════════════════════════════════════════════════════
+    
+    let selectedAwardType = null;
+    let selectedRecognitionQty = null;
+    let recognitionRecipients = [];
+    let recognitionRosterFile = null;
+    let recognitionLogoFile = null;
+
+    function selectAwardType(type) {
+      selectedAwardType = type;
+      document.querySelectorAll('input[name="awardType"]').forEach(r => {
+        r.checked = (r.value === type);
+      });
+      document.querySelectorAll('.option-card').forEach(card => {
+        const input = card.querySelector('input[name="awardType"]');
+        if (input) {
+          card.classList.toggle('selected', input.value === type);
+        }
+      });
+    }
+
+    function selectRecognitionQty(type) {
+      selectedRecognitionQty = type;
+      document.querySelectorAll('input[name="recognitionQty"]').forEach(r => {
+        r.checked = (r.value === type);
+      });
+      document.querySelectorAll('.option-card').forEach(card => {
+        const input = card.querySelector('input[name="recognitionQty"]');
+        if (input) {
+          card.classList.toggle('selected', input.value === type);
+        }
+      });
+    }
+
+    function validateRecognitionStep1() {
+      if (!selectedAwardType) {
+        alert('Please select an award type.');
+        return;
+      }
+      if (!selectedRecognitionQty) {
+        alert('Please select how many awards you\'re ordering.');
+        return;
+      }
+      
+      if (selectedRecognitionQty === 'manual') {
+        if (recognitionRecipients.length === 0) addRecipient();
+        goToStep('stepRecognitionManual');
+      } else {
+        goToStep('stepRecognitionBulk');
+      }
+    }
+
+    function addRecipient() {
+      if (recognitionRecipients.length >= 5) {
+        alert('Maximum 5 recipients for manual entry. For more, please use the bulk upload option.');
+        return;
+      }
+      
+      const index = recognitionRecipients.length;
+      recognitionRecipients.push({});
+      
+      const container = document.getElementById('recipientContainer');
+      const card = document.createElement('div');
+      card.className = 'recipient-card';
+      card.id = `recipient-${index}`;
+      card.style.cssText = 'background:var(--bg-input);border:1px solid var(--border-soft);border-radius:12px;padding:20px;margin-bottom:15px;';
+      
+      card.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
+          <span style="color:var(--accent-gold);font-weight:600;">Recipient ${index + 1}</span>
+          ${index > 0 ? `<button onclick="removeRecipient(${index})" style="background:rgba(255,50,50,0.2);border:1px solid rgba(255,50,50,0.3);color:#ff6b6b;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:0.85rem;">Remove</button>` : ''}
+        </div>
+        <div class="form-group">
+          <label>Recipient Name *</label>
+          <input type="text" class="recipient-name" placeholder="Full name as it should appear on award" />
+        </div>
+        <div class="form-group">
+          <label>Rank (if applicable)</label>
+          <input type="text" class="recipient-rank" placeholder="e.g., SGT, CPT, MAJ" />
+        </div>
+        <div class="form-group">
+          <label>Title / Position</label>
+          <input type="text" class="recipient-title" placeholder="e.g., Class Leader, Distinguished Graduate" />
+        </div>
+      `;
+      
+      container.appendChild(card);
+      
+      if (recognitionRecipients.length >= 5) {
+        document.getElementById('addRecipientBtn').style.display = 'none';
+      }
+    }
+
+    function removeRecipient(index) {
+      const card = document.getElementById(`recipient-${index}`);
+      if (card) card.remove();
+      recognitionRecipients.splice(index, 1);
+      
+      // Re-index
+      document.querySelectorAll('.recipient-card').forEach((card, i) => {
+        card.id = `recipient-${i}`;
+        card.querySelector('span').textContent = `Recipient ${i + 1}`;
+      });
+      
+      document.getElementById('addRecipientBtn').style.display = 'block';
+    }
+
+    function collectRecipientData() {
+      recognitionRecipients = [];
+      document.querySelectorAll('.recipient-card').forEach((card) => {
+        recognitionRecipients.push({
+          name: card.querySelector('.recipient-name')?.value || '',
+          rank: card.querySelector('.recipient-rank')?.value || '',
+          title: card.querySelector('.recipient-title')?.value || ''
+        });
+      });
+    }
+
+    function handleRosterUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        recognitionRosterFile = file;
+        document.getElementById('rosterFileName').textContent = '✅ ' + file.name;
+      }
+    }
+
+    function handleRecognitionLogo(event) {
+      const file = event.target.files[0];
+      if (file) {
+        recognitionLogoFile = file;
+        document.getElementById('logoFileName').textContent = '✅ ' + file.name;
+      }
+    }
+
+    function goToRecognitionDesign() {
+      if (selectedRecognitionQty === 'manual') {
+        collectRecipientData();
+        if (recognitionRecipients.length === 0 || !recognitionRecipients[0].name) {
+          alert('Please add at least one recipient with a name.');
+          return;
+        }
+      } else {
+        const qty = document.getElementById('bulkQuantity').value;
+        if (!qty || qty < 6) {
+          alert('Please enter the number of recipients (6 or more).');
+          return;
+        }
+      }
+      goToStep('stepRecognitionDesign');
+    }
+
+    function goBackFromDesign() {
+      if (selectedRecognitionQty === 'manual') {
+        goToStep('stepRecognitionManual');
+      } else {
+        goToStep('stepRecognitionBulk');
+      }
+    }
+
+    function goToRecognitionPreview() {
+      const occasion = document.getElementById('recognitionOccasion').value;
+      if (!occasion) {
+        alert('Please select an occasion.');
+        return;
+      }
+      
+      // Populate preview
+      const awardNames = { slate: 'Legacy Slate ($65)', wood: 'Live Edge Wood ($95)', medallion: 'Metal Medallion ($45)' };
+      document.getElementById('previewRecAward').textContent = awardNames[selectedAwardType] || '';
+      
+      if (selectedRecognitionQty === 'manual') {
+        const names = recognitionRecipients.map(r => r.name).filter(n => n).join(', ');
+        document.getElementById('previewRecRecipients').textContent = `${recognitionRecipients.length} recipient(s): ${names}`;
+      } else {
+        const qty = document.getElementById('bulkQuantity').value;
+        document.getElementById('previewRecRecipients').textContent = `${qty} recipients (roster uploaded)`;
+      }
+      
+      const occasionSelect = document.getElementById('recognitionOccasion');
+      document.getElementById('previewRecOccasion').textContent = occasionSelect.options[occasionSelect.selectedIndex].text;
+      document.getElementById('previewRecOrg').textContent = document.getElementById('recognitionOrg').value || '-';
+      document.getElementById('previewRecLocation').textContent = document.getElementById('recognitionLocation').value || '-';
+      document.getElementById('previewRecDate').textContent = document.getElementById('recognitionDate').value || '-';
+      
+      goToStep('stepRecognitionPreview');
+    }
+
+    async function submitRecognitionForm() {
+      const submitBtn = document.querySelector('.btn-submit');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+      
+      const formData = {
+        order_id: `REC-${Date.now()}`,
+        customer_name: document.getElementById('fullName').value,
+        customer_email: document.getElementById('email').value,
+        project_type: 'recognition',
+        award_type: selectedAwardType,
+        is_bulk: selectedRecognitionQty === 'bulk',
+        quantity: selectedRecognitionQty === 'bulk' ? parseInt(document.getElementById('bulkQuantity').value) : recognitionRecipients.length,
+        recipients: selectedRecognitionQty === 'manual' ? JSON.stringify(recognitionRecipients) : null,
+        occasion: document.getElementById('recognitionOccasion').value,
+        organization: document.getElementById('recognitionOrg').value || null,
+        location: document.getElementById('recognitionLocation').value || null,
+        display_date: document.getElementById('recognitionDate').value || null,
+        designer_notes: document.getElementById('recognitionNotes').value || null,
+        has_logo: recognitionLogoFile !== null,
+        has_roster: recognitionRosterFile !== null,
+        form_completed: true,
+        form_completed_at: new Date().toISOString(),
+        status: 'Form Received',
+        created_at: new Date().toISOString()
+      };
+      
+      try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=representation'
+          },
+          body: JSON.stringify(formData)
+        });
+        
+        if (!response.ok) throw new Error('Failed to submit');
+        
+        // Send confirmation email
+        const savedOrder = await response.json();
+        const orderRecord = Array.isArray(savedOrder) ? savedOrder[0] : savedOrder;
+        
+        await fetch(`${SUPABASE_URL}/functions/v1/send-confirmation-email`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+          },
+          body: JSON.stringify({ record: orderRecord })
+        });
+        
+        goToStep('successScreen');
+        
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Something went wrong. Please try again or call 816-530-1520.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = '✨ Submit Order →';
       }
     }
 
