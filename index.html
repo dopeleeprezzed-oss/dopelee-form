@@ -969,6 +969,12 @@ a {
         <input id="email" type="email" />
       </div>
 
+      <div class="form-group">
+        <label>Phone Number <span id="phoneRequired" style="display:none;">*</span><span id="phoneOptional">(optional - for pickup notifications)</span></label>
+        <input id="phone" type="tel" placeholder="(555) 555-5555" />
+        <div class="helper-text">We'll text you when your order is ready for pickup.</div>
+      </div>
+
       <div class="form-group" id="orderNumberField">
         <label>Order Number (optional)</label>
         <input id="orderNumber" type="text" />
@@ -2081,10 +2087,16 @@ a {
       const orderId = urlParams.get('order') || urlParams.get('orderId') || '';
       const email = urlParams.get('email') || '';
       const name = urlParams.get('name') || '';
+      const phone = urlParams.get('phone') || '';
       const projectParam = urlParams.get('project') || '';
+      const partnerParam = urlParams.get('partner') || '';
       
       if (email) {
         document.getElementById('email').value = decodeURIComponent(email);
+      }
+      
+      if (phone) {
+        document.getElementById('phone').value = decodeURIComponent(phone);
       }
       
       if (orderId) {
@@ -2098,19 +2110,39 @@ a {
         document.getElementById('fullName').value = decodeURIComponent(name);
       }
       
-      // Auto-select VIP from URL parameter
-      if (projectParam.toLowerCase() === 'vip') {
-        selectProjectType('vip');
+      // Store partner ID for form submission
+      if (partnerParam) {
+        window.partnerIdFromUrl = partnerParam;
+        console.log('📍 Partner ID from URL:', partnerParam);
+      }
+      
+      // Auto-select project type from URL parameter
+      const projectType = projectParam.toLowerCase();
+      
+      if (projectType === 'vip' || projectType === 'instore' || projectType === 'recognition') {
+        selectProjectType(projectType);
         
+        // Disable other options
         const allOptionCards = document.querySelectorAll('.option-card');
         allOptionCards.forEach(card => {
           const radio = card.querySelector('input[type="radio"][name="projectType"]');
-          if (radio && radio.value !== 'vip') {
+          if (radio && radio.value !== projectType) {
             card.style.opacity = '0.4';
             card.style.pointerEvents = 'none';
             radio.disabled = true;
           }
         });
+        
+        // For in-store, make phone required and skip some steps
+        if (projectType === 'instore') {
+          document.getElementById('phoneRequired').style.display = 'inline';
+          document.getElementById('phoneOptional').style.display = 'none';
+          // Hide "how did you hear" for in-store (they're already in the store!)
+          const referralField = document.getElementById('partnerReferral')?.closest('.form-group');
+          if (referralField && !partnerParam) {
+            referralField.style.display = 'none';
+          }
+        }
       }
       
       console.log('✨ Smart Form ready!');
@@ -2259,7 +2291,8 @@ a {
       
       const name = document.getElementById('fullName').value.trim();
       const email = document.getElementById('email').value.trim();
-      const referral = document.getElementById('partnerReferral').value;
+      const phone = document.getElementById('phone')?.value.trim() || '';
+      const referral = document.getElementById('partnerReferral')?.value || '';
       const orderNumber = document.getElementById('orderNumber')?.value.trim() || null;
       
       const engravingText = document.getElementById('engravingText')?.value.trim() || '';
@@ -2278,19 +2311,26 @@ a {
         pricingTier = 'Photo + Text ($65)';
       }
       
+      // Get partner ID from URL or from referral dropdown
+      const partnerId = window.partnerIdFromUrl || (referral && referral.length > 10 ? referral : null);
+      
       const formData = {
         customer_name: name,
         customer_email: email,
+        customer_phone: phone,
+        partner_id: partnerId,
         partner_referral: referral,
         external_order_number: orderNumber,
         project_type: 'instore',
         product_type: 'In-Store Personalization',
+        order_source: 'px-instore',
         engraving_type: selectedEngravingType,
         engraving_text: engravingText,
         item_description: itemDescription,
         pricing_tier: pricingTier,
         designer_notes: notes,
         form_completed: true,
+        needs_pickup_notification: !!phone,
         status: 'Form Received',
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
