@@ -975,6 +975,13 @@ a {
         <div class="helper-text">We'll text you when your order is ready for pickup.</div>
       </div>
 
+      <!-- RECEIPT NUMBER - Shows for In-Store -->
+      <div class="form-group" id="receiptNumberField" style="display: none;">
+        <label>Receipt # (from your receipt)</label>
+        <input id="receiptNumber" type="text" maxlength="10" placeholder="e.g., b7Z7" style="text-transform: none; font-family: monospace; font-size: 1.2rem; letter-spacing: 2px;" />
+        <div class="helper-text">The short code at the bottom of your receipt</div>
+      </div>
+
       <div class="form-group" id="orderNumberField">
         <label>Order Number (optional)</label>
         <input id="orderNumber" type="text" />
@@ -982,10 +989,11 @@ a {
       </div>
 
       <!-- PARTNER REFERRAL DROPDOWN -->
-      <div class="form-group">
+      <div class="form-group" id="referralField">
         <label>How did you hear about us? *</label>
         <select id="partnerReferral" required>
           <option value="">Select an option...</option>
+          <option value="instore">In-Store Purchase</option>
           <option value="website">Website</option>
           <option value="social">Social Media</option>
           <option value="friend">Friend/Family</option>
@@ -1715,9 +1723,25 @@ a {
       const email = document.getElementById("email").value.trim();
       const selected = document.querySelector("input[name='projectType']:checked");
       const referral = document.getElementById("partnerReferral").value;
+      const phone = document.getElementById("phone")?.value.trim() || '';
 
-      if (!name || !email || !selected || !referral) {
+      // For in-store from QR code, referral is auto-set so don't require it
+      const isInstore = selected && selected.value === 'instore';
+      
+      if (!name || !email || !selected) {
         alert("Please complete all required fields.");
+        return;
+      }
+      
+      // Require referral only if NOT in-store
+      if (!isInstore && !referral) {
+        alert("Please select how you heard about us.");
+        return;
+      }
+      
+      // Require phone for in-store
+      if (isInstore && !phone) {
+        alert("Please enter your phone number so we can notify you when your order is ready.");
         return;
       }
 
@@ -2158,13 +2182,24 @@ a {
           }
         });
         
-        // For in-store, make phone required and skip some steps
+        // For in-store, make phone required and show receipt field
         if (projectType === 'instore') {
           document.getElementById('phoneRequired').style.display = 'inline';
           document.getElementById('phoneOptional').style.display = 'none';
-          // Hide "how did you hear" for in-store (they're already in the store!)
-          const referralField = document.getElementById('partnerReferral')?.closest('.form-group');
-          if (referralField && !partnerParam) {
+          
+          // Show receipt number field
+          document.getElementById('receiptNumberField').style.display = 'block';
+          
+          // Hide order number field (not needed for in-store)
+          document.getElementById('orderNumberField').style.display = 'none';
+          
+          // Auto-select "In-Store Purchase" for referral and hide the field
+          const referralSelect = document.getElementById('partnerReferral');
+          if (referralSelect) {
+            referralSelect.value = 'instore';
+          }
+          const referralField = document.getElementById('referralField');
+          if (referralField) {
             referralField.style.display = 'none';
           }
         }
@@ -2319,6 +2354,7 @@ a {
       const phone = document.getElementById('phone')?.value.trim() || '';
       const referral = document.getElementById('partnerReferral')?.value || '';
       const orderNumber = document.getElementById('orderNumber')?.value.trim() || null;
+      const receiptNumber = document.getElementById('receiptNumber')?.value.trim() || null;
       
       const engravingText = document.getElementById('engravingText')?.value.trim() || '';
       const itemDescription = document.getElementById('itemDescription')?.value.trim() || '';
@@ -2346,6 +2382,7 @@ a {
         partner_id: partnerId,
         partner_referral: referral,
         external_order_number: orderNumber,
+        receipt_number: receiptNumber,
         project_type: 'instore',
         product_type: 'In-Store Personalization',
         order_source: 'px-instore',
