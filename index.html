@@ -1194,7 +1194,7 @@ a {
       <!-- ITEM DESCRIPTION -->
       <div class="form-group">
         <label>What item are we personalizing? *</label>
-        <input id="itemDescription" type="text" placeholder="e.g., Wooden Tray, Legacy Journal, Customer's own item..." />
+        <input id="itemDescription" type="text" placeholder="e.g., Wooden Tray, Cutting Board, Customer's own item..." />
       </div>
 
       <!-- SPECIAL INSTRUCTIONS -->
@@ -1691,13 +1691,49 @@ a {
       const text = document.getElementById("progressText");
 
       let num = 1;
+      let totalSteps = 5;
+      
+      // Standard keepsake flow
       if (stepId.includes("step2")) num = 2;
       if (stepId.includes("step3")) num = 3;
       if (stepId.includes("step4")) num = 4;
       if (stepId.includes("step5") || stepId === "successScreen") num = 5;
+      
+      // In-Store flow (3 steps: Basic Info → Personalization → Preview/Submit)
+      if (stepId === "stepInstore") {
+        num = 2;
+        totalSteps = 3;
+      }
+      if (stepId === "stepInstorePreview") {
+        num = 3;
+        totalSteps = 3;
+      }
+      if (stepId === "instoreSuccessScreen") {
+        num = 3;
+        totalSteps = 3;
+        bar.style.width = "100%";
+        text.textContent = "Complete! ✓";
+        return;
+      }
+      
+      // Recognition flow
+      if (stepId === "stepRecognition" || stepId === "stepRecognitionQty") {
+        num = 2;
+        totalSteps = 4;
+      }
+      if (stepId === "stepRecognitionDetails") {
+        num = 3;
+        totalSteps = 4;
+      }
+      if (stepId === "stepRecognitionPreview") {
+        num = 4;
+        totalSteps = 4;
+      }
 
-      bar.style.width = (num / 5) * 100 + "%";
-      text.textContent = stepId === "successScreen" ? "Complete! ✓" : `Step ${num} of 5`;
+      bar.style.width = (num / totalSteps) * 100 + "%";
+      text.textContent = (stepId === "successScreen" || stepId === "instoreSuccessScreen") 
+        ? "Complete! ✓" 
+        : `Step ${num} of ${totalSteps}`;
     }
 
     // ═══════════════════════════════════════════════════════════════
