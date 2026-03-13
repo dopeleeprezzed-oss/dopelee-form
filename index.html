@@ -1120,22 +1120,59 @@ a {
       </div>
 
       <div class="form-group">
-        <label>Event date (optional)</label>
-        <input id="vipEventDate" type="date" 
-          style="cursor:pointer;background:#1a1a1a;color:#fff;border:2px solid rgba(212,175,55,0.4);border-radius:10px;padding:12px 16px;font-size:1rem;width:100%;appearance:none;-webkit-appearance:none;"
+        <label>What items are you thinking about? (optional)</label>
+        <p style="font-size:0.85rem;color:#888;margin:-8px 0 10px;">Think keepsakes, shadow boxes, photo books, engraved pieces, swag bags — anything that comes to mind.</p>
+        <textarea id="vipItems" rows="3" placeholder="Example: Personalized journals for each guest, a custom shadow box for the honoree, maybe some engraved keychains..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>What is your budget for this experience? *</label>
+        <p style="font-size:0.85rem;color:#888;margin:-8px 0 10px;">This helps us build something that works beautifully within your range.</p>
+        <div class="options-grid">
+          <div class="option-card" onclick="selectVIPBudget('under500')">
+            <input type="radio" name="vipBudget" value="under500" required />
+            <span>Under $500</span>
+          </div>
+          <div class="option-card" onclick="selectVIPBudget('500to1000')">
+            <input type="radio" name="vipBudget" value="500to1000" />
+            <span>$500 to $1,000</span>
+          </div>
+          <div class="option-card" onclick="selectVIPBudget('1000to2500')">
+            <input type="radio" name="vipBudget" value="1000to2500" />
+            <span>$1,000 to $2,500</span>
+          </div>
+          <div class="option-card" onclick="selectVIPBudget('2500to5000')">
+            <input type="radio" name="vipBudget" value="2500to5000" />
+            <span>$2,500 to $5,000</span>
+          </div>
+          <div class="option-card" onclick="selectVIPBudget('5000plus')">
+            <input type="radio" name="vipBudget" value="5000plus" />
+            <span>$5,000 and up</span>
+          </div>
+          <div class="option-card" onclick="selectVIPBudget('flexible')">
+            <input type="radio" name="vipBudget" value="flexible" />
+            <span>Flexible / Not Sure Yet</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Event date *</label>
+        <input id="vipEventDate" type="date" required
+          style="cursor:pointer;background:#1a1a1a;color:#fff;border:2px solid rgba(212,175,55,0.4);border-radius:10px;padding:12px 16px;font-size:1rem;width:100%;box-sizing:border-box;"
           onclick="this.showPicker()" />
         <p style="font-size:0.78rem;color:#888;margin:5px 0 0;">📅 Tap to open calendar</p>
       </div>
 
       <div class="form-group">
-        <label>What ideas do you have for your VIP experience? *</label>
+        <label>Tell us your vision *</label>
         <p style="font-size:0.85rem;color:#888;margin:-8px 0 10px;">Tell us what you are thinking — the feeling, the vibe, the people involved. There are no wrong answers. We want to hear your vision so we can bring it to life.</p>
-        <textarea id="vipVision" rows="5" required placeholder="Example: I want something really special for my husband's retirement. He served 20 years in the Army and I want the whole family to feel the weight of that. I'm thinking something elegant, maybe personalized gifts for each of our kids too..."></textarea>
+        <textarea id="vipVision" rows="5" required placeholder="Example: I want something really special for my husband's retirement. He served 20 years in the Army and I want the whole family to feel the weight of that. I am thinking something elegant, maybe personalized gifts for each of our kids too..."></textarea>
       </div>
 
       <div class="button-group">
-        <button class="btn btn-secondary" onclick="goToStep('step1')">← Back</button>
-        <button class="btn btn-primary" onclick="goToStep('step4aUpload')">Continue →</button>
+        <button class="btn btn-secondary" onclick="goToStep('step1')">Back</button>
+        <button class="btn btn-primary" onclick="validateAndContinueVIP()">Continue</button>
       </div>
     </section>
 
@@ -1939,6 +1976,39 @@ a {
     // ═══════════════════════════════════════════════════════════════
     // STEP 2: PERSON OR PET
     // ═══════════════════════════════════════════════════════════════
+    function selectVIPBudget(val) {
+      document.querySelectorAll("input[name='vipBudget']").forEach(r => r.checked = false);
+      const radio = document.querySelector(`input[name='vipBudget'][value='${val}']`);
+      if (radio) radio.checked = true;
+      document.querySelectorAll("#step2bVIP .option-card").forEach(c => {
+        if (c.querySelector(`input[value='${val}']`)) {
+          c.classList.add('selected');
+        } else {
+          c.classList.remove('selected');
+        }
+      });
+    }
+
+    function validateAndContinueVIP() {
+      const budget = document.querySelector("input[name='vipBudget']:checked");
+      const eventDate = document.getElementById('vipEventDate')?.value;
+      const vision = document.getElementById('vipVision')?.value?.trim();
+
+      if (!budget) {
+        alert('Please select a budget range so we can plan your experience.');
+        return;
+      }
+      if (!eventDate) {
+        alert('Please select your event date.');
+        return;
+      }
+      if (!vision) {
+        alert('Please share your vision for the experience so we can bring it to life.');
+        return;
+      }
+      goToStep('step4aUpload');
+    }
+
     function selectVIPOccasion(type) {
       document.querySelectorAll("input[name='vipOccasion']").forEach(r => r.checked = false);
       const radio = document.querySelector(`input[name='vipOccasion'][value='${type}']`);
