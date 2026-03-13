@@ -1128,32 +1128,7 @@ a {
       <div class="form-group">
         <label>What is your budget for this experience? *</label>
         <p style="font-size:0.85rem;color:#888;margin:-8px 0 10px;">This helps us build something that works beautifully within your range.</p>
-        <div class="options-grid">
-          <div class="option-card" onclick="selectVIPBudget('under500')">
-            <input type="radio" name="vipBudget" value="under500" required />
-            <span>Under $500</span>
-          </div>
-          <div class="option-card" onclick="selectVIPBudget('500to1000')">
-            <input type="radio" name="vipBudget" value="500to1000" />
-            <span>$500 to $1,000</span>
-          </div>
-          <div class="option-card" onclick="selectVIPBudget('1000to2500')">
-            <input type="radio" name="vipBudget" value="1000to2500" />
-            <span>$1,000 to $2,500</span>
-          </div>
-          <div class="option-card" onclick="selectVIPBudget('2500to5000')">
-            <input type="radio" name="vipBudget" value="2500to5000" />
-            <span>$2,500 to $5,000</span>
-          </div>
-          <div class="option-card" onclick="selectVIPBudget('5000plus')">
-            <input type="radio" name="vipBudget" value="5000plus" />
-            <span>$5,000 and up</span>
-          </div>
-          <div class="option-card" onclick="selectVIPBudget('flexible')">
-            <input type="radio" name="vipBudget" value="flexible" />
-            <span>Flexible / Not Sure Yet</span>
-          </div>
-        </div>
+        <input id="vipBudget" type="text" required placeholder="Example: Around $800, or $1,500 for everything combined" />
       </div>
 
       <div class="form-group">
@@ -1990,12 +1965,12 @@ a {
     }
 
     function validateAndContinueVIP() {
-      const budget = document.querySelector("input[name='vipBudget']:checked");
+      const budget = document.getElementById('vipBudget')?.value?.trim();
       const eventDate = document.getElementById('vipEventDate')?.value;
       const vision = document.getElementById('vipVision')?.value?.trim();
 
       if (!budget) {
-        alert('Please select a budget range so we can plan your experience.');
+        alert('Please enter your budget so we can plan your experience.');
         return;
       }
       if (!eventDate) {
