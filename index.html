@@ -996,7 +996,6 @@ a {
           <option value="instore">In-Store Purchase</option>
           <option value="website">Website</option>
           <option value="social">Social Media</option>
-          <option value="friend">Friend/Family</option>
           <option value="other">Other</option>
           <!-- Partner locations will be loaded here dynamically -->
         </select>
@@ -2129,7 +2128,7 @@ a {
     async function loadPartnerLocations() {
       try {
         const response = await fetch(
-          `${SUPABASE_URL}/rest/v1/partners?is_active=eq.true&select=id,business_name,city,state`,
+          `${SUPABASE_URL}/rest/v1/partners?is_active=eq.true&select=id,business_name,city`,
           {
             headers: {
               "apikey": SUPABASE_ANON_KEY,
@@ -2138,19 +2137,29 @@ a {
           }
         );
 
+        const select = document.getElementById('partnerReferral');
+        if (!select) return;
+
+        // Always add Fort Leavenworth PX first
+        const pxOption = document.createElement('option');
+        pxOption.value = 'de71d40d-688c-4544-b0f7-215591adafb5';
+        pxOption.textContent = '🏬 Fort Leavenworth PX — The Legacy Lounge™';
+        select.appendChild(pxOption);
+
         if (!response.ok) return;
 
         const partners = await response.json();
-        const select = document.getElementById('partnerReferral');
         
-        if (partners.length > 0 && select) {
+        if (partners.length > 0) {
           const optgroup = document.createElement('optgroup');
           optgroup.label = '📍 Partner Locations';
           
           partners.forEach(partner => {
             const option = document.createElement('option');
             option.value = partner.id;
-            option.textContent = `${partner.business_name} - ${partner.city}, ${partner.state}`;
+            option.textContent = partner.city 
+              ? `${partner.business_name} — ${partner.city}`
+              : partner.business_name;
             optgroup.appendChild(option);
           });
           
