@@ -994,8 +994,10 @@ a {
         <select id="partnerReferral" required>
           <option value="">Select an option...</option>
           <option value="instore">In-Store Purchase</option>
+          <option value="de71d40d-688c-4544-b0f7-215591adafb5">🏬 Fort Leavenworth PX — The Legacy Lounge™</option>
           <option value="website">Website</option>
           <option value="social">Social Media</option>
+          <option value="friend">Friend/Family</option>
           <option value="other">Other</option>
           <!-- Partner locations will be loaded here dynamically -->
         </select>
@@ -1073,6 +1075,151 @@ a {
       <div class="button-group">
         <button class="btn btn-secondary" onclick="goToStep('step1')">← Back</button>
         <button class="btn btn-primary" onclick="goToStep('step3aLookFeel')">Continue →</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- STEP 2B: VIP EXPERIENCE DETAILS -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="step2bVIP" class="step">
+      <h2 class="step-title">Step 2: Tell Us About Your VIP Experience</h2>
+
+      <div class="form-group">
+        <label>What is the occasion? (optional)</label>
+        <div class="options-grid">
+          <div class="option-card" onclick="selectVIPOccasion('birthday')">
+            <input type="radio" name="vipOccasion" value="birthday" />
+            <span>Birthday</span>
+          </div>
+          <div class="option-card" onclick="selectVIPOccasion('anniversary')">
+            <input type="radio" name="vipOccasion" value="anniversary" />
+            <span>Anniversary</span>
+          </div>
+          <div class="option-card" onclick="selectVIPOccasion('retirement')">
+            <input type="radio" name="vipOccasion" value="retirement" />
+            <span>Retirement</span>
+          </div>
+          <div class="option-card" onclick="selectVIPOccasion('promotion')">
+            <input type="radio" name="vipOccasion" value="promotion" />
+            <span>Promotion</span>
+          </div>
+          <div class="option-card" onclick="selectVIPOccasion('corporate')">
+            <input type="radio" name="vipOccasion" value="corporate" />
+            <span>Corporate / Event</span>
+          </div>
+          <div class="option-card" onclick="selectVIPOccasion('other')">
+            <input type="radio" name="vipOccasion" value="other" />
+            <span>Other</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Who is this for? (optional)</label>
+        <input id="vipRecipient" type="text" placeholder="Name of the person or group being celebrated" />
+      </div>
+
+      <div class="form-group">
+        <label>Event date (optional)</label>
+        <input id="vipEventDate" type="date" 
+          style="cursor:pointer;background:#1a1a1a;color:#fff;border:2px solid rgba(212,175,55,0.4);border-radius:10px;padding:12px 16px;font-size:1rem;width:100%;appearance:none;-webkit-appearance:none;"
+          onclick="this.showPicker()" />
+        <p style="font-size:0.78rem;color:#888;margin:5px 0 0;">📅 Tap to open calendar</p>
+      </div>
+
+      <div class="form-group">
+        <label>What ideas do you have for your VIP experience? *</label>
+        <p style="font-size:0.85rem;color:#888;margin:-8px 0 10px;">Tell us what you are thinking — the feeling, the vibe, the people involved. There are no wrong answers. We want to hear your vision so we can bring it to life.</p>
+        <textarea id="vipVision" rows="5" required placeholder="Example: I want something really special for my husband's retirement. He served 20 years in the Army and I want the whole family to feel the weight of that. I'm thinking something elegant, maybe personalized gifts for each of our kids too..."></textarea>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('step1')">← Back</button>
+        <button class="btn btn-primary" onclick="goToStep('step4aUpload')">Continue →</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- STEP 2C: PHOTO LOOKBOOK DETAILS -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="step2cPhotobook" class="step">
+      <h2 class="step-title">Step 2: Tell Us About Your Legacy Photo Book</h2>
+
+      <div class="form-group">
+        <label>Who is this book celebrating? *</label>
+        <input id="photobookHonoree" type="text" placeholder="Name of person, family, or group" />
+      </div>
+
+      <div class="form-group">
+        <label>What is the occasion? *</label>
+        <div class="options-grid">
+          <div class="option-card" onclick="selectPhotobookOccasion('memorial')">
+            <input type="radio" name="photobookOccasion" value="memorial" />
+            <span>Memorial</span>
+          </div>
+          <div class="option-card" onclick="selectPhotobookOccasion('military')">
+            <input type="radio" name="photobookOccasion" value="military" />
+            <span>Military Service</span>
+          </div>
+          <div class="option-card" onclick="selectPhotobookOccasion('family')">
+            <input type="radio" name="photobookOccasion" value="family" />
+            <span>Family Legacy</span>
+          </div>
+          <div class="option-card" onclick="selectPhotobookOccasion('celebration')">
+            <input type="radio" name="photobookOccasion" value="celebration" />
+            <span>Celebration</span>
+          </div>
+          <div class="option-card" onclick="selectPhotobookOccasion('other')">
+            <input type="radio" name="photobookOccasion" value="other" />
+            <span>Other</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>What size book are you thinking?</label>
+        <div class="options-grid">
+          <div class="option-card" onclick="selectPhotobookSize('24')">
+            <input type="radio" name="photobookSize" value="24" />
+            <span>24 Pages</span>
+          </div>
+          <div class="option-card" onclick="selectPhotobookSize('52')">
+            <input type="radio" name="photobookSize" value="52" />
+            <span>52 Pages</span>
+          </div>
+          <div class="option-card" onclick="selectPhotobookSize('74')">
+            <input type="radio" name="photobookSize" value="74" />
+            <span>74 Pages</span>
+          </div>
+          <div class="option-card" onclick="selectPhotobookSize('unsure')">
+            <input type="radio" name="photobookSize" value="unsure" />
+            <span>Not Sure Yet</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Do you want a display stand with your book?</label>
+        <div class="options-grid">
+          <div class="option-card" onclick="selectPhotobookStand('yes')">
+            <input type="radio" name="photobookStand" value="yes" />
+            <span>Yes, with Stand</span>
+          </div>
+          <div class="option-card" onclick="selectPhotobookStand('no')">
+            <input type="radio" name="photobookStand" value="no" />
+            <span>Book Only</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Tell us more about what you'd like to capture</label>
+        <textarea id="photobookVision" rows="4" placeholder="Share any details, time periods, themes, or memories you want featured..."></textarea>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('step1')">← Back</button>
+        <button class="btn btn-primary" onclick="goToStep('step4aUpload')">Continue →</button>
       </div>
     </section>
 
@@ -1792,6 +1939,34 @@ a {
     // ═══════════════════════════════════════════════════════════════
     // STEP 2: PERSON OR PET
     // ═══════════════════════════════════════════════════════════════
+    function selectVIPOccasion(type) {
+      document.querySelectorAll("input[name='vipOccasion']").forEach(r => r.checked = false);
+      const radio = document.querySelector(`input[name='vipOccasion'][value='${type}']`);
+      if (radio) radio.checked = true;
+      document.querySelectorAll("#step2bVIP .option-card").forEach(c => c.classList.remove('selected'));
+      if (radio) radio.closest('.option-card')?.classList.add('selected');
+    }
+
+    function selectPhotobookOccasion(type) {
+      document.querySelectorAll("input[name='photobookOccasion']").forEach(r => r.checked = false);
+      const radio = document.querySelector(`input[name='photobookOccasion'][value='${type}']`);
+      if (radio) radio.checked = true;
+      document.querySelectorAll("#step2cPhotobook .option-card").forEach(c => c.classList.remove('selected'));
+      if (radio) radio.closest('.option-card')?.classList.add('selected');
+    }
+
+    function selectPhotobookSize(size) {
+      document.querySelectorAll("input[name='photobookSize']").forEach(r => r.checked = false);
+      const radio = document.querySelector(`input[name='photobookSize'][value='${size}']`);
+      if (radio) radio.checked = true;
+    }
+
+    function selectPhotobookStand(val) {
+      document.querySelectorAll("input[name='photobookStand']").forEach(r => r.checked = false);
+      const radio = document.querySelector(`input[name='photobookStand'][value='${val}']`);
+      if (radio) radio.checked = true;
+    }
+
     function setPersonOrPet(type) {
       selectedPersonOrPet = type;
       
@@ -2140,12 +2315,6 @@ a {
         const select = document.getElementById('partnerReferral');
         if (!select) return;
 
-        // Always add Fort Leavenworth PX first
-        const pxOption = document.createElement('option');
-        pxOption.value = 'de71d40d-688c-4544-b0f7-215591adafb5';
-        pxOption.textContent = '🏬 Fort Leavenworth PX — The Legacy Lounge™';
-        select.appendChild(pxOption);
-
         if (!response.ok) return;
 
         const partners = await response.json();
@@ -2155,6 +2324,8 @@ a {
           optgroup.label = '📍 Partner Locations';
           
           partners.forEach(partner => {
+            // Skip PX partner since it's already hardcoded in the dropdown
+            if (partner.id === 'de71d40d-688c-4544-b0f7-215591adafb5') return;
             const option = document.createElement('option');
             option.value = partner.id;
             option.textContent = partner.city 
@@ -2162,8 +2333,17 @@ a {
               : partner.business_name;
             optgroup.appendChild(option);
           });
-          
-          select.appendChild(optgroup);
+
+          // Only append if there are non-PX partners
+          if (optgroup.children.length > 0) {
+            // Insert before the "Other" option
+            const otherOption = select.querySelector('option[value="other"]');
+            if (otherOption) {
+              select.insertBefore(optgroup, otherOption);
+            } else {
+              select.appendChild(optgroup);
+            }
+          }
         }
       } catch (err) {
         console.log("Could not load partner locations");
