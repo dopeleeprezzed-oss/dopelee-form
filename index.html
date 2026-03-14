@@ -2226,14 +2226,29 @@ a {
 
         // Send confirmation email
         try {
-          await fetch(`${SUPABASE_URL}/functions/v1/send-confirmation-email`, {
+          // Enrich record with fields the email template expects
+          const emailRecord = {
+            ...orderRecord,
+            book_celebration: honoree,
+            book_honor: honoree,
+            photobook_pages: size ? size + ' pages' : 'Custom'
+          };
+          
+          const emailResp = await fetch(`${SUPABASE_URL}/functions/v1/send-confirmation-email`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
             },
-            body: JSON.stringify({ record: orderRecord })
+            body: JSON.stringify({ record: emailRecord })
           });
+          
+          if (!emailResp.ok) {
+            const errBody = await emailResp.text();
+            console.error('⚠️ Email API error:', emailResp.status, errBody);
+          } else {
+            console.log('✅ Confirmation email sent');
+          }
         } catch (emailErr) {
           console.warn('⚠️ Email may have failed:', emailErr);
         }
@@ -3011,26 +3026,28 @@ a {
           }
         }
         
-        // Send portal email so customer gets their tracking link
-        if (orderRecord && orderRecord.order_id) {
+        // Send confirmation email so customer gets portal access
+        if (orderRecord && (orderRecord.order_id || savedOrderId)) {
           try {
-            console.log('📧 Sending portal email...');
-            const emailResponse = await fetch(`${SUPABASE_URL}/functions/v1/send-portal-email`, {
+            console.log('📧 Sending confirmation email...');
+            const emailRecord = {
+              ...orderRecord,
+              order_id: savedOrderId || orderRecord.order_id
+            };
+            const emailResponse = await fetch(`${SUPABASE_URL}/functions/v1/send-confirmation-email`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
               },
-              body: JSON.stringify({ 
-                record: orderRecord,
-                is_instore: true
-              })
+              body: JSON.stringify({ record: emailRecord })
             });
             
             if (emailResponse.ok) {
-              console.log('✅ Portal email sent!');
+              console.log('✅ Confirmation email sent!');
             } else {
-              console.error('⚠️ Portal email may have failed');
+              const errBody = await emailResponse.text();
+              console.error('⚠️ Email error:', emailResponse.status, errBody);
             }
           } catch (emailErr) {
             console.error('⚠️ Email error:', emailErr);
