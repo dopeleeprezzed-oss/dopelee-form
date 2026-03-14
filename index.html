@@ -1400,7 +1400,10 @@ a {
             
             <div class="preview-detail-row" id="previewInstorePhotoRow" style="display:none;">
               <span class="preview-detail-label">Photo</span>
-              <span class="preview-detail-value">📷 Photo attached</span>
+              <span class="preview-detail-value">
+                <img id="previewInstorePhoto" src="" style="max-width: 160px; border-radius: 8px; border: 2px solid #d4af37; display:none;" />
+                <span id="previewInstorePhotoText">📷 Photo attached</span>
+              </span>
             </div>
             
             <div class="preview-detail-row" id="previewInstoreNotesRow">
@@ -2796,10 +2799,13 @@ a {
       }
     }
 
+    let engravingPhotoFile = null;
+
     function handleEngravingPhoto(event) {
       const file = event.target.files[0];
       if (!file) return;
       
+      engravingPhotoFile = file;
       const reader = new FileReader();
       reader.onload = function(e) {
         engravingPhotoData = e.target.result;
@@ -2855,6 +2861,11 @@ a {
       
       if (type === 'photo' || type === 'combo') {
         document.getElementById('previewInstorePhotoRow').style.display = 'flex';
+        if (engravingPhotoData) {
+          document.getElementById('previewInstorePhoto').src = engravingPhotoData;
+          document.getElementById('previewInstorePhoto').style.display = 'block';
+          document.getElementById('previewInstorePhotoText').style.display = 'none';
+        }
       } else {
         document.getElementById('previewInstorePhotoRow').style.display = 'none';
       }
@@ -2923,8 +2934,8 @@ a {
         updated_at: new Date().toISOString()
       };
       
-      // If there's a photo, we'd upload it here (simplified for now)
-      if (engravingPhotoData) {
+      // If there's a photo, upload it to Supabase storage
+      if (engravingPhotoData && engravingPhotoFile) {
         formData.has_engraving_photo = true;
       }
       
@@ -2932,6 +2943,11 @@ a {
         // Check if order exists (from URL param)
         const urlParams = new URLSearchParams(window.location.search);
         const existingOrderId = urlParams.get('order');
+        
+        // Generate order ID for new orders
+        if (!existingOrderId) {
+          formData.order_id = 'IS-' + Date.now();
+        }
         
         let response;
         if (existingOrderId) {
@@ -2961,14 +2977,39 @@ a {
         }
         
         if (!response.ok) {
+          const errText = await response.text();
+          console.error('Supabase error:', errText);
           throw new Error('Failed to submit');
         }
         
         // Get the created/updated order
         const orderResult = await response.json();
         const orderRecord = Array.isArray(orderResult) ? orderResult[0] : orderResult;
+        const savedOrderId = orderRecord.order_id || existingOrderId || formData.order_id;
         
-        console.log('✅ Order saved:', orderRecord.order_id);
+        console.log('✅ Order saved:', savedOrderId);
+        
+        // Upload engraving photo to storage
+        if (engravingPhotoFile && savedOrderId) {
+          try {
+            submitBtn.textContent = 'Uploading photo...';
+            const ext = engravingPhotoFile.name.split('.').pop().toLowerCase() || 'jpg';
+            const storagePath = `instore/${savedOrderId}/engraving_photo.${ext}`;
+            
+            await fetch(`${SUPABASE_URL}/storage/v1/object/photobook-uploads/${storagePath}`, {
+              method: 'POST',
+              headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                'Content-Type': engravingPhotoFile.type || 'image/jpeg'
+              },
+              body: engravingPhotoFile
+            });
+            console.log('✅ Photo uploaded to storage');
+          } catch (photoErr) {
+            console.warn('⚠️ Photo upload failed:', photoErr);
+          }
+        }
         
         // Send portal email so customer gets their tracking link
         if (orderRecord && orderRecord.order_id) {
