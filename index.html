@@ -2944,7 +2944,7 @@
   ═══════════════════════════════════════════════════════════════ -->
   <div class="vip-modal-overlay" id="vipModal" onclick="closeVIPModal(event)">
     <div class="vip-modal-content" onclick="event.stopPropagation()">
-      <button class="vip-modal-close" onclick="closeVIPModal()">&times;</button>
+      <button class="vip-modal-close" onclick="closeVIPModalForced()">&times;</button>
       
       <div class="vip-modal-header">
         <div class="vip-modal-badge">✦ VIP ✦</div>
@@ -2976,8 +2976,8 @@
         <p>⚠️ <strong>Please Note:</strong> VIP Experience services are available for <strong>local pickup and U.S. domestic shipping only</strong>.</p>
       </div>
       
-      <a href="https://dopeleeprezzed-oss.github.io/dopelee-form/?project=vip" class="btn-vip-modal" target="_blank">
-        Request VIP Quote →
+      <a href="https://dopeleeprezzed-oss.github.io/dopelee-form/?project=vip" class="btn-vip-modal">
+        Request Your VIP Experience
       </a>
     </div>
   </div>
@@ -3070,7 +3070,6 @@
         <div class="recognition-cta-buttons">
           <a href="https://dopeleeprezzed-oss.github.io/dopelee-form/?project=recognition" 
              class="recognition-cta-btn primary" 
-             target="_blank"
              style="font-size:1rem;padding:16px 30px;background:linear-gradient(135deg,#d4af37,#f5d76e);color:#000;font-weight:800;letter-spacing:1px;text-transform:uppercase;border-radius:50px;text-decoration:none;display:inline-block;">
             Start Your Bulk Order
           </a>
@@ -3533,7 +3532,16 @@
     }
     
     function closeVIPModal(event) {
-      if (event && event.target !== event.currentTarget) return;
+      // Only close if clicking the overlay background, not the content inside
+      if (event && event.target !== document.getElementById('vipModal')) return;
+      const modal = document.getElementById('vipModal');
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    function closeVIPModalForced() {
       const modal = document.getElementById('vipModal');
       if (modal) {
         modal.classList.remove('active');
