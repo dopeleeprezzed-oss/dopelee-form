@@ -14,19 +14,20 @@
    BRAND VARIABLES
 -------------------------------------------------- */
 :root {
-  --bg-dark: #050509;
-  --bg-card: #0f1018;
-  --bg-input: #1a1b26;
+  --bg-dark: #000000;
+  --bg-card: #0d0b07;
+  --bg-input: #141108;
 
-  --text-main: #f5f5ff;
-  --text-muted: #b9bed8;
-  --text-dim: #7a7f9a;
+  --text-main: #f5f0e8;
+  --text-muted: #c8b98a;
+  --text-dim: #8a7a55;
 
-  --accent-gold: #e9ff60;
+  --accent-gold: #d4af37;
+  --accent-gold-light: #f5d76e;
   --accent-blue: #0a95a8;
-  --accent-pink: #fd26fd;
-  --accent-violet: #3461fa;
-  --accent-cyan: #0ff0b8;
+  --accent-pink: #d4af37;
+  --accent-violet: #b8960c;
+  --accent-cyan: #d4af37;
 
   --border-soft: rgba(255, 255, 255, 0.08);
 
@@ -45,7 +46,7 @@
 
 body {
   font-family: 'Inter', system-ui, sans-serif;
-  background: radial-gradient(circle at top, #181829 0%, #050509 40%, #000 100%);
+  background: radial-gradient(circle at top, #0d0b07 0%, #050300 40%, #000 100%);
   color: var(--text-main);
   min-height: 100vh;
   padding: 15px;
@@ -80,9 +81,9 @@ body {
   top: 0;
   left: 0;
   background: 
-    radial-gradient(circle at 25% 35%, rgba(15, 240, 184, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 75% 65%, rgba(10, 149, 168, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 50% 50%, rgba(15, 240, 184, 0.1) 0%, transparent 60%);
+    radial-gradient(circle at 25% 35%, rgba(212, 175, 55, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 75% 65%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.06) 0%, transparent 60%);
   pointer-events: none;
   animation: heroBling 5s ease-in-out infinite;
 }
@@ -120,11 +121,11 @@ body {
   }
 }
 
-.brand-header .bubble:nth-child(1) { left: 10%; width: 30px; height: 30px; background: #0ff0b8; animation-delay: 0s; animation-duration: 10s; }
-.brand-header .bubble:nth-child(2) { left: 25%; width: 40px; height: 40px; background: #d3fb1b; animation-delay: 2s; animation-duration: 12s; }
-.brand-header .bubble:nth-child(3) { left: 45%; width: 35px; height: 35px; background: #fd26fd; animation-delay: 1s; animation-duration: 11s; }
-.brand-header .bubble:nth-child(4) { left: 65%; width: 25px; height: 25px; background: #3461fa; animation-delay: 3s; animation-duration: 9s; }
-.brand-header .bubble:nth-child(5) { left: 80%; width: 38px; height: 38px; background: #0a95a8; animation-delay: 4s; animation-duration: 13s; }
+.brand-header .bubble:nth-child(1) { left: 10%; width: 30px; height: 30px; background: #d4af37; animation-delay: 0s; animation-duration: 10s; }
+.brand-header .bubble:nth-child(2) { left: 25%; width: 40px; height: 40px; background: #f5d76e; animation-delay: 2s; animation-duration: 12s; }
+.brand-header .bubble:nth-child(3) { left: 45%; width: 35px; height: 35px; background: #b8960c; animation-delay: 1s; animation-duration: 11s; }
+.brand-header .bubble:nth-child(4) { left: 65%; width: 25px; height: 25px; background: #d4af37; animation-delay: 3s; animation-duration: 9s; }
+.brand-header .bubble:nth-child(5) { left: 80%; width: 38px; height: 38px; background: #f5d76e; animation-delay: 4s; animation-duration: 13s; }
 
 @keyframes logoFloat {
   0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -181,7 +182,7 @@ body {
 h1 {
   font-family: 'Playfair Display', serif;
   font-size: 1.8rem;
-  background: linear-gradient(120deg, var(--accent-gold), var(--accent-pink));
+  background: linear-gradient(120deg, #d4af37, #f5d76e, #d4af37);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -215,7 +216,7 @@ h1 {
 .progress-fill {
   height: 4px;
   width: 0%;
-  background: linear-gradient(90deg, var(--accent-blue), var(--accent-gold));
+  background: linear-gradient(90deg, #b8960c, #d4af37, #f5d76e);
   border-radius: 20px;
   transition: width 0.3s ease;
 }
@@ -249,10 +250,15 @@ h1 {
 }
 
 .step-title {
-  font-size: 1.3rem;
-  font-weight: 600;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
   margin-bottom: 12px;
   line-height: 1.3;
+  background: linear-gradient(90deg, #d4af37, #f5d76e, #d4af37);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .step-description {
@@ -300,7 +306,7 @@ input:focus,
 textarea:focus,
 select:focus {
   outline: none;
-  border-color: var(--accent-gold);
+  border-color: #d4af37;
 }
 
 .helper-text {
@@ -340,8 +346,8 @@ select:focus {
 }
 
 .option-card.selected {
-  border-color: var(--accent-gold);
-  background: rgba(233, 255, 96, 0.08);
+  border-color: #d4af37;
+  background: rgba(212, 175, 55, 0.12);
 }
 
 .option-card input[type="radio"] {
@@ -391,7 +397,7 @@ select:focus {
 }
 
 .look-feel-card.selected {
-  border-color: var(--accent-gold);
+  border-color: #d4af37;
   background: rgba(233, 255, 96, 0.1);
   box-shadow: 0 0 20px rgba(233, 255, 96, 0.2);
 }
@@ -487,7 +493,7 @@ select:focus {
 }
 
 .vibe-image-card.selected {
-  border-color: var(--accent-gold);
+  border-color: #d4af37;
   box-shadow: 0 0 25px rgba(233, 255, 96, 0.4);
 }
 
@@ -527,7 +533,7 @@ select:focus {
 .vibe-image-card.selected .select-btn {
   background: var(--accent-gold);
   color: #000;
-  border-color: var(--accent-gold);
+  border-color: #d4af37;
 }
 
 .vibe-image-card.selected .select-overlay {
@@ -715,28 +721,30 @@ select:focus {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan));
+  background: linear-gradient(135deg, #d4af37, #f5d76e);
   color: #000;
-  box-shadow: 0 4px 16px rgba(233, 255, 96, 0.3);
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
 }
 
 .btn-secondary {
-  background: var(--bg-input);
-  border: 1px solid var(--border-soft);
-  color: var(--text-main);
+  background: transparent;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  color: #d4af37;
 }
 
 .btn-submit {
-  background: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan));
+  background: linear-gradient(135deg, #d4af37, #f5d76e);
   color: #000;
   font-size: 1.1rem;
+  font-weight: 800;
   padding: 18px 30px;
-  box-shadow: 0 6px 25px rgba(233, 255, 96, 0.4);
+  box-shadow: 0 6px 25px rgba(212, 175, 55, 0.4);
 }
 
 .btn-submit:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(233, 255, 96, 0.5);
+  box-shadow: 0 8px 30px rgba(212, 175, 55, 0.6);
 }
 
 .btn-edit {
@@ -757,7 +765,7 @@ select:focus {
 .success-screen h2 {
   font-family: 'Playfair Display', serif;
   font-size: 1.8rem;
-  background: linear-gradient(120deg, var(--accent-gold), var(--accent-pink));
+  background: linear-gradient(120deg, #d4af37, #f5d76e, #d4af37);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -1038,7 +1046,7 @@ a {
         </div>
       </div>
 
-      <button class="btn btn-primary" onclick="validateStep1()">Continue →</button>
+      <button class="btn btn-primary" onclick="validateStep1()">Continue</button>
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -1074,8 +1082,8 @@ a {
       </div>
 
       <div class="button-group">
-        <button class="btn btn-secondary" onclick="goToStep('step1')">← Back</button>
-        <button class="btn btn-primary" onclick="goToStep('step3aLookFeel')">Continue →</button>
+        <button class="btn btn-secondary" onclick="goToStep('step1')">Back</button>
+        <button class="btn btn-primary" onclick="goToStep('step3aLookFeel')">Continue</button>
       </div>
     </section>
 
@@ -1231,8 +1239,67 @@ a {
       </div>
 
       <div class="button-group">
-        <button class="btn btn-secondary" onclick="goToStep('step1')">← Back</button>
-        <button class="btn btn-primary" onclick="goToStep('step4aUpload')">Continue →</button>
+        <button class="btn btn-secondary" onclick="goToStep('step1')">Back</button>
+        <button class="btn btn-primary" onclick="goToStep('stepPhotobookUpload')">Continue</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- STEP VIP REVIEW: CONFIRM AND SUBMIT VIP REQUEST -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="stepVIPReview" class="step">
+      <h2 class="step-title">Almost There — Review Your VIP Request</h2>
+      <p class="step-description">Take a moment to make sure everything looks right before we receive your request.</p>
+
+      <div style="background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.3);border-radius:14px;padding:1.5rem;margin-bottom:1.5rem;">
+        <div id="vipReviewContent" style="display:flex;flex-direction:column;gap:12px;font-size:0.9rem;color:#c8b98a;"></div>
+      </div>
+
+      <div class="form-group">
+        <label>Do you have any inspiration images? (optional)</label>
+        <p style="font-size:0.82rem;color:#8a7a55;margin:-6px 0 10px;">Screenshots, Pinterest boards, anything that captures the vibe. No image is totally fine.</p>
+        <input id="vipInspirationFile" type="file" accept="image/*" onchange="handleVIPInspirationUpload(event)" />
+        <div id="vipInspirationPreview" style="margin-top:10px;"></div>
+      </div>
+
+      <div class="form-group">
+        <label>Anything else you want us to know? (optional)</label>
+        <textarea id="vipFinalNotes" rows="3" placeholder="Last thoughts, special requests, or anything on your mind..."></textarea>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('step2bVIP')">Back</button>
+        <button class="btn btn-submit" onclick="submitVIPForm()">✨ Submit My VIP Request</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- STEP PHOTOBOOK UPLOAD: UPLOAD PHOTOS AND NOTES -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="stepPhotobookUpload" class="step">
+      <h2 class="step-title">Share Your Photos and Memories</h2>
+      <p class="step-description">Upload what you have and share what you want captured. We will do the rest.</p>
+
+      <div class="form-group">
+        <label>Upload a photo or image (optional)</label>
+        <p style="font-size:0.82rem;color:#8a7a55;margin:-6px 0 10px;">A sample photo helps us understand the style and feel. You can always send more photos separately.</p>
+        <input id="photobookFileInput" type="file" accept="image/*" onchange="handlePhotobookUpload(event)" />
+        <div id="photobookPreview" style="margin-top:10px;"></div>
+      </div>
+
+      <div class="form-group">
+        <label>What memories or moments should we feature? (optional)</label>
+        <textarea id="photobookMemories" rows="4" placeholder="Tell us about the moments, time periods, people, or themes you want this book to capture..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Any special notes for our designer? (optional)</label>
+        <textarea id="photobookDesignerNotes" rows="3" placeholder="Colors, style preferences, anything specific you want us to know..."></textarea>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('step2cPhotobook')">Back</button>
+        <button class="btn btn-submit" onclick="submitPhotobookForm()">✨ Submit My Photo Book Request</button>
       </div>
     </section>
 
@@ -1298,8 +1365,8 @@ a {
       </div>
 
       <div class="button-group">
-        <button class="btn btn-secondary" onclick="goToStep('step2aKeepsake')">← Back</button>
-        <button class="btn btn-primary" onclick="validateLookFeel()">Continue →</button>
+        <button class="btn btn-secondary" onclick="goToStep('step2aKeepsake')">Back</button>
+        <button class="btn btn-primary" onclick="validateLookFeel()">Continue</button>
       </div>
     </section>
 
@@ -1363,8 +1430,8 @@ a {
       </div>
 
       <div class="button-group">
-        <button class="btn btn-secondary" onclick="goToStep('step1')">← Back</button>
-        <button class="btn btn-primary" onclick="goToInstorePreview()">Review →</button>
+        <button class="btn btn-secondary" onclick="goToStep('step1')">Back</button>
+        <button class="btn btn-primary" onclick="goToInstorePreview()">Review</button>
       </div>
     </section>
 
@@ -1412,8 +1479,8 @@ a {
         
         <div class="luxury-preview-footer">
           <div class="button-group" style="margin: 0; padding: 0; border: none;">
-            <button class="btn btn-edit" onclick="goToStep('stepInstore')">← Edit Details</button>
-            <button class="btn btn-submit" onclick="submitInstoreForm()">✨ Submit Request →</button>
+            <button class="btn btn-edit" onclick="goToStep('stepInstore')">Edit Details</button>
+            <button class="btn btn-submit" onclick="submitInstoreForm()">✨ Submit Request</button>
           </div>
         </div>
       </div>
@@ -1463,8 +1530,8 @@ a {
       </div>
 
       <div class="button-group">
-        <button class="btn btn-secondary" onclick="goToStep('step1')">← Back</button>
-        <button class="btn btn-primary" onclick="validateRecognitionStep1()">Continue →</button>
+        <button class="btn btn-secondary" onclick="goToStep('step1')">Back</button>
+        <button class="btn btn-primary" onclick="validateRecognitionStep1()">Continue</button>
       </div>
     </section>
 
@@ -1493,8 +1560,8 @@ a {
       ">+ Add Another Recipient</button>
 
       <div class="button-group">
-        <button class="btn btn-secondary" onclick="goToStep('stepRecognition')">← Back</button>
-        <button class="btn btn-primary" onclick="goToRecognitionDesign()">Continue →</button>
+        <button class="btn btn-secondary" onclick="goToStep('stepRecognition')">Back</button>
+        <button class="btn btn-primary" onclick="goToRecognitionDesign()">Continue</button>
       </div>
     </section>
 
@@ -1535,8 +1602,8 @@ a {
       </div>
 
       <div class="button-group">
-        <button class="btn btn-secondary" onclick="goToStep('stepRecognition')">← Back</button>
-        <button class="btn btn-primary" onclick="goToRecognitionDesign()">Continue →</button>
+        <button class="btn btn-secondary" onclick="goToStep('stepRecognition')">Back</button>
+        <button class="btn btn-primary" onclick="goToRecognitionDesign()">Continue</button>
       </div>
     </section>
 
@@ -1588,8 +1655,8 @@ a {
       </div>
 
       <div class="button-group">
-        <button class="btn btn-secondary" onclick="goBackFromDesign()">← Back</button>
-        <button class="btn btn-primary" onclick="goToRecognitionPreview()">Review Order →</button>
+        <button class="btn btn-secondary" onclick="goBackFromDesign()">Back</button>
+        <button class="btn btn-primary" onclick="goToRecognitionPreview()">Review Order</button>
       </div>
     </section>
 
@@ -1642,8 +1709,8 @@ a {
         
         <div class="luxury-preview-footer">
           <div class="button-group" style="margin: 0; padding: 0; border: none;">
-            <button class="btn btn-edit" onclick="goToStep('stepRecognitionDesign')">← Edit Details</button>
-            <button class="btn btn-submit" onclick="submitRecognitionForm()">✨ Submit Order →</button>
+            <button class="btn btn-edit" onclick="goToStep('stepRecognitionDesign')">Edit Details</button>
+            <button class="btn btn-submit" onclick="submitRecognitionForm()">✨ Submit Order</button>
           </div>
         </div>
       </div>
@@ -1675,8 +1742,8 @@ a {
       </div>
 
       <div class="button-group">
-        <button class="btn btn-secondary" onclick="goToStep('step3aLookFeel')">← Back</button>
-        <button class="btn btn-primary" onclick="goToPreview()">Review My Keepsake →</button>
+        <button class="btn btn-secondary" onclick="goToStep('step3aLookFeel')">Back</button>
+        <button class="btn btn-primary" onclick="goToPreview()">Review My Keepsake</button>
       </div>
     </section>
 
@@ -1727,8 +1794,8 @@ a {
         
         <div class="luxury-preview-footer">
           <div class="button-group" style="margin: 0; padding: 0; border: none;">
-            <button class="btn btn-edit" onclick="goToStep('step4aUpload')">← Edit Details</button>
-            <button class="btn btn-submit" onclick="submitForm()">✨ Submit My Keepsake →</button>
+            <button class="btn btn-edit" onclick="goToStep('step4aUpload')">Edit Details</button>
+            <button class="btn btn-submit" onclick="submitForm()">✨ Submit My Keepsake</button>
           </div>
         </div>
       </div>
@@ -1743,7 +1810,7 @@ a {
         <h2 style="font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:1rem;">You Are All Set!</h2>
         <p style="color:rgba(255,255,255,0.6);margin-bottom:2rem;">
           Your details have been received. Our design team will be in touch soon.<br><br>
-          Check your email for confirmation and updates on your order.
+          Watch your portal for updates on your order. We will reach out if we need anything else from you.
         </p>
         <p style="font-size:0.85rem;color:#d4af37;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;">Where would you like to go next?</p>
         <div style="display:flex;flex-direction:column;gap:12px;max-width:320px;margin:0 auto;">
@@ -1765,9 +1832,7 @@ a {
         <p>
           We have got your personalization details!
           <br><br>
-          📧 <strong>Check your email</strong> — we just sent you a link to track your order.
-          <br><br>
-          📱 <strong>We will notify you</strong> when your item is ready for pickup!
+          Watch your portal for updates. We will notify you when your item is ready for pickup.
         </p>
         <div style="background:rgba(15,240,184,0.1);border:1px solid var(--accent-cyan);border-radius:12px;padding:20px;margin:25px 0;text-align:left;">
           <div style="font-size:0.85rem;color:var(--accent-cyan);font-weight:600;margin-bottom:8px;">💡 WHAT IS NEXT?</div>
@@ -1856,11 +1921,10 @@ a {
       document.getElementById(stepId)?.classList.add('active');
       updateProgressBar(stepId);
       window.scrollTo(0, 0);
-      // Fire confetti on ANY success screen
+      saveProgress(stepId);
       if (stepId === 'successScreen' || stepId === 'instoreSuccessScreen') {
         setTimeout(() => fireConfetti(), 300);
       }
-      // When VIP lands on upload step, mark photo as optional
       if (stepId === 'step4aUpload') {
         const isVIP = projectType === 'vip';
         const reqSpan = document.getElementById('uploadPhotoRequired');
@@ -1886,6 +1950,32 @@ a {
     function updateProgressBar(stepId) {
       const bar = document.getElementById("progressBar");
       const text = document.getElementById("progressText");
+
+      let num = 1;
+      let totalSteps = 5;
+
+      if (stepId === "successScreen" || stepId === "instoreSuccessScreen") {
+        bar.style.width = "100%";
+        text.textContent = "Complete!";
+        return;
+      }
+
+      if (stepId === "stepInstore") { num = 2; totalSteps = 3; }
+      else if (stepId === "stepInstorePreview") { num = 3; totalSteps = 3; }
+      else if (stepId === "stepRecognition") { num = 2; totalSteps = 5; }
+      else if (stepId === "stepRecognitionManual" || stepId === "stepRecognitionBulk") { num = 3; totalSteps = 5; }
+      else if (stepId === "stepRecognitionDesign") { num = 4; totalSteps = 5; }
+      else if (stepId === "stepRecognitionPreview") { num = 5; totalSteps = 5; }
+      else if (stepId === "step2bVIP") { num = 2; totalSteps = 3; }
+      else if (stepId === "step2cPhotobook") { num = 2; totalSteps = 4; }
+      else if (stepId.includes("step2")) { num = 2; totalSteps = 5; }
+      else if (stepId.includes("step3")) { num = 3; totalSteps = 5; }
+      else if (stepId.includes("step4")) { num = 4; totalSteps = 5; }
+      else if (stepId.includes("step5")) { num = 5; totalSteps = 5; }
+
+      bar.style.width = (num / totalSteps) * 100 + "%";
+      text.textContent = "Step " + num + " of " + totalSteps;
+    }
 
       let num = 1;
       let totalSteps = 5;
@@ -2017,10 +2107,235 @@ a {
         return;
       }
       if (!vision) {
-        alert('Please share your vision for the experience so we can bring it to life.');
+        alert('Please share your vision so we can bring it to life.');
         return;
       }
-      goToStep('step4aUpload');
+
+      // Populate review card
+      const occasion = document.querySelector("input[name='vipOccasion']:checked")?.value || '';
+      const recipient = document.getElementById('vipRecipient')?.value || '';
+      const items = document.getElementById('vipItems')?.value || '';
+
+      const rows = [
+        occasion ? { label: 'Occasion', value: occasion.charAt(0).toUpperCase() + occasion.slice(1) } : null,
+        recipient ? { label: 'For', value: recipient } : null,
+        { label: 'Event Date', value: new Date(eventDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) },
+        { label: 'Budget', value: budget },
+        items ? { label: 'Items in Mind', value: items } : null,
+        { label: 'Vision', value: vision }
+      ].filter(Boolean);
+
+      const reviewHTML = rows.map(r => `
+        <div style="border-bottom:1px solid rgba(212,175,55,0.15);padding-bottom:10px;">
+          <div style="font-size:0.7rem;color:#d4af37;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;">${r.label}</div>
+          <div style="color:#f5f0e8;font-size:0.92rem;">${r.value}</div>
+        </div>
+      `).join('');
+
+      document.getElementById('vipReviewContent').innerHTML = reviewHTML;
+      goToStep('stepVIPReview');
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // VIP INSPIRATION IMAGE UPLOAD
+    // ═══════════════════════════════════════════════════════════════
+    let vipInspirationFile = null;
+    let vipInspirationImage = null;
+
+    function handleVIPInspirationUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      vipInspirationFile = file;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        vipInspirationImage = e.target.result;
+        document.getElementById('vipInspirationPreview').innerHTML = `
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:10px;">
+            <img src="${vipInspirationImage}" style="width:50px;height:50px;object-fit:cover;border-radius:6px;" />
+            <span style="color:#d4af37;font-size:0.85rem;">Inspiration image added</span>
+          </div>
+        `;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // VIP FORM SUBMIT
+    // ═══════════════════════════════════════════════════════════════
+    async function submitVIPForm() {
+      const submitBtn = document.querySelector('#stepVIPReview .btn-submit');
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Submitting...'; }
+
+      const orderId = document.getElementById('orderNumber')?.value || 'VIP-' + Date.now();
+
+      const formData = {
+        order_id: orderId,
+        customer_name: document.getElementById('fullName').value,
+        customer_email: document.getElementById('email').value,
+        customer_phone: document.getElementById('phone')?.value || '',
+        project_type: 'vip',
+        occasion: document.querySelector("input[name='vipOccasion']:checked")?.value || null,
+        honored_name: document.getElementById('vipRecipient')?.value || null,
+        custom_wording: document.getElementById('vipVision')?.value || null,
+        designer_notes: [
+          document.getElementById('vipItems')?.value,
+          document.getElementById('vipFinalNotes')?.value
+        ].filter(Boolean).join(' | ') || null,
+        display_date: document.getElementById('vipEventDate')?.value || null,
+        order_total: document.getElementById('vipBudget')?.value || null,
+        form_completed: true,
+        form_completed_at: new Date().toISOString(),
+        status: 'Form Received',
+        created_at: new Date().toISOString()
+      };
+
+      try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=representation'
+          },
+          body: JSON.stringify(formData)
+        });
+
+        if (!response.ok) throw new Error('Failed to submit');
+        localStorage.removeItem('legacyFormProgress');
+        goToStep('successScreen');
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Something went wrong. Please try again or call 816-530-1520.');
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '✨ Submit My VIP Request'; }
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // PHOTOBOOK IMAGE UPLOAD
+    // ═══════════════════════════════════════════════════════════════
+    let photobookUploadedFile = null;
+    let photobookUploadedImage = null;
+
+    function handlePhotobookUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      photobookUploadedFile = file;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        photobookUploadedImage = e.target.result;
+        document.getElementById('photobookPreview').innerHTML = `
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:10px;">
+            <img src="${photobookUploadedImage}" style="width:50px;height:50px;object-fit:cover;border-radius:6px;" />
+            <span style="color:#d4af37;font-size:0.85rem;">Photo added</span>
+          </div>
+        `;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // PHOTOBOOK FORM SUBMIT
+    // ═══════════════════════════════════════════════════════════════
+    async function submitPhotobookForm() {
+      const submitBtn = document.querySelector('#stepPhotobookUpload .btn-submit');
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Submitting...'; }
+
+      const orderId = document.getElementById('orderNumber')?.value || 'PB-' + Date.now();
+      const sizeVal = document.querySelector("input[name='photobookSize']:checked")?.value || null;
+      const standVal = document.querySelector("input[name='photobookStand']:checked")?.value || null;
+
+      const formData = {
+        order_id: orderId,
+        customer_name: document.getElementById('fullName').value,
+        customer_email: document.getElementById('email').value,
+        customer_phone: document.getElementById('phone')?.value || '',
+        project_type: 'photobook',
+        honored_name: document.getElementById('photobookHonoree')?.value || null,
+        occasion: document.querySelector("input[name='photobookOccasion']:checked")?.value || null,
+        custom_wording: document.getElementById('photobookMemories')?.value || null,
+        designer_notes: [
+          sizeVal ? 'Size: ' + sizeVal + ' pages' : null,
+          standVal ? 'Stand: ' + standVal : null,
+          document.getElementById('photobookVision')?.value,
+          document.getElementById('photobookDesignerNotes')?.value
+        ].filter(Boolean).join(' | ') || null,
+        form_completed: true,
+        form_completed_at: new Date().toISOString(),
+        status: 'Form Received',
+        created_at: new Date().toISOString()
+      };
+
+      try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=representation'
+          },
+          body: JSON.stringify(formData)
+        });
+
+        if (!response.ok) throw new Error('Failed to submit');
+        localStorage.removeItem('legacyFormProgress');
+        goToStep('successScreen');
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Something went wrong. Please try again or call 816-530-1520.');
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '✨ Submit My Photo Book Request'; }
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // SAVE AND RESUME
+    // ═══════════════════════════════════════════════════════════════
+    function saveProgress(stepId) {
+      try {
+        const progress = {
+          stepId,
+          fullName: document.getElementById('fullName')?.value || '',
+          email: document.getElementById('email')?.value || '',
+          phone: document.getElementById('phone')?.value || '',
+          projectType: projectType || '',
+          savedAt: new Date().toISOString()
+        };
+        localStorage.setItem('legacyFormProgress', JSON.stringify(progress));
+      } catch(e) {}
+    }
+
+    function checkResumeProgress() {
+      try {
+        const saved = localStorage.getItem('legacyFormProgress');
+        if (!saved) return;
+        const progress = JSON.parse(saved);
+        if (!progress.email || !progress.stepId) return;
+
+        // Only offer resume if saved within last 24 hours
+        const savedAt = new Date(progress.savedAt);
+        const hoursSince = (Date.now() - savedAt) / 1000 / 3600;
+        if (hoursSince > 24) {
+          localStorage.removeItem('legacyFormProgress');
+          return;
+        }
+
+        // Pre-fill what we have
+        if (progress.fullName) document.getElementById('fullName').value = progress.fullName;
+        if (progress.email) document.getElementById('email').value = progress.email;
+        if (progress.phone) document.getElementById('phone').value = progress.phone;
+
+        // Show a gentle resume banner
+        const banner = document.createElement('div');
+        banner.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0d0b07;border:2px solid #d4af37;border-radius:12px;padding:14px 20px;z-index:9999;text-align:center;max-width:340px;box-shadow:0 4px 20px rgba(212,175,55,0.3);';
+        banner.innerHTML = `
+          <p style="color:#d4af37;font-size:0.85rem;font-weight:700;margin:0 0 8px;">Welcome back! We saved your progress.</p>
+          <p style="color:#c8b98a;font-size:0.78rem;margin:0 0 12px;">Your name and email are already filled in.</p>
+          <button onclick="this.parentElement.remove()" style="background:linear-gradient(135deg,#d4af37,#f5d76e);color:#000;border:none;border-radius:20px;padding:6px 18px;font-weight:700;cursor:pointer;font-size:0.82rem;">Got it</button>
+        `;
+        document.body.appendChild(banner);
+        setTimeout(() => banner?.remove(), 6000);
+      } catch(e) {}
     }
 
     function selectVIPOccasion(type) {
@@ -2197,7 +2512,13 @@ a {
       const honoredName = document.getElementById('honoredName').value || 'Not specified';
       const dates = document.getElementById('dates').value || 'Not specified';
       
-      document.getElementById('previewStyleImg').src = selectedVibeImage?.url || '';
+      const styleImg = document.getElementById('previewStyleImg');
+      if (selectedVibeImage?.url) {
+        styleImg.src = selectedVibeImage.url;
+        styleImg.style.display = 'block';
+      } else {
+        styleImg.style.display = 'none';
+      }
       document.getElementById('previewName').textContent = honoredName;
       document.getElementById('previewDates').textContent = dates;
       document.getElementById('previewLookFeel').textContent = LOOK_FEEL_NAMES[selectedLookFeel] || '';
@@ -2342,7 +2663,7 @@ a {
         
         if (submitBtn) {
           submitBtn.disabled = false;
-          submitBtn.textContent = '✨ Submit My Keepsake →';
+          submitBtn.textContent = '✨ Submit My Keepsake';
         }
       }
     }
@@ -2439,6 +2760,7 @@ a {
     // ═══════════════════════════════════════════════════════════════
     window.addEventListener('DOMContentLoaded', () => {
       loadPartnerLocations();
+      checkResumeProgress();
       
       const urlParams = new URLSearchParams(window.location.search);
       
@@ -2787,7 +3109,7 @@ a {
         console.error('Error:', error);
         alert('Something went wrong. Please try again.');
         submitBtn.disabled = false;
-        submitBtn.textContent = '✨ Submit Request →';
+        submitBtn.textContent = '✨ Submit Request';
       }
     }
 
@@ -3040,7 +3362,7 @@ a {
         console.error('Error:', error);
         alert('Something went wrong. Please try again or call 816-530-1520.');
         submitBtn.disabled = false;
-        submitBtn.textContent = '✨ Submit Order →';
+        submitBtn.textContent = '✨ Submit Order';
       }
     }
 
