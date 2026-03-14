@@ -1992,17 +1992,28 @@ a {
       };
 
       try {
-        const response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
-          method: 'POST',
-          headers: {
-            'apikey': SUPABASE_ANON_KEY,
-            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-            'Content-Type': 'application/json',
-            'Prefer': 'return=representation'
-          },
-          body: JSON.stringify(formData)
-        });
-        if (!response.ok) throw new Error('Failed to submit');
+        let response;
+        let isUpdate = false;
+        
+        if (orderId && !orderId.startsWith('VIP-')) {
+          response = await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderId}`, {
+            method: 'PATCH',
+            headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+            body: JSON.stringify(formData)
+          });
+          const patchResult = await response.clone().json();
+          if (response.ok && patchResult && patchResult.length > 0) { isUpdate = true; }
+          else { response = null; }
+        }
+        
+        if (!response || !isUpdate) {
+          response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
+            method: 'POST',
+            headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+            body: JSON.stringify(formData)
+          });
+          if (!response.ok) throw new Error('Failed to submit');
+        }
         goToStep('successScreen');
       } catch (error) {
         console.error('Error:', error);
@@ -2185,18 +2196,54 @@ a {
       };
 
       try {
-        // Save order first
-        const response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
-          method: 'POST',
-          headers: {
-            'apikey': SUPABASE_ANON_KEY,
-            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-            'Content-Type': 'application/json',
-            'Prefer': 'return=representation'
-          },
-          body: JSON.stringify(formData)
-        });
-        if (!response.ok) throw new Error('Failed to submit');
+        // Try to update existing order first (from Square webhook), else create new
+        let response;
+        let isUpdate = false;
+        
+        // Check if this order already exists (e.g., created by Square webhook)
+        if (orderId && !orderId.startsWith('PB-')) {
+          // Try PATCH first
+          response = await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderId}`, {
+            method: 'PATCH',
+            headers: {
+              'apikey': SUPABASE_ANON_KEY,
+              'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+              'Content-Type': 'application/json',
+              'Prefer': 'return=representation'
+            },
+            body: JSON.stringify(formData)
+          });
+          
+          const patchResult = await response.clone().json();
+          if (response.ok && patchResult && patchResult.length > 0) {
+            isUpdate = true;
+            console.log('✅ Updated existing order:', orderId);
+          } else {
+            // Order doesn't exist, fall through to POST
+            console.log('📝 Order not found, creating new...');
+            response = null;
+          }
+        }
+        
+        // POST new order if PATCH didn't work
+        if (!response || !isUpdate) {
+          response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
+            method: 'POST',
+            headers: {
+              'apikey': SUPABASE_ANON_KEY,
+              'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+              'Content-Type': 'application/json',
+              'Prefer': 'return=representation'
+            },
+            body: JSON.stringify(formData)
+          });
+          
+          if (!response.ok) {
+            const errBody = await response.text();
+            console.error('❌ Supabase order insert failed:', response.status, errBody);
+            throw new Error('Order save failed: ' + errBody);
+          }
+        }
 
         // Upload photos to Supabase storage
         const savedOrder = await response.json();
