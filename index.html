@@ -1173,18 +1173,66 @@ a {
       </div>
 
       <div class="form-group">
-        <label>Upload a sample photo (optional)</label>
-        <input id="photobookFile" type="file" accept="image/*" />
-      </div>
-
-      <div class="form-group">
         <label>Designer notes (optional)</label>
         <textarea id="photobookNotes" rows="3" placeholder="Colors, style preferences, anything specific..."></textarea>
       </div>
 
       <div class="button-group">
         <button class="btn btn-secondary" onclick="goToStep('step1')">Back</button>
-        <button class="btn btn-primary" onclick="validateAndSubmitPhotobook()">Review My Request</button>
+        <button class="btn btn-primary" onclick="goToPhotobookUploader()">Continue to Photo Upload</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- STEP 3PB: PHOTO BOOK - PHOTO UPLOADER WITH QUALITY CHECK -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="stepPhotobookUpload" class="step">
+      <h2 class="step-title">📷 Upload Your Photos</h2>
+      <p class="step-description">Add the photos you'd like in your Legacy Photo Book. We'll check each one for print quality so your book looks amazing.</p>
+
+      <!-- UPLOAD ZONE -->
+      <div id="pbDropZone" style="border: 2px dashed rgba(212, 175, 55, 0.4); border-radius: 16px; padding: 40px 20px; text-align: center; cursor: pointer; background: rgba(212, 175, 55, 0.05); transition: all 0.3s ease; margin-bottom: 20px;" onclick="document.getElementById('pbFileInput').click()">
+        <div style="font-size: 2.5rem; margin-bottom: 10px;">📸</div>
+        <div style="color: var(--accent-gold); font-weight: 600; font-size: 1.1rem; margin-bottom: 6px;">Tap to Add Photos</div>
+        <div style="color: var(--text-dim); font-size: 0.85rem;">JPG, PNG, or HEIC • Multiple photos at once</div>
+        <div style="color: var(--text-dim); font-size: 0.78rem; margin-top: 8px;">Minimum 1000×1000 pixels recommended for print</div>
+        <input id="pbFileInput" type="file" accept="image/*,.heic,.heif" multiple onchange="handlePhotobookPhotos(event)" style="display:none;" />
+      </div>
+
+      <!-- PHOTO COUNT & QUALITY SUMMARY -->
+      <div id="pbSummary" style="display:none; margin-bottom: 20px; padding: 16px; background: rgba(212, 175, 55, 0.08); border: 1px solid rgba(212, 175, 55, 0.25); border-radius: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+          <div>
+            <span style="font-weight: 700; color: var(--accent-gold); font-size: 1.1rem;" id="pbPhotoCount">0</span>
+            <span style="color: var(--text-muted); font-size: 0.9rem;"> photos added</span>
+          </div>
+          <div id="pbQualitySummary" style="display: flex; gap: 10px; font-size: 0.8rem;"></div>
+        </div>
+      </div>
+
+      <!-- PHOTO GRID -->
+      <div id="pbPhotoGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-bottom: 25px;"></div>
+
+      <!-- ADD MORE BUTTON -->
+      <div id="pbAddMore" style="display:none; text-align: center; margin-bottom: 20px;">
+        <button class="btn btn-secondary" onclick="document.getElementById('pbFileInput').click()" style="display: inline-flex; align-items: center; gap: 8px; width: auto; padding: 10px 24px;">
+          ➕ Add More Photos
+        </button>
+      </div>
+
+      <!-- QUALITY LEGEND -->
+      <div style="margin-bottom: 25px; padding: 16px; background: var(--bg-input); border-radius: 12px; border: 1px solid var(--border-soft);">
+        <div style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Quality Guide</div>
+        <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem;">
+          <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 10px; height: 10px; border-radius: 50%; background: #4ade80; flex-shrink:0;"></span><span style="color: var(--text-muted);"><strong style="color:#4ade80;">Great</strong> — Print-ready, high resolution</span></div>
+          <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 10px; height: 10px; border-radius: 50%; background: #d4af37; flex-shrink:0;"></span><span style="color: var(--text-muted);"><strong style="color:#d4af37;">Okay</strong> — Usable, may lose some sharpness</span></div>
+          <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 10px; height: 10px; border-radius: 50%; background: #ef4444; flex-shrink:0;"></span><span style="color: var(--text-muted);"><strong style="color:#ef4444;">Low</strong> — May appear blurry when printed</span></div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('step2cPhotobook')">Back</button>
+        <button class="btn btn-primary" onclick="validateAndSubmitPhotobook()">Review & Submit</button>
       </div>
     </section>
 
@@ -1826,8 +1874,9 @@ a {
       }
       // VIP flow (3 steps)
       if (stepId === "step2bVIP") { num = 2; totalSteps = 3; }
-      // Photobook flow (3 steps)
-      else if (stepId === "step2cPhotobook") { num = 2; totalSteps = 3; }
+      // Photobook flow (4 steps: Info → Details → Upload → Submit)
+      else if (stepId === "step2cPhotobook") { num = 2; totalSteps = 4; }
+      else if (stepId === "stepPhotobookUpload") { num = 3; totalSteps = 4; }
       // Recognition flow
       else if (stepId === "stepRecognition") { num = 2; totalSteps = 5; }
       else if (stepId === "stepRecognitionManual" || stepId === "stepRecognitionBulk") { num = 3; totalSteps = 5; }
@@ -1959,17 +2008,154 @@ a {
       }
     }
 
+    // ═══════════════════════════════════════════════════════════════
+    // PHOTO BOOK - PHOTO UPLOADER WITH QUALITY CHECK
+    // ═══════════════════════════════════════════════════════════════
+    let photobookPhotos = []; // { file, name, width, height, quality, preview }
+
+    function goToPhotobookUploader() {
+      const honoree = document.getElementById('photobookHonoree')?.value?.trim();
+      if (!honoree) { alert('Please enter who this book is celebrating.'); return; }
+      goToStep('stepPhotobookUpload');
+    }
+
+    function handlePhotobookPhotos(event) {
+      const files = Array.from(event.target.files);
+      if (!files.length) return;
+
+      files.forEach(file => {
+        if (!file.type.startsWith('image/') && !file.name.match(/\.heic$/i) && !file.name.match(/\.heif$/i)) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = new Image();
+          img.onload = function() {
+            const w = img.naturalWidth;
+            const h = img.naturalHeight;
+            const megapixels = (w * h) / 1000000;
+            const minDim = Math.min(w, h);
+
+            let quality, qualityColor, qualityLabel;
+            if (minDim >= 1500 && megapixels >= 2) {
+              quality = 'great';
+              qualityColor = '#4ade80';
+              qualityLabel = 'Great';
+            } else if (minDim >= 800 && megapixels >= 0.8) {
+              quality = 'okay';
+              qualityColor = '#d4af37';
+              qualityLabel = 'Okay';
+            } else {
+              quality = 'low';
+              qualityColor = '#ef4444';
+              qualityLabel = 'Low';
+            }
+
+            photobookPhotos.push({
+              file: file,
+              name: file.name,
+              width: w,
+              height: h,
+              quality: quality,
+              qualityColor: qualityColor,
+              qualityLabel: qualityLabel,
+              preview: e.target.result
+            });
+
+            renderPhotobookGrid();
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+
+      // Reset file input so same files can be re-selected
+      event.target.value = '';
+    }
+
+    function renderPhotobookGrid() {
+      const grid = document.getElementById('pbPhotoGrid');
+      const summary = document.getElementById('pbSummary');
+      const addMore = document.getElementById('pbAddMore');
+      const dropZone = document.getElementById('pbDropZone');
+
+      if (photobookPhotos.length === 0) {
+        grid.innerHTML = '';
+        summary.style.display = 'none';
+        addMore.style.display = 'none';
+        dropZone.style.display = 'block';
+        return;
+      }
+
+      // Hide drop zone, show add more
+      dropZone.style.display = 'none';
+      summary.style.display = 'block';
+      addMore.style.display = 'block';
+
+      // Update count
+      document.getElementById('pbPhotoCount').textContent = photobookPhotos.length;
+
+      // Quality summary
+      const great = photobookPhotos.filter(p => p.quality === 'great').length;
+      const okay = photobookPhotos.filter(p => p.quality === 'okay').length;
+      const low = photobookPhotos.filter(p => p.quality === 'low').length;
+
+      let summaryHTML = '';
+      if (great > 0) summaryHTML += `<span style="color:#4ade80;">✓ ${great} great</span>`;
+      if (okay > 0) summaryHTML += `<span style="color:#d4af37;">● ${okay} okay</span>`;
+      if (low > 0) summaryHTML += `<span style="color:#ef4444;">⚠ ${low} low</span>`;
+      document.getElementById('pbQualitySummary').innerHTML = summaryHTML;
+
+      // Render grid
+      grid.innerHTML = photobookPhotos.map((photo, i) => `
+        <div style="position:relative; border-radius:12px; overflow:hidden; border: 2px solid ${photo.qualityColor}; background:#0d0a00;">
+          <img src="${photo.preview}" style="width:100%; height:140px; object-fit:cover; display:block;" alt="${photo.name}">
+          <div style="position:absolute; top:6px; right:6px;">
+            <button onclick="removePhotobookPhoto(${i})" style="width:26px; height:26px; border-radius:50%; background:rgba(0,0,0,0.7); border:1px solid rgba(255,255,255,0.3); color:#fff; font-size:0.8rem; cursor:pointer; display:flex; align-items:center; justify-content:center;">✕</button>
+          </div>
+          <div style="position:absolute; top:6px; left:6px;">
+            <span style="background:${photo.qualityColor}; color:#000; font-size:0.65rem; font-weight:700; padding:3px 8px; border-radius:10px; text-transform:uppercase;">${photo.qualityLabel}</span>
+          </div>
+          <div style="padding:8px 10px; background:rgba(0,0,0,0.6);">
+            <div style="font-size:0.72rem; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${photo.name}</div>
+            <div style="font-size:0.68rem; color:var(--text-dim);">${photo.width} × ${photo.height}px</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function removePhotobookPhoto(index) {
+      photobookPhotos.splice(index, 1);
+      renderPhotobookGrid();
+    }
+
     // Photobook validation and submit
     async function validateAndSubmitPhotobook() {
       const honoree = document.getElementById('photobookHonoree')?.value?.trim();
       if (!honoree) { alert('Please enter who this book is celebrating.'); return; }
 
-      const submitBtn = document.querySelector('#step2cPhotobook .btn-primary');
+      if (photobookPhotos.length === 0) {
+        alert('Please upload at least one photo for your book.');
+        return;
+      }
+
+      // Warn about low quality photos
+      const lowCount = photobookPhotos.filter(p => p.quality === 'low').length;
+      if (lowCount > 0) {
+        const proceed = confirm(`${lowCount} of your photos are low resolution and may appear blurry when printed. Continue anyway?`);
+        if (!proceed) return;
+      }
+
+      const submitBtn = document.querySelector('#stepPhotobookUpload .btn-primary');
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Submitting...'; }
 
       const orderId = document.getElementById('orderNumber')?.value || 'PB-' + Date.now();
       const size = document.querySelector("input[name='photobookSize']:checked")?.value || null;
       const stand = document.querySelector("input[name='photobookStand']:checked")?.value || null;
+
+      // Build photo quality report
+      const photoReport = photobookPhotos.map((p, i) => 
+        `Photo ${i+1}: ${p.name} (${p.width}x${p.height}, ${p.qualityLabel})`
+      ).join('\n');
 
       const formData = {
         order_id: orderId,
@@ -1983,8 +2169,12 @@ a {
         designer_notes: [
           size ? 'Size: ' + size + ' pages' : null,
           stand ? 'Stand: ' + stand : null,
-          document.getElementById('photobookNotes')?.value
+          document.getElementById('photobookNotes')?.value,
+          `Photos uploaded: ${photobookPhotos.length}`,
+          `Quality breakdown: ${photobookPhotos.filter(p=>p.quality==='great').length} great, ${photobookPhotos.filter(p=>p.quality==='okay').length} okay, ${photobookPhotos.filter(p=>p.quality==='low').length} low`,
+          photoReport
         ].filter(Boolean).join(' | ') || null,
+        photo_count: photobookPhotos.length,
         form_completed: true,
         form_completed_at: new Date().toISOString(),
         status: 'Form Received',
@@ -1992,6 +2182,7 @@ a {
       };
 
       try {
+        // Save order first
         const response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
           method: 'POST',
           headers: {
@@ -2003,11 +2194,52 @@ a {
           body: JSON.stringify(formData)
         });
         if (!response.ok) throw new Error('Failed to submit');
+
+        // Upload photos to Supabase storage
+        const savedOrder = await response.json();
+        const orderRecord = Array.isArray(savedOrder) ? savedOrder[0] : savedOrder;
+
+        if (submitBtn) submitBtn.textContent = 'Uploading photos...';
+
+        for (let i = 0; i < photobookPhotos.length; i++) {
+          const photo = photobookPhotos[i];
+          const ext = photo.name.split('.').pop().toLowerCase() || 'jpg';
+          const storagePath = `photobook/${orderId}/photo_${i + 1}.${ext}`;
+
+          try {
+            await fetch(`${SUPABASE_URL}/storage/v1/object/photobook-uploads/${storagePath}`, {
+              method: 'POST',
+              headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                'Content-Type': photo.file.type || 'image/jpeg'
+              },
+              body: photo.file
+            });
+          } catch (uploadErr) {
+            console.warn(`⚠️ Photo ${i+1} upload failed:`, uploadErr);
+          }
+        }
+
+        // Send confirmation email
+        try {
+          await fetch(`${SUPABASE_URL}/functions/v1/send-confirmation-email`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+            },
+            body: JSON.stringify({ record: orderRecord })
+          });
+        } catch (emailErr) {
+          console.warn('⚠️ Email may have failed:', emailErr);
+        }
+
         goToStep('successScreen');
       } catch (error) {
         console.error('Error:', error);
         alert('Something went wrong. Please try again or call 816-530-1520.');
-        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Review My Request'; }
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Review & Submit'; }
       }
     }
 
