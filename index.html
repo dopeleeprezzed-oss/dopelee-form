@@ -1011,7 +1011,7 @@ a {
 
           <div class="option-card" onclick="selectProjectType('photobook')">
             <input type="radio" name="projectType" value="photobook" />
-            <span>Legacy Photo Lookbook</span>
+            <span>Photo Book Project</span>
           </div>
 
           <div class="option-card" onclick="selectProjectType('instore')">
@@ -1195,7 +1195,7 @@ a {
         <div style="font-size: 2.5rem; margin-bottom: 10px;">📸</div>
         <div style="color: var(--accent-gold); font-weight: 600; font-size: 1.1rem; margin-bottom: 6px;">Tap to Add Photos</div>
         <div style="color: var(--text-dim); font-size: 0.85rem;">JPG, PNG, or HEIC • Multiple photos at once</div>
-        <div style="color: var(--text-dim); font-size: 0.78rem; margin-top: 8px;">Minimum 1000×1000 pixels recommended for print</div>
+        <div style="color: var(--text-dim); font-size: 0.78rem; margin-top: 8px;">Minimum 1000×1000 pixels recommended for print • Up to 100 photos</div>
         <input id="pbFileInput" type="file" accept="image/*,.heic,.heif" multiple onchange="handlePhotobookPhotos(event)" style="display:none;" />
       </div>
 
@@ -1232,8 +1232,71 @@ a {
 
       <div class="button-group">
         <button class="btn btn-secondary" onclick="goToStep('step2cPhotobook')">Back</button>
-        <button class="btn btn-primary" onclick="validateAndSubmitPhotobook()">Review & Submit</button>
+        <button class="btn btn-primary" onclick="goToPhotobookReview()">Review My Request →</button>
       </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- STEP 4PB: PHOTO BOOK - REVIEW BEFORE SUBMIT -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="stepPhotobookReview" class="step">
+      <h2 class="step-title">Review Your Photo Book Request</h2>
+      <p class="step-description">Make sure everything looks correct before submitting.</p>
+
+      <div class="luxury-preview-card">
+        <div class="luxury-preview-header">
+          <h3>📖 Legacy Photo Book</h3>
+          <p>Here's what we'll create</p>
+        </div>
+
+        <div style="padding: 25px;">
+          <div class="preview-detail-row" style="margin-bottom: 16px;">
+            <span class="preview-detail-label">Celebrating</span>
+            <span id="previewPbHonoree" class="preview-detail-value large"></span>
+          </div>
+
+          <div class="preview-detail-row" id="previewPbOccasionRow" style="margin-bottom: 16px; display:none;">
+            <span class="preview-detail-label">Occasion</span>
+            <span id="previewPbOccasion" class="preview-detail-value"></span>
+          </div>
+
+          <div class="preview-detail-row" id="previewPbSizeRow" style="margin-bottom: 16px; display:none;">
+            <span class="preview-detail-label">Book Size</span>
+            <span id="previewPbSize" class="preview-detail-value"></span>
+          </div>
+
+          <div class="preview-detail-row" id="previewPbStandRow" style="margin-bottom: 16px; display:none;">
+            <span class="preview-detail-label">Display Stand</span>
+            <span id="previewPbStand" class="preview-detail-value"></span>
+          </div>
+
+          <div class="preview-detail-row" style="margin-bottom: 16px;">
+            <span class="preview-detail-label">Photos Uploaded</span>
+            <span id="previewPbPhotoCount" class="preview-detail-value"></span>
+          </div>
+
+          <div id="previewPbQuality" style="display: flex; gap: 12px; margin-bottom: 16px;"></div>
+
+          <div class="preview-detail-row" id="previewPbMemoriesRow" style="margin-bottom: 16px; display:none;">
+            <span class="preview-detail-label">Memories to Capture</span>
+            <span id="previewPbMemories" class="preview-detail-value"></span>
+          </div>
+
+          <div class="preview-detail-row" id="previewPbNotesRow" style="display:none;">
+            <span class="preview-detail-label">Designer Notes</span>
+            <span id="previewPbNotes" class="preview-detail-value"></span>
+          </div>
+        </div>
+
+        <div class="luxury-preview-footer">
+          <div class="button-group" style="margin: 0; padding: 0; border: none;">
+            <button class="btn btn-edit" onclick="goToStep('stepPhotobookUpload')">Edit Photos</button>
+            <button class="btn btn-edit" onclick="goToStep('step2cPhotobook')">Edit Details</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-submit" onclick="validateAndSubmitPhotobook()" style="width: 100%;">✨ Submit My Photo Book Request</button>
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -1877,9 +1940,10 @@ a {
       }
       // VIP flow (3 steps)
       if (stepId === "step2bVIP") { num = 2; totalSteps = 3; }
-      // Photobook flow (4 steps: Info → Details → Upload → Submit)
-      else if (stepId === "step2cPhotobook") { num = 2; totalSteps = 4; }
-      else if (stepId === "stepPhotobookUpload") { num = 3; totalSteps = 4; }
+      // Photobook flow (5 steps: Info → Details → Upload → Review → Submit)
+      else if (stepId === "step2cPhotobook") { num = 2; totalSteps = 5; }
+      else if (stepId === "stepPhotobookUpload") { num = 3; totalSteps = 5; }
+      else if (stepId === "stepPhotobookReview") { num = 4; totalSteps = 5; }
       // Recognition flow
       else if (stepId === "stepRecognition") { num = 2; totalSteps = 5; }
       else if (stepId === "stepRecognitionManual" || stepId === "stepRecognitionBulk") { num = 3; totalSteps = 5; }
@@ -2037,7 +2101,19 @@ a {
       const files = Array.from(event.target.files);
       if (!files.length) return;
 
-      files.forEach(file => {
+      const remaining = 100 - photobookPhotos.length;
+      if (remaining <= 0) {
+        alert('You\'ve reached the maximum of 100 photos.');
+        event.target.value = '';
+        return;
+      }
+
+      const filesToProcess = files.slice(0, remaining);
+      if (files.length > remaining) {
+        alert(`Only adding ${remaining} more photo(s) to reach the 100 photo limit.`);
+      }
+
+      filesToProcess.forEach(file => {
         if (!file.type.startsWith('image/') && !file.name.match(/\.heic$/i) && !file.name.match(/\.heif$/i)) return;
 
         const reader = new FileReader();
@@ -2106,7 +2182,7 @@ a {
       addMore.style.display = 'block';
 
       // Update count
-      document.getElementById('pbPhotoCount').textContent = photobookPhotos.length;
+      document.getElementById('pbPhotoCount').textContent = `${photobookPhotos.length} / 100`;
 
       // Quality summary
       const great = photobookPhotos.filter(p => p.quality === 'great').length;
@@ -2140,6 +2216,73 @@ a {
     function removePhotobookPhoto(index) {
       photobookPhotos.splice(index, 1);
       renderPhotobookGrid();
+    }
+
+    function goToPhotobookReview() {
+      if (photobookPhotos.length === 0) {
+        alert('Please upload at least one photo for your book.');
+        return;
+      }
+
+      const honoree = document.getElementById('photobookHonoree')?.value?.trim() || '';
+      const occasion = document.querySelector("input[name='photobookOccasion']:checked")?.value || '';
+      const size = document.querySelector("input[name='photobookSize']:checked")?.value || '';
+      const stand = document.querySelector("input[name='photobookStand']:checked")?.value || '';
+      const memories = document.getElementById('photobookMemories')?.value?.trim() || '';
+      const notes = document.getElementById('photobookNotes')?.value?.trim() || '';
+
+      // Populate review
+      document.getElementById('previewPbHonoree').textContent = honoree || 'Not specified';
+
+      if (occasion) {
+        document.getElementById('previewPbOccasionRow').style.display = 'flex';
+        const occasionLabels = { memorial: 'Memorial', military: 'Military Service', family: 'Family Legacy', celebration: 'Celebration', other: 'Other' };
+        document.getElementById('previewPbOccasion').textContent = occasionLabels[occasion] || occasion;
+      } else {
+        document.getElementById('previewPbOccasionRow').style.display = 'none';
+      }
+
+      if (size) {
+        document.getElementById('previewPbSizeRow').style.display = 'flex';
+        document.getElementById('previewPbSize').textContent = size === 'unsure' ? 'Not sure yet' : size + ' pages';
+      } else {
+        document.getElementById('previewPbSizeRow').style.display = 'none';
+      }
+
+      if (stand) {
+        document.getElementById('previewPbStandRow').style.display = 'flex';
+        document.getElementById('previewPbStand').textContent = stand === 'yes' ? 'Yes, with stand' : 'Book only';
+      } else {
+        document.getElementById('previewPbStandRow').style.display = 'none';
+      }
+
+      // Photo summary
+      const great = photobookPhotos.filter(p => p.quality === 'great').length;
+      const okay = photobookPhotos.filter(p => p.quality === 'okay').length;
+      const low = photobookPhotos.filter(p => p.quality === 'low').length;
+      document.getElementById('previewPbPhotoCount').textContent = `${photobookPhotos.length} photo${photobookPhotos.length !== 1 ? 's' : ''}`;
+
+      let qualityHTML = '';
+      if (great > 0) qualityHTML += `<span style="background:rgba(74,222,128,0.15);color:#4ade80;padding:4px 12px;border-radius:20px;font-size:0.8rem;font-weight:600;">✓ ${great} great</span>`;
+      if (okay > 0) qualityHTML += `<span style="background:rgba(212,175,55,0.15);color:#d4af37;padding:4px 12px;border-radius:20px;font-size:0.8rem;font-weight:600;">● ${okay} okay</span>`;
+      if (low > 0) qualityHTML += `<span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:4px 12px;border-radius:20px;font-size:0.8rem;font-weight:600;">⚠ ${low} low</span>`;
+      document.getElementById('previewPbQuality').innerHTML = qualityHTML;
+
+      if (memories) {
+        document.getElementById('previewPbMemoriesRow').style.display = 'flex';
+        document.getElementById('previewPbMemories').textContent = memories.length > 150 ? memories.substring(0, 150) + '...' : memories;
+      } else {
+        document.getElementById('previewPbMemoriesRow').style.display = 'none';
+      }
+
+      if (notes) {
+        document.getElementById('previewPbNotesRow').style.display = 'flex';
+        document.getElementById('previewPbNotes').textContent = notes.length > 150 ? notes.substring(0, 150) + '...' : notes;
+      } else {
+        document.getElementById('previewPbNotesRow').style.display = 'none';
+      }
+
+      goToStep('stepPhotobookReview');
     }
 
     // Photobook validation and submit
