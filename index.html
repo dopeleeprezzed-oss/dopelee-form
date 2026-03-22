@@ -2055,6 +2055,7 @@ a {
     let selectedVibeImage = null;
     let uploadedImage = null;
     let uploadedImageFile = null;
+    let selectedSoundsExperience = null;
 
     // ═══════════════════════════════════════════════════════════════
     // NAVIGATION
@@ -3105,6 +3106,15 @@ a {
         }
       }
       
+      // Sounds of Legacy character counter
+      const soundsWordsEl = document.getElementById('soundsWords');
+      if (soundsWordsEl) {
+        soundsWordsEl.addEventListener('input', function() {
+          const counter = document.getElementById('soundsWordCount');
+          if (counter) counter.textContent = this.value.length;
+        });
+      }
+
       console.log('✨ Smart Form ready!');
     });
 
@@ -3672,6 +3682,128 @@ a {
         alert('Something went wrong. Please try again or call 816-530-1520.');
         submitBtn.disabled = false;
         submitBtn.textContent = '✨ Submit Order';
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // SOUNDS OF LEGACY FUNCTIONS
+    // ═══════════════════════════════════════════════════════════════
+
+    function selectSoundsExperience(type) {
+      selectedSoundsExperience = type;
+      document.querySelectorAll('input[name="soundsExperience"]').forEach(r => {
+        r.checked = (r.value === type);
+      });
+      document.querySelectorAll('.option-card').forEach(card => {
+        const input = card.querySelector('input[name="soundsExperience"]');
+        if (input) {
+          card.classList.toggle('selected', input.value === type);
+        }
+      });
+      // Show/hide keepsake field
+      const keepsakeField = document.getElementById('soundsKeepsakeField');
+      if (keepsakeField) {
+        keepsakeField.style.display = (type === 'keepsake') ? 'block' : 'none';
+      }
+    }
+
+    function validateSoundsExperience() {
+      if (!selectedSoundsExperience) {
+        alert('Please select which experience you purchased.');
+        return;
+      }
+      if (selectedSoundsExperience === 'keepsake') {
+        const keepsake = document.getElementById('soundsKeepsake').value;
+        if (!keepsake) {
+          alert('Please select which keepsake you chose.');
+          return;
+        }
+      }
+      goToStep('stepSoundsStory');
+    }
+
+    function validateSoundsStory() {
+      const name = document.getElementById('soundsHonoreeName').value.trim();
+      const occasion = document.getElementById('soundsOccasion').value;
+      const genre = document.getElementById('soundsGenre').value;
+
+      if (!name) {
+        alert('Please tell us who this song is for.');
+        return;
+      }
+      if (!occasion) {
+        alert('Please select an occasion.');
+        return;
+      }
+      if (!genre) {
+        alert('Please select a mood or genre.');
+        return;
+      }
+      goToStep('stepSoundsWorld');
+    }
+
+    function validateSoundsContent() {
+      // Build preview and submit
+      const formData = {
+        order_id: `SND-${Date.now()}`,
+        customer_name: document.getElementById('fullName').value,
+        customer_email: document.getElementById('email').value,
+        project_type: 'sounds',
+        sounds_experience: selectedSoundsExperience,
+        sounds_keepsake: selectedSoundsExperience === 'keepsake' ? document.getElementById('soundsKeepsake').value : null,
+        sounds_honoree_name: document.getElementById('soundsHonoreeName').value,
+        sounds_occasion: document.getElementById('soundsOccasion').value,
+        sounds_genre: document.getElementById('soundsGenre').value,
+        sounds_mood_notes: document.getElementById('soundsMoodNotes')?.value || null,
+        sounds_hobbies: document.getElementById('soundsHobbies')?.value || null,
+        sounds_loves: document.getElementById('soundsLoves')?.value || null,
+        sounds_about: document.getElementById('soundsAbout')?.value || null,
+        sounds_words: document.getElementById('soundsWords')?.value || null,
+        form_completed: true,
+        form_completed_at: new Date().toISOString(),
+        status: 'Form Received',
+        created_at: new Date().toISOString()
+      };
+
+      submitSoundsForm(formData);
+    }
+
+    async function submitSoundsForm(formData) {
+      const btn = document.querySelector('#stepSoundsContent .btn-primary');
+      if (btn) { btn.disabled = true; btn.textContent = 'Submitting...'; }
+
+      try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=representation'
+          },
+          body: JSON.stringify(formData)
+        });
+
+        if (!response.ok) throw new Error('Failed to submit');
+
+        const savedOrder = await response.json();
+        const orderRecord = Array.isArray(savedOrder) ? savedOrder[0] : savedOrder;
+
+        await fetch(`${SUPABASE_URL}/functions/v1/send-confirmation-email`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+          },
+          body: JSON.stringify({ record: orderRecord })
+        });
+
+        goToStep('soundsSuccessScreen');
+
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Something went wrong. Please try again or call 816-530-1520.');
+        if (btn) { btn.disabled = false; btn.textContent = 'Review and Submit'; }
       }
     }
 
