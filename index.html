@@ -1915,7 +1915,14 @@ a {
 
       <div class="form-group" id="soundsMediaUploadField">
         <label>Upload Photos and Videos (optional)</label>
-        <input id="soundsMediaUpload" type="file" accept="image/*,video/*" multiple />
+        <div id="mediaDropZone" style="border:2px dashed var(--border-soft);border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:all 0.2s ease;background:var(--bg-input);" onclick="document.getElementById('soundsMediaUpload').click()">
+          <div style="font-size:2rem;margin-bottom:8px;">📸🎥</div>
+          <div style="color:var(--text-muted);font-size:0.9rem;font-weight:600;">Tap to add photos &amp; videos</div>
+          <div style="color:var(--text-dim);font-size:0.8rem;margin-top:4px;">You can add more files anytime — they won't replace each other</div>
+        </div>
+        <input id="soundsMediaUpload" type="file" accept="image/*,video/*" multiple style="display:none;" onchange="handleMediaFiles(this)" />
+        <div id="mediaPreviewGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;"></div>
+        <div id="mediaFileCount" style="color:var(--text-dim);font-size:0.8rem;margin-top:8px;display:none;"></div>
         <div class="helper-text">Upload photos and videos of your loved one. The more you share the richer the video will be.</div>
       </div>
 
@@ -2056,6 +2063,7 @@ a {
     let uploadedImage = null;
     let uploadedImageFile = null;
     let selectedSoundsExperience = null;
+    let soundsMediaFiles = []; // Accumulates across multiple file selections
 
     // ═══════════════════════════════════════════════════════════════
     // NAVIGATION
@@ -3686,6 +3694,71 @@ a {
     }
 
     // ═══════════════════════════════════════════════════════════════
+    // SOUNDS OF LEGACY — MEDIA FILE UPLOADER
+    // ═══════════════════════════════════════════════════════════════
+
+    function handleMediaFiles(input) {
+      const newFiles = Array.from(input.files);
+      newFiles.forEach(file => {
+        // Avoid duplicates by name+size
+        const isDuplicate = soundsMediaFiles.some(f => f.name === file.name && f.size === file.size);
+        if (!isDuplicate) {
+          soundsMediaFiles.push(file);
+        }
+      });
+      // Reset input so the same file can be re-selected if removed
+      input.value = '';
+      renderMediaPreviews();
+    }
+
+    function removeMediaFile(index) {
+      soundsMediaFiles.splice(index, 1);
+      renderMediaPreviews();
+    }
+
+    function renderMediaPreviews() {
+      const grid = document.getElementById('mediaPreviewGrid');
+      const countEl = document.getElementById('mediaFileCount');
+      grid.innerHTML = '';
+
+      if (soundsMediaFiles.length === 0) {
+        countEl.style.display = 'none';
+        return;
+      }
+
+      countEl.style.display = 'block';
+      countEl.textContent = `${soundsMediaFiles.length} file${soundsMediaFiles.length > 1 ? 's' : ''} selected`;
+
+      soundsMediaFiles.forEach((file, i) => {
+        const card = document.createElement('div');
+        card.style.cssText = 'position:relative;border-radius:10px;overflow:hidden;aspect-ratio:1;background:var(--bg-input);border:1px solid var(--border-soft);';
+
+        if (file.type.startsWith('image/')) {
+          const img = document.createElement('img');
+          img.src = URL.createObjectURL(file);
+          img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+          img.onload = () => URL.revokeObjectURL(img.src);
+          card.appendChild(img);
+        } else {
+          // Video file — show icon and name
+          const placeholder = document.createElement('div');
+          placeholder.style.cssText = 'width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;text-align:center;';
+          placeholder.innerHTML = `<span style="font-size:1.8rem;">🎬</span><span style="font-size:0.65rem;color:var(--text-dim);margin-top:4px;word-break:break-all;line-height:1.2;">${file.name}</span>`;
+          card.appendChild(placeholder);
+        }
+
+        // Remove button
+        const removeBtn = document.createElement('button');
+        removeBtn.innerHTML = '✕';
+        removeBtn.style.cssText = 'position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;background:rgba(0,0,0,0.7);color:#ff6b6b;border:1px solid rgba(255,100,100,0.3);font-size:0.75rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;';
+        removeBtn.onclick = (e) => { e.stopPropagation(); removeMediaFile(i); };
+        card.appendChild(removeBtn);
+
+        grid.appendChild(card);
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════════════
     // SOUNDS OF LEGACY FUNCTIONS
     // ═══════════════════════════════════════════════════════════════
 
@@ -3752,6 +3825,7 @@ a {
       const occasionText = occasionSelect.options[occasionSelect.selectedIndex]?.text || '';
 
       // Pack all the rich detail into designer_notes
+      const voiceFile = document.getElementById('soundsVoiceUpload')?.files?.[0];
       const notesParts = [
         `Experience: ${selectedSoundsExperience}`,
         selectedSoundsExperience === 'keepsake' ? `Keepsake: ${document.getElementById('soundsKeepsake').value}` : null,
@@ -3759,7 +3833,9 @@ a {
         document.getElementById('soundsMoodNotes')?.value ? `Mood Notes: ${document.getElementById('soundsMoodNotes').value}` : null,
         document.getElementById('soundsHobbies')?.value ? `Hobbies: ${document.getElementById('soundsHobbies').value}` : null,
         document.getElementById('soundsLoves')?.value ? `Loves: ${document.getElementById('soundsLoves').value}` : null,
-        document.getElementById('soundsAbout')?.value ? `About: ${document.getElementById('soundsAbout').value}` : null
+        document.getElementById('soundsAbout')?.value ? `About: ${document.getElementById('soundsAbout').value}` : null,
+        soundsMediaFiles.length > 0 ? `📸 ${soundsMediaFiles.length} media file(s): ${soundsMediaFiles.map(f => f.name).join(', ')}` : null,
+        voiceFile ? `🎤 Voice note: ${voiceFile.name}` : null
       ].filter(Boolean).join(' | ');
 
       const formData = {
