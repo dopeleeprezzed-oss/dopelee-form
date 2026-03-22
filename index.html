@@ -995,37 +995,17 @@ a {
         <div class="helper-text">If you saw our display at a partner location, please select it from the list.</div>
       </div>
 
-      <div class="form-group">
-        <label>Select Project Type *</label>
-
-        <div class="options-grid">
-          <div class="option-card" onclick="selectProjectType('keepsake')">
-            <input type="radio" name="projectType" value="keepsake" />
-            <span>Keepsake Order</span>
-          </div>
-
-          <div class="option-card" onclick="selectProjectType('vip')">
-            <input type="radio" name="projectType" value="vip" />
-            <span>VIP Bulk Gift</span>
-          </div>
-
-          <div class="option-card" onclick="selectProjectType('photobook')">
-            <input type="radio" name="projectType" value="photobook" />
-            <span>Photo Book Project</span>
-          </div>
-
-          <div class="option-card" onclick="selectProjectType('instore')">
-            <input type="radio" name="projectType" value="instore" />
-            <span>🏪 In-Store Personalization</span>
-            <small style="display:block;font-size:0.75rem;color:#c0b89a;margin-top:4px;">(Text/Engraving Only)</small>
-          </div>
-
-          <div class="option-card" onclick="selectProjectType('recognition')">
-            <input type="radio" name="projectType" value="recognition" />
-            <span>🎖️ Legacy Recognition Award</span>
-            <small style="display:block;font-size:0.75rem;color:#c0b89a;margin-top:4px;">(Military • Graduation • Achievement)</small>
-          </div>
-        </div>
+      <div class="form-group" id="projectTypeField">
+        <label>What did you purchase? *</label>
+        <select id="projectTypeSelect" onchange="selectProjectType(this.value)">
+          <option value="">Select your project type...</option>
+          <option value="keepsake">Keepsake Order</option>
+          <option value="vip">VIP Bulk Gift</option>
+          <option value="photobook">Photo Book Project</option>
+          <option value="instore">In-Store Personalization</option>
+          <option value="recognition">Legacy Recognition Award</option>
+          <option value="sounds">Sounds of Legacy</option>
+        </select>
       </div>
 
       <button class="btn btn-primary" onclick="validateStep1()">Continue</button>
@@ -1803,6 +1783,179 @@ a {
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- SUCCESS SCREEN -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SOUNDS OF LEGACY: STEP 2 — WHICH EXPERIENCE DID YOU PURCHASE? -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="stepSoundsExperience" class="step">
+      <h2 class="step-title">Which experience did you purchase?</h2>
+      <p class="step-description">Select the Sounds of Legacy package you ordered so we can personalize your experience.</p>
+
+      <div class="options-grid">
+        <div class="option-card" onclick="selectSoundsExperience('song')">
+          <input type="radio" name="soundsExperience" value="song" />
+          <span>🎵 Legacy Song</span>
+          <small style="display:block;font-size:0.75rem;color:#c0b89a;margin-top:4px;">Custom song — digital delivery ($75)</small>
+        </div>
+        <div class="option-card" onclick="selectSoundsExperience('video')">
+          <input type="radio" name="soundsExperience" value="video" />
+          <span>🎬 Legacy Song + Video</span>
+          <small style="display:block;font-size:0.75rem;color:#c0b89a;margin-top:4px;">Song + your photos/videos ($120)</small>
+        </div>
+        <div class="option-card" onclick="selectSoundsExperience('keepsake')">
+          <input type="radio" name="soundsExperience" value="keepsake" />
+          <span>🎁 Legacy Song + Keepsake</span>
+          <small style="display:block;font-size:0.75rem;color:#c0b89a;margin-top:4px;">Song + QR code on your keepsake ($130+)</small>
+        </div>
+      </div>
+
+      <div class="form-group" id="soundsKeepsakeField" style="display:none;margin-top:16px;">
+        <label>Which keepsake did you choose? *</label>
+        <select id="soundsKeepsake">
+          <option value="">Select your keepsake...</option>
+          <option value="slate">Small Slate Keepsake ($135)</option>
+          <option value="glass">Glass Display Keepsake ($130)</option>
+          <option value="wood">Live Edge Wood Keepsake ($160)</option>
+          <option value="metal">Metal Ornament ($115)</option>
+        </select>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-top:24px;">
+        <button class="btn btn-secondary" onclick="goToStep('step1')">Back</button>
+        <button class="btn btn-primary" onclick="validateSoundsExperience()">Continue</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SOUNDS OF LEGACY: STEP 3 — TELL US THE STORY                  -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="stepSoundsStory" class="step">
+      <h2 class="step-title">Tell Us The Story</h2>
+      <p class="step-description">Help us understand who this song is for so we can make it truly personal.</p>
+
+      <div class="form-group">
+        <label>Who is this song for? *</label>
+        <input id="soundsHonoreeName" type="text" placeholder="e.g. My mom, SSgt. James Harris, My wife Sarah" />
+      </div>
+
+      <div class="form-group">
+        <label>What is the occasion? *</label>
+        <select id="soundsOccasion">
+          <option value="">Select an occasion...</option>
+          <option value="birthday">Birthday</option>
+          <option value="memorial">Memorial / Tribute</option>
+          <option value="retirement">Retirement</option>
+          <option value="promotion">Military Promotion</option>
+          <option value="graduation">Graduation</option>
+          <option value="anniversary">Anniversary</option>
+          <option value="wedding">Wedding</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>What mood or genre do you want? *</label>
+        <select id="soundsGenre">
+          <option value="">Select a vibe...</option>
+          <option value="soulful">Soulful / R&B</option>
+          <option value="gospel">Gospel / Inspirational</option>
+          <option value="country">Country</option>
+          <option value="hiphop">Hip Hop / Rap</option>
+          <option value="pop">Pop</option>
+          <option value="classical">Classical / Instrumental</option>
+          <option value="other">Other (describe below)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Anything else about the mood or style?</label>
+        <textarea id="soundsMoodNotes" rows="3" placeholder="e.g. Warm and emotional, upbeat and celebratory, military and patriotic..."></textarea>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-top:24px;">
+        <button class="btn btn-secondary" onclick="goToStep('stepSoundsExperience')">Back</button>
+        <button class="btn btn-primary" onclick="validateSoundsStory()">Continue</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SOUNDS OF LEGACY: STEP 4 — THEIR WORLD                        -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="stepSoundsWorld" class="step">
+      <h2 class="step-title">Their World</h2>
+      <p class="step-description">Help us paint a full picture. The more you share, the more personal we can make the song and video.</p>
+
+      <div class="form-group">
+        <label>What are their hobbies and interests? *</label>
+        <textarea id="soundsHobbies" rows="3" placeholder="e.g. Loves fishing, gardening, cooking, sports, military history..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>What do they love most?</label>
+        <textarea id="soundsLoves" rows="3" placeholder="e.g. Family, faith, the outdoors, butterflies, sunsets, patriotism..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Anything else we should know about them?</label>
+        <textarea id="soundsAbout" rows="3" placeholder="Share any memories, stories, or details that make them who they are..."></textarea>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-top:24px;">
+        <button class="btn btn-secondary" onclick="goToStep('stepSoundsStory')">Back</button>
+        <button class="btn btn-primary" onclick="goToStep('stepSoundsContent')">Continue</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SOUNDS OF LEGACY: STEP 5 — YOUR CONTENT                       -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="stepSoundsContent" class="step">
+      <h2 class="step-title">Your Content</h2>
+      <p class="step-description">Upload photos, videos, or voice notes — or type your words below. Use whatever you have.</p>
+
+      <div class="form-group" id="soundsMediaUploadField">
+        <label>Upload Photos and Videos (optional)</label>
+        <input id="soundsMediaUpload" type="file" accept="image/*,video/*" multiple />
+        <div class="helper-text">Upload photos and videos of your loved one. The more you share the richer the video will be.</div>
+      </div>
+
+      <div class="form-group">
+        <label>Upload a Voice Note (optional)</label>
+        <input id="soundsVoiceUpload" type="file" accept="audio/*" />
+        <div class="helper-text">A voice note of you or a loved one speaking can make the experience even more powerful.</div>
+      </div>
+
+      <div class="form-group">
+        <label>Your Words (optional — up to 1500 characters)</label>
+        <textarea id="soundsWords" rows="6" maxlength="1500" placeholder="Type the words, memories, or story you want us to turn into a song. If you already have lyrics, paste them here..."></textarea>
+        <div class="helper-text"><span id="soundsWordCount">0</span> / 1500 characters</div>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-top:24px;">
+        <button class="btn btn-secondary" onclick="goToStep('stepSoundsWorld')">Back</button>
+        <button class="btn btn-primary" onclick="validateSoundsContent()">Review and Submit</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SOUNDS OF LEGACY SUCCESS SCREEN                                -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="soundsSuccessScreen" class="step">
+      <div class="success-screen">
+        <h2>🎵 Your Sounds of Legacy Order is In!</h2>
+        <p>
+          We have everything we need to begin creating your custom song experience.
+          <br><br>
+          Watch your portal for updates. We will reach out if we need anything else from you.
+        </p>
+        <p style="font-size:0.85rem;color:#d4af37;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;">Where would you like to go next?</p>
+        <div style="display:flex;flex-direction:column;gap:12px;max-width:320px;margin:0 auto;">
+          <a href="https://www.dopeleeprezzedbys.com" class="btn btn-primary" style="text-align:center;text-decoration:none;">Visit Our Main Website</a>
+          <a href="https://dopeleeprezzed-oss.github.io/PX-Landing.html" class="btn" style="text-align:center;text-decoration:none;background:rgba(212,175,55,0.15);border:2px solid #d4af37;color:#d4af37;padding:14px 20px;border-radius:50px;font-weight:700;">Return to The Legacy Lounge at Fort Leavenworth PX</a>
+        </div>
+      </div>
+    </section>
+
     <section id="successScreen" class="step">
       <div class="success-screen">
         <h2>🎉 You're All Set!</h2>
@@ -1911,7 +2064,7 @@ a {
       document.getElementById(stepId)?.classList.add('active');
       updateProgressBar(stepId);
       window.scrollTo(0, 0);
-      if (stepId === 'successScreen' || stepId === 'instoreSuccessScreen') {
+      if (stepId === 'successScreen' || stepId === 'instoreSuccessScreen' || stepId === 'soundsSuccessScreen') {
         setTimeout(fireConfetti, 300);
       }
     }
@@ -1949,6 +2102,11 @@ a {
       else if (stepId === "stepRecognitionManual" || stepId === "stepRecognitionBulk") { num = 3; totalSteps = 5; }
       else if (stepId === "stepRecognitionDesign") { num = 4; totalSteps = 5; }
       else if (stepId === "stepRecognitionPreview") { num = 5; totalSteps = 5; }
+      else if (stepId === "stepSoundsExperience") { num = 2; totalSteps = 6; }
+      else if (stepId === "stepSoundsStory") { num = 3; totalSteps = 6; }
+      else if (stepId === "stepSoundsWorld") { num = 4; totalSteps = 6; }
+      else if (stepId === "stepSoundsContent") { num = 5; totalSteps = 6; }
+      else if (stepId === "soundsSuccessScreen") { num = 6; totalSteps = 6; }
       // Standard keepsake flow
       else if (stepId.includes("step2")) { num = 2; totalSteps = 5; }
       else if (stepId.includes("step3")) { num = 3; totalSteps = 5; }
@@ -1996,6 +2154,9 @@ a {
     // STEP 1: PROJECT TYPE
     // ═══════════════════════════════════════════════════════════════
     function selectProjectType(type) {
+      // Sync the dropdown if called programmatically
+      const dropdown = document.getElementById('projectTypeSelect');
+      if (dropdown && dropdown.value !== type) dropdown.value = type;
       projectType = type;
       const radio = document.querySelector(`input[name="projectType"][value="${type}"]`);
       if (radio) radio.checked = true;
@@ -2484,6 +2645,7 @@ a {
       else if (projectType === "vip") goToStep("step2bVIP");
       else if (projectType === "instore") goToStep("stepInstore");
       else if (projectType === "recognition") goToStep("stepRecognition");
+      else if (projectType === "sounds") goToStep("stepSoundsExperience");
       else goToStep("step2cPhotobook");
     }
 
@@ -2901,10 +3063,14 @@ a {
       // Auto-select project type from URL parameter
       const projectType = projectParam.toLowerCase();
       
-      if (projectType === 'vip' || projectType === 'instore' || projectType === 'recognition') {
+      if (projectType === 'vip' || projectType === 'instore' || projectType === 'recognition' || projectType === 'keepsake' || projectType === 'photobook' || projectType === 'sounds') {
         selectProjectType(projectType);
         
-        // Disable other options
+        // Hide the dropdown entirely when pre-selected from URL
+        const projectField = document.getElementById('projectTypeField');
+        if (projectField) projectField.style.display = 'none';
+        
+        // Keep old option-card logic for any remaining cards (safety)
         const allOptionCards = document.querySelectorAll('.option-card');
         allOptionCards.forEach(card => {
           const radio = card.querySelector('input[type="radio"][name="projectType"]');
