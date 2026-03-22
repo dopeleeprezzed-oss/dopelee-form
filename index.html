@@ -3743,52 +3743,106 @@ a {
     }
 
     function validateSoundsContent() {
-      // Build preview and submit
+      const orderId = document.getElementById('orderNumber')?.value || `SND-${Date.now()}`;
+
+      // Map sounds data into existing table columns
+      const genreSelect = document.getElementById('soundsGenre');
+      const genreText = genreSelect.options[genreSelect.selectedIndex]?.text || '';
+      const occasionSelect = document.getElementById('soundsOccasion');
+      const occasionText = occasionSelect.options[occasionSelect.selectedIndex]?.text || '';
+
+      // Pack all the rich detail into designer_notes
+      const notesParts = [
+        `Experience: ${selectedSoundsExperience}`,
+        selectedSoundsExperience === 'keepsake' ? `Keepsake: ${document.getElementById('soundsKeepsake').value}` : null,
+        `Genre/Mood: ${genreText}`,
+        document.getElementById('soundsMoodNotes')?.value ? `Mood Notes: ${document.getElementById('soundsMoodNotes').value}` : null,
+        document.getElementById('soundsHobbies')?.value ? `Hobbies: ${document.getElementById('soundsHobbies').value}` : null,
+        document.getElementById('soundsLoves')?.value ? `Loves: ${document.getElementById('soundsLoves').value}` : null,
+        document.getElementById('soundsAbout')?.value ? `About: ${document.getElementById('soundsAbout').value}` : null
+      ].filter(Boolean).join(' | ');
+
       const formData = {
-        order_id: `SND-${Date.now()}`,
+        order_id: orderId,
         customer_name: document.getElementById('fullName').value,
         customer_email: document.getElementById('email').value,
+        customer_phone: document.getElementById('phone')?.value || '',
         project_type: 'sounds',
-        sounds_experience: selectedSoundsExperience,
-        sounds_keepsake: selectedSoundsExperience === 'keepsake' ? document.getElementById('soundsKeepsake').value : null,
-        sounds_honoree_name: document.getElementById('soundsHonoreeName').value,
-        sounds_occasion: document.getElementById('soundsOccasion').value,
-        sounds_genre: document.getElementById('soundsGenre').value,
-        sounds_mood_notes: document.getElementById('soundsMoodNotes')?.value || null,
-        sounds_hobbies: document.getElementById('soundsHobbies')?.value || null,
-        sounds_loves: document.getElementById('soundsLoves')?.value || null,
-        sounds_about: document.getElementById('soundsAbout')?.value || null,
-        sounds_words: document.getElementById('soundsWords')?.value || null,
+        honored_name: document.getElementById('soundsHonoreeName').value,
+        occasion: document.getElementById('soundsOccasion').value,
+        custom_wording: document.getElementById('soundsWords')?.value || null,
+        designer_notes: notesParts,
         form_completed: true,
         form_completed_at: new Date().toISOString(),
         status: 'Form Received',
-        created_at: new Date().toISOString()
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
       };
 
-      submitSoundsForm(formData);
+      // Get partner referral if present
+      const partnerReferralSelect = document.getElementById('partnerReferral');
+      const partnerReferralValue = partnerReferralSelect ? partnerReferralSelect.value : '';
+      if (partnerReferralValue && partnerReferralValue.length > 10) {
+        formData.partner_id = partnerReferralValue;
+        formData.referral_source = 'partner_location';
+      } else if (partnerReferralValue) {
+        formData.referral_source = partnerReferralValue;
+      }
+
+      submitSoundsForm(formData, orderId);
     }
 
-    async function submitSoundsForm(formData) {
+    async function submitSoundsForm(formData, orderId) {
       const btn = document.querySelector('#stepSoundsContent .btn-primary');
       if (btn) { btn.disabled = true; btn.textContent = 'Submitting...'; }
 
       try {
-        const response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
-          method: 'POST',
-          headers: {
-            'apikey': SUPABASE_ANON_KEY,
-            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-            'Content-Type': 'application/json',
-            'Prefer': 'return=representation'
-          },
-          body: JSON.stringify(formData)
-        });
+        let response;
+        let isUpdate = false;
 
-        if (!response.ok) throw new Error('Failed to submit');
+        // Try PATCH first if we have a real order ID from the URL
+        if (orderId && !orderId.startsWith('SND-')) {
+          response = await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderId}`, {
+            method: 'PATCH',
+            headers: {
+              'apikey': SUPABASE_ANON_KEY,
+              'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+              'Content-Type': 'application/json',
+              'Prefer': 'return=representation'
+            },
+            body: JSON.stringify(formData)
+          });
+          const patchResult = await response.clone().json();
+          if (response.ok && patchResult && patchResult.length > 0) {
+            isUpdate = true;
+          } else {
+            response = null;
+          }
+        }
+
+        // Fall back to POST if no existing order
+        if (!response || !isUpdate) {
+          response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
+            method: 'POST',
+            headers: {
+              'apikey': SUPABASE_ANON_KEY,
+              'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+              'Content-Type': 'application/json',
+              'Prefer': 'return=representation'
+            },
+            body: JSON.stringify(formData)
+          });
+          if (!response.ok) {
+            const errorText = await response.text();
+            console.error('❌ Error:', errorText);
+            throw new Error(`Failed: ${errorText}`);
+          }
+        }
 
         const savedOrder = await response.json();
         const orderRecord = Array.isArray(savedOrder) ? savedOrder[0] : savedOrder;
 
+        // Send confirmation email
         await fetch(`${SUPABASE_URL}/functions/v1/send-confirmation-email`, {
           method: 'POST',
           headers: {
