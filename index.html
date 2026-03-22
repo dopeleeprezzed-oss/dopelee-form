@@ -3796,32 +3796,42 @@ a {
       const btn = document.querySelector('#stepSoundsContent .btn-primary');
       if (btn) { btn.disabled = true; btn.textContent = 'Submitting...'; }
 
+      console.log('📡 Submitting sounds order...', JSON.stringify(formData, null, 2));
+
       try {
         let response;
         let isUpdate = false;
 
         // Try PATCH first if we have a real order ID from the URL
         if (orderId && !orderId.startsWith('SND-')) {
-          response = await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderId}`, {
-            method: 'PATCH',
-            headers: {
-              'apikey': SUPABASE_ANON_KEY,
-              'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-              'Content-Type': 'application/json',
-              'Prefer': 'return=representation'
-            },
-            body: JSON.stringify(formData)
-          });
-          const patchResult = await response.clone().json();
-          if (response.ok && patchResult && patchResult.length > 0) {
-            isUpdate = true;
-          } else {
+          try {
+            response = await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderId}`, {
+              method: 'PATCH',
+              headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                'Content-Type': 'application/json',
+                'Prefer': 'return=representation'
+              },
+              body: JSON.stringify(formData)
+            });
+            const patchResult = await response.clone().json();
+            console.log('📝 PATCH response:', response.status, patchResult);
+            if (response.ok && patchResult && patchResult.length > 0) {
+              isUpdate = true;
+            } else {
+              console.log('📝 PATCH returned empty or failed, will try POST...');
+              response = null;
+            }
+          } catch (patchErr) {
+            console.log('📝 PATCH failed, will try POST...', patchErr);
             response = null;
           }
         }
 
         // Fall back to POST if no existing order
         if (!response || !isUpdate) {
+          console.log('📝 Creating new order via POST...');
           response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
             method: 'POST',
             headers: {
@@ -3834,15 +3844,17 @@ a {
           });
           if (!response.ok) {
             const errorText = await response.text();
-            console.error('❌ Error:', errorText);
-            throw new Error(`Failed: ${errorText}`);
+            console.error('❌ POST Error:', response.status, errorText);
+            throw new Error(`Failed (${response.status}): ${errorText}`);
           }
         }
 
         const savedOrder = await response.json();
         const orderRecord = Array.isArray(savedOrder) ? savedOrder[0] : savedOrder;
+        console.log('✅ Order saved!', orderRecord);
 
         // Send confirmation email
+        console.log('📧 Sending confirmation email...');
         await fetch(`${SUPABASE_URL}/functions/v1/send-confirmation-email`, {
           method: 'POST',
           headers: {
@@ -3855,8 +3867,8 @@ a {
         goToStep('soundsSuccessScreen');
 
       } catch (error) {
-        console.error('Error:', error);
-        alert('Something went wrong. Please try again or call 816-530-1520.');
+        console.error('💥 Sounds submit error:', error);
+        alert('Something went wrong. Please try again or call 816-530-1520.\n\nDebug: ' + error.message);
         if (btn) { btn.disabled = false; btn.textContent = 'Review and Submit'; }
       }
     }
