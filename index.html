@@ -2615,14 +2615,15 @@ a {
     function validateStep1() {
       const name = document.getElementById("fullName").value.trim();
       const email = document.getElementById("email").value.trim();
-      const selected = document.querySelector("input[name='projectType']:checked");
+      const projectTypeSelect = document.getElementById("projectTypeSelect");
+      const selectedValue = projectTypeSelect ? projectTypeSelect.value : projectType;
       const referral = document.getElementById("partnerReferral").value;
       const phone = document.getElementById("phone")?.value.trim() || '';
 
       // For in-store from QR code, referral is auto-set so don't require it
-      const isInstore = selected && selected.value === 'instore';
+      const isInstore = selectedValue === 'instore';
       
-      if (!name || !email || !selected) {
+      if (!name || !email || !selectedValue) {
         alert("Please complete all required fields.");
         return;
       }
@@ -2639,7 +2640,7 @@ a {
         return;
       }
 
-      projectType = selected.value;
+      projectType = selectedValue;
 
       if (projectType === "keepsake") goToStep("step2aKeepsake");
       else if (projectType === "vip") goToStep("step2bVIP");
