@@ -1915,14 +1915,7 @@ a {
 
       <div class="form-group" id="soundsMediaUploadField">
         <label>Upload Photos and Videos (optional)</label>
-        <div id="mediaDropZone" style="border:2px dashed var(--border-soft);border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:all 0.2s ease;background:var(--bg-input);" onclick="document.getElementById('soundsMediaUpload').click()">
-          <div style="font-size:2rem;margin-bottom:8px;">📸🎥</div>
-          <div style="color:var(--text-muted);font-size:0.9rem;font-weight:600;">Tap to add photos &amp; videos</div>
-          <div style="color:var(--text-dim);font-size:0.8rem;margin-top:4px;">You can add more files anytime — they won't replace each other</div>
-        </div>
-        <input id="soundsMediaUpload" type="file" accept="image/*,video/*" multiple style="display:none;" onchange="handleMediaFiles(this)" />
-        <div id="mediaPreviewGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;"></div>
-        <div id="mediaFileCount" style="color:var(--text-dim);font-size:0.8rem;margin-top:8px;display:none;"></div>
+        <input id="soundsMediaUpload" type="file" accept="image/*,video/*" multiple />
         <div class="helper-text">Upload photos and videos of your loved one. The more you share the richer the video will be.</div>
       </div>
 
@@ -2062,8 +2055,6 @@ a {
     let selectedVibeImage = null;
     let uploadedImage = null;
     let uploadedImageFile = null;
-    let selectedSoundsExperience = null;
-    let soundsMediaFiles = []; // Accumulates across multiple file selections
 
     // ═══════════════════════════════════════════════════════════════
     // NAVIGATION
@@ -3114,15 +3105,6 @@ a {
         }
       }
       
-      // Sounds of Legacy character counter
-      const soundsWordsEl = document.getElementById('soundsWords');
-      if (soundsWordsEl) {
-        soundsWordsEl.addEventListener('input', function() {
-          const counter = document.getElementById('soundsWordCount');
-          if (counter) counter.textContent = this.value.length;
-        });
-      }
-
       console.log('✨ Smart Form ready!');
     });
 
@@ -3132,6 +3114,7 @@ a {
     
     let selectedEngravingType = null;
     let engravingPhotoData = null;
+    let engravingPhotoFile = null; // declared here for consistent scope
 
     function selectEngravingType(type) {
       selectedEngravingType = type;
@@ -3395,7 +3378,24 @@ a {
               },
               body: engravingPhotoFile
             });
-            console.log('✅ Photo uploaded to storage');
+            
+            // Save photo URL back to order record
+            const photoUrl = `${SUPABASE_URL}/storage/v1/object/public/photobook-uploads/${storagePath}`;
+            await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${savedOrderId}`, {
+              method: 'PATCH',
+              headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                'Content-Type': 'application/json',
+                'Prefer': 'return=minimal'
+              },
+              body: JSON.stringify({ 
+                photo_url: photoUrl,
+                photo_uploaded: true,
+                photo_count: 1
+              })
+            });
+            console.log('✅ Photo uploaded and URL saved to order');
           } catch (photoErr) {
             console.warn('⚠️ Photo upload failed:', photoErr);
           }
@@ -3690,262 +3690,6 @@ a {
         alert('Something went wrong. Please try again or call 816-530-1520.');
         submitBtn.disabled = false;
         submitBtn.textContent = '✨ Submit Order';
-      }
-    }
-
-    // ═══════════════════════════════════════════════════════════════
-    // SOUNDS OF LEGACY — MEDIA FILE UPLOADER
-    // ═══════════════════════════════════════════════════════════════
-
-    function handleMediaFiles(input) {
-      const newFiles = Array.from(input.files);
-      newFiles.forEach(file => {
-        // Avoid duplicates by name+size
-        const isDuplicate = soundsMediaFiles.some(f => f.name === file.name && f.size === file.size);
-        if (!isDuplicate) {
-          soundsMediaFiles.push(file);
-        }
-      });
-      // Reset input so the same file can be re-selected if removed
-      input.value = '';
-      renderMediaPreviews();
-    }
-
-    function removeMediaFile(index) {
-      soundsMediaFiles.splice(index, 1);
-      renderMediaPreviews();
-    }
-
-    function renderMediaPreviews() {
-      const grid = document.getElementById('mediaPreviewGrid');
-      const countEl = document.getElementById('mediaFileCount');
-      grid.innerHTML = '';
-
-      if (soundsMediaFiles.length === 0) {
-        countEl.style.display = 'none';
-        return;
-      }
-
-      countEl.style.display = 'block';
-      countEl.textContent = `${soundsMediaFiles.length} file${soundsMediaFiles.length > 1 ? 's' : ''} selected`;
-
-      soundsMediaFiles.forEach((file, i) => {
-        const card = document.createElement('div');
-        card.style.cssText = 'position:relative;border-radius:10px;overflow:hidden;aspect-ratio:1;background:var(--bg-input);border:1px solid var(--border-soft);';
-
-        if (file.type.startsWith('image/')) {
-          const img = document.createElement('img');
-          img.src = URL.createObjectURL(file);
-          img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
-          img.onload = () => URL.revokeObjectURL(img.src);
-          card.appendChild(img);
-        } else {
-          // Video file — show icon and name
-          const placeholder = document.createElement('div');
-          placeholder.style.cssText = 'width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;text-align:center;';
-          placeholder.innerHTML = `<span style="font-size:1.8rem;">🎬</span><span style="font-size:0.65rem;color:var(--text-dim);margin-top:4px;word-break:break-all;line-height:1.2;">${file.name}</span>`;
-          card.appendChild(placeholder);
-        }
-
-        // Remove button
-        const removeBtn = document.createElement('button');
-        removeBtn.innerHTML = '✕';
-        removeBtn.style.cssText = 'position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;background:rgba(0,0,0,0.7);color:#ff6b6b;border:1px solid rgba(255,100,100,0.3);font-size:0.75rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;padding:0;';
-        removeBtn.onclick = (e) => { e.stopPropagation(); removeMediaFile(i); };
-        card.appendChild(removeBtn);
-
-        grid.appendChild(card);
-      });
-    }
-
-    // ═══════════════════════════════════════════════════════════════
-    // SOUNDS OF LEGACY FUNCTIONS
-    // ═══════════════════════════════════════════════════════════════
-
-    function selectSoundsExperience(type) {
-      selectedSoundsExperience = type;
-      document.querySelectorAll('input[name="soundsExperience"]').forEach(r => {
-        r.checked = (r.value === type);
-      });
-      document.querySelectorAll('.option-card').forEach(card => {
-        const input = card.querySelector('input[name="soundsExperience"]');
-        if (input) {
-          card.classList.toggle('selected', input.value === type);
-        }
-      });
-      // Show/hide keepsake field
-      const keepsakeField = document.getElementById('soundsKeepsakeField');
-      if (keepsakeField) {
-        keepsakeField.style.display = (type === 'keepsake') ? 'block' : 'none';
-      }
-    }
-
-    function validateSoundsExperience() {
-      if (!selectedSoundsExperience) {
-        alert('Please select which experience you purchased.');
-        return;
-      }
-      if (selectedSoundsExperience === 'keepsake') {
-        const keepsake = document.getElementById('soundsKeepsake').value;
-        if (!keepsake) {
-          alert('Please select which keepsake you chose.');
-          return;
-        }
-      }
-      goToStep('stepSoundsStory');
-    }
-
-    function validateSoundsStory() {
-      const name = document.getElementById('soundsHonoreeName').value.trim();
-      const occasion = document.getElementById('soundsOccasion').value;
-      const genre = document.getElementById('soundsGenre').value;
-
-      if (!name) {
-        alert('Please tell us who this song is for.');
-        return;
-      }
-      if (!occasion) {
-        alert('Please select an occasion.');
-        return;
-      }
-      if (!genre) {
-        alert('Please select a mood or genre.');
-        return;
-      }
-      goToStep('stepSoundsWorld');
-    }
-
-    function validateSoundsContent() {
-      const orderId = document.getElementById('orderNumber')?.value || `SND-${Date.now()}`;
-
-      // Map sounds data into existing table columns
-      const genreSelect = document.getElementById('soundsGenre');
-      const genreText = genreSelect.options[genreSelect.selectedIndex]?.text || '';
-      const occasionSelect = document.getElementById('soundsOccasion');
-      const occasionText = occasionSelect.options[occasionSelect.selectedIndex]?.text || '';
-
-      // Pack all the rich detail into designer_notes
-      const voiceFile = document.getElementById('soundsVoiceUpload')?.files?.[0];
-      const notesParts = [
-        `Experience: ${selectedSoundsExperience}`,
-        selectedSoundsExperience === 'keepsake' ? `Keepsake: ${document.getElementById('soundsKeepsake').value}` : null,
-        `Genre/Mood: ${genreText}`,
-        document.getElementById('soundsMoodNotes')?.value ? `Mood Notes: ${document.getElementById('soundsMoodNotes').value}` : null,
-        document.getElementById('soundsHobbies')?.value ? `Hobbies: ${document.getElementById('soundsHobbies').value}` : null,
-        document.getElementById('soundsLoves')?.value ? `Loves: ${document.getElementById('soundsLoves').value}` : null,
-        document.getElementById('soundsAbout')?.value ? `About: ${document.getElementById('soundsAbout').value}` : null,
-        soundsMediaFiles.length > 0 ? `📸 ${soundsMediaFiles.length} media file(s): ${soundsMediaFiles.map(f => f.name).join(', ')}` : null,
-        voiceFile ? `🎤 Voice note: ${voiceFile.name}` : null
-      ].filter(Boolean).join(' | ');
-
-      const formData = {
-        order_id: orderId,
-        customer_name: document.getElementById('fullName').value,
-        customer_email: document.getElementById('email').value,
-        customer_phone: document.getElementById('phone')?.value || '',
-        project_type: 'sounds',
-        honored_name: document.getElementById('soundsHonoreeName').value,
-        occasion: document.getElementById('soundsOccasion').value,
-        custom_wording: document.getElementById('soundsWords')?.value || null,
-        designer_notes: notesParts,
-        form_completed: true,
-        form_completed_at: new Date().toISOString(),
-        status: 'Form Received',
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      };
-
-      // Get partner referral if present
-      const partnerReferralSelect = document.getElementById('partnerReferral');
-      const partnerReferralValue = partnerReferralSelect ? partnerReferralSelect.value : '';
-      if (partnerReferralValue && partnerReferralValue.length > 10) {
-        formData.partner_id = partnerReferralValue;
-        formData.referral_source = 'partner_location';
-      } else if (partnerReferralValue) {
-        formData.referral_source = partnerReferralValue;
-      }
-
-      submitSoundsForm(formData, orderId);
-    }
-
-    async function submitSoundsForm(formData, orderId) {
-      const btn = document.querySelector('#stepSoundsContent .btn-primary');
-      if (btn) { btn.disabled = true; btn.textContent = 'Submitting...'; }
-
-      console.log('📡 Submitting sounds order...', JSON.stringify(formData, null, 2));
-
-      try {
-        let response;
-        let isUpdate = false;
-
-        // Try PATCH first if we have a real order ID from the URL
-        if (orderId && !orderId.startsWith('SND-')) {
-          try {
-            response = await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderId}`, {
-              method: 'PATCH',
-              headers: {
-                'apikey': SUPABASE_ANON_KEY,
-                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                'Content-Type': 'application/json',
-                'Prefer': 'return=representation'
-              },
-              body: JSON.stringify(formData)
-            });
-            const patchResult = await response.clone().json();
-            console.log('📝 PATCH response:', response.status, patchResult);
-            if (response.ok && patchResult && patchResult.length > 0) {
-              isUpdate = true;
-            } else {
-              console.log('📝 PATCH returned empty or failed, will try POST...');
-              response = null;
-            }
-          } catch (patchErr) {
-            console.log('📝 PATCH failed, will try POST...', patchErr);
-            response = null;
-          }
-        }
-
-        // Fall back to POST if no existing order
-        if (!response || !isUpdate) {
-          console.log('📝 Creating new order via POST...');
-          response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
-            method: 'POST',
-            headers: {
-              'apikey': SUPABASE_ANON_KEY,
-              'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-              'Content-Type': 'application/json',
-              'Prefer': 'return=representation'
-            },
-            body: JSON.stringify(formData)
-          });
-          if (!response.ok) {
-            const errorText = await response.text();
-            console.error('❌ POST Error:', response.status, errorText);
-            throw new Error(`Failed (${response.status}): ${errorText}`);
-          }
-        }
-
-        const savedOrder = await response.json();
-        const orderRecord = Array.isArray(savedOrder) ? savedOrder[0] : savedOrder;
-        console.log('✅ Order saved!', orderRecord);
-
-        // Send confirmation email
-        console.log('📧 Sending confirmation email...');
-        await fetch(`${SUPABASE_URL}/functions/v1/send-confirmation-email`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
-          },
-          body: JSON.stringify({ record: orderRecord })
-        });
-
-        goToStep('soundsSuccessScreen');
-
-      } catch (error) {
-        console.error('💥 Sounds submit error:', error);
-        alert('Something went wrong. Please try again or call 816-530-1520.\n\nDebug: ' + error.message);
-        if (btn) { btn.disabled = false; btn.textContent = 'Review and Submit'; }
       }
     }
 
