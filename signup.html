@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Join The Legacy Lounge™</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #000;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 480px;
+  }
+
+  .card {
+    background: #0d0a00;
+    border-radius: 24px;
+    border: 1px solid rgba(212,175,55,0.3);
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(212,175,55,0.1);
+  }
+
+  .header {
+    background: #000;
+    padding: 32px 28px 24px;
+    text-align: center;
+    border-bottom: 2px solid #d4af37;
+  }
+
+  .logo-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    object-fit: cover;
+  }
+
+  .brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .brand-sub {
+    color: #d4af37;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .tagline {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.82rem;
+    font-style: italic;
+    margin-top: 6px;
+  }
+
+  .body {
+    padding: 28px;
+  }
+
+  .headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .subheadline {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.85rem;
+    text-align: center;
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  .form-group {
+    margin-bottom: 14px;
+  }
+
+  label {
+    display: block;
+    font-size: 0.75rem;
+    color: #d4af37;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(212,175,55,0.25);
+    border-radius: 12px;
+    color: #fff;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+
+  input:focus, select:focus {
+    border-color: rgba(212,175,55,0.6);
+  }
+
+  input::placeholder {
+    color: rgba(255,255,255,0.25);
+  }
+
+  select option {
+    background: #1a1200;
+    color: #fff;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #d4af37, #f5d76e);
+    border: none;
+    border-radius: 50px;
+    color: #000;
+    font-size: 1rem;
+    font-weight: 800;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    margin-top: 20px;
+    letter-spacing: 0.5px;
+    transition: opacity 0.2s;
+  }
+
+  .submit-btn:active {
+    opacity: 0.85;
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .privacy {
+    color: rgba(255,255,255,0.3);
+    font-size: 0.72rem;
+    text-align: center;
+    margin-top: 14px;
+    line-height: 1.5;
+  }
+
+  /* SUCCESS SCREEN */
+  .success-screen {
+    display: none;
+    padding: 40px 28px;
+    text-align: center;
+  }
+
+  .success-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+  }
+
+  .success-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: #d4af37;
+    margin-bottom: 10px;
+  }
+
+  .success-msg {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .success-btn {
+    display: inline-block;
+    padding: 12px 28px;
+    background: rgba(212,175,55,0.1);
+    border: 1px solid rgba(212,175,55,0.3);
+    border-radius: 50px;
+    color: #d4af37;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .footer {
+    background: #000;
+    padding: 20px 28px;
+    border-top: 1px solid rgba(212,175,55,0.15);
+    text-align: center;
+  }
+
+  .footer-text {
+    color: rgba(255,255,255,0.3);
+    font-size: 0.72rem;
+    line-height: 1.6;
+  }
+
+  .footer-link {
+    color: #d4af37;
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="card">
+
+    <!-- HEADER -->
+    <div class="header">
+      <img src="https://dopeleeprezzed-oss.github.io/dopelee-form/logo.png" alt="The Legacy Lounge" class="logo-img" onerror="this.style.display='none'">
+      <div class="brand">The Legacy Lounge™</div>
+      <div class="brand-sub">Fort Leavenworth PX</div>
+      <div class="tagline">giving your memories a place to live</div>
+    </div>
+
+    <!-- FORM -->
+    <div class="body" id="formBody">
+      <h2 class="headline">Stay Connected<br>with The Legacy Lounge™</h2>
+      <p class="subheadline">Be the first to know about new pieces, special offers, and exclusive experiences.</p>
+
+      <div class="form-group">
+        <label>First Name *</label>
+        <input id="signupFirstName" type="text" placeholder="Your first name" autocomplete="given-name">
+      </div>
+
+      <div class="form-group">
+        <label>Last Name</label>
+        <input id="signupLastName" type="text" placeholder="Your last name" autocomplete="family-name">
+      </div>
+
+      <div class="form-group">
+        <label>Email Address *</label>
+        <input id="signupEmail" type="email" placeholder="your@email.com" autocomplete="email">
+      </div>
+
+      <div class="form-group">
+        <label>Phone (optional)</label>
+        <input id="signupPhone" type="tel" placeholder="(555) 555-5555" autocomplete="tel">
+      </div>
+
+      <div class="form-group">
+        <label>What interests you most?</label>
+        <select id="signupInterest">
+          <option value="">Select an option...</option>
+          <option value="keepsakes">Custom Keepsakes</option>
+          <option value="recognition">Recognition Awards</option>
+          <option value="sounds">Sounds of Legacy — Custom Songs</option>
+          <option value="signature">Signature Collection</option>
+          <option value="shadow-box">Shadow Boxes</option>
+          <option value="everything">Everything!</option>
+        </select>
+      </div>
+
+      <button class="submit-btn" onclick="submitSignup()" id="signupBtn">
+        Join The Legacy Lounge™ Community
+      </button>
+
+      <p class="privacy">We respect your privacy. No spam — just legacy. You can unsubscribe anytime.</p>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-screen" id="successScreen">
+      <div class="success-icon">💛</div>
+      <div class="success-title">Welcome to The Legacy Lounge™</div>
+      <p class="success-msg">You are now part of our community. We will keep you in the loop on new pieces, exclusive offers, and everything happening at The Legacy Lounge inside the Fort Leavenworth PX.</p>
+      <button class="success-btn" onclick="resetForm()">Add Another Person</button>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <p class="footer-text">
+        The Legacy Lounge™ by Dopelee Prezzed by S<br>
+        Fort Leavenworth PX • <a href="tel:8165301520" class="footer-link">816-530-1520</a><br>
+        <a href="https://www.dopeleeprezzedbys.com" class="footer-link">dopeleeprezzedbys.com</a>
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const SUPABASE_URL = 'https://dyehxtiozfwlexkbalvn.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs';
+
+  async function submitSignup() {
+    const firstName = document.getElementById('signupFirstName').value.trim();
+    const lastName = document.getElementById('signupLastName').value.trim();
+    const email = document.getElementById('signupEmail').value.trim();
+    const phone = document.getElementById('signupPhone').value.trim();
+    const interest = document.getElementById('signupInterest').value;
+
+    if (!firstName) { alert('Please enter your first name.'); return; }
+    if (!email) { alert('Please enter your email address.'); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('Please enter a valid email address.'); return; }
+
+    const btn = document.getElementById('signupBtn');
+    btn.disabled = true;
+    btn.textContent = 'Joining...';
+
+    const fullName = lastName ? `${firstName} ${lastName}` : firstName;
+
+    try {
+      const response = await fetch(`${SUPABASE_URL}/rest/v1/community_members`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          name: fullName,
+          email: email,
+          phone: phone || null,
+          source: 'qr-signup',
+          notes: interest ? `Interested in: ${interest}` : null,
+          created_at: new Date().toISOString()
+        })
+      });
+
+      if (response.ok || response.status === 201 || response.status === 204) {
+        document.getElementById('formBody').style.display = 'none';
+        document.getElementById('successScreen').style.display = 'block';
+      } else {
+        throw new Error('Failed to save');
+      }
+    } catch (error) {
+      console.error('Signup error:', error);
+      alert('Something went wrong. Please try again.');
+      btn.disabled = false;
+      btn.textContent = 'Join The Legacy Lounge™ Community';
+    }
+  }
+
+  function resetForm() {
+    document.getElementById('signupFirstName').value = '';
+    document.getElementById('signupLastName').value = '';
+    document.getElementById('signupEmail').value = '';
+    document.getElementById('signupPhone').value = '';
+    document.getElementById('signupInterest').value = '';
+    document.getElementById('signupBtn').disabled = false;
+    document.getElementById('signupBtn').textContent = 'Join The Legacy Lounge™ Community';
+    document.getElementById('formBody').style.display = 'block';
+    document.getElementById('successScreen').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
