@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Legacy Song | Dopelee Prezzed by S™</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050505;
+      --card: #0d0a00;
+      --gold: #d4af37;
+      --gold-light: #f5d76e;
+      --text: #f5f5f0;
+      --text-muted: #b9b5a0;
+      --text-dim: #8a8060;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    /* ── AMBIENT BACKGROUND ── */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: 
+        radial-gradient(ellipse at 30% 20%, rgba(212,175,55,0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 80%, rgba(212,175,55,0.04) 0%, transparent 50%);
+      animation: ambientDrift 20s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes ambientDrift {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      100% { transform: translate(-3%, 2%) rotate(3deg); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 560px;
+      padding: 40px 20px 60px;
+    }
+
+    /* ── LOADING STATE ── */
+    .loading-state {
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .loading-spinner {
+      width: 40px; height: 40px;
+      border: 3px solid rgba(212,175,55,0.15);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading-text {
+      color: var(--text-dim);
+      font-size: 0.9rem;
+    }
+
+    /* ── ERROR STATE ── */
+    .error-state {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .error-state.active { display: block; }
+
+    .error-emoji { font-size: 3rem; margin-bottom: 16px; }
+
+    .error-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .error-msg { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
+
+    /* ── PLAYER CONTENT ── */
+    .player-content {
+      display: none;
+      animation: fadeUp 0.8s ease;
+    }
+
+    .player-content.active { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── HEADER ── */
+    .player-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .brand-badge {
+      display: inline-block;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(212,175,55,0.08);
+      border: 1px solid rgba(212,175,55,0.2);
+      padding: 6px 16px;
+      border-radius: 50px;
+      margin-bottom: 20px;
+    }
+
+    .honoree-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light), #fff, var(--gold));
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: shimmer 5s ease-in-out infinite;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .honoree-sub {
+      color: var(--text-dim);
+      font-size: 0.82rem;
+      font-style: italic;
+    }
+
+    /* ── VIDEO PLAYER ── */
+    .video-wrapper {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 2px solid rgba(212,175,55,0.25);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(212,175,55,0.08);
+      margin-bottom: 28px;
+      background: #000;
+    }
+
+    .video-responsive {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      height: 0;
+    }
+
+    .video-responsive iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
+
+    /* ── DEDICATION ── */
+    .dedication-card {
+      background: linear-gradient(145deg, rgba(212,175,55,0.04), rgba(13,10,0,0.8));
+      border: 1px solid rgba(212,175,55,0.15);
+      border-radius: 16px;
+      padding: 28px 24px;
+      text-align: center;
+      margin-bottom: 28px;
+      position: relative;
+    }
+
+    .dedication-card::before {
+      content: '"';
+      position: absolute;
+      top: 12px;
+      left: 20px;
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      color: rgba(212,175,55,0.12);
+      line-height: 1;
+    }
+
+    .dedication-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--text);
+      line-height: 1.7;
+      position: relative;
+    }
+
+    .dedication-from {
+      margin-top: 16px;
+      font-size: 0.8rem;
+      color: var(--gold);
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    /* ── DIVIDER ── */
+    .gold-divider {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 0 auto 28px;
+    }
+
+    /* ── FOOTER ── */
+    .player-footer {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(212,175,55,0.08);
+    }
+
+    .footer-logo {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .footer-tagline {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    .footer-link {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      border: 1px solid rgba(212,175,55,0.15);
+      padding: 8px 20px;
+      border-radius: 50px;
+      transition: all 0.2s;
+    }
+
+    .footer-link:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- LOADING -->
+  <div class="loading-state" id="loadingState">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Loading your legacy experience...</div>
+  </div>
+
+  <!-- ERROR -->
+  <div class="error-state" id="errorState">
+    <div class="error-emoji">🕊️</div>
+    <div class="error-title">Experience Not Found</div>
+    <div class="error-msg">This legacy link may have expired or isn't set up yet.<br>Contact us at <strong>816-530-1520</strong> for help.</div>
+  </div>
+
+  <!-- PLAYER -->
+  <div class="player-content" id="playerContent">
+
+    <div class="player-header">
+      <div class="brand-badge">Dopelee Prezzed by S™</div>
+      <div class="honoree-name" id="honoreeName"></div>
+      <div class="honoree-sub">A Legacy Moment</div>
+    </div>
+
+    <div class="video-wrapper">
+      <div class="video-responsive">
+        <iframe id="youtubePlayer" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="gold-divider"></div>
+
+    <div class="dedication-card" id="dedicationCard" style="display:none;">
+      <div class="dedication-text" id="dedicationText"></div>
+      <div class="dedication-from" id="dedicationFrom"></div>
+    </div>
+
+    <div class="player-footer">
+      <div class="footer-logo">Dopelee Prezzed by S™</div>
+      <div class="footer-tagline">Luxury • Legacy • Keepsakes</div>
+      <a href="https://www.dopeleeprezzedbys.com" class="footer-link" target="_blank">Visit Our Collection</a>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+(function() {
+  var SUPABASE_URL = 'https://dyehxtiozfwlexkbalvn.supabase.co';
+  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs';
+
+  // Get order ID from URL
+  var params = new URLSearchParams(window.location.search);
+  var orderId = params.get('id') || params.get('order');
+
+  if (!orderId) {
+    showError();
+    return;
+  }
+
+  loadLegacyPlayer(orderId);
+
+  async function loadLegacyPlayer(id) {
+    try {
+      var res = await fetch(
+        SUPABASE_URL + '/rest/v1/orders?order_id=eq.' + encodeURIComponent(id) + '&select=order_id,customer_name,honored_name,qr_youtube_url,qr_dedication,qr_honoree_name',
+        { headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY } }
+      );
+
+      if (!res.ok) throw new Error('Fetch failed');
+      var data = await res.json();
+
+      if (!data || data.length === 0 || !data[0].qr_youtube_url) {
+        showError();
+        return;
+      }
+
+      var order = data[0];
+      var youtubeUrl = order.qr_youtube_url;
+      var dedication = order.qr_dedication;
+      var honoreeName = order.qr_honoree_name || order.honored_name || 'Your Legacy';
+      var customerName = order.customer_name || '';
+
+      // Extract YouTube video ID
+      var videoId = extractYouTubeId(youtubeUrl);
+      if (!videoId) {
+        showError();
+        return;
+      }
+
+      // Populate the page
+      document.getElementById('honoreeName').textContent = honoreeName;
+      document.getElementById('youtubePlayer').src = 'https://www.youtube.com/embed/' + videoId + '?rel=0&modestbranding=1&color=white';
+
+      // Update page title
+      document.title = honoreeName + ' | Legacy Song — Dopelee Prezzed by S™';
+
+      // Show dedication if present
+      if (dedication && dedication.trim()) {
+        document.getElementById('dedicationText').textContent = dedication;
+        if (customerName) {
+          document.getElementById('dedicationFrom').textContent = '— With love, ' + customerName;
+        }
+        document.getElementById('dedicationCard').style.display = 'block';
+      }
+
+      // Show player, hide loading
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('playerContent').classList.add('active');
+
+    } catch (err) {
+      console.error('Legacy player error:', err);
+      showError();
+    }
+  }
+
+  function extractYouTubeId(url) {
+    if (!url) return null;
+    var match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([a-zA-Z0-9_-]{11})/);
+    return match ? match[1] : null;
+  }
+
+  function showError() {
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('errorState').classList.add('active');
+  }
+})();
+</script>
+
+</body>
+</html>
