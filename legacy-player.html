@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Legacy Song | Dopelee Prezzed by S™</title>
+  <title>Your Song | Dopelee Prezzed by S™</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -278,9 +278,9 @@
 
   <!-- ERROR -->
   <div class="error-state" id="errorState">
-    <div class="error-emoji">🕊️</div>
+    <div class="error-emoji">🎵</div>
     <div class="error-title">Experience Not Found</div>
-    <div class="error-msg">This legacy link may have expired or isn't set up yet.<br>Contact us at <strong>816-530-1520</strong> for help.</div>
+    <div class="error-msg">This link may not be set up yet.<br>Contact us at <strong>816-530-1520</strong> for help.</div>
   </div>
 
   <!-- PLAYER -->
@@ -289,7 +289,7 @@
     <div class="player-header">
       <div class="brand-badge">Dopelee Prezzed by S™</div>
       <div class="honoree-name" id="honoreeName"></div>
-      <div class="honoree-sub">A Legacy Moment</div>
+      <div class="honoree-sub" id="occasionText">A Celebration</div>
     </div>
 
     <div class="video-wrapper">
@@ -334,7 +334,7 @@
   async function loadLegacyPlayer(id) {
     try {
       var res = await fetch(
-        SUPABASE_URL + '/rest/v1/orders?order_id=eq.' + encodeURIComponent(id) + '&select=order_id,customer_name,honored_name,qr_youtube_url,qr_dedication,qr_honoree_name',
+        SUPABASE_URL + '/rest/v1/orders?order_id=eq.' + encodeURIComponent(id) + '&select=order_id,customer_name,honored_name,qr_youtube_url,qr_dedication,qr_honoree_name,qr_occasion',
         { headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY } }
       );
 
@@ -349,8 +349,9 @@
       var order = data[0];
       var youtubeUrl = order.qr_youtube_url;
       var dedication = order.qr_dedication;
-      var honoreeName = order.qr_honoree_name || order.honored_name || 'Your Legacy';
+      var honoreeName = order.qr_honoree_name || order.honored_name || 'Your Song';
       var customerName = order.customer_name || '';
+      var occasion = order.qr_occasion || 'A Celebration';
 
       // Extract YouTube video ID
       var videoId = extractYouTubeId(youtubeUrl);
@@ -361,10 +362,11 @@
 
       // Populate the page
       document.getElementById('honoreeName').textContent = honoreeName;
+      document.getElementById('occasionText').textContent = occasion;
       document.getElementById('youtubePlayer').src = 'https://www.youtube.com/embed/' + videoId + '?rel=0&modestbranding=1&color=white';
 
       // Update page title
-      document.title = honoreeName + ' | Legacy Song — Dopelee Prezzed by S™';
+      document.title = honoreeName + ' | ' + occasion + ' — Dopelee Prezzed by S™';
 
       // Show dedication if present
       if (dedication && dedication.trim()) {
