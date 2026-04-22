@@ -2934,6 +2934,46 @@ a {
           console.log("✅ Email sent!");
         }
 
+        // Upload photo to Supabase storage
+        if (uploadedImageFile && orderRecord) {
+          try {
+            console.log("📸 Uploading photo to storage...");
+            const savedOrderId = orderRecord.order_id || orderId;
+            const ext = uploadedImageFile.name.split('.').pop().toLowerCase() || 'jpg';
+            const storagePath = `instore/${savedOrderId}/keepsake_photo.${ext}`;
+            
+            await fetch(`${SUPABASE_URL}/storage/v1/object/photobook-uploads/${storagePath}`, {
+              method: 'POST',
+              headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                'Content-Type': uploadedImageFile.type || 'image/jpeg'
+              },
+              body: uploadedImageFile
+            });
+            
+            // Save photo URL back to order record
+            const photoUrl = `${SUPABASE_URL}/storage/v1/object/public/photobook-uploads/${storagePath}`;
+            await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${savedOrderId}`, {
+              method: 'PATCH',
+              headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                'Content-Type': 'application/json',
+                'Prefer': 'return=minimal'
+              },
+              body: JSON.stringify({ 
+                photo_url: photoUrl,
+                photo_uploaded: true,
+                photo_count: 1
+              })
+            });
+            console.log('✅ Photo uploaded and URL saved to order');
+          } catch (photoErr) {
+            console.warn('⚠️ Photo upload failed:', photoErr);
+          }
+        }
+
         console.log("🎉 Form submission complete!");
         goToStep("successScreen");
         setTimeout(() => launchConfetti(), 300);
