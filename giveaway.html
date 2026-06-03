@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Father's Day Giveaway | Dopelee Prezzed by S™</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0804;
+      --bg-card: #14110a;
+      --bg-input: #1c1810;
+      --gold: #d4af37;
+      --gold-light: #f0d060;
+      --gold-dark: #a08520;
+      --text-main: #f5f0e8;
+      --text-muted: #a09880;
+      --border: #2a2418;
+      --red: #ff4444;
+      --fb-blue: #1877F2;
+      --ig-pink: #E1306C;
+      --tt-black: #fff;
+      --li-blue: #0077B5;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: 
+        radial-gradient(ellipse at 20% 0%, rgba(212,175,55,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 100%, rgba(212,175,55,0.05) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 24px 20px 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* HEADER */
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .brand-mark {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+      opacity: 0.8;
+    }
+
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--gold-light);
+      line-height: 1.1;
+      margin-bottom: 6px;
+      text-shadow: 0 2px 20px rgba(212,175,55,0.3);
+    }
+
+    .header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+
+    .header p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .divider {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 16px auto;
+    }
+
+    .deadline {
+      display: inline-block;
+      background: rgba(212,175,55,0.12);
+      border: 1px solid rgba(212,175,55,0.3);
+      border-radius: 50px;
+      padding: 8px 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 12px;
+    }
+
+    /* STEP SECTIONS */
+    .step-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .step-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .step-number {
+      background: var(--gold);
+      color: var(--bg-dark);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 800;
+    }
+
+    .step-section h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      margin-bottom: 6px;
+    }
+
+    .step-section > p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+    }
+
+    /* SOCIAL FOLLOW BUTTONS */
+    .social-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .social-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 10px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      color: #fff;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+
+    .social-btn:active { transform: scale(0.97); }
+
+    .social-btn.facebook { background: linear-gradient(135deg, #1877F2, #0d5bbf); }
+    .social-btn.instagram { background: linear-gradient(135deg, #E1306C, #C13584, #833AB4); }
+    .social-btn.tiktok { background: linear-gradient(135deg, #333, #000); border: 1px solid #444; }
+    .social-btn.linkedin { background: linear-gradient(135deg, #0077B5, #005e93); }
+
+    .social-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    .check-badge {
+      display: none;
+      width: 18px;
+      height: 18px;
+      background: #0ff0b8;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .social-btn.followed .check-badge { display: flex; }
+    .social-btn.followed { box-shadow: 0 0 0 2px var(--gold); }
+
+    /* FORM */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 14px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-main);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .form-group input::placeholder {
+      color: #5a5040;
+    }
+
+    /* PLATFORM CHECKBOXES */
+    .platform-checks {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .platform-check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .platform-check:has(input:checked) {
+      border-color: var(--gold);
+      background: rgba(212,175,55,0.08);
+    }
+
+    .platform-check input[type="checkbox"] {
+      accent-color: var(--gold);
+      width: 16px;
+      height: 16px;
+    }
+
+    /* SUBMIT BUTTON */
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--bg-dark);
+      border: none;
+      border-radius: 12px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 8px;
+    }
+
+    .submit-btn:active { transform: scale(0.98); }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* SUCCESS */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .success-screen.active { display: block; }
+
+    .success-icon {
+      font-size: 3.5rem;
+      margin-bottom: 16px;
+    }
+
+    .success-screen h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--gold-light);
+      margin-bottom: 12px;
+    }
+
+    .success-screen p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .form-content { display: block; }
+    .form-content.hidden { display: none; }
+
+    /* FOOTER */
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer p {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .footer .brand {
+      color: var(--gold);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="brand-mark">Dopelee Prezzed by S™</div>
+    <h1>Father's Day<br>Giveaway</h1>
+    <div class="divider"></div>
+    <h2>Win a Custom Engraved Hammer</h2>
+    <p>A meaningful Father's Day gift, personalized just for him. Follow us and enter for your chance to win!</p>
+    <div class="deadline">🏆 Winner Announced June 15</div>
+  </div>
+
+  <div class="form-content" id="formContent">
+
+    <!-- STEP 1: FOLLOW -->
+    <div class="step-section">
+      <div class="step-label"><span class="step-number">1</span> FOLLOW US</div>
+      <h3>Pick a Platform & Follow</h3>
+      <p>Tap to follow us on at least one platform.</p>
+
+      <div class="social-grid">
+        <a href="https://www.facebook.com/profile.php?id=61576806801590" target="_blank" class="social-btn facebook" onclick="markFollowed(this, 'facebook')">
+          <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          Facebook
+          <span class="check-badge">✓</span>
+        </a>
+        <a href="https://www.instagram.com/dopelee_prezzed_by_s/" target="_blank" class="social-btn instagram" onclick="markFollowed(this, 'instagram')">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          Instagram
+          <span class="check-badge">✓</span>
+        </a>
+        <a href="https://www.tiktok.com/@dopeleeprezzedbys" target="_blank" class="social-btn tiktok" onclick="markFollowed(this, 'tiktok')">
+          <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.48 6.3 6.3 0 001.86-4.49V8.75a8.26 8.26 0 004.85 1.57V6.87a4.84 4.84 0 01-1.13-.18z"/></svg>
+          TikTok
+          <span class="check-badge">✓</span>
+        </a>
+        <a href="https://www.linkedin.com/company/dopelee-prezzed-by-s/" target="_blank" class="social-btn linkedin" onclick="markFollowed(this, 'linkedin')">
+          <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+          <span class="check-badge">✓</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- STEP 2: ENTER -->
+    <div class="step-section">
+      <div class="step-label"><span class="step-number">2</span> ENTER TO WIN</div>
+      <h3>Complete Your Entry</h3>
+      <p>Fill out the form below to be entered into the drawing.</p>
+
+      <div class="form-group">
+        <label>Your Name *</label>
+        <input type="text" id="entryName" placeholder="First and Last Name" />
+      </div>
+
+      <div class="form-group">
+        <label>Email Address *</label>
+        <input type="email" id="entryEmail" placeholder="your@email.com" />
+      </div>
+
+      <div class="form-group">
+        <label>Phone Number (optional)</label>
+        <input type="tel" id="entryPhone" placeholder="(555) 555-5555" />
+      </div>
+
+      <div class="form-group">
+        <label>Which platform(s) did you follow us on? *</label>
+        <div class="platform-checks">
+          <label class="platform-check"><input type="checkbox" name="platform" value="facebook" /> Facebook</label>
+          <label class="platform-check"><input type="checkbox" name="platform" value="instagram" /> Instagram</label>
+          <label class="platform-check"><input type="checkbox" name="platform" value="tiktok" /> TikTok</label>
+          <label class="platform-check"><input type="checkbox" name="platform" value="linkedin" /> LinkedIn</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Your Username on That Platform *</label>
+        <input type="text" id="entryUsername" placeholder="@yourhandle" />
+      </div>
+
+      <button class="submit-btn" onclick="submitEntry()">🎉 Enter to Win</button>
+    </div>
+
+  </div>
+
+  <!-- SUCCESS SCREEN -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">🔨</div>
+    <h2>You're In!</h2>
+    <p>Your entry has been received. The winner will be announced on <strong>June 15, 2026</strong>. Good luck!</p>
+    <div class="divider" style="margin: 24px auto;"></div>
+    <p style="font-size: 0.85rem;">Located inside the<br><strong style="color: var(--gold);">Fort Leavenworth Exchange Mall</strong></p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p><span class="brand">Dopelee Prezzed by S™</span> | Home of The Legacy Lounge<br>Where Memories Become Legacy</p>
+    <p style="margin-top: 8px;">Located inside the Fort Leavenworth Exchange Mall</p>
+  </div>
+
+</div>
+
+<script>
+  const SUPABASE_URL = 'https://dyehxtiozfwlexkbalvn.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs';
+
+  const followedPlatforms = new Set();
+
+  function markFollowed(btn, platform) {
+    btn.classList.add('followed');
+    followedPlatforms.add(platform);
+    
+    // Auto-check the matching checkbox
+    const checkboxes = document.querySelectorAll('input[name="platform"]');
+    checkboxes.forEach(cb => {
+      if (cb.value === platform) cb.checked = true;
+    });
+  }
+
+  async function submitEntry() {
+    const name = document.getElementById('entryName').value.trim();
+    const email = document.getElementById('entryEmail').value.trim();
+    const phone = document.getElementById('entryPhone').value.trim();
+    const username = document.getElementById('entryUsername').value.trim();
+    
+    const platforms = [];
+    document.querySelectorAll('input[name="platform"]:checked').forEach(cb => {
+      platforms.push(cb.value);
+    });
+
+    if (!name || !email) {
+      alert('Please enter your name and email address.');
+      return;
+    }
+
+    if (platforms.length === 0) {
+      alert('Please select at least one platform you followed us on.');
+      return;
+    }
+
+    if (!username) {
+      alert('Please enter your username so we can verify your follow.');
+      return;
+    }
+
+    const btn = document.querySelector('.submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Submitting...';
+
+    try {
+      const response = await fetch(SUPABASE_URL + '/rest/v1/giveaway_entries', {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          phone: phone || null,
+          platforms: platforms.join(', '),
+          username: username,
+          giveaway_name: 'Fathers Day 2026',
+          entered_at: new Date().toISOString()
+        })
+      });
+
+      if (!response.ok) throw new Error('Failed to submit');
+
+      document.getElementById('formContent').classList.add('hidden');
+      document.getElementById('successScreen').classList.add('active');
+
+    } catch (err) {
+      console.error('Submit error:', err);
+      alert('There was an error submitting your entry. Please try again.');
+      btn.disabled = false;
+      btn.textContent = '🎉 Enter to Win';
+    }
+  }
+</script>
+
+</body>
+</html>
