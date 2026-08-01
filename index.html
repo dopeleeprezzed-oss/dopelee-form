@@ -3596,8 +3596,9 @@ a {
         }
         
         let response;
+        let patchFoundNothing = false;
         if (existingOrderId) {
-          // Update existing order
+          // Try to update existing order
           response = await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${existingOrderId}`, {
             method: 'PATCH',
             headers: {
@@ -3608,8 +3609,20 @@ a {
             },
             body: JSON.stringify(formData)
           });
-        } else {
-          // Create new order
+
+          // PATCH can return 200 OK with an empty array if no row matched — check for that
+          if (response.ok) {
+            const patchCheck = await response.clone().json();
+            if (!Array.isArray(patchCheck) || patchCheck.length === 0) {
+              patchFoundNothing = true;
+              console.warn(`⚠️ No existing order found for "${existingOrderId}" — creating a new order instead.`);
+            }
+          }
+        }
+
+        if (!existingOrderId || patchFoundNothing) {
+          // Create new order (either no order param was given, or the PATCH found nothing to update)
+          if (!formData.order_id) formData.order_id = 'IS-' + Date.now();
           response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
             method: 'POST',
             headers: {
@@ -3631,6 +3644,12 @@ a {
         // Get the created/updated order
         const orderResult = await response.json();
         const orderRecord = Array.isArray(orderResult) ? orderResult[0] : orderResult;
+
+        if (!orderRecord || !orderRecord.order_id) {
+          console.error('❌ Order was not saved correctly — no order record returned:', orderResult);
+          throw new Error('Order could not be saved. Please try again or contact us.');
+        }
+
         const savedOrderId = orderRecord.order_id || existingOrderId || formData.order_id;
         
         console.log('✅ Order saved:', savedOrderId);
