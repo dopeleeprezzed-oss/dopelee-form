@@ -981,7 +981,8 @@ a {
       </div>
 
       <!-- PARTNER REFERRAL DROPDOWN -->
-      <div class="form-group" id="referralField">
+      <!-- HIDDEN FOR NOW (per K. Smith, 2026) — kept in code so it can be re-enabled with a one-line change when partners are active -->
+      <div class="form-group" id="referralField" style="display: none;">
         <label>How did you hear about us? *</label>
         <select id="partnerReferral" required>
           <option value="">Select an option...</option>
@@ -1039,13 +1040,25 @@ a {
       </div>
 
       <div class="form-group">
+        <label>What did you purchase? *</label>
+        <input id="productPurchased" type="text" placeholder="e.g., Legacy Round 15&quot;, Legacy Cuff Bracelet, Custom Nameplate..." />
+        <p style="font-size:0.78rem;color:var(--text-dim);margin:5px 0 0;">Copy the product name from your order confirmation, or describe it as best you can.</p>
+      </div>
+
+      <div class="form-group">
         <label>Dates (optional)</label>
         <input id="dates" type="text" placeholder="e.g., 2010 - 2024" />
       </div>
 
+      <div class="form-group">
+        <label>Date Needed By *</label>
+        <input id="dateNeeded" type="date" required style="cursor:pointer;" onclick="try{this.showPicker()}catch(e){this.focus()}" />
+        <p style="font-size:0.78rem;color:var(--text-dim);margin:5px 0 0;">Tap to open calendar</p>
+      </div>
+
       <div class="button-group">
         <button class="btn btn-secondary" onclick="goToStep('step1')">Back</button>
-        <button class="btn btn-primary" onclick="goToStep('step3aLookFeel')">Continue</button>
+        <button class="btn btn-primary" onclick="validateStep2Keepsake()">Continue</button>
       </div>
     </section>
 
@@ -1085,7 +1098,7 @@ a {
 
       <div class="form-group">
         <label>Event date *</label>
-        <input id="vipEventDate" type="date" required style="cursor:pointer;" onclick="this.showPicker()" />
+        <input id="vipEventDate" type="date" required style="cursor:pointer;" onclick="try{this.showPicker()}catch(e){this.focus()}" />
         <p style="font-size:0.78rem;color:var(--text-dim);margin:5px 0 0;">Tap to open calendar</p>
       </div>
 
@@ -1098,7 +1111,7 @@ a {
       <div class="form-group">
         <label>Inspiration image (optional)</label>
         <p style="font-size:0.82rem;color:var(--text-dim);margin:-6px 0 10px;">A screenshot, photo, or anything that captures the vibe. No image is totally fine.</p>
-        <input id="vipInspirationFile" type="file" accept="image/*" />
+        <input id="vipInspirationFile" type="file" accept="image/*" multiple />
       </div>
 
       <div class="button-group">
@@ -1155,6 +1168,12 @@ a {
       <div class="form-group">
         <label>Designer notes (optional)</label>
         <textarea id="photobookNotes" rows="3" placeholder="Colors, style preferences, anything specific..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Date Needed By *</label>
+        <input id="photobookDateNeeded" type="date" required style="cursor:pointer;" onclick="try{this.showPicker()}catch(e){this.focus()}" />
+        <p style="font-size:0.78rem;color:var(--text-dim);margin:5px 0 0;">Tap to open calendar</p>
       </div>
 
       <div class="button-group">
@@ -1353,6 +1372,47 @@ a {
       <h2 class="step-title">🏪 In-Store Personalization</h2>
       <p class="step-description">Tell us what you'd like engraved or personalized.</p>
 
+      <!-- WHOSE ITEM IS THIS -->
+      <div class="form-group">
+        <label>Whose item is this? *</label>
+        <div class="options-grid">
+          <div class="option-card" onclick="selectItemOwnership('purchasing')">
+            <input type="radio" name="itemOwnership" value="purchasing" />
+            <span>🛍️ I'm purchasing this from Dopelee Prezzed by S</span>
+          </div>
+          <div class="option-card" onclick="selectItemOwnership('own_item')">
+            <input type="radio" name="itemOwnership" value="own_item" />
+            <span>📦 This is my own item (bringing it in)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CUSTOMER-SUPPLIED ITEM AGREEMENT (only shows if "own_item" selected) -->
+      <div class="form-group" id="customerItemWaiverGroup" style="display:none; background: rgba(212, 175, 55, 0.08); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 12px; padding: 18px;">
+        <label style="color: var(--accent-gold);">Customer-Supplied Item Agreement *</label>
+        <p style="font-size:0.85rem; color: var(--text-muted); line-height:1.5; margin: 8px 0 14px;">
+          I understand that Dopelee Prezzed by S, LLC is engraving my personal item at my request. I acknowledge that laser engraving carries inherent risk to the material, and while every care will be taken, Dopelee Prezzed by S, LLC's liability for standard, replaceable items is limited to repair or replacement at its discretion. For high-value, luxury, heirloom, or irreplaceable items, I understand I must disclose this in advance, and Dopelee Prezzed by S, LLC reserves the right to decline service or require a separate written agreement. As with all services, completed engraving work is final.
+        </p>
+
+        <div class="form-group">
+          <label>Is this a high-value, luxury, heirloom, or irreplaceable item? *</label>
+          <div class="options-grid">
+            <div class="option-card" onclick="selectOption(this,'itemValueType','standard')"><input type="radio" name="itemValueType" value="standard"/><span>No, standard item</span></div>
+            <div class="option-card" onclick="selectOption(this,'itemValueType','high_value')"><input type="radio" name="itemValueType" value="high_value"/><span>Yes, high-value item</span></div>
+          </div>
+        </div>
+
+        <div class="form-group" id="itemEstimatedValueGroup" style="display:none;">
+          <label>Estimated value (if known)</label>
+          <input id="itemEstimatedValue" type="text" placeholder="e.g., $500" />
+        </div>
+
+        <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer; margin-top:10px;">
+          <input type="checkbox" id="waiverAccepted" style="margin-top:3px; width:18px; height:18px; flex-shrink:0;" />
+          <span style="font-size:0.85rem; color: var(--text-main);">I have read and agree to the terms above. *</span>
+        </label>
+      </div>
+
       <!-- ENGRAVING TYPE -->
       <div class="form-group">
         <label>What type of personalization? *</label>
@@ -1375,21 +1435,21 @@ a {
       <!-- TEXT INPUT WITH CHARACTER COUNTER -->
       <div class="form-group" id="engravingTextGroup">
         <label>What text do you want? *</label>
-        <textarea id="engravingText" maxlength="50" placeholder="Type exactly what you want engraved..." oninput="updateCharCount()"></textarea>
+        <textarea id="engravingText" placeholder="Type exactly what you want engraved..." oninput="updateCharCount()"></textarea>
         <div class="char-counter">
-          <span id="charCount">0</span>/50 characters
+          <span id="charCount">0</span> characters
           <span id="charLevel" style="margin-left: 10px; font-weight: 600;"></span>
         </div>
         <div class="helper-text">
-          Simple (1-15 chars) • Standard (16-35 chars) • Complex (36-50 chars)
+          Simple (1-15 chars) • Standard (16-35 chars) • Complex (36+ chars)
         </div>
       </div>
 
       <!-- PHOTO UPLOAD FOR ENGRAVING (only shows if photo or combo selected) -->
       <div class="form-group" id="engravingPhotoGroup" style="display: none;">
         <label>Upload Photo for Engraving *</label>
-        <input id="engravingPhotoInput" type="file" accept="image/*" onchange="handleEngravingPhoto(event)" />
-        <div class="helper-text">High contrast images work best for engraving</div>
+        <input id="engravingPhotoInput" type="file" accept="image/*" multiple onchange="handleEngravingPhoto(event)" />
+        <div class="helper-text">High contrast images work best for engraving • Limit of 4 photos</div>
         <div id="engravingPhotoPreview" style="margin-top: 15px;"></div>
       </div>
 
@@ -1403,6 +1463,13 @@ a {
       <div class="form-group">
         <label>Special Instructions (optional)</label>
         <textarea id="instoreNotes" placeholder="Font preference, placement, size, etc."></textarea>
+      </div>
+
+      <!-- DATE NEEDED BY -->
+      <div class="form-group">
+        <label>Date Needed By *</label>
+        <input id="instoreDateNeeded" type="date" required style="cursor:pointer;" onclick="try{this.showPicker()}catch(e){this.focus()}" />
+        <p style="font-size:0.78rem;color:var(--text-dim);margin:5px 0 0;">Tap to open calendar</p>
       </div>
 
       <div class="button-group">
@@ -1620,6 +1687,13 @@ a {
       <div class="form-group">
         <label>Date to Display</label>
         <input id="recognitionDate" type="text" placeholder="e.g., May 2026" />
+        <p style="font-size:0.78rem;color:var(--text-dim);margin:5px 0 0;">This is the date engraved on the piece, not when you need it delivered.</p>
+      </div>
+
+      <div class="form-group">
+        <label>Date Needed By *</label>
+        <input id="recognitionDateNeeded" type="date" required style="cursor:pointer;" onclick="try{this.showPicker()}catch(e){this.focus()}" />
+        <p style="font-size:0.78rem;color:var(--text-dim);margin:5px 0 0;">Tap to open calendar</p>
       </div>
 
       <div class="form-group">
@@ -1704,7 +1778,7 @@ a {
 
       <div class="form-group">
         <label>Upload Photo *</label>
-        <input id="fileInput" type="file" accept="image/*" onchange="handleImageUpload(event)" />
+        <input id="fileInput" type="file" accept="image/*" multiple onchange="handleImageUpload(event)" />
         <div class="helper-text">Choose a high-quality photo for the best results</div>
         <div id="photoPreview" style="margin-top: 15px;"></div>
       </div>
@@ -1748,6 +1822,11 @@ a {
             <div class="preview-detail-row">
               <span class="preview-detail-label">Honoring</span>
               <span id="previewName" class="preview-detail-value large"></span>
+            </div>
+
+            <div class="preview-detail-row">
+              <span class="preview-detail-label">Product Purchased</span>
+              <span id="previewProductPurchased" class="preview-detail-value"></span>
             </div>
             
             <div class="preview-detail-row">
@@ -1927,7 +2006,7 @@ a {
 
       <div class="form-group">
         <label>Your Words (optional — up to 1500 characters)</label>
-        <textarea id="soundsWords" rows="6" maxlength="1500" placeholder="Type the words, memories, or story you want us to turn into a song. If you already have lyrics, paste them here..."></textarea>
+        <textarea id="soundsWords" rows="6" placeholder="Type the words, memories, or story you want us to turn into a song. If you already have lyrics, paste them here..."></textarea>
         <div class="helper-text"><span id="soundsWordCount">0</span> / 1500 characters</div>
       </div>
 
@@ -2053,8 +2132,8 @@ a {
     let selectedPersonOrPet = null;
     let selectedLookFeel = null;
     let selectedVibeImage = null;
-    let uploadedImage = null;
-    let uploadedImageFile = null;
+    let uploadedImages = [];
+    let uploadedImageFiles = [];
 
     // ═══════════════════════════════════════════════════════════════
     // NAVIGATION
@@ -2179,6 +2258,27 @@ a {
       // Update selected class within same form-group
       card.closest('.options-grid')?.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
       card.classList.add('selected');
+
+      // Show/hide estimated value field when item value type is chosen
+      if (name === 'itemValueType') {
+        const valueGroup = document.getElementById('itemEstimatedValueGroup');
+        if (valueGroup) valueGroup.style.display = (value === 'high_value') ? 'block' : 'none';
+      }
+    }
+
+    function selectItemOwnership(type) {
+      document.querySelectorAll(`input[name='itemOwnership']`).forEach(r => r.checked = false);
+      const radio = document.querySelector(`input[name='itemOwnership'][value='${type}']`);
+      if (radio) radio.checked = true;
+      document.querySelectorAll('#stepInstore .options-grid').forEach(grid => {
+        if (grid.contains(radio)) {
+          grid.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+          radio.closest('.option-card')?.classList.add('selected');
+        }
+      });
+
+      const waiverGroup = document.getElementById('customerItemWaiverGroup');
+      if (waiverGroup) waiverGroup.style.display = (type === 'own_item') ? 'block' : 'none';
     }
 
     // VIP validation and submit
@@ -2451,6 +2551,11 @@ a {
       const honoree = document.getElementById('photobookHonoree')?.value?.trim();
       if (!honoree) { alert('Please enter who this book is celebrating.'); return; }
 
+      if (!document.getElementById('photobookDateNeeded')?.value) {
+        alert('Please select the date you need this by.');
+        return;
+      }
+
       if (photobookPhotos.length === 0) {
         alert('Please upload at least one photo for your book.');
         return;
@@ -2482,6 +2587,7 @@ a {
         customer_phone: document.getElementById('phone')?.value || '',
         project_type: 'photobook',
         honored_name: honoree,
+        date_needed: document.getElementById('photobookDateNeeded')?.value || null,
         occasion: document.querySelector("input[name='photobookOccasion']:checked")?.value || null,
         custom_wording: document.getElementById('photobookMemories')?.value || null,
         designer_notes: [
@@ -2629,10 +2735,12 @@ a {
       }
       
       // Require referral only if NOT in-store
-      if (!isInstore && !referral) {
-        alert("Please select how you heard about us.");
-        return;
-      }
+      // NOTE: referral field is currently hidden from all customers (2026) — validation disabled to match.
+      // Re-enable this check if the field is ever shown again.
+      // if (!isInstore && !referral) {
+      //   alert("Please select how you heard about us.");
+      //   return;
+      // }
       
       // Require phone for in-store
       if (isInstore && !phone) {
@@ -2648,6 +2756,23 @@ a {
       else if (projectType === "recognition") goToStep("stepRecognition");
       else if (projectType === "sounds") goToStep("stepSoundsExperience");
       else goToStep("step2cPhotobook");
+    }
+
+    function validateStep2Keepsake() {
+      const name = document.getElementById('honoredName')?.value.trim();
+      const product = document.getElementById('productPurchased')?.value.trim();
+
+      if (!name) {
+        alert('Please enter a name.');
+        return;
+      }
+
+      if (!product) {
+        alert('Please tell us what you purchased.');
+        return;
+      }
+
+      goToStep('step3aLookFeel');
     }
 
     // ═══════════════════════════════════════════════════════════════
@@ -2756,27 +2881,32 @@ a {
     // STEP 4: UPLOAD
     // ═══════════════════════════════════════════════════════════════
     function handleImageUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      
-      uploadedImageFile = file;
+      const files = Array.from(event.target.files || []);
+      if (files.length === 0) return;
 
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        uploadedImage = e.target.result;
-        
-        const preview = document.getElementById('photoPreview');
-        preview.innerHTML = `
-          <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(212, 175, 55, 0.1); border: 1px solid var(--accent-cyan); border-radius: 10px;">
-            <img src="${uploadedImage}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;" alt="Preview">
-            <div>
-              <div style="color: var(--text-main); font-weight: 500;">${file.name}</div>
-              <div style="color: var(--accent-cyan); font-size: 0.85rem;">✓ Photo uploaded</div>
-            </div>
+      files.forEach(file => {
+        uploadedImageFiles.push(file);
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          uploadedImages.push(e.target.result);
+          renderPhotoPreview();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function renderPhotoPreview() {
+      const preview = document.getElementById('photoPreview');
+      preview.innerHTML = uploadedImages.map((img, i) => `
+        <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(212, 175, 55, 0.1); border: 1px solid var(--accent-cyan); border-radius: 10px; margin-bottom: 8px;">
+          <img src="${img}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;" alt="Preview">
+          <div>
+            <div style="color: var(--text-main); font-weight: 500;">${uploadedImageFiles[i]?.name || 'Photo ' + (i+1)}</div>
+            <div style="color: var(--accent-cyan); font-size: 0.85rem;">✓ Photo uploaded</div>
           </div>
-        `;
-      };
-      reader.readAsDataURL(file);
+        </div>
+      `).join('');
     }
 
     // ═══════════════════════════════════════════════════════════════
@@ -2784,8 +2914,13 @@ a {
     // ═══════════════════════════════════════════════════════════════
     function goToPreview() {
       // Validate required fields
-      if (!uploadedImage) {
+      if (uploadedImages.length === 0) {
         alert("Please upload a photo.");
+        return;
+      }
+
+      if (!document.getElementById('dateNeeded')?.value) {
+        alert("Please select the date you need this by.");
         return;
       }
       
@@ -2801,10 +2936,11 @@ a {
       
       document.getElementById('previewStyleImg').src = selectedVibeImage?.url || '';
       document.getElementById('previewName').textContent = honoredName;
+      document.getElementById('previewProductPurchased').textContent = document.getElementById('productPurchased')?.value || 'Not specified';
       document.getElementById('previewDates').textContent = dates;
       document.getElementById('previewLookFeel').textContent = LOOK_FEEL_NAMES[selectedLookFeel] || '';
       document.getElementById('previewMessage').textContent = customWording.length > 100 ? customWording.substring(0, 100) + '...' : customWording;
-      document.getElementById('photoCount').textContent = '1 photo';
+      document.getElementById('photoCount').textContent = `${uploadedImages.length} photo${uploadedImages.length > 1 ? 's' : ''}`;
       
       goToStep('step5Preview');
     }
@@ -2826,7 +2962,9 @@ a {
         email: document.getElementById('email').value,
         orderNumber: orderId,
         honoredName: document.getElementById('honoredName')?.value || '',
+        productPurchased: document.getElementById('productPurchased')?.value || '',
         dates: document.getElementById('dates')?.value || '',
+        dateNeeded: document.getElementById('dateNeeded')?.value || '',
         customWording: document.getElementById('customWording')?.value || '',
         designerNotes: document.getElementById('designerNotes')?.value || ''
       };
@@ -2841,7 +2979,9 @@ a {
           project_type: projectType,
           person_or_pet: selectedPersonOrPet,
           honored_name: formData.honoredName,
+          product_purchased: formData.productPurchased,
           dates: formData.dates,
+          date_needed: formData.dateNeeded || null,
           look_and_feel: selectedLookFeel,
           selected_style_image: selectedVibeImage?.id || null,
           custom_wording: formData.customWording,
@@ -2934,26 +3074,32 @@ a {
           console.log("✅ Email sent!");
         }
 
-        // Upload photo to Supabase storage
-        if (uploadedImageFile && orderRecord) {
+        // Upload photo(s) to Supabase storage
+        if (uploadedImageFiles.length > 0 && orderRecord) {
           try {
-            console.log("📸 Uploading photo to storage...");
+            console.log(`📸 Uploading ${uploadedImageFiles.length} photo(s) to storage...`);
             const savedOrderId = orderRecord.order_id || orderId;
-            const ext = uploadedImageFile.name.split('.').pop().toLowerCase() || 'jpg';
-            const storagePath = `instore/${savedOrderId}/keepsake_photo.${ext}`;
-            
-            await fetch(`${SUPABASE_URL}/storage/v1/object/photobook-uploads/${storagePath}`, {
-              method: 'POST',
-              headers: {
-                'apikey': SUPABASE_ANON_KEY,
-                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                'Content-Type': uploadedImageFile.type || 'image/jpeg'
-              },
-              body: uploadedImageFile
-            });
-            
-            // Save photo URL back to order record
-            const photoUrl = `${SUPABASE_URL}/storage/v1/object/public/photobook-uploads/${storagePath}`;
+            const photoUrls = [];
+
+            for (let i = 0; i < uploadedImageFiles.length; i++) {
+              const f = uploadedImageFiles[i];
+              const ext = f.name.split('.').pop().toLowerCase() || 'jpg';
+              const storagePath = `instore/${savedOrderId}/keepsake_photo_${i + 1}.${ext}`;
+
+              await fetch(`${SUPABASE_URL}/storage/v1/object/photobook-uploads/${storagePath}`, {
+                method: 'POST',
+                headers: {
+                  'apikey': SUPABASE_ANON_KEY,
+                  'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                  'Content-Type': f.type || 'image/jpeg'
+                },
+                body: f
+              });
+
+              photoUrls.push(`${SUPABASE_URL}/storage/v1/object/public/photobook-uploads/${storagePath}`);
+            }
+
+            // Save photo URLs back to order record (photo_url kept for backward compatibility)
             await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${savedOrderId}`, {
               method: 'PATCH',
               headers: {
@@ -2963,12 +3109,13 @@ a {
                 'Prefer': 'return=minimal'
               },
               body: JSON.stringify({ 
-                photo_url: photoUrl,
+                photo_url: photoUrls[0] || null,
+                photo_urls: photoUrls,
                 photo_uploaded: true,
-                photo_count: 1
+                photo_count: photoUrls.length
               })
             });
-            console.log('✅ Photo uploaded and URL saved to order');
+            console.log('✅ Photo(s) uploaded and URLs saved to order');
           } catch (photoErr) {
             console.warn('⚠️ Photo upload failed:', photoErr);
           }
@@ -3153,8 +3300,8 @@ a {
     // ═══════════════════════════════════════════════════════════════
     
     let selectedEngravingType = null;
-    let engravingPhotoData = null;
-    let engravingPhotoFile = null; // declared here for consistent scope
+    let engravingPhotoDataList = [];
+    let engravingPhotoFiles = [];
 
     function selectEngravingType(type) {
       selectedEngravingType = type;
@@ -3201,30 +3348,58 @@ a {
       countEl.textContent = count;
       
       if (count <= 15) {
-        levelEl.textContent = 'Simple ($15)';
+        levelEl.textContent = 'Simple';
         levelEl.className = 'simple';
       } else if (count <= 35) {
-        levelEl.textContent = 'Standard ($25)';
+        levelEl.textContent = 'Standard';
         levelEl.className = 'standard';
       } else {
-        levelEl.textContent = 'Complex ($35)';
+        levelEl.textContent = 'Complex';
         levelEl.className = 'complex';
       }
     }
 
     function handleEngravingPhoto(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      
-      engravingPhotoFile = file;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        engravingPhotoData = e.target.result;
-        document.getElementById('engravingPhotoPreview').innerHTML = `
-          <img src="${e.target.result}" style="max-width: 200px; border-radius: 8px; border: 2px solid #d4af37;" />
-        `;
-      };
-      reader.readAsDataURL(file);
+      const files = Array.from(event.target.files || []);
+      if (files.length === 0) return;
+
+      const remaining = 4 - engravingPhotoFiles.length;
+      if (remaining <= 0) {
+        alert('You can upload up to 4 photos. Please remove one before adding another.');
+        event.target.value = '';
+        return;
+      }
+
+      const filesToAdd = files.slice(0, remaining);
+      if (files.length > remaining) {
+        alert(`You can upload up to 4 photos total. Only the first ${remaining} of your selected photos were added.`);
+      }
+
+      filesToAdd.forEach(file => {
+        engravingPhotoFiles.push(file);
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          engravingPhotoDataList.push(e.target.result);
+          renderEngravingPhotoPreview();
+        };
+        reader.readAsDataURL(file);
+      });
+      event.target.value = '';
+    }
+
+    function renderEngravingPhotoPreview() {
+      document.getElementById('engravingPhotoPreview').innerHTML = engravingPhotoDataList.map((img, i) => `
+        <div style="display:inline-block; position:relative; margin: 4px;">
+          <img src="${img}" style="max-width: 200px; border-radius: 8px; border: 2px solid #d4af37; display:block;" />
+          <button type="button" onclick="removeEngravingPhoto(${i})" style="position:absolute; top:-8px; right:-8px; width:24px; height:24px; border-radius:50%; background:#c0392b; color:#fff; border:none; cursor:pointer; font-weight:bold; line-height:1;">×</button>
+        </div>
+      `).join('');
+    }
+
+    function removeEngravingPhoto(index) {
+      engravingPhotoDataList.splice(index, 1);
+      engravingPhotoFiles.splice(index, 1);
+      renderEngravingPhotoPreview();
     }
 
     function goToInstorePreview() {
@@ -3232,7 +3407,31 @@ a {
       const text = document.getElementById('engravingText')?.value.trim();
       const item = document.getElementById('itemDescription')?.value.trim();
       const notes = document.getElementById('instoreNotes')?.value.trim();
-      
+      const ownership = document.querySelector(`input[name='itemOwnership']:checked`)?.value;
+      const dateNeeded = document.getElementById('instoreDateNeeded')?.value;
+
+      if (!ownership) {
+        alert('Please tell us whose item this is.');
+        return;
+      }
+
+      if (ownership === 'own_item') {
+        const valueType = document.querySelector(`input[name='itemValueType']:checked`)?.value;
+        if (!valueType) {
+          alert('Please tell us if this is a high-value item.');
+          return;
+        }
+        if (!document.getElementById('waiverAccepted')?.checked) {
+          alert('Please agree to the Customer-Supplied Item Agreement to continue.');
+          return;
+        }
+      }
+
+      if (!dateNeeded) {
+        alert('Please select the date you need this by.');
+        return;
+      }
+
       if (!type) {
         alert('Please select a personalization type.');
         return;
@@ -3248,7 +3447,7 @@ a {
         return;
       }
       
-      if ((type === 'photo' || type === 'combo') && !engravingPhotoData) {
+      if ((type === 'photo' || type === 'combo') && engravingPhotoDataList.length === 0) {
         alert('Please upload a photo for engraving.');
         return;
       }
@@ -3272,8 +3471,8 @@ a {
       
       if (type === 'photo' || type === 'combo') {
         document.getElementById('previewInstorePhotoRow').style.display = 'flex';
-        if (engravingPhotoData) {
-          document.getElementById('previewInstorePhoto').src = engravingPhotoData;
+        if (engravingPhotoDataList.length > 0) {
+          document.getElementById('previewInstorePhoto').src = engravingPhotoDataList[0];
           document.getElementById('previewInstorePhoto').style.display = 'block';
           document.getElementById('previewInstorePhotoText').style.display = 'none';
         }
@@ -3306,6 +3505,11 @@ a {
       const engravingText = document.getElementById('engravingText')?.value.trim() || '';
       const itemDescription = document.getElementById('itemDescription')?.value.trim() || '';
       const notes = document.getElementById('instoreNotes')?.value.trim() || '';
+      const itemOwnership = document.querySelector(`input[name='itemOwnership']:checked`)?.value || null;
+      const itemValueType = document.querySelector(`input[name='itemValueType']:checked`)?.value || null;
+      const itemEstimatedValue = document.getElementById('itemEstimatedValue')?.value.trim() || null;
+      const waiverAccepted = itemOwnership === 'own_item' ? !!document.getElementById('waiverAccepted')?.checked : null;
+      const dateNeeded = document.getElementById('instoreDateNeeded')?.value || null;
       
       // Determine pricing tier based on text length
       let pricingTier = 'N/A';
@@ -3338,6 +3542,12 @@ a {
         item_description: itemDescription,
         pricing_tier: pricingTier,
         designer_notes: notes,
+        item_ownership: itemOwnership,
+        item_value_type: itemValueType,
+        item_estimated_value: itemEstimatedValue,
+        waiver_accepted: waiverAccepted,
+        waiver_accepted_at: waiverAccepted ? new Date().toISOString() : null,
+        date_needed: dateNeeded,
         form_completed: true,
         needs_pickup_notification: !!phone,
         status: 'Form Received',
@@ -3345,8 +3555,8 @@ a {
         updated_at: new Date().toISOString()
       };
       
-      // If there's a photo, upload it to Supabase storage
-      if (engravingPhotoData && engravingPhotoFile) {
+      // If there are photos, upload them to Supabase storage
+      if (engravingPhotoDataList.length > 0) {
         formData.has_engraving_photo = true;
       }
       
@@ -3400,25 +3610,31 @@ a {
         
         console.log('✅ Order saved:', savedOrderId);
         
-        // Upload engraving photo to storage
-        if (engravingPhotoFile && savedOrderId) {
+        // Upload engraving photo(s) to storage
+        if (engravingPhotoFiles.length > 0 && savedOrderId) {
           try {
-            submitBtn.textContent = 'Uploading photo...';
-            const ext = engravingPhotoFile.name.split('.').pop().toLowerCase() || 'jpg';
-            const storagePath = `instore/${savedOrderId}/engraving_photo.${ext}`;
-            
-            await fetch(`${SUPABASE_URL}/storage/v1/object/photobook-uploads/${storagePath}`, {
-              method: 'POST',
-              headers: {
-                'apikey': SUPABASE_ANON_KEY,
-                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                'Content-Type': engravingPhotoFile.type || 'image/jpeg'
-              },
-              body: engravingPhotoFile
-            });
-            
-            // Save photo URL back to order record
-            const photoUrl = `${SUPABASE_URL}/storage/v1/object/public/photobook-uploads/${storagePath}`;
+            submitBtn.textContent = 'Uploading photo(s)...';
+            const photoUrls = [];
+
+            for (let i = 0; i < engravingPhotoFiles.length; i++) {
+              const f = engravingPhotoFiles[i];
+              const ext = f.name.split('.').pop().toLowerCase() || 'jpg';
+              const storagePath = `instore/${savedOrderId}/engraving_photo_${i + 1}.${ext}`;
+
+              await fetch(`${SUPABASE_URL}/storage/v1/object/photobook-uploads/${storagePath}`, {
+                method: 'POST',
+                headers: {
+                  'apikey': SUPABASE_ANON_KEY,
+                  'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                  'Content-Type': f.type || 'image/jpeg'
+                },
+                body: f
+              });
+
+              photoUrls.push(`${SUPABASE_URL}/storage/v1/object/public/photobook-uploads/${storagePath}`);
+            }
+
+            // Save photo URLs back to order record
             await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${savedOrderId}`, {
               method: 'PATCH',
               headers: {
@@ -3428,12 +3644,13 @@ a {
                 'Prefer': 'return=minimal'
               },
               body: JSON.stringify({ 
-                photo_url: photoUrl,
+                photo_url: photoUrls[0] || null,
+                photo_urls: photoUrls,
                 photo_uploaded: true,
-                photo_count: 1
+                photo_count: photoUrls.length
               })
             });
-            console.log('✅ Photo uploaded and URL saved to order');
+            console.log('✅ Photo(s) uploaded and URLs saved to order');
           } catch (photoErr) {
             console.warn('⚠️ Photo upload failed:', photoErr);
           }
@@ -3645,6 +3862,11 @@ a {
         alert('Please select an occasion.');
         return;
       }
+
+      if (!document.getElementById('recognitionDateNeeded')?.value) {
+        alert('Please select the date you need this by.');
+        return;
+      }
       
       // Populate preview
       const awardNames = { slate: 'Legacy Slate ($65)', wood: 'Live Edge Wood ($95)', medallion: 'Metal Medallion ($45)' };
@@ -3668,6 +3890,11 @@ a {
     }
 
     async function submitRecognitionForm() {
+      if (!document.getElementById('recognitionDateNeeded')?.value) {
+        alert('Please select the date you need this by.');
+        return;
+      }
+
       const submitBtn = document.querySelector('.btn-submit');
       submitBtn.disabled = true;
       submitBtn.textContent = 'Submitting...';
@@ -3685,6 +3912,7 @@ a {
         organization: document.getElementById('recognitionOrg').value || null,
         location: document.getElementById('recognitionLocation').value || null,
         display_date: document.getElementById('recognitionDate').value || null,
+        date_needed: document.getElementById('recognitionDateNeeded')?.value || null,
         designer_notes: document.getElementById('recognitionNotes').value || null,
         has_logo: recognitionLogoFile !== null,
         has_roster: recognitionRosterFile !== null,
