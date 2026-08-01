@@ -2661,24 +2661,36 @@ a {
 
         if (submitBtn) submitBtn.textContent = 'Uploading photos...';
 
+        const pbFailedUploads = [];
         for (let i = 0; i < photobookPhotos.length; i++) {
           const photo = photobookPhotos[i];
           const ext = photo.name.split('.').pop().toLowerCase() || 'jpg';
           const storagePath = `photobook/${orderId}/photo_${i + 1}.${ext}`;
 
           try {
-            await fetch(`${SUPABASE_URL}/storage/v1/object/photobook-uploads/${storagePath}`, {
+            const uploadRes = await fetch(`${SUPABASE_URL}/storage/v1/object/photobook-uploads/${storagePath}`, {
               method: 'POST',
               headers: {
                 'apikey': SUPABASE_ANON_KEY,
                 'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                'Content-Type': photo.file.type || 'image/jpeg'
+                'Content-Type': photo.file.type || 'image/jpeg',
+                'x-upsert': 'true'
               },
               body: photo.file
             });
+            if (!uploadRes.ok) {
+              const errText = await uploadRes.text();
+              console.error(`❌ Photo ${i+1} upload failed (${uploadRes.status}):`, errText);
+              pbFailedUploads.push(photo.name);
+            }
           } catch (uploadErr) {
             console.warn(`⚠️ Photo ${i+1} upload failed:`, uploadErr);
+            pbFailedUploads.push(photo.name);
           }
+        }
+
+        if (pbFailedUploads.length > 0) {
+          alert(`Heads up: ${pbFailedUploads.length} of your photos didn't upload successfully. Your order was still submitted — please contact us or try re-uploading those photos so we don't miss them.`);
         }
 
         // Send confirmation email
@@ -3080,23 +3092,31 @@ a {
             console.log(`📸 Uploading ${uploadedImageFiles.length} photo(s) to storage...`);
             const savedOrderId = orderRecord.order_id || orderId;
             const photoUrls = [];
+            const failedUploads = [];
 
             for (let i = 0; i < uploadedImageFiles.length; i++) {
               const f = uploadedImageFiles[i];
               const ext = f.name.split('.').pop().toLowerCase() || 'jpg';
               const storagePath = `instore/${savedOrderId}/keepsake_photo_${i + 1}.${ext}`;
 
-              await fetch(`${SUPABASE_URL}/storage/v1/object/photobook-uploads/${storagePath}`, {
+              const uploadRes = await fetch(`${SUPABASE_URL}/storage/v1/object/photobook-uploads/${storagePath}`, {
                 method: 'POST',
                 headers: {
                   'apikey': SUPABASE_ANON_KEY,
                   'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                  'Content-Type': f.type || 'image/jpeg'
+                  'Content-Type': f.type || 'image/jpeg',
+                  'x-upsert': 'true'
                 },
                 body: f
               });
 
-              photoUrls.push(`${SUPABASE_URL}/storage/v1/object/public/photobook-uploads/${storagePath}`);
+              if (uploadRes.ok) {
+                photoUrls.push(`${SUPABASE_URL}/storage/v1/object/public/photobook-uploads/${storagePath}`);
+              } else {
+                const errText = await uploadRes.text();
+                console.error(`❌ Photo ${i + 1} upload failed (${uploadRes.status}):`, errText);
+                failedUploads.push(f.name);
+              }
             }
 
             // Save photo URLs back to order record (photo_url kept for backward compatibility)
@@ -3111,10 +3131,15 @@ a {
               body: JSON.stringify({ 
                 photo_url: photoUrls[0] || null,
                 photo_urls: photoUrls,
-                photo_uploaded: true,
-                photo_count: photoUrls.length
+                photo_uploaded: photoUrls.length > 0,
+                photo_count: photoUrls.length,
+                photo_upload_failed_count: failedUploads.length
               })
             });
+
+            if (failedUploads.length > 0) {
+              alert(`Heads up: ${failedUploads.length} photo(s) didn't upload successfully. Your order was still submitted — please contact us or try re-uploading the photo(s) so we don't miss them.`);
+            }
             console.log('✅ Photo(s) uploaded and URLs saved to order');
           } catch (photoErr) {
             console.warn('⚠️ Photo upload failed:', photoErr);
@@ -3615,26 +3640,34 @@ a {
           try {
             submitBtn.textContent = 'Uploading photo(s)...';
             const photoUrls = [];
+            const failedUploads = [];
 
             for (let i = 0; i < engravingPhotoFiles.length; i++) {
               const f = engravingPhotoFiles[i];
               const ext = f.name.split('.').pop().toLowerCase() || 'jpg';
               const storagePath = `instore/${savedOrderId}/engraving_photo_${i + 1}.${ext}`;
 
-              await fetch(`${SUPABASE_URL}/storage/v1/object/photobook-uploads/${storagePath}`, {
+              const uploadRes = await fetch(`${SUPABASE_URL}/storage/v1/object/photobook-uploads/${storagePath}`, {
                 method: 'POST',
                 headers: {
                   'apikey': SUPABASE_ANON_KEY,
                   'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                  'Content-Type': f.type || 'image/jpeg'
+                  'Content-Type': f.type || 'image/jpeg',
+                  'x-upsert': 'true'
                 },
                 body: f
               });
 
-              photoUrls.push(`${SUPABASE_URL}/storage/v1/object/public/photobook-uploads/${storagePath}`);
+              if (uploadRes.ok) {
+                photoUrls.push(`${SUPABASE_URL}/storage/v1/object/public/photobook-uploads/${storagePath}`);
+              } else {
+                const errText = await uploadRes.text();
+                console.error(`❌ Photo ${i + 1} upload failed (${uploadRes.status}):`, errText);
+                failedUploads.push(f.name);
+              }
             }
 
-            // Save photo URLs back to order record
+            // Save photo URLs back to order record (only marks uploaded=true if something actually succeeded)
             await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${savedOrderId}`, {
               method: 'PATCH',
               headers: {
@@ -3646,10 +3679,15 @@ a {
               body: JSON.stringify({ 
                 photo_url: photoUrls[0] || null,
                 photo_urls: photoUrls,
-                photo_uploaded: true,
-                photo_count: photoUrls.length
+                photo_uploaded: photoUrls.length > 0,
+                photo_count: photoUrls.length,
+                photo_upload_failed_count: failedUploads.length
               })
             });
+
+            if (failedUploads.length > 0) {
+              alert(`Heads up: ${failedUploads.length} photo(s) didn't upload successfully. Your order was still submitted — please contact us or try re-uploading the photo(s) so we don't miss them.`);
+            }
             console.log('✅ Photo(s) uploaded and URLs saved to order');
           } catch (photoErr) {
             console.warn('⚠️ Photo upload failed:', photoErr);
