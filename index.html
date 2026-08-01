@@ -3717,10 +3717,22 @@ a {
         if (orderRecord && (orderRecord.order_id || savedOrderId)) {
           try {
             console.log('📧 Sending confirmation email...');
+            // Build email record from FORM DATA to ensure all fields are present
             const emailRecord = {
-              ...orderRecord,
-              order_id: savedOrderId || orderRecord.order_id
+              order_id: savedOrderId || orderRecord.order_id,
+              customer_name: name,
+              customer_email: email,
+              customer_phone: phone,
+              project_type: 'instore',
+              product_type: 'In-Store Personalization',
+              engraving_type: selectedEngravingType,
+              engraving_text: engravingText,
+              item_description: itemDescription,
+              pricing_tier: pricingTier,
+              status: 'Form Received',
+              portal_pin: orderRecord.portal_pin || null
             };
+            console.log('📧 Email record:', JSON.stringify(emailRecord));
             const emailResponse = await fetch(`${SUPABASE_URL}/functions/v1/send-confirmation-email`, {
               method: 'POST',
               headers: {
