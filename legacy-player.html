@@ -371,9 +371,6 @@
       // Show dedication if present
       if (dedication && dedication.trim()) {
         document.getElementById('dedicationText').textContent = dedication;
-        if (customerName) {
-          document.getElementById('dedicationFrom').textContent = '— With love, ' + customerName;
-        }
         document.getElementById('dedicationCard').style.display = 'block';
       }
 
