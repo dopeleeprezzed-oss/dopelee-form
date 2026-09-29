@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aaron's 60th Birthday | Photo Upload</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: #0a0a0a;
+  color: #f5f5f0;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+.hero {
+  text-align: center;
+  padding: 3rem 1.5rem 2rem;
+  background: linear-gradient(180deg, rgba(180,20,20,0.15) 0%, rgba(10,10,10,0) 100%);
+}
+
+.hero-badge {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #cc2020;
+  border: 1px solid rgba(204,32,32,0.3);
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.hero h1 span { color: #cc2020; }
+
+.hero p {
+  font-size: 15px;
+  color: rgba(245,245,240,0.6);
+  margin-top: 0.5rem;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 2rem;
+  margin: 0.5rem 0 1.5rem;
+}
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  height: 0.5px;
+  background: rgba(204,32,32,0.3);
+}
+.divider span {
+  font-size: 18px;
+  color: #cc2020;
+}
+
+.upload-area {
+  padding: 0 1.5rem 2rem;
+}
+
+.upload-box {
+  border: 2px dashed rgba(204,32,32,0.3);
+  border-radius: 16px;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.upload-box:hover, .upload-box.dragover {
+  border-color: #cc2020;
+  background: rgba(204,32,32,0.05);
+}
+
+.upload-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(204,32,32,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+
+.upload-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: #cc2020;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.upload-box h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.upload-box p {
+  font-size: 13px;
+  color: rgba(245,245,240,0.5);
+}
+
+.upload-btn {
+  display: inline-block;
+  margin-top: 1.25rem;
+  padding: 12px 32px;
+  background: #cc2020;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+.upload-btn:active { transform: scale(0.97); }
+.upload-btn:hover { background: #a81818; }
+
+input[type="file"] { display: none; }
+
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 1.5rem;
+}
+
+.preview-item {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #1a1a1a;
+}
+
+.preview-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.preview-item .remove-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.7);
+  border: none;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-progress {
+  margin-top: 1.5rem;
+  display: none;
+}
+
+.progress-bar {
+  height: 4px;
+  background: rgba(204,32,32,0.2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #cc2020;
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.3s;
+}
+
+.progress-text {
+  font-size: 13px;
+  color: rgba(245,245,240,0.6);
+  margin-top: 8px;
+  text-align: center;
+}
+
+.submit-section {
+  padding: 0 1.5rem 1.5rem;
+  display: none;
+}
+
+.guest-input {
+  width: 100%;
+  padding: 14px 16px;
+  background: #1a1a1a;
+  border: 0.5px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: #f5f5f0;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 12px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.guest-input:focus { border-color: #cc2020; }
+.guest-input::placeholder { color: rgba(245,245,240,0.3); }
+
+.submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: #cc2020;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: background 0.2s, transform 0.1s;
+}
+.submit-btn:active { transform: scale(0.98); }
+.submit-btn:hover { background: #a81818; }
+.submit-btn:disabled { background: #333; color: #666; cursor: not-allowed; }
+
+.success-screen {
+  display: none;
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.success-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(204,32,32,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+}
+
+.success-icon svg {
+  width: 32px;
+  height: 32px;
+  stroke: #cc2020;
+  fill: none;
+  stroke-width: 2.5;
+}
+
+.success-screen h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  margin-bottom: 0.75rem;
+}
+
+.success-screen p {
+  font-size: 15px;
+  color: rgba(245,245,240,0.6);
+  line-height: 1.6;
+}
+
+.success-screen .upload-more {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 12px 28px;
+  border: 1px solid rgba(204,32,32,0.4);
+  border-radius: 8px;
+  color: #cc2020;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  background: transparent;
+  font-family: 'Inter', sans-serif;
+  transition: background 0.2s;
+}
+.success-screen .upload-more:hover { background: rgba(204,32,32,0.08); }
+
+.footer {
+  text-align: center;
+  padding: 2rem 1.5rem 3rem;
+  border-top: 0.5px solid rgba(255,255,255,0.06);
+  margin-top: 1rem;
+}
+
+.footer p {
+  font-size: 12px;
+  color: rgba(245,245,240,0.3);
+  line-height: 1.6;
+}
+
+.footer .brand {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(245,245,240,0.2);
+  margin-top: 1rem;
+}
+
+.photo-count {
+  text-align: center;
+  font-size: 13px;
+  color: rgba(245,245,240,0.5);
+  margin-top: 1rem;
+  display: none;
+}
+</style>
+</head>
+<body>
+
+<div id="mainScreen">
+  <div class="hero">
+    <div class="hero-badge">October 3, 2026</div>
+    <h1><span>Aaron's</span> 60th Birthday</h1>
+    <p>Dominoes or Spades</p>
+  </div>
+
+  <div class="divider"><span>&#9824;</span></div>
+
+  <div class="upload-area">
+    <div class="upload-box" id="uploadBox" onclick="document.getElementById('fileInput').click()">
+      <div class="upload-icon">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      </div>
+      <h3>Share your moments</h3>
+      <p>Tap to select photos or take a new one</p>
+      <button class="upload-btn">Choose photos</button>
+      <input type="file" id="fileInput" accept="image/*" multiple capture="environment">
+    </div>
+
+    <div class="preview-grid" id="previewGrid"></div>
+    <div class="photo-count" id="photoCount"></div>
+
+    <div class="upload-progress" id="uploadProgress">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <p class="progress-text" id="progressText">Uploading...</p>
+    </div>
+  </div>
+
+  <div class="submit-section" id="submitSection">
+    <input type="text" class="guest-input" id="guestName" placeholder="Your name (optional)">
+    <button class="submit-btn" id="submitBtn" onclick="uploadPhotos()">Upload photos</button>
+  </div>
+</div>
+
+<div class="success-screen" id="successScreen">
+  <div class="success-icon">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+  <h2>Photos uploaded!</h2>
+  <p>Thank you for capturing the moment. Aaron's going to love these.</p>
+  <button class="upload-more" onclick="resetUploader()">Upload more photos</button>
+</div>
+
+<div class="footer">
+  <p>All photos are securely stored and will be shared with the family after the celebration.</p>
+  <div class="brand">Powered by Dopelee Prezzed by S</div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://dyehxtiozfwlexkbalvn.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs';
+const STORAGE_BUCKET = 'aarons-60th-party-photos';
+const FOLDER = 'uploads';
+
+let selectedFiles = [];
+
+const fileInput = document.getElementById('fileInput');
+const previewGrid = document.getElementById('previewGrid');
+const photoCount = document.getElementById('photoCount');
+const submitSection = document.getElementById('submitSection');
+const uploadBox = document.getElementById('uploadBox');
+
+// Drag and drop
+uploadBox.addEventListener('dragover', (e) => { e.preventDefault(); uploadBox.classList.add('dragover'); });
+uploadBox.addEventListener('dragleave', () => uploadBox.classList.remove('dragover'));
+uploadBox.addEventListener('drop', (e) => {
+  e.preventDefault();
+  uploadBox.classList.remove('dragover');
+  handleFiles(e.dataTransfer.files);
+});
+
+fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+function handleFiles(files) {
+  for (let f of files) {
+    if (f.type.startsWith('image/') && selectedFiles.length < 20) {
+      selectedFiles.push(f);
+    }
+  }
+  renderPreviews();
+  fileInput.value = '';
+}
+
+function renderPreviews() {
+  previewGrid.innerHTML = '';
+  selectedFiles.forEach((file, i) => {
+    const div = document.createElement('div');
+    div.className = 'preview-item';
+    const img = document.createElement('img');
+    img.src = URL.createObjectURL(file);
+    const btn = document.createElement('button');
+    btn.className = 'remove-btn';
+    btn.textContent = '\u00d7';
+    btn.onclick = (e) => { e.stopPropagation(); selectedFiles.splice(i, 1); renderPreviews(); };
+    div.appendChild(img);
+    div.appendChild(btn);
+    previewGrid.appendChild(div);
+  });
+
+  if (selectedFiles.length > 0) {
+    submitSection.style.display = 'block';
+    photoCount.style.display = 'block';
+    photoCount.textContent = selectedFiles.length + (selectedFiles.length === 1 ? ' photo selected' : ' photos selected');
+  } else {
+    submitSection.style.display = 'none';
+    photoCount.style.display = 'none';
+  }
+}
+
+async function uploadPhotos() {
+  const btn = document.getElementById('submitBtn');
+  const progress = document.getElementById('uploadProgress');
+  const progressFill = document.getElementById('progressFill');
+  const progressText = document.getElementById('progressText');
+  const guestName = document.getElementById('guestName').value.trim() || 'Guest';
+
+  btn.disabled = true;
+  btn.textContent = 'Uploading...';
+  progress.style.display = 'block';
+
+  let uploaded = 0;
+  const total = selectedFiles.length;
+
+  for (let file of selectedFiles) {
+    const timestamp = Date.now();
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const filePath = `${FOLDER}/${guestName.replace(/[^a-zA-Z0-9]/g, '_')}_${timestamp}_${safeName}`;
+
+    try {
+      const response = await fetch(`${SUPABASE_URL}/storage/v1/object/${STORAGE_BUCKET}/${filePath}`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': file.type,
+          'x-upsert': 'true'
+        },
+        body: file
+      });
+
+      if (response.ok) {
+        uploaded++;
+        const pct = Math.round((uploaded / total) * 100);
+        progressFill.style.width = pct + '%';
+        progressText.textContent = `Uploaded ${uploaded} of ${total}`;
+      }
+    } catch (err) {
+      console.error('Upload error:', err);
+    }
+  }
+
+  if (uploaded > 0) {
+    document.getElementById('mainScreen').style.display = 'none';
+    document.getElementById('successScreen').style.display = 'block';
+  } else {
+    btn.disabled = false;
+    btn.textContent = 'Upload photos';
+    progressText.textContent = 'Upload failed. Please try again.';
+    progressText.style.color = '#cc2020';
+  }
+}
+
+function resetUploader() {
+  selectedFiles = [];
+  previewGrid.innerHTML = '';
+  photoCount.style.display = 'none';
+  submitSection.style.display = 'none';
+  document.getElementById('uploadProgress').style.display = 'none';
+  document.getElementById('progressFill').style.width = '0%';
+  document.getElementById('submitBtn').disabled = false;
+  document.getElementById('submitBtn').textContent = 'Upload photos';
+  document.getElementById('guestName').value = '';
+  document.getElementById('mainScreen').style.display = 'block';
+  document.getElementById('successScreen').style.display = 'none';
+}
+</script>
+</body>
+</html>
