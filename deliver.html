@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Your Creation is Ready | Dopelee Prezzed by S</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #c8a45a;
+  --gold-light: #d4b76a;
+  --gold-dim: rgba(200,164,90,0.12);
+  --gold-border: rgba(200,164,90,0.25);
+  --black: #0a0a0a;
+  --card-bg: #111111;
+  --white: #f5f5f0;
+  --white-70: rgba(245,245,240,0.7);
+  --white-50: rgba(245,245,240,0.5);
+  --white-30: rgba(245,245,240,0.3);
+  --white-10: rgba(245,245,240,0.1);
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--black);
+  color: var(--white);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at 50% 0%, rgba(200,164,90,0.06) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Loading */
+.loading {
+  position: fixed;
+  inset: 0;
+  background: var(--black);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  transition: opacity 0.6s;
+}
+.loading.hide { opacity: 0; pointer-events: none; }
+.loading-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  color: var(--gold);
+  animation: pulse 1.5s ease infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* Error */
+.error-screen {
+  display: none;
+  text-align: center;
+  padding: 5rem 2rem;
+}
+.error-screen.show { display: block; }
+.error-screen h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+.error-screen p {
+  font-size: 14px;
+  color: var(--white-50);
+  line-height: 1.7;
+}
+.error-screen a {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+/* Main content */
+.delivery-content { display: none; }
+.delivery-content.show { display: block; }
+
+/* Top brand */
+.top-brand {
+  text-align: center;
+  padding: 3rem 0 1rem;
+}
+.brand-mark {
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+/* Decorative line */
+.gold-line {
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+  margin: 1.5rem auto;
+}
+
+/* Greeting */
+.greeting {
+  text-align: center;
+  padding: 1rem 0 2rem;
+}
+
+.greeting-for {
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white-30);
+  margin-bottom: 12px;
+}
+
+.greeting-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 42px;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.greeting-headline {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 20px;
+  color: var(--gold);
+}
+
+/* Product card */
+.product-card {
+  background: var(--card-bg);
+  border: 0.5px solid var(--gold-border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.product-image {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+  border-bottom: 0.5px solid var(--gold-border);
+}
+
+.product-image.hide { display: none; }
+
+.product-info {
+  padding: 1.5rem;
+}
+
+.product-label {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.product-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.3;
+  margin-bottom: 12px;
+}
+
+.product-desc {
+  font-size: 14px;
+  color: var(--white-50);
+  line-height: 1.7;
+}
+
+/* Personal message */
+.message-section {
+  padding: 1.5rem;
+  margin: 0 0 2rem;
+  border-left: 2px solid var(--gold);
+  display: none;
+}
+.message-section.show { display: block; }
+
+.message-label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.message-text {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--white-70);
+  line-height: 1.8;
+}
+
+/* Download button */
+.download-section {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 40px;
+  background: var(--gold);
+  color: var(--black);
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+.download-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+.download-btn:active { transform: translateY(0); }
+
+.download-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--black);
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.download-note {
+  font-size: 12px;
+  color: var(--white-30);
+  margin-top: 12px;
+}
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 2rem 0;
+}
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  height: 0.5px;
+  background: linear-gradient(90deg, transparent, var(--gold-border), transparent);
+}
+.divider span {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--gold);
+}
+
+/* Thank you section */
+.thank-you {
+  text-align: center;
+  padding: 1rem 0 2rem;
+}
+
+.ty-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+
+.ty-sub {
+  font-size: 14px;
+  color: var(--white-50);
+  line-height: 1.7;
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+/* Info rows */
+.info-section {
+  margin: 1.5rem 0 2rem;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 0.5px solid var(--white-10);
+  font-size: 13px;
+}
+.info-label { color: var(--white-30); }
+.info-value { color: var(--white); font-weight: 500; text-align: right; }
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 2rem 0 3rem;
+  border-top: 0.5px solid var(--white-10);
+}
+
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  color: var(--gold);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.footer-tagline {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--white-30);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.footer-links a {
+  font-size: 12px;
+  color: var(--gold);
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+.footer-links a:hover { color: var(--gold-light); }
+
+/* Downloaded state */
+.downloaded-badge {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px;
+  background: var(--gold-dim);
+  border: 0.5px solid var(--gold-border);
+  border-radius: 8px;
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--gold);
+  font-weight: 500;
+}
+.downloaded-badge.show { display: flex; }
+</style>
+</head>
+<body>
+
+<div class="loading" id="loadingScreen">
+  <div class="loading-text">Preparing your delivery…</div>
+</div>
+
+<div class="container">
+
+  <div class="error-screen" id="errorScreen">
+    <h2>Delivery Not Found</h2>
+    <p>This link may be invalid or expired.<br>Contact us at <a href="tel:8165301520">816-530-1520</a> for help.</p>
+  </div>
+
+  <div class="delivery-content" id="deliveryContent">
+
+    <div class="top-brand">
+      <div class="brand-mark">Dopelee Prezzed by S</div>
+    </div>
+
+    <div class="gold-line"></div>
+
+    <div class="greeting">
+      <div class="greeting-for">Prepared For</div>
+      <div class="greeting-name" id="customerName"></div>
+      <div class="greeting-headline">Your creation is ready.</div>
+    </div>
+
+    <div class="product-card">
+      <img class="product-image hide" id="productImage" alt="Your creation">
+      <div class="product-info">
+        <div class="product-label">Your Order</div>
+        <div class="product-title" id="productTitle"></div>
+        <div class="product-desc" id="productDesc"></div>
+      </div>
+    </div>
+
+    <div class="message-section" id="messageSection">
+      <div class="message-label">A Note For You</div>
+      <div class="message-text" id="messageText"></div>
+    </div>
+
+    <div class="download-section">
+      <a class="download-btn" id="downloadBtn" href="#" download>
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Your Creation
+      </a>
+      <div class="download-note">Your file is ready for download. Tap the button above.</div>
+      <div class="downloaded-badge" id="downloadedBadge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Downloaded
+      </div>
+    </div>
+
+    <div class="divider"><span>THANK YOU</span></div>
+
+    <div class="thank-you">
+      <div class="ty-text">We appreciate your trust.</div>
+      <div class="ty-sub">Every piece we create is made with intention. Thank you for letting us be part of your story.</div>
+    </div>
+
+    <div class="info-section">
+      <div class="info-row">
+        <span class="info-label">Order</span>
+        <span class="info-value" id="orderNumber"></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Delivered</span>
+        <span class="info-value" id="deliveryDate"></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Type</span>
+        <span class="info-value">Digital Delivery</span>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-logo">Dopelee Prezzed by S</div>
+      <div class="footer-tagline">Where Memories Become Legacy</div>
+      <div class="footer-links">
+        <a href="https://www.dopeleeprezzedbys.com">Website</a>
+        <a href="tel:8165301520">Contact</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://dyehxtiozfwlexkbalvn.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs';
+
+const params = new URLSearchParams(window.location.search);
+const orderId = params.get('order');
+
+async function loadDelivery() {
+  if (!orderId) {
+    showError();
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderId}&select=customer_name,product_type,item_description,digital_file_url,delivery_message,photo_url,created_at,external_order_number`, {
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`
+      }
+    });
+
+    const data = await response.json();
+
+    if (!data || data.length === 0 || !data[0].digital_file_url) {
+      showError();
+      return;
+    }
+
+    const order = data[0];
+
+    // Populate the page
+    document.getElementById('customerName').textContent = order.customer_name || 'Valued Customer';
+    document.getElementById('productTitle').textContent = order.product_type || 'Custom Creation';
+    document.getElementById('productDesc').textContent = order.item_description || 'A one-of-a-kind piece, handcrafted just for you.';
+
+    // Product image/preview
+    if (order.photo_url) {
+      const img = document.getElementById('productImage');
+      img.src = order.photo_url;
+      img.classList.remove('hide');
+    }
+
+    // Personal message
+    if (order.delivery_message) {
+      document.getElementById('messageText').textContent = order.delivery_message;
+      document.getElementById('messageSection').classList.add('show');
+    }
+
+    // Download button
+    document.getElementById('downloadBtn').href = order.digital_file_url;
+
+    // Order info
+    document.getElementById('orderNumber').textContent = order.external_order_number ? '#' + order.external_order_number.slice(-8).toUpperCase() : '—';
+    
+    const today = new Date();
+    document.getElementById('deliveryDate').textContent = today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+    // Show content
+    document.getElementById('deliveryContent').classList.add('show');
+
+    // Track download click
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      document.getElementById('downloadedBadge').classList.add('show');
+
+      // Mark as delivered in Supabase
+      fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderId}`, {
+        method: 'PATCH',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          send_delivery: true,
+          delivery_sent_at: new Date().toISOString(),
+          status: 'Delivered'
+        })
+      });
+    });
+
+  } catch (err) {
+    console.error('Delivery load error:', err);
+    showError();
+  }
+}
+
+function showError() {
+  document.getElementById('loadingScreen').classList.add('hide');
+  document.getElementById('errorScreen').classList.add('show');
+}
+
+window.addEventListener('DOMContentLoaded', async () => {
+  await loadDelivery();
+  setTimeout(() => {
+    document.getElementById('loadingScreen').classList.add('hide');
+  }, 1800);
+});
+</script>
+</body>
+</html>
