@@ -246,7 +246,13 @@ async function loadGallery() {
     var photoCount = document.getElementById('photoCount');
 
     var images = files.filter(function(f) {
-      return f.name && !f.name.startsWith('.') && f.metadata && f.metadata.mimetype && f.metadata.mimetype.startsWith('image/');
+      if (!f.name || f.name.startsWith('.') || f.id === null) return false;
+      var ext = f.name.split('.').pop().toLowerCase();
+      var imgExts = ['jpg','jpeg','png','gif','webp','heic','heif','bmp','tiff'];
+      if (f.metadata && f.metadata.mimetype) {
+        return f.metadata.mimetype.startsWith('image/');
+      }
+      return imgExts.indexOf(ext) !== -1;
     });
 
     loading.style.display = 'none';
