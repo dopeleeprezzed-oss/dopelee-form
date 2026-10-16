@@ -230,14 +230,11 @@ const BUCKET = 'aarons-60th-party-photos';
 
 async function loadGallery() {
   try {
-    const response = await fetch(SUPABASE_URL + '/storage/v1/object/list/' + BUCKET + '/uploads', {
-      method: 'POST',
+    const response = await fetch(SUPABASE_URL + '/rest/v1/storage/objects?bucket_id=eq.' + BUCKET + '&name=like.uploads%2F*&order=created_at.desc&limit=200', {
       headers: {
         'apikey': SUPABASE_KEY,
-        'Authorization': 'Bearer ' + SUPABASE_KEY,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ prefix: '', limit: 200, offset: 0, sortBy: { column: 'created_at', order: 'desc' } })
+        'Authorization': 'Bearer ' + SUPABASE_KEY
+      }
     });
 
     if (!response.ok) {
@@ -252,12 +249,11 @@ async function loadGallery() {
     var photoCount = document.getElementById('photoCount');
 
     var images = files.filter(function(f) {
-      if (!f.name || f.name.startsWith('.') || f.id === null) return false;
-      var ext = f.name.split('.').pop().toLowerCase();
+      if (!f.name) return false;
+      var name = f.name.split('/').pop();
+      if (!name || name.startsWith('.')) return false;
+      var ext = name.split('.').pop().toLowerCase();
       var imgExts = ['jpg','jpeg','png','gif','webp','heic','heif','bmp','tiff'];
-      if (f.metadata && f.metadata.mimetype) {
-        return f.metadata.mimetype.startsWith('image/');
-      }
       return imgExts.indexOf(ext) !== -1;
     });
 
@@ -271,7 +267,7 @@ async function loadGallery() {
     photoCount.textContent = images.length + (images.length === 1 ? ' photo' : ' photos') + ' from the celebration';
 
     images.forEach(function(file, i) {
-      var url = SUPABASE_URL + '/storage/v1/object/public/' + BUCKET + '/uploads/' + encodeURIComponent(file.name);
+      var url = SUPABASE_URL + '/storage/v1/object/public/' + BUCKET + '/' + file.name;
 
       var item = document.createElement('div');
       item.className = 'gallery-item';
@@ -289,7 +285,7 @@ async function loadGallery() {
         e.stopPropagation();
         var a = document.createElement('a');
         a.href = url;
-        a.download = file.name;
+        a.download = file.name.split('/').pop();
         a.click();
       };
 
