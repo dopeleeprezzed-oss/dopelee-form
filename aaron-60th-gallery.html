@@ -240,7 +240,13 @@ async function loadGallery() {
       body: JSON.stringify({ prefix: '', limit: 200, offset: 0, sortBy: { column: 'created_at', order: 'desc' } })
     });
 
+    if (!response.ok) {
+      var errText = await response.text();
+      document.getElementById('loading').textContent = 'API Error ' + response.status + ': ' + errText;
+      return;
+    }
     const files = await response.json();
+    console.log('Files returned:', JSON.stringify(files));
     var gallery = document.getElementById('gallery');
     var loading = document.getElementById('loading');
     var photoCount = document.getElementById('photoCount');
@@ -294,7 +300,7 @@ async function loadGallery() {
 
   } catch (err) {
     console.error('Gallery load error:', err);
-    document.getElementById('loading').textContent = 'Unable to load photos. Please try again later.';
+    document.getElementById('loading').textContent = 'Error: ' + err.message;
   }
 }
 
