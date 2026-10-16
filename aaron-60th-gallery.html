@@ -230,8 +230,7 @@ const BUCKET = 'aarons-60th-party-photos';
 
 async function loadGallery() {
   try {
-    const FOLDER = 'uploads/Aaron\'s 60th photos';
-    const response = await fetch(SUPABASE_URL + '/storage/v1/object/list/' + BUCKET + '/' + encodeURIComponent(FOLDER), {
+    const response = await fetch(SUPABASE_URL + '/storage/v1/object/list/' + BUCKET + '/uploads', {
       method: 'POST',
       headers: {
         'apikey': SUPABASE_KEY,
@@ -260,7 +259,7 @@ async function loadGallery() {
     photoCount.textContent = images.length + (images.length === 1 ? ' photo' : ' photos') + ' from the celebration';
 
     images.forEach(function(file, i) {
-      var url = SUPABASE_URL + '/storage/v1/object/public/' + BUCKET + '/' + encodeURIComponent(FOLDER) + '/' + encodeURIComponent(file.name);
+      var url = SUPABASE_URL + '/storage/v1/object/public/' + BUCKET + '/uploads/' + encodeURIComponent(file.name);
 
       var item = document.createElement('div');
       item.className = 'gallery-item';
