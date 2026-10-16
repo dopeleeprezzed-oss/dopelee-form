@@ -230,15 +230,14 @@ const BUCKET = 'aarons-60th-party-photos';
 
 async function loadGallery() {
   try {
-    const FOLDER = 'uploads/Aaron\'s 60th photos';
-    const response = await fetch(SUPABASE_URL + '/storage/v1/object/list/' + BUCKET + '/' + encodeURIComponent(FOLDER), {
+    const response = await fetch(SUPABASE_URL + '/storage/v1/object/list/' + BUCKET + '/uploads', {
       method: 'POST',
       headers: {
         'apikey': SUPABASE_KEY,
         'Authorization': 'Bearer ' + SUPABASE_KEY,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ prefix: '', limit: 200, offset: 0, sortBy: { column: 'created_at', order: 'desc' } })
+      body: JSON.stringify({ prefix: "Aaron's 60th photos/", limit: 200, offset: 0, sortBy: { column: 'created_at', order: 'desc' } })
     });
 
     const files = await response.json();
@@ -260,7 +259,7 @@ async function loadGallery() {
     photoCount.textContent = images.length + (images.length === 1 ? ' photo' : ' photos') + ' from the celebration';
 
     images.forEach(function(file, i) {
-      var url = SUPABASE_URL + '/storage/v1/object/public/' + BUCKET + '/' + encodeURIComponent(FOLDER) + '/' + encodeURIComponent(file.name);
+      var url = SUPABASE_URL + '/storage/v1/object/public/' + BUCKET + '/uploads/' + encodeURIComponent("Aaron's 60th photos") + '/' + encodeURIComponent(file.name);
 
       var item = document.createElement('div');
       item.className = 'gallery-item';
