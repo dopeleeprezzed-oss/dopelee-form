@@ -1001,7 +1001,6 @@ a {
           <option value="vip">VIP Bulk Gift</option>
           <option value="photobook">Photo Book Project</option>
           <option value="instore">In-Store Personalization</option>
-          <option value="recognition">Legacy Recognition Award</option>
           <option value="sounds">Sounds of Legacy</option>
         </select>
       </div>
@@ -1564,243 +1563,6 @@ a {
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- LEGACY RECOGNITION - STEP 1: QUANTITY -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <section id="stepRecognition" class="step">
-      <h2 class="step-title">🎖️ Legacy Recognition Award</h2>
-      <p class="step-description">Custom engraved awards for military, graduations & achievements.</p>
-
-      <!-- Award Type -->
-      <div class="form-group">
-        <label>Which award did you order? *</label>
-        <div class="options-grid">
-          <div class="option-card" onclick="selectAwardType('slate')">
-            <input type="radio" name="awardType" value="slate" />
-            <span>Legacy Slate ($65)</span>
-          </div>
-          <div class="option-card" onclick="selectAwardType('wood')">
-            <input type="radio" name="awardType" value="wood" />
-            <span>Live Edge Wood ($95)</span>
-          </div>
-          <div class="option-card" onclick="selectAwardType('medallion')">
-            <input type="radio" name="awardType" value="medallion" />
-            <span>Metal Medallion ($45)</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Quantity Selection -->
-      <div class="form-group">
-        <label>How many awards are you ordering? *</label>
-        <div class="options-grid">
-          <div class="option-card" onclick="selectRecognitionQty('manual')">
-            <input type="radio" name="recognitionQty" value="manual" />
-            <span>✍️ 1-5 Awards</span>
-            <small style="display:block;font-size:0.75rem;color:#c0b89a;margin-top:4px;">Enter details manually</small>
-          </div>
-          <div class="option-card" onclick="selectRecognitionQty('bulk')">
-            <input type="radio" name="recognitionQty" value="bulk" />
-            <span>📊 6+ Awards</span>
-            <small style="display:block;font-size:0.75rem;color:#c0b89a;margin-top:4px;">Upload a spreadsheet</small>
-          </div>
-        </div>
-      </div>
-
-      <div class="button-group">
-        <button class="btn btn-secondary" onclick="goToStep('step1')">Back</button>
-        <button class="btn btn-primary" onclick="validateRecognitionStep1()">Continue</button>
-      </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- LEGACY RECOGNITION - STEP 2: MANUAL ENTRY (1-5 recipients) -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <section id="stepRecognitionManual" class="step">
-      <h2 class="step-title">✍️ Recipient Details</h2>
-      <p class="step-description">Enter the details for each award recipient.</p>
-
-      <div id="recipientContainer">
-        <!-- Recipient cards added dynamically -->
-      </div>
-
-      <button class="add-recipient-btn" onclick="addRecipient()" id="addRecipientBtn" style="
-        width: 100%;
-        padding: 15px;
-        background: rgba(212, 175, 55, 0.1);
-        border: 2px dashed rgba(212, 175, 55, 0.4);
-        border-radius: 12px;
-        color: var(--accent-gold);
-        font-size: 1rem;
-        cursor: pointer;
-        margin-top: 15px;
-        transition: all 0.3s;
-      ">+ Add Another Recipient</button>
-
-      <div class="button-group">
-        <button class="btn btn-secondary" onclick="goToStep('stepRecognition')">Back</button>
-        <button class="btn btn-primary" onclick="goToRecognitionDesign()">Continue</button>
-      </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- LEGACY RECOGNITION - STEP 2B: BULK UPLOAD (6+ recipients) -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <section id="stepRecognitionBulk" class="step">
-      <h2 class="step-title">📊 Upload Roster</h2>
-      <p class="step-description">Download our template, fill in your recipients, and upload it here.</p>
-
-      <div style="text-align: center; margin-bottom: 25px;">
-        <a href="https://dopeleeprezzed-oss.github.io/dopelee-form/legacy-recognition-template.xlsx" download 
-           style="
-             display: inline-flex;
-             align-items: center;
-             gap: 8px;
-             padding: 14px 28px;
-             background: linear-gradient(135deg, var(--accent-gold), #c9a227);
-             color: #000;
-             text-decoration: none;
-             border-radius: 10px;
-             font-weight: 600;
-             transition: all 0.3s;
-           ">
-          ⬇️ Download Excel Template
-        </a>
-      </div>
-
-      <div class="form-group">
-        <label>Upload Your Completed Roster *</label>
-        <input id="rosterFile" type="file" accept=".xlsx,.xls,.csv" onchange="handleRosterUpload(event)" />
-        <div id="rosterFileName" class="helper-text">Accepts .xlsx, .xls, or .csv files</div>
-      </div>
-
-      <div class="form-group">
-        <label>How many recipients total? *</label>
-        <input id="bulkQuantity" type="number" min="6" placeholder="Enter number of recipients" />
-      </div>
-
-      <div class="button-group">
-        <button class="btn btn-secondary" onclick="goToStep('stepRecognition')">Back</button>
-        <button class="btn btn-primary" onclick="goToRecognitionDesign()">Continue</button>
-      </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- LEGACY RECOGNITION - STEP 3: DESIGN DETAILS -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <section id="stepRecognitionDesign" class="step">
-      <h2 class="step-title">🎨 Design Details</h2>
-      <p class="step-description">Tell us about the occasion and any custom elements.</p>
-
-      <div class="form-group">
-        <label>Occasion / Achievement *</label>
-        <select id="recognitionOccasion" style="width:100%;padding:14px;background:var(--bg-input);border:1px solid var(--border-soft);border-radius:10px;color:var(--text-main);font-size:1rem;">
-          <option value="">Select occasion...</option>
-          <option value="graduation">Graduation</option>
-          <option value="promotion">Promotion</option>
-          <option value="retirement">Retirement</option>
-          <option value="achievement">Achievement Award</option>
-          <option value="recognition">Service Recognition</option>
-          <option value="memorial">Memorial / Homegoing</option>
-          <option value="other">Other</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Organization / Unit Name</label>
-        <input id="recognitionOrg" type="text" placeholder="e.g., CGSC Class 2026, 101st Airborne" />
-      </div>
-
-      <div class="form-group">
-        <label>Location (if applicable)</label>
-        <input id="recognitionLocation" type="text" placeholder="e.g., Fort Leavenworth, Kansas" />
-      </div>
-
-      <div class="form-group">
-        <label>Date to Display</label>
-        <input id="recognitionDate" type="text" placeholder="e.g., May 2026" />
-        <p style="font-size:0.78rem;color:var(--text-dim);margin:5px 0 0;">This is the date engraved on the piece, not when you need it delivered.</p>
-      </div>
-
-      <div class="form-group">
-        <label>Date Needed By *</label>
-        <input id="recognitionDateNeeded" type="date" required style="cursor:pointer;" onclick="try{this.showPicker()}catch(e){this.focus()}" />
-        <p style="font-size:0.78rem;color:var(--text-dim);margin:5px 0 0;">Tap to open calendar</p>
-      </div>
-
-      <div class="form-group">
-        <label>Upload Logo / Insignia (optional)</label>
-        <input id="recognitionLogo" type="file" accept="image/*" onchange="handleRecognitionLogo(event)" />
-        <div id="logoFileName" class="helper-text">PNG or JPG, high resolution preferred</div>
-      </div>
-
-      <div class="form-group">
-        <label>Additional Notes or Custom Text</label>
-        <textarea id="recognitionNotes" placeholder="Any special requests, custom wording, or design notes..."></textarea>
-      </div>
-
-      <div class="button-group">
-        <button class="btn btn-secondary" onclick="goBackFromDesign()">Back</button>
-        <button class="btn btn-primary" onclick="goToRecognitionPreview()">Review Order</button>
-      </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- LEGACY RECOGNITION - STEP 4: PREVIEW -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <section id="stepRecognitionPreview" class="step">
-      <h2 class="step-title">✅ Review Your Order</h2>
-      <p class="step-description">Make sure everything looks correct before submitting.</p>
-
-      <div class="luxury-preview-card">
-        <div class="luxury-preview-header">
-          <h3>🎖️ Legacy Recognition Award</h3>
-          <p>Here's what we'll create</p>
-        </div>
-        
-        <div class="luxury-preview-body" style="display:block;">
-          <div class="preview-details">
-            <div class="preview-detail-row">
-              <span class="preview-detail-label">Award Type</span>
-              <span id="previewRecAward" class="preview-detail-value"></span>
-            </div>
-            
-            <div class="preview-detail-row">
-              <span class="preview-detail-label">Recipients</span>
-              <span id="previewRecRecipients" class="preview-detail-value"></span>
-            </div>
-            
-            <div class="preview-detail-row">
-              <span class="preview-detail-label">Occasion</span>
-              <span id="previewRecOccasion" class="preview-detail-value"></span>
-            </div>
-            
-            <div class="preview-detail-row">
-              <span class="preview-detail-label">Organization</span>
-              <span id="previewRecOrg" class="preview-detail-value"></span>
-            </div>
-            
-            <div class="preview-detail-row">
-              <span class="preview-detail-label">Location</span>
-              <span id="previewRecLocation" class="preview-detail-value"></span>
-            </div>
-            
-            <div class="preview-detail-row">
-              <span class="preview-detail-label">Date</span>
-              <span id="previewRecDate" class="preview-detail-value"></span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="luxury-preview-footer">
-          <div class="button-group" style="margin: 0; padding: 0; border: none;">
-            <button class="btn btn-edit" onclick="goToStep('stepRecognitionDesign')">Edit Details</button>
-            <button class="btn btn-submit" onclick="submitRecognitionForm()">✨ Submit Order</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- STEP 4: UPLOAD PHOTOS & DETAILS -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <section id="step4aUpload" class="step">
@@ -1978,6 +1740,29 @@ a {
       </div>
 
       <div class="form-group">
+        <label>Artist Preference *</label>
+        <p style="font-size:0.82rem;color:var(--text-dim);margin:-6px 0 10px;">What type of vocalist would you like for this song?</p>
+        <div class="options-grid">
+          <div class="option-card" onclick="selectArtistPref('male')">
+            <input type="radio" name="artistPref" value="male" />
+            <span>🎤 Male</span>
+          </div>
+          <div class="option-card" onclick="selectArtistPref('female')">
+            <input type="radio" name="artistPref" value="female" />
+            <span>🎤 Female</span>
+          </div>
+          <div class="option-card" onclick="selectArtistPref('duo')">
+            <input type="radio" name="artistPref" value="duo" />
+            <span>🎤 Duo</span>
+          </div>
+          <div class="option-card" onclick="selectArtistPref('no_preference')">
+            <input type="radio" name="artistPref" value="no_preference" />
+            <span>No Preference</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
         <label>Anything else about the mood or style?</label>
         <textarea id="soundsMoodNotes" rows="3" placeholder="e.g. Warm and emotional, upbeat and celebratory, military and patriotic..."></textarea>
       </div>
@@ -1989,44 +1774,22 @@ a {
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- SOUNDS OF LEGACY: STEP 4 — THEIR WORLD                        -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <section id="stepSoundsWorld" class="step">
-      <h2 class="step-title">Their World</h2>
-      <p class="step-description">Help us paint a full picture. The more you share, the more personal we can make the song and video.</p>
-
-      <div class="form-group">
-        <label>What are their hobbies and interests? *</label>
-        <textarea id="soundsHobbies" rows="3" placeholder="e.g. Loves fishing, gardening, cooking, sports, military history..."></textarea>
-      </div>
-
-      <div class="form-group">
-        <label>What do they love most?</label>
-        <textarea id="soundsLoves" rows="3" placeholder="e.g. Family, faith, the outdoors, butterflies, sunsets, patriotism..."></textarea>
-      </div>
-
-      <div class="form-group">
-        <label>Anything else we should know about them?</label>
-        <textarea id="soundsAbout" rows="3" placeholder="Share any memories, stories, or details that make them who they are..."></textarea>
-      </div>
-
-      <div style="display:flex;gap:12px;margin-top:24px;">
-        <button class="btn btn-secondary" onclick="goToStep('stepSoundsStory')">Back</button>
-        <button class="btn btn-primary" onclick="goToStep('stepSoundsContent')">Continue</button>
-      </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- SOUNDS OF LEGACY: STEP 5 — YOUR CONTENT                       -->
+    <!-- SOUNDS OF LEGACY: STEP 4 — YOUR WORDS & CONTENT               -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <section id="stepSoundsContent" class="step">
-      <h2 class="step-title">Your Content</h2>
-      <p class="step-description">Upload photos, videos, or voice notes — or type your words below. Use whatever you have.</p>
+      <h2 class="step-title">Your Words</h2>
+      <p class="step-description">This is the heart of your song. Tell us what you feel about this person and what you would love to hear in the music.</p>
+
+      <div class="form-group">
+        <label>What do you want this song to say? *</label>
+        <textarea id="soundsWords" rows="8" maxlength="1500" oninput="updateSoundsWordCount()" placeholder="Share what this person means to you. What memories, feelings, or moments do you want captured in this song? If you already have lyrics or specific lines in mind, include those too..."></textarea>
+        <div class="helper-text"><span id="soundsWordCount">0</span> / 1500 characters</div>
+      </div>
 
       <div class="form-group" id="soundsMediaUploadField">
         <label>Upload Photos and Videos (optional)</label>
         <input id="soundsMediaUpload" type="file" accept="image/*,video/*" multiple />
-        <div class="helper-text">Upload photos and videos of your loved one. The more you share the richer the video will be.</div>
+        <div class="helper-text">Photos and videos of your loved one help bring the song and video to life.</div>
       </div>
 
       <div class="form-group">
@@ -2035,14 +1798,8 @@ a {
         <div class="helper-text">A voice note of you or a loved one speaking can make the experience even more powerful.</div>
       </div>
 
-      <div class="form-group">
-        <label>Your Words (optional — up to 1500 characters)</label>
-        <textarea id="soundsWords" rows="6" placeholder="Type the words, memories, or story you want us to turn into a song. If you already have lyrics, paste them here..."></textarea>
-        <div class="helper-text"><span id="soundsWordCount">0</span> / 1500 characters</div>
-      </div>
-
       <div style="display:flex;gap:12px;margin-top:24px;">
-        <button class="btn btn-secondary" onclick="goToStep('stepSoundsWorld')">Back</button>
+        <button class="btn btn-secondary" onclick="goToStep('stepSoundsStory')">Back</button>
         <button class="btn btn-primary" onclick="validateSoundsContent()">Review and Submit</button>
       </div>
     </section>
@@ -2061,7 +1818,6 @@ a {
         <p style="font-size:0.85rem;color:#d4af37;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;">Where would you like to go next?</p>
         <div style="display:flex;flex-direction:column;gap:12px;max-width:320px;margin:0 auto;">
           <a href="https://www.dopeleeprezzedbys.com" class="btn btn-primary" style="text-align:center;text-decoration:none;">Visit Our Main Website</a>
-          <a href="https://dopeleeprezzed-oss.github.io/PX-Landing.html" class="btn" style="text-align:center;text-decoration:none;background:rgba(212,175,55,0.15);border:2px solid #d4af37;color:#d4af37;padding:14px 20px;border-radius:50px;font-weight:700;">Return to The Legacy Lounge at Fort Leavenworth PX</a>
         </div>
       </div>
     </section>
@@ -2077,7 +1833,6 @@ a {
         <p style="font-size:0.85rem;color:#d4af37;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;">Where would you like to go next?</p>
         <div style="display:flex;flex-direction:column;gap:12px;max-width:320px;margin:0 auto;">
           <a href="https://www.dopeleeprezzedbys.com" class="btn btn-primary" style="text-align:center;text-decoration:none;">Visit Our Main Website</a>
-          <a href="https://dopeleeprezzed-oss.github.io/PX-Landing.html" class="btn" style="text-align:center;text-decoration:none;background:rgba(212,175,55,0.15);border:2px solid #d4af37;color:#d4af37;padding:14px 20px;border-radius:50px;font-weight:700;">Return to The Legacy Lounge at Fort Leavenworth PX</a>
         </div>
       </div>
     </section>
@@ -2207,16 +1962,10 @@ a {
       else if (stepId === "step2cPhotobook") { num = 2; totalSteps = 5; }
       else if (stepId === "stepPhotobookUpload") { num = 3; totalSteps = 5; }
       else if (stepId === "stepPhotobookReview") { num = 4; totalSteps = 5; }
-      // Recognition flow
-      else if (stepId === "stepRecognition") { num = 2; totalSteps = 5; }
-      else if (stepId === "stepRecognitionManual" || stepId === "stepRecognitionBulk") { num = 3; totalSteps = 5; }
-      else if (stepId === "stepRecognitionDesign") { num = 4; totalSteps = 5; }
-      else if (stepId === "stepRecognitionPreview") { num = 5; totalSteps = 5; }
-      else if (stepId === "stepSoundsExperience") { num = 2; totalSteps = 6; }
-      else if (stepId === "stepSoundsStory") { num = 3; totalSteps = 6; }
-      else if (stepId === "stepSoundsWorld") { num = 4; totalSteps = 6; }
-      else if (stepId === "stepSoundsContent") { num = 5; totalSteps = 6; }
-      else if (stepId === "soundsSuccessScreen") { num = 6; totalSteps = 6; }
+      else if (stepId === "stepSoundsExperience") { num = 2; totalSteps = 5; }
+      else if (stepId === "stepSoundsStory") { num = 3; totalSteps = 5; }
+      else if (stepId === "stepSoundsContent") { num = 4; totalSteps = 5; }
+      else if (stepId === "soundsSuccessScreen") { num = 5; totalSteps = 5; }
       // Standard keepsake flow
       else if (stepId.includes("step2")) { num = 2; totalSteps = 5; }
       else if (stepId.includes("step3")) { num = 3; totalSteps = 5; }
@@ -2240,20 +1989,6 @@ a {
         return;
       }
       
-      // Recognition flow
-      if (stepId === "stepRecognition" || stepId === "stepRecognitionQty") {
-        num = 2;
-        totalSteps = 4;
-      }
-      if (stepId === "stepRecognitionDetails") {
-        num = 3;
-        totalSteps = 4;
-      }
-      if (stepId === "stepRecognitionPreview") {
-        num = 4;
-        totalSteps = 4;
-      }
-
       bar.style.width = (num / totalSteps) * 100 + "%";
       text.textContent = (stepId === "successScreen" || stepId === "instoreSuccessScreen") 
         ? "Complete! ✓" 
@@ -2796,7 +2531,6 @@ a {
       if (projectType === "keepsake") goToStep("step2aKeepsake");
       else if (projectType === "vip") goToStep("step2bVIP");
       else if (projectType === "instore") goToStep("stepInstore");
-      else if (projectType === "recognition") goToStep("stepRecognition");
       else if (projectType === "sounds") goToStep("stepSoundsExperience");
       else goToStep("step2cPhotobook");
     }
@@ -3307,7 +3041,7 @@ a {
       // Auto-select project type from URL parameter
       const projectType = projectParam.toLowerCase();
       
-      if (projectType === 'vip' || projectType === 'instore' || projectType === 'recognition' || projectType === 'keepsake' || projectType === 'photobook' || projectType === 'sounds') {
+      if (projectType === 'vip' || projectType === 'instore' || projectType === 'keepsake' || projectType === 'photobook' || projectType === 'sounds') {
         selectProjectType(projectType);
         
         // Hide the dropdown entirely when pre-selected from URL
@@ -3842,263 +3576,335 @@ a {
     // LEGACY RECOGNITION FUNCTIONS
     // ═══════════════════════════════════════════════════════════════
     
-    let selectedAwardType = null;
-    let selectedRecognitionQty = null;
-    let recognitionRecipients = [];
-    let recognitionRosterFile = null;
-    let recognitionLogoFile = null;
+    // ═══════════════════════════════════════════════════════════════
+    // SOUNDS OF LEGACY FUNCTIONS
+    // ═══════════════════════════════════════════════════════════════
 
-    function selectAwardType(type) {
-      selectedAwardType = type;
-      document.querySelectorAll('input[name="awardType"]').forEach(r => {
+    let selectedSoundsExperience = null;
+    let selectedArtistPref = null;
+    let soundsMediaFiles = [];
+    let soundsVoiceFile = null;
+
+    function selectSoundsExperience(type) {
+      selectedSoundsExperience = type;
+      document.querySelectorAll('input[name="soundsExperience"]').forEach(r => {
         r.checked = (r.value === type);
       });
-      document.querySelectorAll('.option-card').forEach(card => {
-        const input = card.querySelector('input[name="awardType"]');
+      document.querySelectorAll('#stepSoundsExperience .option-card').forEach(card => {
+        const input = card.querySelector('input[name="soundsExperience"]');
         if (input) {
           card.classList.toggle('selected', input.value === type);
         }
       });
+
+      // Show keepsake dropdown if they chose keepsake package
+      const keepsakeField = document.getElementById('soundsKeepsakeField');
+      if (keepsakeField) {
+        keepsakeField.style.display = (type === 'keepsake') ? 'block' : 'none';
+      }
     }
 
-    function selectRecognitionQty(type) {
-      selectedRecognitionQty = type;
-      document.querySelectorAll('input[name="recognitionQty"]').forEach(r => {
-        r.checked = (r.value === type);
+    function selectArtistPref(pref) {
+      selectedArtistPref = pref;
+      document.querySelectorAll('input[name="artistPref"]').forEach(r => {
+        r.checked = (r.value === pref);
       });
-      document.querySelectorAll('.option-card').forEach(card => {
-        const input = card.querySelector('input[name="recognitionQty"]');
+      document.querySelectorAll('#stepSoundsStory .option-card').forEach(card => {
+        const input = card.querySelector('input[name="artistPref"]');
         if (input) {
-          card.classList.toggle('selected', input.value === type);
+          card.classList.toggle('selected', input.value === pref);
         }
       });
     }
 
-    function validateRecognitionStep1() {
-      if (!selectedAwardType) {
-        alert('Please select an award type.');
+    function validateSoundsExperience() {
+      if (!selectedSoundsExperience) {
+        alert('Please select the experience you purchased.');
         return;
       }
-      if (!selectedRecognitionQty) {
-        alert('Please select how many awards you\'re ordering.');
-        return;
-      }
-      
-      if (selectedRecognitionQty === 'manual') {
-        if (recognitionRecipients.length === 0) addRecipient();
-        goToStep('stepRecognitionManual');
-      } else {
-        goToStep('stepRecognitionBulk');
-      }
-    }
-
-    function addRecipient() {
-      if (recognitionRecipients.length >= 5) {
-        alert('Maximum 5 recipients for manual entry. For more, please use the bulk upload option.');
-        return;
-      }
-      
-      const index = recognitionRecipients.length;
-      recognitionRecipients.push({});
-      
-      const container = document.getElementById('recipientContainer');
-      const card = document.createElement('div');
-      card.className = 'recipient-card';
-      card.id = `recipient-${index}`;
-      card.style.cssText = 'background:var(--bg-input);border:1px solid var(--border-soft);border-radius:12px;padding:20px;margin-bottom:15px;';
-      
-      card.innerHTML = `
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
-          <span style="color:var(--accent-gold);font-weight:600;">Recipient ${index + 1}</span>
-          ${index > 0 ? `<button onclick="removeRecipient(${index})" style="background:rgba(255,50,50,0.2);border:1px solid rgba(255,50,50,0.3);color:#ff6b6b;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:0.85rem;">Remove</button>` : ''}
-        </div>
-        <div class="form-group">
-          <label>Recipient Name *</label>
-          <input type="text" class="recipient-name" placeholder="Full name as it should appear on award" />
-        </div>
-        <div class="form-group">
-          <label>Rank (if applicable)</label>
-          <input type="text" class="recipient-rank" placeholder="e.g., SGT, CPT, MAJ" />
-        </div>
-        <div class="form-group">
-          <label>Title / Position</label>
-          <input type="text" class="recipient-title" placeholder="e.g., Class Leader, Distinguished Graduate" />
-        </div>
-      `;
-      
-      container.appendChild(card);
-      
-      if (recognitionRecipients.length >= 5) {
-        document.getElementById('addRecipientBtn').style.display = 'none';
-      }
-    }
-
-    function removeRecipient(index) {
-      const card = document.getElementById(`recipient-${index}`);
-      if (card) card.remove();
-      recognitionRecipients.splice(index, 1);
-      
-      // Re-index
-      document.querySelectorAll('.recipient-card').forEach((card, i) => {
-        card.id = `recipient-${i}`;
-        card.querySelector('span').textContent = `Recipient ${i + 1}`;
-      });
-      
-      document.getElementById('addRecipientBtn').style.display = 'block';
-    }
-
-    function collectRecipientData() {
-      recognitionRecipients = [];
-      document.querySelectorAll('.recipient-card').forEach((card) => {
-        recognitionRecipients.push({
-          name: card.querySelector('.recipient-name')?.value || '',
-          rank: card.querySelector('.recipient-rank')?.value || '',
-          title: card.querySelector('.recipient-title')?.value || ''
-        });
-      });
-    }
-
-    function handleRosterUpload(event) {
-      const file = event.target.files[0];
-      if (file) {
-        recognitionRosterFile = file;
-        document.getElementById('rosterFileName').textContent = '✅ ' + file.name;
-      }
-    }
-
-    function handleRecognitionLogo(event) {
-      const file = event.target.files[0];
-      if (file) {
-        recognitionLogoFile = file;
-        document.getElementById('logoFileName').textContent = '✅ ' + file.name;
-      }
-    }
-
-    function goToRecognitionDesign() {
-      if (selectedRecognitionQty === 'manual') {
-        collectRecipientData();
-        if (recognitionRecipients.length === 0 || !recognitionRecipients[0].name) {
-          alert('Please add at least one recipient with a name.');
-          return;
-        }
-      } else {
-        const qty = document.getElementById('bulkQuantity').value;
-        if (!qty || qty < 6) {
-          alert('Please enter the number of recipients (6 or more).');
+      if (selectedSoundsExperience === 'keepsake') {
+        const keepsakeVal = document.getElementById('soundsKeepsake')?.value;
+        if (!keepsakeVal) {
+          alert('Please select which keepsake you chose.');
           return;
         }
       }
-      goToStep('stepRecognitionDesign');
+      goToStep('stepSoundsStory');
     }
 
-    function goBackFromDesign() {
-      if (selectedRecognitionQty === 'manual') {
-        goToStep('stepRecognitionManual');
-      } else {
-        goToStep('stepRecognitionBulk');
+    function validateSoundsStory() {
+      const name = document.getElementById('soundsHonoreeName')?.value.trim();
+      const occasion = document.getElementById('soundsOccasion')?.value;
+      const genre = document.getElementById('soundsGenre')?.value;
+
+      if (!name) {
+        alert('Please tell us who this song is for.');
+        return;
       }
-    }
-
-    function goToRecognitionPreview() {
-      const occasion = document.getElementById('recognitionOccasion').value;
       if (!occasion) {
-        alert('Please select an occasion.');
+        alert('Please select the occasion.');
         return;
       }
-
-      if (!document.getElementById('recognitionDateNeeded')?.value) {
-        alert('Please select the date you need this by.');
+      if (!genre) {
+        alert('Please select a mood or genre.');
         return;
       }
-      
-      // Populate preview
-      const awardNames = { slate: 'Legacy Slate ($65)', wood: 'Live Edge Wood ($95)', medallion: 'Metal Medallion ($45)' };
-      document.getElementById('previewRecAward').textContent = awardNames[selectedAwardType] || '';
-      
-      if (selectedRecognitionQty === 'manual') {
-        const names = recognitionRecipients.map(r => r.name).filter(n => n).join(', ');
-        document.getElementById('previewRecRecipients').textContent = `${recognitionRecipients.length} recipient(s): ${names}`;
-      } else {
-        const qty = document.getElementById('bulkQuantity').value;
-        document.getElementById('previewRecRecipients').textContent = `${qty} recipients (roster uploaded)`;
+      if (!selectedArtistPref) {
+        alert('Please select your artist preference.');
+        return;
       }
-      
-      const occasionSelect = document.getElementById('recognitionOccasion');
-      document.getElementById('previewRecOccasion').textContent = occasionSelect.options[occasionSelect.selectedIndex].text;
-      document.getElementById('previewRecOrg').textContent = document.getElementById('recognitionOrg').value || '-';
-      document.getElementById('previewRecLocation').textContent = document.getElementById('recognitionLocation').value || '-';
-      document.getElementById('previewRecDate').textContent = document.getElementById('recognitionDate').value || '-';
-      
-      goToStep('stepRecognitionPreview');
+      goToStep('stepSoundsContent');
     }
 
-    async function submitRecognitionForm() {
-      if (!document.getElementById('recognitionDateNeeded')?.value) {
-        alert('Please select the date you need this by.');
+    function updateSoundsWordCount() {
+      const text = document.getElementById('soundsWords')?.value || '';
+      const countEl = document.getElementById('soundsWordCount');
+      if (countEl) countEl.textContent = text.length;
+    }
+
+    function validateSoundsContent() {
+      const words = document.getElementById('soundsWords')?.value.trim() || '';
+      if (!words) {
+        alert('Please share your words — this is the heart of your song. Tell us what you feel about this person and what you want to hear.');
         return;
       }
+      submitSoundsForm();
+    }
 
-      const submitBtn = document.querySelector('.btn-submit');
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Submitting...';
-      
+    async function submitSoundsForm() {
+      const submitBtn = document.querySelector('#stepSoundsContent .btn-primary');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting...';
+      }
+
+      const name = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone')?.value.trim() || '';
+      const orderId = document.getElementById('orderNumber')?.value.trim() || `SOL-${Date.now()}`;
+
+      // Gather Sounds of Legacy details
+      const experienceLabels = { song: 'Legacy Song', video: 'Legacy Song + Video', keepsake: 'Legacy Song + Keepsake' };
+      const genreLabels = { soulful: 'Soulful / R&B', gospel: 'Gospel / Inspirational', country: 'Country', hiphop: 'Hip Hop / Rap', pop: 'Pop', classical: 'Classical / Instrumental', other: 'Other' };
+      const artistLabels = { male: 'Male', female: 'Female', duo: 'Duo', no_preference: 'No Preference' };
+      const occasionLabels = { birthday: 'Birthday', memorial: 'Memorial / Tribute', retirement: 'Retirement', promotion: 'Military Promotion', graduation: 'Graduation', anniversary: 'Anniversary', wedding: 'Wedding', other: 'Other' };
+
+      const genre = document.getElementById('soundsGenre')?.value || '';
+      const moodNotes = document.getElementById('soundsMoodNotes')?.value.trim() || '';
+      // hobbies/loves/about fields removed — customer intent captured in "Your Words"
+      const words = document.getElementById('soundsWords')?.value.trim() || '';
+      const keepsakeChoice = selectedSoundsExperience === 'keepsake' ? (document.getElementById('soundsKeepsake')?.value || '') : '';
+
+      // Pack all Sounds of Legacy details into designer_notes
+      let notesLines = [];
+      notesLines.push(`[SOUNDS OF LEGACY ORDER]`);
+      notesLines.push(`Package: ${experienceLabels[selectedSoundsExperience] || selectedSoundsExperience}`);
+      if (keepsakeChoice) notesLines.push(`Keepsake: ${keepsakeChoice}`);
+      notesLines.push(`Genre: ${genreLabels[genre] || genre}`);
+      notesLines.push(`Artist Preference: ${artistLabels[selectedArtistPref] || selectedArtistPref}`);
+      if (moodNotes) notesLines.push(`Mood/Style Notes: ${moodNotes}`);
+
       const formData = {
-        order_id: `REC-${Date.now()}`,
-        customer_name: document.getElementById('fullName').value,
-        customer_email: document.getElementById('email').value,
-        project_type: 'recognition',
-        award_type: selectedAwardType,
-        is_bulk: selectedRecognitionQty === 'bulk',
-        quantity: selectedRecognitionQty === 'bulk' ? parseInt(document.getElementById('bulkQuantity').value) : recognitionRecipients.length,
-        recipients: selectedRecognitionQty === 'manual' ? JSON.stringify(recognitionRecipients) : null,
-        occasion: document.getElementById('recognitionOccasion').value,
-        organization: document.getElementById('recognitionOrg').value || null,
-        location: document.getElementById('recognitionLocation').value || null,
-        display_date: document.getElementById('recognitionDate').value || null,
-        date_needed: document.getElementById('recognitionDateNeeded')?.value || null,
-        designer_notes: document.getElementById('recognitionNotes').value || null,
-        has_logo: recognitionLogoFile !== null,
-        has_roster: recognitionRosterFile !== null,
+        order_id: orderId,
+        customer_name: name,
+        customer_email: email,
+        customer_phone: phone,
+        project_type: 'sounds',
+        product_type: experienceLabels[selectedSoundsExperience] || 'Sounds of Legacy',
+        honored_name: document.getElementById('soundsHonoreeName')?.value.trim() || '',
+        custom_wording: words || null,
+        designer_notes: notesLines.join('\n'),
         form_completed: true,
         form_completed_at: new Date().toISOString(),
         status: 'Form Received',
-        created_at: new Date().toISOString()
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
       };
-      
+
+      // Get partner referral
+      const partnerReferralSelect = document.getElementById('partnerReferral');
+      const partnerReferralValue = partnerReferralSelect ? partnerReferralSelect.value : '';
+      if (partnerReferralValue && partnerReferralValue.length > 10) {
+        formData.partner_id = partnerReferralValue;
+        formData.referral_source = 'partner_location';
+      } else if (partnerReferralValue) {
+        formData.referral_source = partnerReferralValue;
+      }
+
       try {
-        const response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
-          method: 'POST',
-          headers: {
-            'apikey': SUPABASE_ANON_KEY,
-            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-            'Content-Type': 'application/json',
-            'Prefer': 'return=representation'
-          },
-          body: JSON.stringify(formData)
-        });
-        
-        if (!response.ok) throw new Error('Failed to submit');
-        
-        // Send confirmation email
-        const savedOrder = await response.json();
+        // Try PATCH first, then POST
+        let response = await fetch(
+          `${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderId}`,
+          {
+            method: "PATCH",
+            headers: {
+              "apikey": SUPABASE_ANON_KEY,
+              "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+              "Content-Type": "application/json",
+              "Prefer": "return=representation"
+            },
+            body: JSON.stringify(formData)
+          }
+        );
+
+        let savedOrder;
+        const patchResult = await response.clone().json();
+
+        if (!response.ok || patchResult.length === 0) {
+          console.log("📝 Creating new Sounds of Legacy order...");
+          response = await fetch(
+            `${SUPABASE_URL}/rest/v1/orders`,
+            {
+              method: "POST",
+              headers: {
+                "apikey": SUPABASE_ANON_KEY,
+                "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+                "Content-Type": "application/json",
+                "Prefer": "return=representation"
+              },
+              body: JSON.stringify(formData)
+            }
+          );
+
+          if (!response.ok) {
+            const errorText = await response.text();
+            console.error("❌ Error:", errorText);
+            throw new Error(`Failed: ${errorText}`);
+          }
+
+          savedOrder = await response.json();
+          console.log("✅ Sounds of Legacy order created!");
+        } else {
+          savedOrder = patchResult;
+          console.log("✅ Sounds of Legacy order updated!");
+        }
+
         const orderRecord = Array.isArray(savedOrder) ? savedOrder[0] : savedOrder;
-        
-        await fetch(`${SUPABASE_URL}/functions/v1/send-confirmation-email`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
-          },
-          body: JSON.stringify({ record: orderRecord })
-        });
-        
-        goToStep('successScreen');
-        
-      } catch (error) {
-        console.error('Error:', error);
-        alert('Something went wrong. Please try again or call 816-530-1520.');
-        submitBtn.disabled = false;
-        submitBtn.textContent = '✨ Submit Order';
+        const savedOrderId = orderRecord?.order_id || orderId;
+
+        // Upload media files (photos/videos)
+        const mediaInput = document.getElementById('soundsMediaUpload');
+        const mediaFiles = mediaInput?.files ? Array.from(mediaInput.files) : [];
+
+        if (mediaFiles.length > 0) {
+          try {
+            if (submitBtn) submitBtn.textContent = 'Uploading media...';
+            console.log(`📸 Uploading ${mediaFiles.length} media file(s)...`);
+            const mediaUrls = [];
+
+            for (let i = 0; i < mediaFiles.length; i++) {
+              const f = mediaFiles[i];
+              const ext = f.name.split('.').pop().toLowerCase() || 'jpg';
+              const storagePath = `sounds/${savedOrderId}/media_${i + 1}.${ext}`;
+
+              const uploadRes = await fetch(`${SUPABASE_URL}/storage/v1/object/photobook-uploads/${storagePath}`, {
+                method: 'POST',
+                headers: {
+                  'apikey': SUPABASE_ANON_KEY,
+                  'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                  'Content-Type': f.type || 'application/octet-stream',
+                  'x-upsert': 'true'
+                },
+                body: f
+              });
+
+              if (uploadRes.ok) {
+                mediaUrls.push(`${SUPABASE_URL}/storage/v1/object/public/photobook-uploads/${storagePath}`);
+              } else {
+                console.error(`❌ Media ${i + 1} upload failed`);
+              }
+            }
+
+            // Save URLs back to order
+            await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${savedOrderId}`, {
+              method: 'PATCH',
+              headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                'Content-Type': 'application/json',
+                'Prefer': 'return=minimal'
+              },
+              body: JSON.stringify({
+                photo_urls: mediaUrls,
+                photo_uploaded: mediaUrls.length > 0,
+                photo_count: mediaUrls.length
+              })
+            });
+
+            console.log('✅ Media uploaded!');
+          } catch (mediaErr) {
+            console.warn('⚠️ Media upload issue:', mediaErr);
+          }
+        }
+
+        // Upload voice note
+        const voiceInput = document.getElementById('soundsVoiceUpload');
+        const voiceFile = voiceInput?.files?.[0];
+
+        if (voiceFile) {
+          try {
+            if (submitBtn) submitBtn.textContent = 'Uploading voice note...';
+            const ext = voiceFile.name.split('.').pop().toLowerCase() || 'mp3';
+            const storagePath = `sounds/${savedOrderId}/voice_note.${ext}`;
+
+            const uploadRes = await fetch(`${SUPABASE_URL}/storage/v1/object/photobook-uploads/${storagePath}`, {
+              method: 'POST',
+              headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                'Content-Type': voiceFile.type || 'audio/mpeg',
+                'x-upsert': 'true'
+              },
+              body: voiceFile
+            });
+
+            if (uploadRes.ok) {
+              const voiceUrl = `${SUPABASE_URL}/storage/v1/object/public/photobook-uploads/${storagePath}`;
+              const updatedNotes = formData.designer_notes + `\nVoice Note: ${voiceUrl}`;
+              await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${savedOrderId}`, {
+                method: 'PATCH',
+                headers: {
+                  'apikey': SUPABASE_ANON_KEY,
+                  'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                  'Content-Type': 'application/json',
+                  'Prefer': 'return=minimal'
+                },
+                body: JSON.stringify({ designer_notes: updatedNotes })
+              });
+              console.log('✅ Voice note uploaded!');
+            }
+          } catch (voiceErr) {
+            console.warn('⚠️ Voice upload issue:', voiceErr);
+          }
+        }
+
+        // Send confirmation email
+        try {
+          console.log('📧 Sending confirmation email...');
+          await fetch(`${SUPABASE_URL}/functions/v1/send-confirmation-email`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+            },
+            body: JSON.stringify({ record: orderRecord })
+          });
+          console.log('✅ Email sent!');
+        } catch (emailErr) {
+          console.warn('⚠️ Email may have failed:', emailErr);
+        }
+
+        console.log("🎉 Sounds of Legacy submission complete!");
+        goToStep("soundsSuccessScreen");
+        setTimeout(() => launchConfetti(), 300);
+
+      } catch (err) {
+        console.error("❌ Error:", err);
+        alert(`⚠️ Submission error: ${err.message}\n\nPlease contact us at 816-530-1520.`);
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Review and Submit';
+        }
       }
     }
 
