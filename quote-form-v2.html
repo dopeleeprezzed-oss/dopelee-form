@@ -639,10 +639,11 @@ button, a { touch-action: manipulation; }
 
         <div class="success-note" id="previewSuccessNote" style="display:none;">
           <div class="note-title">✨ DESIGN PREVIEW REQUESTED</div>
-          <p>Complete your design preview payment and your designer will get started on your custom preview. You'll receive it via text!</p>
+          <p>Complete your design preview payment below and your designer will get started on your custom preview. You'll receive it via text!</p>
         </div>
 
         <div style="display:flex; flex-direction:column; gap:12px; max-width:320px; margin:0 auto;">
+          <a href="https://square.link/u/I6FLrwMq" id="squarePayBtn" class="btn btn-gold" style="text-align:center; text-decoration:none; display:none; font-size:1.1rem; padding:18px 30px;">💳 Pay Design Preview Fee ($15 + tax)</a>
           <a href="https://www.dopeleeprezzedbys.com" class="btn btn-gold" style="text-align:center; text-decoration:none;">Visit Our Website</a>
         </div>
       </div>
@@ -960,9 +961,9 @@ async function submitQuote() {
     // Show success
     goTo('successScreen');
 
-    // If design preview requested, redirect to Square after a moment
+    // If design preview requested, show the Square payment button
     if (preview === 'yes') {
-      setTimeout(() => { window.open(SQUARE_PREVIEW_LINK, '_blank'); }, 2000);
+      document.getElementById('squarePayBtn').style.display = 'block';
     }
 
   } catch(err) {
