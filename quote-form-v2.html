@@ -375,7 +375,7 @@ button, a { touch-action: manipulation; }
 
       <!-- Product tag (populated from URL) -->
       <div id="productTagWrap" style="display:none;">
-        <div class="product-tag">✨ <span id="productTagLabel"></span></div>
+        <div class="product-tag"> <span id="productTagLabel"></span></div>
       </div>
 
       <h2 class="step-headline">Let's Get Started</h2>
@@ -566,7 +566,7 @@ button, a { touch-action: manipulation; }
         </div>
 
         <div class="preview-callout" id="previewCallout" style="display:none;">
-          <div class="callout-heading">✨ Digital Design Preview</div>
+          <div class="callout-heading"> Digital Design Preview</div>
           <div class="callout-body">
             See your piece before we build it. Your designer will create a custom digital preview and text it to you for approval.
             <br><br>
@@ -597,7 +597,7 @@ button, a { touch-action: manipulation; }
 
       <div class="review-card">
         <div class="review-header">
-          <h3>✨ Your Quote Request</h3>
+          <h3> Your Quote Request</h3>
           <p>Make sure everything looks right</p>
         </div>
         <div class="review-body" id="reviewBody">
@@ -620,7 +620,7 @@ button, a { touch-action: manipulation; }
         </div>
       </div>
 
-      <button class="btn btn-submit" onclick="submitQuote()" id="submitBtn" style="width:100%;">✨ Submit My Quote Request</button>
+      <button class="btn btn-submit" onclick="submitQuote()" id="submitBtn" style="width:100%;"> Submit My Quote Request</button>
     </section>
 
     <!-- ════════════════════════════════════════════════ -->
@@ -638,7 +638,7 @@ button, a { touch-action: manipulation; }
         </p>
 
         <div class="success-note" id="previewSuccessNote" style="display:none;">
-          <div class="note-title">✨ DESIGN PREVIEW REQUESTED</div>
+          <div class="note-title"> DESIGN PREVIEW REQUESTED</div>
           <p>Complete your design preview payment below and your designer will get started on your custom preview. You'll receive it via text!</p>
         </div>
 
@@ -969,7 +969,7 @@ async function submitQuote() {
   } catch(err) {
     console.error('Error:', err);
     alert('Something went wrong. Please try again or call 816.530.1520.\n\n' + err.message);
-    btn.disabled = false; btn.textContent = '✨ Submit My Quote Request';
+    btn.disabled = false; btn.textContent = ' Submit My Quote Request';
   }
 }
 
