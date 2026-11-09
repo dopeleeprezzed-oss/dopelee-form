@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Design Preview Secured | Dopelee Prezzed by S™</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+:root {
+  --bg-dark: #050505;
+  --bg-card: #0d0a00;
+  --bg-input: #1a1508;
+  --text-main: #f5f5f0;
+  --text-muted: #c0b89a;
+  --text-dim: #8a8060;
+  --accent-gold: #d4af37;
+  --accent-gold-light: #f5d76e;
+  --border-soft: rgba(212, 175, 55, 0.12);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: radial-gradient(circle at top, #1a1508 0%, #050505 40%, #000 100%);
+  color: var(--text-main);
+  min-height: 100vh;
+  padding: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.brand-header {
+  background: #000;
+  padding: 30px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-top: 2px solid #d4af37;
+  border-bottom: 2px solid #d4af37;
+  margin-bottom: 25px;
+  border-radius: 16px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.brand-header::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background:
+    radial-gradient(circle at 25% 35%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 75% 65%, rgba(245, 215, 110, 0.12) 0%, transparent 50%);
+  pointer-events: none;
+  animation: heroBling 5s ease-in-out infinite;
+}
+
+@keyframes heroBling {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: bubbleRise 8s infinite ease-in-out;
+  pointer-events: none;
+  box-shadow: 0 0 30px currentColor, 0 0 60px currentColor, inset 0 0 20px rgba(255, 255, 255, 0.3);
+  filter: blur(1px);
+}
+
+@keyframes bubbleRise {
+  0% { transform: translateY(100vh) scale(0); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.3; }
+  100% { transform: translateY(-100px) scale(1); opacity: 0; }
+}
+
+.brand-header .bubble:nth-child(1) { left: 10%; width: 30px; height: 30px; background: #d4af37; animation-delay: 0s; animation-duration: 10s; }
+.brand-header .bubble:nth-child(2) { left: 30%; width: 40px; height: 40px; background: #f5d76e; animation-delay: 2s; animation-duration: 12s; }
+.brand-header .bubble:nth-child(3) { left: 55%; width: 35px; height: 35px; background: #d4af37; animation-delay: 1s; animation-duration: 11s; }
+.brand-header .bubble:nth-child(4) { left: 80%; width: 28px; height: 28px; background: #f5d76e; animation-delay: 3s; animation-duration: 9s; }
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(3deg); }
+}
+
+@keyframes logoGlow {
+  0%, 100% { filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.6)) drop-shadow(0 0 40px rgba(245, 215, 110, 0.4)); }
+  50% { filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.8)) drop-shadow(0 0 50px rgba(245, 215, 110, 0.6)); }
+}
+
+.brand-logo-large {
+  max-width: 120px;
+  height: auto;
+  margin: 0 auto 14px;
+  border-radius: 12px;
+  position: relative;
+  z-index: 2;
+  animation: logoFloat 4s ease-in-out infinite, logoGlow 3s ease-in-out infinite;
+}
+
+.brand-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 3px 20px rgba(212, 175, 55, 0.6);
+  line-height: 1.3;
+}
+
+.brand-tagline {
+  margin: 6px 0 0;
+  color: #ccc;
+  font-size: 11px;
+  font-weight: 600;
+  position: relative;
+  z-index: 2;
+}
+
+/* MAIN CONTENT */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* SUCCESS CHECKMARK */
+.success-icon {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 24px;
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 40px rgba(212, 175, 55, 0.4), 0 0 80px rgba(212, 175, 55, 0.15);
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 40px rgba(212, 175, 55, 0.4), 0 0 80px rgba(212, 175, 55, 0.15); }
+  50% { box-shadow: 0 0 50px rgba(212, 175, 55, 0.6), 0 0 100px rgba(212, 175, 55, 0.25); }
+}
+
+.success-icon svg {
+  width: 45px;
+  height: 45px;
+  stroke: #000;
+  stroke-width: 3;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.success-icon svg .checkmark-path {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  animation: drawCheck 0.6s ease-out 0.4s forwards;
+}
+
+@keyframes drawCheck {
+  to { stroke-dashoffset: 0; }
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  background: linear-gradient(120deg, var(--accent-gold), var(--accent-gold-light));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 500px;
+  margin: 0 auto 35px;
+}
+
+/* WHAT HAPPENS NEXT */
+.next-steps {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 20px;
+  padding: 30px 24px;
+  margin: 0 auto 30px;
+  text-align: left;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+}
+
+.next-steps-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  color: var(--accent-gold-light);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.step-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 22px;
+}
+
+.step-item:last-child {
+  margin-bottom: 0;
+}
+
+.step-number {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: #000;
+}
+
+.step-content h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.step-content p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* REVISION NOTE */
+.revision-note {
+  background: rgba(212, 175, 55, 0.06);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin: 0 auto 30px;
+  text-align: center;
+}
+
+.revision-note p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.revision-note strong {
+  color: var(--accent-gold-light);
+}
+
+/* CTA */
+.btn {
+  display: inline-block;
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  border: none;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  touch-action: manipulation;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+  color: #000;
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(212, 175, 55, 0.4);
+}
+
+.contact-line {
+  margin-top: 24px;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.contact-line a {
+  color: var(--accent-gold);
+  text-decoration: none;
+}
+
+@media (min-width: 768px) {
+  body { padding: 30px; }
+  .brand-header { padding: 35px 30px; margin-bottom: 40px; }
+  .brand-logo-large { max-width: 140px; }
+  .brand-title { font-size: 24px; }
+  h1 { font-size: 2.2rem; }
+  .next-steps { padding: 35px 30px; }
+}
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="brand-header">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+
+    <img src="https://dopeleeprezzed-oss.github.io/dopelee-form/logo.png"
+         alt="Dopelee Prezzed Logo" class="brand-logo-large">
+    <h1 class="brand-title">DOPELEE PREZZED BY S™</h1>
+    <p class="brand-tagline">Home of The Legacy Lounge</p>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="container">
+
+    <!-- ANIMATED CHECKMARK -->
+    <div class="success-icon">
+      <svg viewBox="0 0 40 40">
+        <path class="checkmark-path" d="M10 20 L17 27 L30 13" />
+      </svg>
+    </div>
+
+    <h1>Your Design Preview is Secured</h1>
+    <p class="subtitle">
+      Thank you for your payment. Your custom design is officially in the queue.
+    </p>
+
+    <!-- WHAT HAPPENS NEXT -->
+    <div class="next-steps">
+      <div class="next-steps-title">What Happens Next</div>
+
+      <div class="step-item">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3>We Review Your Details</h3>
+          <p>Your designer will review your quote request, photos, and inspiration to understand your vision.</p>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3>Your Digital Preview is Created</h3>
+          <p>We'll design a custom preview of your piece so you can see exactly what it will look like before we build it.</p>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3>Preview Sent for Your Approval</h3>
+          <p>You'll receive your digital preview via text. Review it, and let us know if you're ready to move forward.</p>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h3>We Build Your Piece</h3>
+          <p>Once approved, we'll send your final invoice and begin crafting your custom piece.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- REVISION NOTE -->
+    <div class="revision-note">
+      <p>
+        <strong>Your $15 Design Preview Fee</strong> includes one custom digital preview of your piece.
+        Changes to your design are <strong>$10 each</strong>.
+      </p>
+    </div>
+
+    <a href="https://www.dopeleeprezzedbys.com" class="btn btn-primary">Visit Our Website</a>
+
+    <p class="contact-line">
+      Questions? Call or text <a href="tel:8165301520">816.530.1520</a>
+    </p>
+
+  </div>
+
+  <script>
+    // Confetti on load
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        if (typeof confetti === 'undefined') return;
+        const end = Date.now() + 4000;
+        const colors = ['#d4af37', '#f5d76e', '#ffffff', '#c8b98a'];
+        (function frame() {
+          confetti({ particleCount: 5, angle: 60, spread: 65, origin: { x: 0 }, colors });
+          confetti({ particleCount: 5, angle: 120, spread: 65, origin: { x: 1 }, colors });
+          if (Date.now() < end) requestAnimationFrame(frame);
+        }());
+      }, 300);
+    });
+  </script>
+
+</body>
+</html>
