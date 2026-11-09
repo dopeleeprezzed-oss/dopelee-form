@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Request a Quote | Dopelee Prezzed by S™</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+/* ── BRAND TOKENS ── */
+:root {
+  --bg-dark: #050505;
+  --bg-card: #0d0a00;
+  --bg-input: #1a1508;
+  --text-main: #f5f5f0;
+  --text-muted: #c0b89a;
+  --text-dim: #8a8060;
+  --accent-gold: #d4af37;
+  --accent-gold-light: #f5d76e;
+  --border-soft: rgba(212, 175, 55, 0.12);
+  --shadow-heavy: 0 24px 60px rgba(0, 0, 0, 0.9);
+}
+
+/* ── RESET ── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: radial-gradient(circle at top, #1a1508 0%, #050505 40%, #000 100%);
+  color: var(--text-main);
+  min-height: 100vh;
+  padding: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── BRAND HEADER ── */
+.brand-header {
+  background: #000;
+  padding: 30px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-top: 2px solid #d4af37;
+  border-bottom: 2px solid #d4af37;
+  margin-bottom: 25px;
+  border-radius: 16px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.brand-header::after {
+  content: '';
+  position: absolute;
+  width: 100%; height: 100%;
+  top: 0; left: 0;
+  background:
+    radial-gradient(circle at 25% 35%, rgba(212,175,55,0.15) 0%, transparent 50%),
+    radial-gradient(circle at 75% 65%, rgba(245,215,110,0.12) 0%, transparent 50%);
+  pointer-events: none;
+  animation: heroBling 5s ease-in-out infinite;
+}
+@keyframes heroBling {
+  0%,100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+.bubble {
+  position: absolute; border-radius: 50%; opacity: 0.4;
+  animation: bubbleRise 8s infinite ease-in-out; pointer-events: none;
+  box-shadow: 0 0 30px currentColor, 0 0 60px currentColor, inset 0 0 20px rgba(255,255,255,0.3);
+  filter: blur(1px);
+}
+@keyframes bubbleRise {
+  0% { transform: translateY(100vh) scale(0); opacity: 0; }
+  10% { opacity: 0.6; } 90% { opacity: 0.3; }
+  100% { transform: translateY(-100px) scale(1); opacity: 0; }
+}
+.bubble:nth-child(1) { left:10%; width:30px; height:30px; background:#d4af37; animation-delay:0s; animation-duration:10s; }
+.bubble:nth-child(2) { left:28%; width:40px; height:40px; background:#f5d76e; animation-delay:2s; animation-duration:12s; }
+.bubble:nth-child(3) { left:50%; width:35px; height:35px; background:#d4af37; animation-delay:1s; animation-duration:11s; }
+.bubble:nth-child(4) { left:72%; width:25px; height:25px; background:#c49b30; animation-delay:3s; animation-duration:9s; }
+.bubble:nth-child(5) { left:88%; width:38px; height:38px; background:#f5d76e; animation-delay:4s; animation-duration:13s; }
+
+@keyframes logoFloat {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(3deg); }
+}
+@keyframes logoGlow {
+  0%,100% { filter: drop-shadow(0 0 20px rgba(212,175,55,0.6)) drop-shadow(0 0 40px rgba(245,215,110,0.4)); }
+  50% { filter: drop-shadow(0 0 30px rgba(212,175,55,0.8)) drop-shadow(0 0 50px rgba(245,215,110,0.6)); }
+}
+
+.brand-logo {
+  max-width: 120px; height: auto; margin: 0 auto 14px; border-radius: 12px;
+  position: relative; z-index: 2;
+  animation: logoFloat 4s ease-in-out infinite, logoGlow 3s ease-in-out infinite;
+}
+
+.brand-title {
+  font-size: 18px; font-weight: 800; color: #fff; position: relative; z-index: 2;
+  text-shadow: 0 3px 20px rgba(212,175,55,0.6); line-height: 1.3; letter-spacing: 0.5px;
+}
+
+.brand-tagline {
+  margin: 6px 0 0; color: #ccc; font-size: 11px; font-weight: 600;
+  position: relative; z-index: 2; letter-spacing: 1px;
+}
+
+/* ── PROGRESS BAR ── */
+.progress-container { max-width: 700px; margin: 0 auto 25px; }
+.progress-bar { height: 4px; background: #222; border-radius: 20px; }
+.progress-fill {
+  height: 4px; width: 0%;
+  background: linear-gradient(90deg, #c49b30, #d4af37, #f5d76e);
+  border-radius: 20px; transition: width 0.4s ease;
+}
+.progress-text { text-align: center; font-size: 0.75rem; color: var(--text-dim); margin-top: 8px; }
+
+/* ── FORM CONTAINER ── */
+.form-container {
+  max-width: 700px; margin: 0 auto;
+  background: var(--bg-card); padding: 30px 20px;
+  border-radius: 20px; border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-heavy);
+}
+
+/* ── STEPS ── */
+.step { display: none; }
+.step.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.step-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  background: linear-gradient(120deg, var(--accent-gold), var(--accent-gold-light));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  margin-bottom: 8px; line-height: 1.2;
+}
+
+.step-subline {
+  color: var(--text-muted); font-size: 0.9rem; margin-bottom: 28px; line-height: 1.5;
+}
+
+/* ── PRODUCT TAG ── */
+.product-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(212,175,55,0.12); border: 1px solid var(--accent-gold);
+  padding: 10px 16px; border-radius: 10px;
+  font-size: 0.95rem; color: var(--accent-gold-light); font-weight: 600;
+  margin-bottom: 24px;
+}
+
+/* ── FORM ELEMENTS ── */
+.form-group { margin-bottom: 22px; }
+
+label {
+  font-size: 0.8rem; text-transform: uppercase; font-weight: 600;
+  margin-bottom: 6px; display: block; letter-spacing: 0.5px;
+}
+
+input, textarea, select {
+  width: 100%; padding: 13px 15px;
+  background: var(--bg-input); border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  color: var(--text-main); font-size: 16px; font-family: inherit;
+  transition: border-color 0.2s;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none; border-color: var(--accent-gold);
+}
+textarea { min-height: 100px; resize: vertical; }
+
+.helper {
+  color: var(--text-dim); font-size: 0.8rem; margin-top: 6px; line-height: 1.4;
+}
+
+/* ── OPTION CARDS ── */
+.options-grid { display: flex; flex-direction: column; gap: 10px; }
+
+.option-card {
+  width: 100%; padding: 16px 18px;
+  background: var(--bg-input); border-radius: 10px;
+  border: 2px solid var(--border-soft);
+  cursor: pointer; display: flex; gap: 12px; align-items: center;
+  transition: all 0.2s ease; -webkit-tap-highlight-color: transparent;
+}
+.option-card:active { transform: scale(0.98); }
+.option-card.selected { border-color: var(--accent-gold); background: rgba(212,175,55,0.08); }
+.option-card input[type="radio"] {
+  width: 20px; height: 20px; flex-shrink: 0; cursor: pointer; accent-color: var(--accent-gold);
+}
+.option-card .option-label { flex: 1; font-size: 0.95rem; font-weight: 500; }
+
+/* ── UPLOAD AREAS ── */
+.upload-zone {
+  border: 2px dashed rgba(212,175,55,0.25); border-radius: 12px;
+  padding: 24px 16px; text-align: center; cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+}
+.upload-zone:hover, .upload-zone.dragover {
+  border-color: var(--accent-gold); background: rgba(212,175,55,0.04);
+}
+.upload-zone input[type="file"] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+}
+.upload-icon { font-size: 2rem; margin-bottom: 8px; }
+.upload-label { font-size: 0.9rem; color: var(--text-muted); font-weight: 500; }
+.upload-hint { font-size: 0.78rem; color: var(--text-dim); margin-top: 6px; }
+
+.thumb-row {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px;
+}
+.thumb-row img {
+  width: 60px; height: 60px; object-fit: cover; border-radius: 8px;
+  border: 2px solid var(--accent-gold);
+}
+
+/* ── DESIGN PREVIEW CALLOUT ── */
+.preview-callout {
+  background: rgba(212,175,55,0.06); border: 1px solid rgba(212,175,55,0.25);
+  border-radius: 14px; padding: 20px; margin-top: 14px;
+}
+.preview-callout .callout-heading {
+  font-size: 0.9rem; font-weight: 700; color: var(--accent-gold-light); margin-bottom: 8px;
+}
+.preview-callout .callout-body {
+  font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;
+}
+.preview-callout .callout-price {
+  font-size: 1.1rem; font-weight: 700; color: var(--accent-gold); margin-top: 10px;
+}
+
+/* ── LUXURY REVIEW CARD ── */
+.review-card {
+  background: linear-gradient(145deg, #0d0a00 0%, #1a1508 100%);
+  border: 2px solid; border-image: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light)) 1;
+  border-radius: 20px; overflow: hidden; margin-bottom: 28px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(212,175,55,0.1), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.review-header {
+  background: linear-gradient(135deg, rgba(212,175,55,0.1), rgba(212,175,55,0.05));
+  padding: 20px 24px; border-bottom: 1px solid var(--border-soft); text-align: center;
+}
+.review-header h3 {
+  font-family: 'Playfair Display', serif; font-size: 1.3rem;
+  background: linear-gradient(120deg, var(--accent-gold), var(--accent-gold-light));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.review-header p { color: var(--text-dim); font-size: 0.85rem; margin-top: 4px; }
+.review-body { padding: 24px; }
+.review-row { display: flex; flex-direction: column; gap: 3px; margin-bottom: 16px; }
+.review-row:last-child { margin-bottom: 0; }
+.review-label {
+  font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--accent-gold-light); font-weight: 600;
+}
+.review-value { font-size: 1rem; color: var(--text-main); font-weight: 500; }
+.review-value.highlight {
+  font-size: 1.2rem; font-weight: 700;
+  background: linear-gradient(120deg, var(--accent-gold), #fff);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.review-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(212,175,55,0.1); border: 1px solid var(--accent-gold-light);
+  padding: 8px 14px; border-radius: 20px;
+  font-size: 0.85rem; color: var(--accent-gold-light);
+  margin-top: 4px;
+}
+.review-footer {
+  padding: 16px 24px; background: rgba(0,0,0,0.3);
+  border-top: 1px solid var(--border-soft);
+}
+
+/* ── BUTTONS ── */
+.btn-group {
+  display: flex; flex-direction: column-reverse; gap: 10px;
+  margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border-soft);
+}
+.btn {
+  padding: 15px 20px; width: 100%; border-radius: 10px; font-weight: 600;
+  cursor: pointer; text-align: center; border: none; font-size: 0.95rem;
+  transition: all 0.2s ease; touch-action: manipulation;
+}
+.btn:active { transform: scale(0.98); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-gold {
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+  color: #000; box-shadow: 0 4px 16px rgba(212,175,55,0.3);
+}
+.btn-ghost {
+  background: var(--bg-input); border: 1px solid var(--border-soft); color: var(--text-main);
+}
+.btn-submit {
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+  color: #000; font-size: 1.1rem; padding: 18px 30px;
+  box-shadow: 0 6px 25px rgba(212,175,55,0.4);
+}
+.btn-edit {
+  background: transparent; border: 1px solid var(--border-soft);
+  color: var(--text-muted); font-size: 0.85rem; padding: 10px 16px;
+  border-radius: 8px; cursor: pointer;
+}
+
+/* ── SUCCESS ── */
+.success-screen { text-align: center; padding: 40px 15px; }
+.success-screen h2 {
+  font-family: 'Playfair Display', serif; font-size: 1.8rem;
+  background: linear-gradient(120deg, var(--accent-gold), var(--accent-gold-light));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  margin-bottom: 16px; line-height: 1.3;
+}
+.success-screen p {
+  color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;
+}
+.success-note {
+  background: rgba(212,175,55,0.1); border: 1px solid var(--accent-gold-light);
+  border-radius: 12px; padding: 20px; margin: 25px 0; text-align: left;
+}
+.success-note .note-title {
+  font-size: 0.85rem; color: var(--accent-gold-light); font-weight: 600; margin-bottom: 8px;
+}
+.success-note p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin: 0; }
+
+/* ── DESKTOP ── */
+@media (min-width: 768px) {
+  body { padding: 25px; }
+  .brand-header { padding: 35px 30px; margin-bottom: 35px; }
+  .brand-logo { max-width: 140px; }
+  .brand-title { font-size: 22px; }
+  .form-container { padding: 40px 35px; }
+  .btn-group { flex-direction: row; gap: 12px; }
+  .btn { flex: 1; }
+  .step-headline { font-size: 1.7rem; }
+}
+@media (min-width: 1024px) {
+  .option-card:hover { border-color: var(--accent-gold); transform: translateY(-2px); }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212,175,55,0.4); }
+}
+
+button, a { touch-action: manipulation; }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+
+  <!-- ── HEADER ── -->
+  <header class="brand-header">
+    <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+    <div class="bubble"></div><div class="bubble"></div>
+    <img src="https://dopeleeprezzed-oss.github.io/dopelee-form/logo.png" alt="Dopelee Prezzed Logo" class="brand-logo">
+    <div class="brand-title">WELCOME TO DOPELEE PREZZED BY S™</div>
+    <p class="brand-tagline">HOME OF THE LEGACY LOUNGE</p>
+  </header>
+
+  <!-- ── PROGRESS ── -->
+  <div class="progress-container">
+    <div class="progress-bar"><div id="progressBar" class="progress-fill"></div></div>
+    <div id="progressText" class="progress-text"></div>
+  </div>
+
+  <!-- ── FORM ── -->
+  <div class="form-container">
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!-- SCREEN 1: WELCOME / ABOUT YOU                  -->
+    <!-- ════════════════════════════════════════════════ -->
+    <section id="screen1" class="step active">
+
+      <!-- Product tag (populated from URL) -->
+      <div id="productTagWrap" style="display:none;">
+        <div class="product-tag">✨ <span id="productTagLabel"></span></div>
+      </div>
+
+      <h2 class="step-headline">Let's Get Started</h2>
+      <p class="step-subline">Tell us a little about you so we can reach out about your custom piece.</p>
+
+      <div class="form-group">
+        <label>Your Full Name *</label>
+        <input id="fullName" type="text" autocomplete="name" />
+      </div>
+
+      <div class="form-group">
+        <label>Email Address *</label>
+        <input id="email" type="email" autocomplete="email" />
+      </div>
+
+      <div class="form-group">
+        <label>Phone Number *</label>
+        <input id="phone" type="tel" placeholder="(555) 555-5555" autocomplete="tel" />
+        <p class="helper">We'll text your design preview to this number.</p>
+      </div>
+
+      <button class="btn btn-gold" onclick="validateScreen1()" style="width:100%;">Continue</button>
+    </section>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!-- SCREEN 2: WHAT'S THE STORY?                    -->
+    <!-- ════════════════════════════════════════════════ -->
+    <section id="screen2" class="step">
+      <h2 class="step-headline">What's the Story?</h2>
+      <p class="step-subline">Every piece starts with a story. Tell us about yours.</p>
+
+      <div class="form-group">
+        <label>What is the occasion? *</label>
+        <select id="occasion">
+          <option value="">Select one...</option>
+          <option value="Memorial / Tribute">Memorial / Tribute</option>
+          <option value="Birthday">Birthday</option>
+          <option value="Anniversary">Anniversary</option>
+          <option value="Retirement">Retirement</option>
+          <option value="Promotion / Achievement">Promotion / Achievement</option>
+          <option value="Graduation">Graduation</option>
+          <option value="Wedding">Wedding</option>
+          <option value="Military Recognition">Military Recognition</option>
+          <option value="Corporate / Event">Corporate / Event</option>
+          <option value="Just a Gift">Just a Gift</option>
+          <option value="Personal / For Myself">Personal / For Myself</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Who or what is this for?</label>
+        <input id="recipient" type="text" placeholder="Name of the person, pet, team, or organization" />
+        <p class="helper">If it's for multiple people, just describe it briefly.</p>
+      </div>
+
+      <div class="form-group">
+        <label>What type of work do you need? *</label>
+        <div class="options-grid">
+          <div class="option-card" onclick="pick(this,'workType','Laser Engraving')">
+            <input type="radio" name="workType" value="Laser Engraving" />
+            <span class="option-label">✏️ Laser Engraving</span>
+          </div>
+          <div class="option-card" onclick="pick(this,'workType','Sublimation (Full Color)')">
+            <input type="radio" name="workType" value="Sublimation (Full Color)" />
+            <span class="option-label">🎨 Sublimation (Full Color Print)</span>
+          </div>
+          <div class="option-card" onclick="pick(this,'workType','Combination')">
+            <input type="radio" name="workType" value="Combination" />
+            <span class="option-label">✏️🎨 Combination</span>
+          </div>
+          <div class="option-card" onclick="pick(this,'workType','Not Sure Yet')">
+            <input type="radio" name="workType" value="Not Sure Yet" />
+            <span class="option-label">🤔 Not Sure Yet</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-ghost" onclick="goTo('screen1')">Back</button>
+        <button class="btn btn-gold" onclick="validateScreen2()">Continue</button>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!-- SCREEN 3: BRING YOUR VISION TO LIFE            -->
+    <!-- ════════════════════════════════════════════════ -->
+    <section id="screen3" class="step">
+      <h2 class="step-headline">Bring Your Vision to Life</h2>
+      <p class="step-subline">Show us what you see. The more you share, the faster we can bring it to life.</p>
+
+      <div class="form-group">
+        <label>What text or names do you want on the piece?</label>
+        <textarea id="quoteText" rows="3" placeholder="Names, dates, quotes, messages... type exactly what you want to appear."></textarea>
+        <p class="helper">If you're not sure yet, that's okay. Just share what you have in mind.</p>
+      </div>
+
+      <div class="form-group">
+        <label>Photos for the piece</label>
+        <div class="upload-zone" id="photoZone">
+          <input id="photoInput" type="file" accept="image/*" multiple onchange="handlePhotos(event)" />
+          <div class="upload-icon">📷</div>
+          <div class="upload-label">Tap to upload photos</div>
+          <div class="upload-hint">Photos of the person, pet, logo, or anything you want included. Up to 5.</div>
+        </div>
+        <div class="thumb-row" id="photoThumbs"></div>
+      </div>
+
+      <div class="form-group">
+        <label>Inspiration</label>
+        <div class="upload-zone" id="inspoZone">
+          <input id="inspoInput" type="file" accept="image/*" multiple onchange="handleInspo(event)" />
+          <div class="upload-icon">💡</div>
+          <div class="upload-label">Tap to upload inspiration images</div>
+          <div class="upload-hint">Pinterest screenshots, examples you like, anything that shows your vision.</div>
+        </div>
+        <div class="thumb-row" id="inspoThumbs"></div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-ghost" onclick="goTo('screen2')">Back</button>
+        <button class="btn btn-gold" onclick="goTo('screen4')">Continue</button>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!-- SCREEN 4: LET'S MAKE IT HAPPEN                 -->
+    <!-- ════════════════════════════════════════════════ -->
+    <section id="screen4" class="step">
+      <h2 class="step-headline">Let's Make It Happen</h2>
+      <p class="step-subline">Help us understand your timeline and budget so we can give you the best quote.</p>
+
+      <div class="form-group">
+        <label>What is your budget? *</label>
+        <input id="budget" type="text" placeholder="Example: Around $80, or $50 to $100" />
+        <p class="helper">Just a range is fine. This helps us tailor your quote.</p>
+      </div>
+
+      <div class="form-group">
+        <label>When do you need it by? *</label>
+        <input id="dateNeeded" type="date" required style="cursor:pointer;" onclick="try{this.showPicker()}catch(e){this.focus()}" onchange="checkBlackout(this)" />
+        <p class="helper" style="margin-top:4px;">Tap to open calendar</p>
+        <p class="helper" id="blackoutMsg" style="display:none; color:#ff6b6b; font-weight:600;">Our holiday deadline is 12/21. All holiday orders must be completed by then. Please select 12/21 or earlier for holiday orders.</p>
+      </div>
+
+      <div class="form-group">
+        <label>How would you like to receive it? *</label>
+        <div class="options-grid">
+          <div class="option-card" onclick="pick(this,'delivery','Pickup (Fort Leavenworth PX)')">
+            <input type="radio" name="delivery" value="Pickup (Fort Leavenworth PX)" />
+            <span class="option-label">🏪 Pickup (Fort Leavenworth PX)</span>
+          </div>
+          <div class="option-card" onclick="pick(this,'delivery','Ship It To Me')">
+            <input type="radio" name="delivery" value="Ship It To Me" />
+            <span class="option-label">📦 Ship It To Me</span>
+          </div>
+          <div class="option-card" onclick="pick(this,'delivery','Not Sure Yet')">
+            <input type="radio" name="delivery" value="Not Sure Yet" />
+            <span class="option-label">🤔 Not Sure Yet</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-ghost" onclick="goTo('screen3')">Back</button>
+        <button class="btn btn-gold" onclick="validateScreen4()">Continue</button>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!-- SCREEN 5: THE FINISHING TOUCHES                -->
+    <!-- ════════════════════════════════════════════════ -->
+    <section id="screen5" class="step">
+      <h2 class="step-headline">The Finishing Touches</h2>
+      <p class="step-subline">Just a couple more things and you're all set.</p>
+
+      <div class="form-group">
+        <label>Would you like a digital design preview before we build?</label>
+        <div class="options-grid">
+          <div class="option-card" onclick="pick(this,'designPreview','yes')">
+            <input type="radio" name="designPreview" value="yes" />
+            <span class="option-label">✅ Yes, I want to see it first</span>
+          </div>
+          <div class="option-card" onclick="pick(this,'designPreview','no')">
+            <input type="radio" name="designPreview" value="no" />
+            <span class="option-label">🎨 No, I trust your design expertise</span>
+          </div>
+        </div>
+
+        <div class="preview-callout" id="previewCallout" style="display:none;">
+          <div class="callout-heading">✨ Digital Design Preview</div>
+          <div class="callout-body">
+            See your piece before we build it. Your designer will create a custom digital preview and text it to you for approval.
+            <br><br>
+            <strong>One digital preview included.</strong> Changes to your design are $10 each.
+          </div>
+          <div class="callout-price">$15.00 + tax</div>
+          <p style="font-size:0.78rem; color:var(--text-dim); margin-top:8px;">
+            You'll pay the design preview fee after submitting your request.
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Anything else we should know? (optional)</label>
+        <textarea id="specialNotes" rows="3" placeholder="Font preferences, placement ideas, size requests, or anything specific..."></textarea>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-ghost" onclick="goTo('screen4')">Back</button>
+        <button class="btn btn-gold" onclick="buildReview()">Review My Request</button>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!-- SCREEN 6: REVIEW                               -->
+    <!-- ════════════════════════════════════════════════ -->
+    <section id="screen6" class="step">
+
+      <div class="review-card">
+        <div class="review-header">
+          <h3>✨ Your Quote Request</h3>
+          <p>Make sure everything looks right</p>
+        </div>
+        <div class="review-body" id="reviewBody">
+          <!-- Filled by JS -->
+        </div>
+        <div class="review-footer" style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn-edit" onclick="goTo('screen2')">Edit Story</button>
+          <button class="btn-edit" onclick="goTo('screen3')">Edit Vision</button>
+          <button class="btn-edit" onclick="goTo('screen4')">Edit Details</button>
+          <button class="btn-edit" onclick="goTo('screen5')">Edit Extras</button>
+        </div>
+      </div>
+
+      <!-- Design preview payment note -->
+      <div id="reviewPaymentNote" style="display:none; margin-bottom:20px;">
+        <div style="background:rgba(212,175,55,0.08); border:2px solid var(--accent-gold); border-radius:14px; padding:20px; text-align:center;">
+          <div style="font-size:0.85rem; color:var(--accent-gold-light); font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Design Preview Fee</div>
+          <div style="font-size:1.8rem; font-weight:800; color:var(--accent-gold); margin-bottom:6px;">$15.00 + tax</div>
+          <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:0;">One digital preview included. Changes are $10 each.<br>You'll be directed to pay after submitting.</p>
+        </div>
+      </div>
+
+      <button class="btn btn-submit" onclick="submitQuote()" id="submitBtn" style="width:100%;">✨ Submit My Quote Request</button>
+    </section>
+
+    <!-- ════════════════════════════════════════════════ -->
+    <!-- SUCCESS SCREEN                                 -->
+    <!-- ════════════════════════════════════════════════ -->
+    <section id="successScreen" class="step">
+      <div class="success-screen">
+        <h2>🎉 Quote Request Received!</h2>
+        <p>
+          We've got all your details and we'll be in touch soon.
+          <br><br>
+          📧 Check your email for a confirmation.
+          <br><br>
+          📱 We'll reach out via call or text to discuss your project!
+        </p>
+
+        <div class="success-note" id="previewSuccessNote" style="display:none;">
+          <div class="note-title">✨ DESIGN PREVIEW REQUESTED</div>
+          <p>Complete your design preview payment and your designer will get started on your custom preview. You'll receive it via text!</p>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:12px; max-width:320px; margin:0 auto;">
+          <a href="https://www.dopeleeprezzedbys.com" class="btn btn-gold" style="text-align:center; text-decoration:none;">Visit Our Website</a>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /form-container -->
+
+  <script>
+/* ═══════════════════════════════════════════════════
+   CONFIG
+   ═══════════════════════════════════════════════════ */
+const SUPABASE_URL  = 'https://dyehxtiozfwlexkbalvn.supabase.co';
+const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs';
+const SQUARE_PREVIEW_LINK = 'https://square.link/u/I6FLrwMq';
+
+/* ═══════════════════════════════════════════════════
+   STATE
+   ═══════════════════════════════════════════════════ */
+let productSlug = '';
+let productLabel = '';
+let photoFiles = [];
+let inspoFiles = [];
+
+const screens = ['screen1','screen2','screen3','screen4','screen5','screen6','successScreen'];
+
+/* ═══════════════════════════════════════════════════
+   NAVIGATION
+   ═══════════════════════════════════════════════════ */
+function goTo(id) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById(id)?.classList.add('active');
+  window.scrollTo(0, 0);
+  updateProgress(id);
+  if (id === 'successScreen') setTimeout(fireConfetti, 300);
+}
+
+function updateProgress(id) {
+  const bar  = document.getElementById('progressBar');
+  const text = document.getElementById('progressText');
+  const stepLabels = ['', 'About You', "What's the Story?", 'Your Vision', 'Budget & Timeline', 'Finishing Touches', 'Review'];
+  const idx = screens.indexOf(id);
+  if (idx < 0 || id === 'successScreen') { bar.style.width = '100%'; text.textContent = 'Complete ✓'; return; }
+  const pct = ((idx + 1) / 6) * 100;
+  bar.style.width = pct + '%';
+  text.textContent = stepLabels[idx + 1] || '';
+}
+
+function fireConfetti() {
+  if (typeof confetti === 'undefined') return;
+  const end = Date.now() + 4000;
+  const colors = ['#d4af37','#f5d76e','#ffffff','#c8b98a'];
+  (function frame() {
+    confetti({ particleCount:5, angle:60, spread:65, origin:{x:0}, colors });
+    confetti({ particleCount:5, angle:120, spread:65, origin:{x:1}, colors });
+    if (Date.now() < end) requestAnimationFrame(frame);
+  }());
+}
+
+/* ═══════════════════════════════════════════════════
+   OPTION PICKER
+   ═══════════════════════════════════════════════════ */
+function pick(card, name, value) {
+  document.querySelectorAll(`input[name='${name}']`).forEach(r => r.checked = false);
+  const radio = document.querySelector(`input[name='${name}'][value='${value}']`);
+  if (radio) radio.checked = true;
+  card.closest('.options-grid')?.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+
+  if (name === 'designPreview') {
+    document.getElementById('previewCallout').style.display = (value === 'yes') ? 'block' : 'none';
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   VALIDATION
+   ═══════════════════════════════════════════════════ */
+function validateScreen1() {
+  const name  = document.getElementById('fullName').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  if (!name)  { alert('Please enter your name.'); return; }
+  if (!email) { alert('Please enter your email address.'); return; }
+  if (!phone) { alert('Please enter your phone number so we can text you about your project.'); return; }
+  goTo('screen2');
+}
+
+function validateScreen2() {
+  const occasion = document.getElementById('occasion').value;
+  const workType = document.querySelector("input[name='workType']:checked")?.value;
+  if (!occasion) { alert('Please select the occasion.'); return; }
+  if (!workType) { alert('Please select the type of work you need.'); return; }
+  goTo('screen3');
+}
+
+/* Blackout dates: 12/22 – 12/25 each year */
+function isBlackout(dateStr) {
+  if (!dateStr) return false;
+  const d = new Date(dateStr + 'T00:00:00');
+  const m = d.getMonth(); // 0-indexed, Dec = 11
+  const day = d.getDate();
+  return m === 11 && day >= 22 && day <= 25;
+}
+
+function checkBlackout(input) {
+  const msg = document.getElementById('blackoutMsg');
+  if (isBlackout(input.value)) {
+    msg.style.display = 'block';
+    input.value = '';
+  } else {
+    msg.style.display = 'none';
+  }
+}
+
+function validateScreen4() {
+  const budget   = document.getElementById('budget').value.trim();
+  const date     = document.getElementById('dateNeeded').value;
+  const delivery = document.querySelector("input[name='delivery']:checked")?.value;
+  if (!budget)   { alert('Please enter your budget.'); return; }
+  if (!date)     { alert('Please select when you need it by.'); return; }
+  if (isBlackout(date)) { alert('Our holiday deadline is 12/21. All holiday orders must be completed by then. Please select 12/21 or earlier for holiday orders.'); return; }
+  if (!delivery) { alert('Please select how you would like to receive it.'); return; }
+  goTo('screen5');
+}
+
+/* ═══════════════════════════════════════════════════
+   FILE UPLOADS
+   ═══════════════════════════════════════════════════ */
+function handlePhotos(e) {
+  photoFiles = Array.from(e.target.files || []).slice(0, 5);
+  renderThumbs('photoThumbs', photoFiles);
+}
+function handleInspo(e) {
+  inspoFiles = Array.from(e.target.files || []).slice(0, 5);
+  renderThumbs('inspoThumbs', inspoFiles);
+}
+function renderThumbs(containerId, files) {
+  const c = document.getElementById(containerId); c.innerHTML = '';
+  files.forEach(f => {
+    const r = new FileReader();
+    r.onload = ev => {
+      const img = document.createElement('img');
+      img.src = ev.target.result;
+      c.appendChild(img);
+    };
+    r.readAsDataURL(f);
+  });
+}
+
+// Drag and drop
+['photoZone','inspoZone'].forEach(zoneId => {
+  const zone = document.getElementById(zoneId);
+  if (!zone) return;
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault(); zone.classList.remove('dragover');
+    const input = zone.querySelector('input[type="file"]');
+    if (input) { input.files = e.dataTransfer.files; input.dispatchEvent(new Event('change')); }
+  });
+});
+
+/* ═══════════════════════════════════════════════════
+   REVIEW
+   ═══════════════════════════════════════════════════ */
+function buildReview() {
+  const occasion  = document.getElementById('occasion').value;
+  const recipient = document.getElementById('recipient').value.trim();
+  const workType  = document.querySelector("input[name='workType']:checked")?.value || '';
+  const text      = document.getElementById('quoteText').value.trim();
+  const budget    = document.getElementById('budget').value.trim();
+  const dateVal   = document.getElementById('dateNeeded').value;
+  const delivery  = document.querySelector("input[name='delivery']:checked")?.value || '';
+  const preview   = document.querySelector("input[name='designPreview']:checked")?.value || 'no';
+  const notes     = document.getElementById('specialNotes').value.trim();
+
+  let html = '';
+
+  function row(label, value, highlight) {
+    if (!value) return;
+    html += `<div class="review-row"><span class="review-label">${label}</span><span class="review-value${highlight ? ' highlight' : ''}">${value}</span></div>`;
+  }
+
+  if (productLabel) row('Product', productLabel, true);
+  row('Occasion', occasion);
+  if (recipient) row('For', recipient);
+  row('Work Type', workType);
+  if (text) row('Text / Names', text);
+  row('Budget', budget);
+  row('Needed By', dateVal);
+  row('Delivery', delivery);
+  row('Design Preview', preview === 'yes' ? 'Yes ($15 + tax)' : 'No, trusting the designer');
+
+  if (photoFiles.length > 0) {
+    html += `<div style="margin-top:8px;"><span class="review-badge">📷 ${photoFiles.length} photo(s) attached</span></div>`;
+  }
+  if (inspoFiles.length > 0) {
+    html += `<div style="margin-top:8px;"><span class="review-badge">💡 ${inspoFiles.length} inspiration image(s)</span></div>`;
+  }
+  if (notes) row('Special Instructions', notes);
+
+  document.getElementById('reviewBody').innerHTML = html;
+
+  // Show/hide payment note
+  document.getElementById('reviewPaymentNote').style.display = (preview === 'yes') ? 'block' : 'none';
+  document.getElementById('previewSuccessNote').style.display = (preview === 'yes') ? 'block' : 'none';
+
+  goTo('screen6');
+}
+
+/* ═══════════════════════════════════════════════════
+   SUBMIT
+   ═══════════════════════════════════════════════════ */
+async function submitQuote() {
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true; btn.textContent = 'Submitting...';
+
+  const orderId    = 'QR-' + Date.now();
+  const name       = document.getElementById('fullName').value.trim();
+  const email      = document.getElementById('email').value.trim();
+  const phone      = document.getElementById('phone').value.trim();
+  const occasion   = document.getElementById('occasion').value;
+  const recipient  = document.getElementById('recipient').value.trim();
+  const workType   = document.querySelector("input[name='workType']:checked")?.value || '';
+  const text       = document.getElementById('quoteText').value.trim();
+  const budget     = document.getElementById('budget').value.trim();
+  const dateNeeded = document.getElementById('dateNeeded').value || null;
+  const delivery   = document.querySelector("input[name='delivery']:checked")?.value || '';
+  const preview    = document.querySelector("input[name='designPreview']:checked")?.value || 'no';
+  const notes      = document.getElementById('specialNotes').value.trim();
+
+  // Build designer notes
+  let dn = ['[QUOTE REQUEST]'];
+  if (productLabel) dn.push('Product: ' + productLabel);
+  dn.push('Work Type: ' + workType);
+  dn.push('Occasion: ' + occasion);
+  dn.push('Budget: ' + budget);
+  dn.push('Delivery: ' + delivery);
+  dn.push('Design Preview: ' + (preview === 'yes' ? 'YES ($15)' : 'No'));
+  if (notes) dn.push('Notes: ' + notes);
+
+  const formData = {
+    order_id: orderId,
+    customer_name: name,
+    customer_email: email,
+    customer_phone: phone,
+    project_type: 'quote',
+    product_type: productLabel || 'Not specified',
+    honored_name: recipient || null,
+    occasion: occasion,
+    custom_wording: text || null,
+    date_needed: dateNeeded,
+    designer_notes: dn.join('\n'),
+    form_completed: true,
+    form_completed_at: new Date().toISOString(),
+    status: 'Quote Requested',
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString()
+  };
+
+  try {
+    // Save to Supabase
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json', 'Prefer': 'return=representation'
+      },
+      body: JSON.stringify(formData)
+    });
+
+    if (!res.ok) throw new Error(await res.text());
+
+    const saved = await res.json();
+    const record = Array.isArray(saved) ? saved[0] : saved;
+    const sid = record?.order_id || orderId;
+
+    // Upload photos + inspo
+    const allFiles = [...photoFiles, ...inspoFiles];
+    if (allFiles.length > 0) {
+      btn.textContent = 'Uploading photos...';
+      const urls = [];
+      for (let i = 0; i < allFiles.length; i++) {
+        const f = allFiles[i];
+        const ext = f.name.split('.').pop().toLowerCase() || 'jpg';
+        const prefix = i < photoFiles.length ? 'photo' : 'inspo';
+        const idx = i < photoFiles.length ? i + 1 : i - photoFiles.length + 1;
+        const path = `quotes/${sid}/${prefix}_${idx}.${ext}`;
+        try {
+          const up = await fetch(`${SUPABASE_URL}/storage/v1/object/photobook-uploads/${path}`, {
+            method: 'POST',
+            headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': f.type || 'image/jpeg', 'x-upsert': 'true' },
+            body: f
+          });
+          if (up.ok) urls.push(`${SUPABASE_URL}/storage/v1/object/public/photobook-uploads/${path}`);
+        } catch(e) { console.warn('Upload issue:', e); }
+      }
+      if (urls.length > 0) {
+        await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${sid}`, {
+          method: 'PATCH',
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+          body: JSON.stringify({ photo_urls: urls, photo_uploaded: true, photo_count: urls.length })
+        });
+      }
+    }
+
+    // Confirmation email
+    try {
+      await fetch(`${SUPABASE_URL}/functions/v1/send-confirmation-email`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SUPABASE_KEY}` },
+        body: JSON.stringify({ record })
+      });
+    } catch(e) { console.warn('Email may have failed:', e); }
+
+    // Show success
+    goTo('successScreen');
+
+    // If design preview requested, redirect to Square after a moment
+    if (preview === 'yes') {
+      setTimeout(() => { window.open(SQUARE_PREVIEW_LINK, '_blank'); }, 2000);
+    }
+
+  } catch(err) {
+    console.error('Error:', err);
+    alert('Something went wrong. Please try again or call 816.530.1520.\n\n' + err.message);
+    btn.disabled = false; btn.textContent = '✨ Submit My Quote Request';
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   INIT — URL PARAMS
+   ═══════════════════════════════════════════════════ */
+window.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+
+  // Pre-fill contact info if passed
+  const e = params.get('email'); if (e) document.getElementById('email').value = decodeURIComponent(e);
+  const n = params.get('name');  if (n) document.getElementById('fullName').value = decodeURIComponent(n);
+  const p = params.get('phone'); if (p) document.getElementById('phone').value = decodeURIComponent(p);
+
+  // Product from URL
+  const prod = params.get('product') || '';
+  if (prod) {
+    productSlug = prod.toLowerCase();
+    // The label comes from URL — clean it up for display
+    productLabel = decodeURIComponent(prod).replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    const wrap = document.getElementById('productTagWrap');
+    const label = document.getElementById('productTagLabel');
+    if (wrap && label) {
+      label.textContent = productLabel;
+      wrap.style.display = 'block';
+    }
+  }
+
+  updateProgress('screen1');
+});
+  </script>
+</body>
+</html>
