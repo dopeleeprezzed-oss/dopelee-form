@@ -997,8 +997,7 @@ a {
         <label>What did you purchase? *</label>
         <select id="projectTypeSelect" onchange="selectProjectType(this.value)">
           <option value="">Select your project type...</option>
-          <option value="keepsake">Keepsake Order</option>
-          <option value="vip">VIP Bulk Gift</option>
+          <option value="bulk">Bulk Experience</option>
           <option value="photobook">Photo Book Project</option>
           <option value="instore">In-Store Personalization</option>
           <option value="sounds">Sounds of Legacy</option>
@@ -1011,160 +1010,153 @@ a {
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- STEP 2: WHO WE'RE HONORING (KEEPSAKE) -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
-    <section id="step2aKeepsake" class="step">
-      <h2 class="step-title">Step 2: Who or What Are We Honoring?</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- BULK EXPERIENCE: STEP-BY-STEP FLOW (one question per screen) -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <!-- BULK STEP 1: Occasion -->
+    <section id="stepBulk1" class="step">
+      <h2 class="step-title">What is the occasion?</h2>
+      <p class="step-description">Select the event type or choose Other if none of these fit.</p>
 
       <div class="form-group">
-        <label>Person or Pet *</label>
-
         <div class="options-grid">
-          <div class="option-card" onclick="setPersonOrPet('human')">
-            <input type="radio" name="honorType" value="human" />
-            <span>Person</span>
-          </div>
-
-          <div class="option-card" onclick="setPersonOrPet('pet')">
-            <input type="radio" name="honorType" value="pet" />
-            <span>Pet</span>
-          </div>
+          <div class="option-card" onclick="selectOption(this,'bulkOccasion','birthday')"><input type="radio" name="bulkOccasion" value="birthday"/><span>Birthday</span></div>
+          <div class="option-card" onclick="selectOption(this,'bulkOccasion','anniversary')"><input type="radio" name="bulkOccasion" value="anniversary"/><span>Anniversary</span></div>
+          <div class="option-card" onclick="selectOption(this,'bulkOccasion','retirement')"><input type="radio" name="bulkOccasion" value="retirement"/><span>Retirement</span></div>
+          <div class="option-card" onclick="selectOption(this,'bulkOccasion','wedding')"><input type="radio" name="bulkOccasion" value="wedding"/><span>Wedding</span></div>
+          <div class="option-card" onclick="selectOption(this,'bulkOccasion','corporate')"><input type="radio" name="bulkOccasion" value="corporate"/><span>Corporate / Event</span></div>
+          <div class="option-card" onclick="selectOption(this,'bulkOccasion','other')"><input type="radio" name="bulkOccasion" value="other"/><span>Other</span></div>
         </div>
-      </div>
-
-      <div class="form-group">
-        <label>Name *</label>
-        <input id="honoredName" type="text" />
-      </div>
-
-      <div class="form-group">
-        <label>What did you purchase? *</label>
-        <input id="productPurchased" type="text" placeholder="e.g., Legacy Round 15&quot;, Legacy Cuff Bracelet, Custom Nameplate..." />
-        <p style="font-size:0.78rem;color:var(--text-dim);margin:5px 0 0;">Copy the product name from your order confirmation, or describe it as best you can.</p>
-      </div>
-
-      <div class="form-group">
-        <label>Dates (optional)</label>
-        <input id="dates" type="text" placeholder="e.g., 2010 - 2024" />
-      </div>
-
-      <div class="form-group">
-        <label>Date Needed By *</label>
-        <input id="dateNeeded" type="date" required style="cursor:pointer;" onclick="try{this.showPicker()}catch(e){this.focus()}" />
-        <p style="font-size:0.78rem;color:var(--text-dim);margin:5px 0 0;">Tap to open calendar</p>
       </div>
 
       <div class="button-group">
         <button class="btn btn-secondary" onclick="goToStep('step1')">Back</button>
-        <button class="btn btn-primary" onclick="validateStep2Keepsake()">Continue</button>
+        <button class="btn btn-primary" onclick="goToStep('stepBulk2')">Continue</button>
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- STEP 2B: VIP EXPERIENCE -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <section id="step2bVIP" class="step">
-      <h2 class="step-title">Step 2: Tell Us About Your VIP Experience</h2>
+    <!-- BULK STEP 2: Who is this for -->
+    <section id="stepBulk2" class="step">
+      <h2 class="step-title">Who is this for?</h2>
+      <p class="step-description">The person, group, or organization being celebrated.</p>
 
       <div class="form-group">
-        <label>What is the occasion? (optional)</label>
-        <div class="options-grid">
-          <div class="option-card" onclick="selectOption(this,'vipOccasion','birthday')"><input type="radio" name="vipOccasion" value="birthday"/><span>Birthday</span></div>
-          <div class="option-card" onclick="selectOption(this,'vipOccasion','anniversary')"><input type="radio" name="vipOccasion" value="anniversary"/><span>Anniversary</span></div>
-          <div class="option-card" onclick="selectOption(this,'vipOccasion','retirement')"><input type="radio" name="vipOccasion" value="retirement"/><span>Retirement</span></div>
-          <div class="option-card" onclick="selectOption(this,'vipOccasion','promotion')"><input type="radio" name="vipOccasion" value="promotion"/><span>Promotion</span></div>
-          <div class="option-card" onclick="selectOption(this,'vipOccasion','corporate')"><input type="radio" name="vipOccasion" value="corporate"/><span>Corporate / Event</span></div>
-          <div class="option-card" onclick="selectOption(this,'vipOccasion','other')"><input type="radio" name="vipOccasion" value="other"/><span>Other</span></div>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>Who is this for? (optional)</label>
-        <input id="vipRecipient" type="text" placeholder="Name of the person or group being celebrated" />
-      </div>
-
-      <div class="form-group">
-        <label>What items are you thinking about? (optional)</label>
-        <p style="font-size:0.82rem;color:var(--text-dim);margin:-6px 0 10px;">Shadow boxes, journals, engraved pieces, swag bags — anything that comes to mind.</p>
-        <textarea id="vipItems" rows="3" placeholder="Example: Personalized journals for each guest, a custom shadow box for the honoree..."></textarea>
-      </div>
-
-      <div class="form-group">
-        <label>What is your budget for this experience? *</label>
-        <input id="vipBudget" type="text" required placeholder="Example: Around $800, or $1,500 for everything combined" />
-      </div>
-
-      <div class="form-group">
-        <label>Event date *</label>
-        <input id="vipEventDate" type="date" required style="cursor:pointer;" onclick="try{this.showPicker()}catch(e){this.focus()}" />
-        <p style="font-size:0.78rem;color:var(--text-dim);margin:5px 0 0;">Tap to open calendar</p>
-      </div>
-
-      <div class="form-group">
-        <label>Tell us your vision *</label>
-        <p style="font-size:0.82rem;color:var(--text-dim);margin:-6px 0 10px;">The feeling, the vibe, the people involved. There are no wrong answers. We want to hear your vision so we can bring it to life.</p>
-        <textarea id="vipVision" rows="5" required placeholder="Example: I want something really special for my husband's retirement. He served 20 years in the Army and I want the whole family to feel the weight of that..."></textarea>
-      </div>
-
-      <div class="form-group">
-        <label>Inspiration image (optional)</label>
-        <p style="font-size:0.82rem;color:var(--text-dim);margin:-6px 0 10px;">A screenshot, photo, or anything that captures the vibe. No image is totally fine.</p>
-        <input id="vipInspirationFile" type="file" accept="image/*" multiple />
+        <input id="bulkRecipient" type="text" placeholder="Example: My wife Sarah, The Johnson Family, ABC Company" />
       </div>
 
       <div class="button-group">
-        <button class="btn btn-secondary" onclick="goToStep('step1')">Back</button>
-        <button class="btn btn-primary" onclick="buildVIPReview()">Review My Request</button>
+        <button class="btn btn-secondary" onclick="goToStep('stepBulk1')">Back</button>
+        <button class="btn btn-primary" onclick="goToStep('stepBulk3')">Continue</button>
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- VIP REVIEW SCREEN -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <section id="stepVIPReview" class="step">
-      <h2 class="step-title">Review Your VIP Experience</h2>
+    <!-- BULK STEP 3: What are you looking for -->
+    <section id="stepBulk3" class="step">
+      <h2 class="step-title">Tell us what you have in mind</h2>
+      <p class="step-description">Describe what you are looking for. Shadow boxes, journals, engraved pieces, apparel, swag bags, or anything else. There are no wrong answers.</p>
+
+      <div class="form-group">
+        <textarea id="bulkDescription" rows="5" placeholder="Example: I need personalized journals for each guest at our team retreat, plus a custom shadow box for the guest of honor..."></textarea>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('stepBulk2')">Back</button>
+        <button class="btn btn-primary" onclick="goToStep('stepBulk4')">Continue</button>
+      </div>
+    </section>
+
+    <!-- BULK STEP 4: How many pieces -->
+    <section id="stepBulk4" class="step">
+      <h2 class="step-title">How many pieces do you need?</h2>
+      <p class="step-description">Give us your best estimate. We can always adjust later.</p>
+
+      <div class="form-group">
+        <input id="bulkQuantity" type="text" placeholder="Example: 25 journals, 1 shadow box, 30 tote bags" />
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('stepBulk3')">Back</button>
+        <button class="btn btn-primary" onclick="goToStep('stepBulk5')">Continue</button>
+      </div>
+    </section>
+
+    <!-- BULK STEP 5: Budget (required) -->
+    <section id="stepBulk5" class="step">
+      <h2 class="step-title">What is your budget?</h2>
+      <p class="step-description">This helps us put together the best options for you.</p>
+
+      <div class="form-group">
+        <input id="bulkBudget" type="text" required placeholder="Example: Around $800, or $1,500 for everything combined" />
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('stepBulk4')">Back</button>
+        <button class="btn btn-primary" onclick="validateBulkBudget()">Continue</button>
+      </div>
+    </section>
+
+    <!-- BULK STEP 6: Date needed (required, blocks Sun/Mon/holidays) -->
+    <section id="stepBulk6" class="step">
+      <h2 class="step-title">When do you need this by?</h2>
+      <p class="step-description">Select the date you need everything ready. We are closed Sundays and Mondays.</p>
+
+      <div class="form-group">
+        <input id="bulkEventDate" type="date" required style="cursor:pointer;" onclick="try{this.showPicker()}catch(e){this.focus()}" onchange="validateBulkDate(this)" />
+        <p id="bulkDateWarning" style="font-size:0.82rem;color:#e74c3c;margin:8px 0 0;display:none;"></p>
+        <p style="font-size:0.78rem;color:var(--text-dim);margin:5px 0 0;">Tap to open calendar. Sundays, Mondays, and major holidays are unavailable.</p>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-secondary" onclick="goToStep('stepBulk5')">Back</button>
+        <button class="btn btn-primary" onclick="validateBulkDateStep()">Review My Request</button>
+      </div>
+    </section>
+
+    <!-- BULK REVIEW SCREEN -->
+    <section id="stepBulkReview" class="step">
+      <h2 class="step-title">Review Your Bulk Experience</h2>
       <p class="step-description">Make sure everything looks right before submitting.</p>
 
       <div class="luxury-preview-card">
         <div class="luxury-preview-header">
-          <h3>Your VIP Experience Details</h3>
-          <p>Here's what we'll bring to life for you</p>
+          <h3>Your Bulk Experience Details</h3>
+          <p>Here is what we will bring to life for you</p>
         </div>
 
         <div class="luxury-preview-body">
           <div class="preview-details">
-            <div class="preview-detail-row" id="vipReviewOccasionRow">
+            <div class="preview-detail-row" id="bulkReviewOccasionRow">
               <span class="preview-detail-label">Occasion</span>
-              <span id="vipReviewOccasion" class="preview-detail-value"></span>
+              <span id="bulkReviewOccasion" class="preview-detail-value"></span>
             </div>
-            <div class="preview-detail-row" id="vipReviewRecipientRow">
-              <span class="preview-detail-label">Who It's For</span>
-              <span id="vipReviewRecipient" class="preview-detail-value"></span>
+            <div class="preview-detail-row" id="bulkReviewRecipientRow">
+              <span class="preview-detail-label">Who It Is For</span>
+              <span id="bulkReviewRecipient" class="preview-detail-value"></span>
             </div>
-            <div class="preview-detail-row" id="vipReviewItemsRow">
-              <span class="preview-detail-label">Items in Mind</span>
-              <span id="vipReviewItems" class="preview-detail-value"></span>
+            <div class="preview-detail-row" id="bulkReviewDescriptionRow">
+              <span class="preview-detail-label">What You Are Looking For</span>
+              <span id="bulkReviewDescription" class="preview-detail-value"></span>
+            </div>
+            <div class="preview-detail-row" id="bulkReviewQuantityRow">
+              <span class="preview-detail-label">Quantity</span>
+              <span id="bulkReviewQuantity" class="preview-detail-value"></span>
             </div>
             <div class="preview-detail-row">
               <span class="preview-detail-label">Budget</span>
-              <span id="vipReviewBudget" class="preview-detail-value large"></span>
+              <span id="bulkReviewBudget" class="preview-detail-value large"></span>
             </div>
             <div class="preview-detail-row">
-              <span class="preview-detail-label">Event Date</span>
-              <span id="vipReviewDate" class="preview-detail-value"></span>
-            </div>
-            <div class="preview-detail-row">
-              <span class="preview-detail-label">Your Vision</span>
-              <span id="vipReviewVision" class="preview-detail-value"></span>
-            </div>
-            <div id="vipReviewInspoRow" class="preview-photos-badge" style="display:none;">
-              💡 <span id="vipReviewInspoCount">0</span> inspiration image(s) attached
+              <span class="preview-detail-label">Date Needed</span>
+              <span id="bulkReviewDate" class="preview-detail-value"></span>
             </div>
           </div>
         </div>
 
         <div class="luxury-preview-footer">
           <div class="button-group" style="margin: 0; padding: 0; border: none;">
-            <button class="btn btn-edit" onclick="goToStep('step2bVIP')">Edit Details</button>
-            <button class="btn btn-submit" id="vipSubmitBtn" onclick="validateAndSubmitVIP()">Submit My VIP Request</button>
+            <button class="btn btn-edit" onclick="goToStep('stepBulk1')">Edit Details</button>
+            <button class="btn btn-submit" id="bulkSubmitBtn" onclick="validateAndSubmitBulk()">Submit My Bulk Experience</button>
           </div>
         </div>
       </div>
@@ -2010,9 +2002,14 @@ a {
       if (stepId === "successScreen" || stepId === "instoreSuccessScreen") {
         bar.style.width = "100%"; text.textContent = "Complete!"; return;
       }
-      // VIP flow (3 steps: Info → Details → Review/Submit)
-      if (stepId === "step2bVIP") { num = 2; totalSteps = 3; }
-      else if (stepId === "stepVIPReview") { num = 3; totalSteps = 3; }
+      // Bulk Experience flow (8 steps: Info + 6 questions + Review)
+      if (stepId === "stepBulk1") { num = 2; totalSteps = 8; }
+      else if (stepId === "stepBulk2") { num = 3; totalSteps = 8; }
+      else if (stepId === "stepBulk3") { num = 4; totalSteps = 8; }
+      else if (stepId === "stepBulk4") { num = 5; totalSteps = 8; }
+      else if (stepId === "stepBulk5") { num = 6; totalSteps = 8; }
+      else if (stepId === "stepBulk6") { num = 7; totalSteps = 8; }
+      else if (stepId === "stepBulkReview") { num = 8; totalSteps = 8; }
       // Photobook flow (5 steps: Info → Details → Upload → Review → Submit)
       else if (stepId === "step2cPhotobook") { num = 2; totalSteps = 5; }
       else if (stepId === "stepPhotobookUpload") { num = 3; totalSteps = 5; }
@@ -2102,86 +2099,134 @@ a {
       if (waiverGroup) waiverGroup.style.display = (type === 'own_item') ? 'block' : 'none';
     }
 
-    // VIP review builder
-    function buildVIPReview() {
-      const budget = document.getElementById('vipBudget')?.value?.trim();
-      const eventDate = document.getElementById('vipEventDate')?.value;
-      const vision = document.getElementById('vipVision')?.value?.trim();
+    // ═══════════════════════════════════════════════════════════════
+    // BULK EXPERIENCE FUNCTIONS
+    // ═══════════════════════════════════════════════════════════════
 
-      if (!budget) { alert('Please enter your budget.'); return; }
-      if (!eventDate) { alert('Please select your event date.'); return; }
-      if (!vision) { alert('Please share your vision.'); return; }
+    // Blocked dates for bulk date picker: Sundays, Mondays, and US holidays
+    function isBulkDateBlocked(dateStr) {
+      const d = new Date(dateStr + 'T12:00:00');
+      const day = d.getDay();
+      // Block Sundays (0) and Mondays (1)
+      if (day === 0 || day === 1) return true;
 
-      const occasion = document.querySelector("input[name='vipOccasion']:checked")?.value || '';
-      const recipient = document.getElementById('vipRecipient')?.value?.trim() || '';
-      const items = document.getElementById('vipItems')?.value?.trim() || '';
-      const inspoFiles = document.getElementById('vipInspirationFile')?.files || [];
+      // Block major US holidays (2025, 2026, 2027)
+      const blocked = [
+        '2025-01-01','2025-01-20','2025-02-17','2025-05-26','2025-07-04',
+        '2025-09-01','2025-10-13','2025-11-11','2025-11-27','2025-12-25',
+        '2026-01-01','2026-01-19','2026-02-16','2026-05-25','2026-07-03',
+        '2026-07-04','2026-09-07','2026-10-12','2026-11-11','2026-11-26','2026-12-25',
+        '2027-01-01','2027-01-18','2027-02-15','2027-05-31','2027-07-04','2027-07-05',
+        '2027-09-06','2027-10-11','2027-11-11','2027-11-25','2027-12-24','2027-12-25'
+      ];
+      return blocked.includes(dateStr);
+    }
+
+    function validateBulkDate(input) {
+      const warning = document.getElementById('bulkDateWarning');
+      if (!input.value) { warning.style.display = 'none'; return; }
+      if (isBulkDateBlocked(input.value)) {
+        warning.textContent = 'That date falls on a day we are closed. Please select a different date.';
+        warning.style.display = 'block';
+        input.value = '';
+      } else {
+        warning.style.display = 'none';
+      }
+    }
+
+    function validateBulkBudget() {
+      const budget = document.getElementById('bulkBudget')?.value?.trim();
+      if (!budget) { alert('Please enter your budget so we can put together the best options for you.'); return; }
+      goToStep('stepBulk6');
+    }
+
+    function validateBulkDateStep() {
+      const eventDate = document.getElementById('bulkEventDate')?.value;
+      if (!eventDate) { alert('Please select the date you need everything ready.'); return; }
+      if (isBulkDateBlocked(eventDate)) {
+        alert('That date falls on a day we are closed. Please select a different date.');
+        return;
+      }
+      buildBulkReview();
+    }
+
+    // Build the Bulk Experience review screen
+    function buildBulkReview() {
+      const occasion = document.querySelector("input[name='bulkOccasion']:checked")?.value || '';
+      const recipient = document.getElementById('bulkRecipient')?.value?.trim() || '';
+      const description = document.getElementById('bulkDescription')?.value?.trim() || '';
+      const quantity = document.getElementById('bulkQuantity')?.value?.trim() || '';
+      const budget = document.getElementById('bulkBudget')?.value?.trim() || '';
+      const eventDate = document.getElementById('bulkEventDate')?.value || '';
 
       // Occasion
-      const occasionRow = document.getElementById('vipReviewOccasionRow');
+      const occasionRow = document.getElementById('bulkReviewOccasionRow');
       if (occasion) {
-        document.getElementById('vipReviewOccasion').textContent = occasion.charAt(0).toUpperCase() + occasion.slice(1);
+        document.getElementById('bulkReviewOccasion').textContent = occasion.charAt(0).toUpperCase() + occasion.slice(1);
         occasionRow.style.display = '';
       } else { occasionRow.style.display = 'none'; }
 
       // Recipient
-      const recipientRow = document.getElementById('vipReviewRecipientRow');
+      const recipientRow = document.getElementById('bulkReviewRecipientRow');
       if (recipient) {
-        document.getElementById('vipReviewRecipient').textContent = recipient;
+        document.getElementById('bulkReviewRecipient').textContent = recipient;
         recipientRow.style.display = '';
       } else { recipientRow.style.display = 'none'; }
 
-      // Items
-      const itemsRow = document.getElementById('vipReviewItemsRow');
-      if (items) {
-        document.getElementById('vipReviewItems').textContent = items;
-        itemsRow.style.display = '';
-      } else { itemsRow.style.display = 'none'; }
+      // Description
+      const descriptionRow = document.getElementById('bulkReviewDescriptionRow');
+      if (description) {
+        document.getElementById('bulkReviewDescription').textContent = description;
+        descriptionRow.style.display = '';
+      } else { descriptionRow.style.display = 'none'; }
 
-      // Budget, date, vision (always shown)
-      document.getElementById('vipReviewBudget').textContent = budget;
-      document.getElementById('vipReviewDate').textContent = eventDate;
-      document.getElementById('vipReviewVision').textContent = vision;
+      // Quantity
+      const quantityRow = document.getElementById('bulkReviewQuantityRow');
+      if (quantity) {
+        document.getElementById('bulkReviewQuantity').textContent = quantity;
+        quantityRow.style.display = '';
+      } else { quantityRow.style.display = 'none'; }
 
-      // Inspiration images
-      const inspoRow = document.getElementById('vipReviewInspoRow');
-      if (inspoFiles.length > 0) {
-        document.getElementById('vipReviewInspoCount').textContent = inspoFiles.length;
-        inspoRow.style.display = '';
-      } else { inspoRow.style.display = 'none'; }
+      // Budget and date (always shown)
+      document.getElementById('bulkReviewBudget').textContent = budget;
+      document.getElementById('bulkReviewDate').textContent = eventDate;
 
-      goToStep('stepVIPReview');
+      goToStep('stepBulkReview');
     }
 
-    // VIP validation and submit
-    async function validateAndSubmitVIP() {
-      const budget = document.getElementById('vipBudget')?.value?.trim();
-      const eventDate = document.getElementById('vipEventDate')?.value;
-      const vision = document.getElementById('vipVision')?.value?.trim();
+    // Bulk Experience submit
+    async function validateAndSubmitBulk() {
+      const budget = document.getElementById('bulkBudget')?.value?.trim();
+      const eventDate = document.getElementById('bulkEventDate')?.value;
 
       if (!budget) { alert('Please enter your budget.'); return; }
-      if (!eventDate) { alert('Please select your event date.'); return; }
-      if (!vision) { alert('Please share your vision.'); return; }
+      if (!eventDate) { alert('Please select your date.'); return; }
 
-      const submitBtn = document.getElementById('vipSubmitBtn');
+      const submitBtn = document.getElementById('bulkSubmitBtn');
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Submitting...'; }
 
-      const orderId = document.getElementById('orderNumber')?.value || 'VIP-' + Date.now();
+      const orderId = document.getElementById('orderNumber')?.value || 'BULK-' + Date.now();
+
+      const occasion = document.querySelector("input[name='bulkOccasion']:checked")?.value || null;
+      const recipient = document.getElementById('bulkRecipient')?.value?.trim() || null;
+      const description = document.getElementById('bulkDescription')?.value?.trim() || '';
+      const quantity = document.getElementById('bulkQuantity')?.value?.trim() || '';
+
+      const notesLines = [];
+      if (description) notesLines.push(description);
+      if (quantity) notesLines.push('Quantity: ' + quantity);
+      notesLines.push('Budget: ' + budget);
 
       const formData = {
         order_id: orderId,
         customer_name: document.getElementById('fullName').value,
         customer_email: document.getElementById('email').value,
         customer_phone: document.getElementById('phone')?.value || '',
-        project_type: 'vip',
-        occasion: document.querySelector("input[name='vipOccasion']:checked")?.value || null,
-        honored_name: document.getElementById('vipRecipient')?.value || null,
+        project_type: 'bulk',
+        occasion: occasion,
+        honored_name: recipient,
         display_date: eventDate,
-        custom_wording: vision,
-        designer_notes: [
-          document.getElementById('vipItems')?.value,
-          'Budget: ' + budget
-        ].filter(Boolean).join(' | '),
+        designer_notes: notesLines.join(' | '),
         form_completed: true,
         form_completed_at: new Date().toISOString(),
         status: 'Form Received',
@@ -2191,8 +2236,8 @@ a {
       try {
         let response;
         let isUpdate = false;
-        
-        if (orderId && !orderId.startsWith('VIP-')) {
+
+        if (orderId && !orderId.startsWith('BULK-')) {
           response = await fetch(`${SUPABASE_URL}/rest/v1/orders?order_id=eq.${orderId}`, {
             method: 'PATCH',
             headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
@@ -2202,7 +2247,7 @@ a {
           if (response.ok && patchResult && patchResult.length > 0) { isUpdate = true; }
           else { response = null; }
         }
-        
+
         if (!response || !isUpdate) {
           response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
             method: 'POST',
@@ -2212,11 +2257,11 @@ a {
           if (!response.ok) throw new Error('Failed to submit');
         }
 
-        // Send portal confirmation email
+        // Send confirmation email
         try {
           const saved = await response.clone().json();
           const orderRecord = Array.isArray(saved) ? saved[0] : saved;
-          console.log('📧 Sending VIP confirmation email...');
+          console.log('Sending Bulk Experience confirmation email...');
           await fetch(`${SUPABASE_URL}/functions/v1/send-confirmation-email`, {
             method: 'POST',
             headers: {
@@ -2225,16 +2270,16 @@ a {
             },
             body: JSON.stringify({ record: orderRecord })
           });
-          console.log('✅ VIP confirmation email sent!');
+          console.log('Bulk Experience confirmation email sent');
         } catch (emailErr) {
-          console.warn('⚠️ VIP email may have failed:', emailErr);
+          console.warn('Bulk email may have failed:', emailErr);
         }
 
         goToStep('successScreen');
       } catch (error) {
         console.error('Error:', error);
         alert('Something went wrong. Please try again or call 816-530-1520.');
-        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Submit My VIP Request'; }
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Submit My Bulk Experience'; }
       }
     }
 
@@ -2653,8 +2698,7 @@ a {
 
       projectType = selectedValue;
 
-      if (projectType === "keepsake") goToStep("step2aKeepsake");
-      else if (projectType === "vip") goToStep("step2bVIP");
+      if (projectType === "bulk" || projectType === "vip") { projectType = "bulk"; goToStep("stepBulk1"); }
       else if (projectType === "instore") goToStep("stepInstore");
       else if (projectType === "sounds") goToStep("stepSoundsExperience");
       else goToStep("step2cPhotobook");
@@ -3128,6 +3172,14 @@ a {
     // ═══════════════════════════════════════════════════════════════
     window.addEventListener('DOMContentLoaded', () => {
       loadPartnerLocations();
+
+      // Set min date for bulk date picker to tomorrow
+      const bulkDateInput = document.getElementById('bulkEventDate');
+      if (bulkDateInput) {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        bulkDateInput.min = tomorrow.toISOString().split('T')[0];
+      }
       
       const urlParams = new URLSearchParams(window.location.search);
       
@@ -3166,7 +3218,7 @@ a {
       // Auto-select project type from URL parameter
       const projectType = projectParam.toLowerCase();
       
-      if (projectType === 'vip' || projectType === 'instore' || projectType === 'keepsake' || projectType === 'photobook' || projectType === 'sounds') {
+      if (projectType === 'bulk' || projectType === 'vip' || projectType === 'instore' || projectType === 'keepsake' || projectType === 'photobook' || projectType === 'sounds') {
         selectProjectType(projectType);
         
         // Hide the dropdown entirely when pre-selected from URL
