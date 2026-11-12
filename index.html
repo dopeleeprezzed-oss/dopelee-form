@@ -3215,9 +3215,11 @@ a {
       }
       
       // Auto-select project type from URL parameter
-      const projectType = projectParam.toLowerCase();
-      
-      if (projectType === 'bulk' || projectType === 'vip' || projectType === 'instore' || projectType === 'keepsake' || projectType === 'photobook' || projectType === 'sounds') {
+      // Normalize legacy 'vip' links to 'bulk' (VIP was renamed to Bulk Experience)
+      let projectType = projectParam.toLowerCase();
+      if (projectType === 'vip') projectType = 'bulk';
+
+      if (projectType === 'bulk' || projectType === 'instore' || projectType === 'keepsake' || projectType === 'photobook' || projectType === 'sounds') {
         selectProjectType(projectType);
         
         // Hide the dropdown entirely when pre-selected from URL
