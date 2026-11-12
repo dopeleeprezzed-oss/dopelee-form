@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Proposal | The Legacy Lounge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #050509;
+      --bg-card: #0f1018;
+      --bg-input: #1a1b26;
+      --text-main: #f5f5ff;
+      --text-muted: #b9bed8;
+      --accent-gold: #d4af37;
+      --accent-cyan: #0ff0b8;
+      --border-soft: rgba(255, 255, 255, 0.08);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: radial-gradient(circle at top, #181829 0%, #050509 40%, #000 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ═══ HEADER ═══ */
+    .proposal-header {
+      background: #000;
+      padding: 40px 20px 30px;
+      text-align: center;
+      border-bottom: 2px solid var(--accent-gold);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .proposal-header::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background:
+        radial-gradient(circle at 25% 35%, rgba(15, 240, 184, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 75% 65%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .proposal-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--accent-gold);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .proposal-header .tagline {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ═══ CONTAINER ═══ */
+    .proposal-container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 24px 16px 60px;
+    }
+
+    /* ═══ QUOTE CARD ═══ */
+    .proposal-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .proposal-card-header {
+      background: linear-gradient(135deg, rgba(212,175,55,0.12), rgba(15,240,184,0.06));
+      border-bottom: 1px solid var(--border-soft);
+      padding: 20px 24px;
+    }
+
+    .proposal-card-header .proposal-number {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .proposal-card-header .customer-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--text-main);
+    }
+
+    .proposal-card-header .proposal-date {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .proposal-card-body {
+      padding: 24px;
+    }
+
+    /* ═══ LINE ITEMS TABLE ═══ */
+    .line-items-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    .line-items-table th {
+      text-align: left;
+      padding: 10px 0;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent-gold);
+      border-bottom: 1px solid var(--accent-gold);
+    }
+
+    .line-items-table th:last-child {
+      text-align: right;
+    }
+
+    .line-items-table td {
+      padding: 14px 0;
+      font-size: 0.9rem;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .line-items-table td:last-child {
+      text-align: right;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .line-items-table .item-qty {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    /* ═══ TOTALS ═══ */
+    .totals-section {
+      border-top: 2px solid var(--accent-gold);
+      padding-top: 16px;
+      margin-bottom: 24px;
+    }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      font-size: 0.9rem;
+    }
+
+    .total-row.subtotal {
+      color: var(--text-muted);
+    }
+
+    .total-row.design-fee {
+      color: var(--text-muted);
+    }
+
+    .total-row.grand-total {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--accent-gold);
+      padding-top: 12px;
+      border-top: 1px solid var(--border-soft);
+      margin-top: 8px;
+    }
+
+    /* ═══ MOCKUP ═══ */
+    .mockup-section {
+      margin-bottom: 24px;
+    }
+
+    .mockup-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-gold);
+      margin-bottom: 10px;
+    }
+
+    .mockup-image {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--border-soft);
+    }
+
+    /* ═══ NOTES ═══ */
+    .notes-section {
+      background: var(--bg-input);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    .notes-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-gold);
+      margin-bottom: 6px;
+    }
+
+    .notes-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ═══ PAYMENT BUTTON ═══ */
+    .pay-button {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #d4af37, #f0d060);
+      color: #000;
+      text-align: center;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .pay-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(212,175,55,0.3);
+    }
+
+    /* ═══ EXPIRATION ═══ */
+    .expiration-notice {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 16px;
+    }
+
+    /* ═══ FOOTER ═══ */
+    .proposal-footer {
+      text-align: center;
+      padding: 30px 20px;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    .proposal-footer p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .proposal-footer .brand-name {
+      font-family: 'Playfair Display', serif;
+      color: var(--accent-gold);
+      font-size: 1rem;
+    }
+
+    /* ═══ EXPIRED / ERROR ═══ */
+    .expired-banner {
+      background: rgba(255,68,68,0.1);
+      border: 1px solid rgba(255,68,68,0.3);
+      color: #ff6b6b;
+      padding: 14px 20px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .loading-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-muted);
+    }
+
+    .loading-state .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--border-soft);
+      border-top-color: var(--accent-gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ═══ AFTER PAYMENT MESSAGE ═══ */
+    .post-payment {
+      background: rgba(15,240,184,0.08);
+      border: 1px solid rgba(15,240,184,0.25);
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 16px;
+      text-align: center;
+    }
+
+    .post-payment p {
+      font-size: 0.85rem;
+      color: var(--accent-cyan);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 480px) {
+      .proposal-header h1 { font-size: 1.4rem; }
+      .proposal-card-header { padding: 16px; }
+      .proposal-card-body { padding: 16px; }
+      .line-items-table td { font-size: 0.85rem; padding: 12px 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="proposal-header">
+    <h1>The Legacy Lounge</h1>
+    <div class="tagline">Dopelee Prezzed By S</div>
+  </div>
+
+  <!-- LOADING -->
+  <div id="loadingState" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading your proposal...</p>
+  </div>
+
+  <!-- QUOTE CONTENT (hidden until loaded) -->
+  <div id="proposalContent" class="proposal-container" style="display: none;"></div>
+
+  <!-- ERROR STATE -->
+  <div id="errorState" style="display: none; text-align: center; padding: 80px 20px;">
+    <div style="font-size: 3rem; margin-bottom: 1rem;">😕</div>
+    <h2 style="color: var(--text-main); margin-bottom: 0.5rem;">Proposal Not Found</h2>
+    <p style="color: var(--text-muted);">This proposal may have been removed or the link may be incorrect.</p>
+  </div>
+
+  <script>
+    const SUPABASE_URL = 'https://dyehxtiozfwlexkbalvn.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs';
+
+    async function loadProposal() {
+      const params = new URLSearchParams(window.location.search);
+      const proposalId = params.get('id');
+
+      if (!proposalId) {
+        showError();
+        return;
+      }
+
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/proposals?id=eq.${proposalId}&select=*`, {
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+        });
+
+        const data = await res.json();
+        if (!data || data.length === 0) {
+          showError();
+          return;
+        }
+
+        renderProposal(data[0]);
+      } catch (err) {
+        console.error('Error loading proposal:', err);
+        showError();
+      }
+    }
+
+    function renderProposal(q) {
+      document.getElementById('loadingState').style.display = 'none';
+      const container = document.getElementById('proposalContent');
+      container.style.display = 'block';
+
+      const items = q.line_items || [];
+      const created = new Date(q.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      const isExpired = q.expires_at && new Date(q.expires_at) < new Date();
+      const expiresDate = q.expires_at ? new Date(q.expires_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : null;
+
+      let html = '';
+
+      // Expired banner
+      if (isExpired) {
+        html += '<div class="expired-banner">⏰ This proposal has expired. Please request a new one.</div>';
+      }
+
+      // Proposal card
+      html += `
+        <div class="proposal-card">
+          <div class="proposal-card-header">
+            <div class="proposal-number">Proposal ${q.proposal_number}</div>
+            <div class="customer-name">${q.customer_name}</div>
+            <div class="proposal-date">Prepared on ${created}</div>
+          </div>
+          <div class="proposal-card-body">
+      `;
+
+      // Line items
+      html += `
+        <table class="line-items-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th style="text-align: right;">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      items.forEach(item => {
+        const lineTotal = (item.price * item.quantity).toFixed(2);
+        html += `
+          <tr>
+            <td>
+              ${item.description}
+              ${item.quantity > 1 ? `<span class="item-qty"> × ${item.quantity}</span>` : ''}
+            </td>
+            <td>$${lineTotal}</td>
+          </tr>
+        `;
+      });
+
+      html += '</tbody></table>';
+
+      // Totals
+      html += '<div class="totals-section">';
+      const addlFees = q.additional_fees || [];
+      if (addlFees.length > 0) {
+        html += `
+          <div class="total-row subtotal">
+            <span>Subtotal</span>
+            <span>$${parseFloat(q.subtotal).toFixed(2)}</span>
+          </div>
+        `;
+        addlFees.forEach(fee => {
+          html += `
+            <div class="total-row design-fee">
+              <span>${fee.name}</span>
+              <span>$${parseFloat(fee.amount).toFixed(2)}</span>
+            </div>
+          `;
+        });
+      }
+      html += `
+        <div class="total-row grand-total">
+          <span>Total</span>
+          <span>$${parseFloat(q.total).toFixed(2)}</span>
+        </div>
+      </div>`;
+
+      // Mockup
+      if (q.mockup_image_url) {
+        html += `
+          <div class="mockup-section">
+            <div class="mockup-label">Your Design Preview</div>
+            <img src="${q.mockup_image_url}" alt="Design mockup" class="mockup-image">
+          </div>
+        `;
+      }
+
+      // Notes
+      if (q.notes) {
+        html += `
+          <div class="notes-section">
+            <div class="notes-label">Notes</div>
+            <div class="notes-text">${q.notes.replace(/\n/g, '<br>')}</div>
+          </div>
+        `;
+      }
+
+      // Payment button
+      if (q.payment_link && !isExpired) {
+        html += `
+          <a href="${q.payment_link}" class="pay-button" target="_blank">
+            Pay $${parseFloat(q.total).toFixed(2)} Now
+          </a>
+          <div class="post-payment">
+            <p>After your payment is confirmed, you will receive an email with access to your personalized customer portal where you can track your order.</p>
+          </div>
+        `;
+      }
+
+      // Expiration notice
+      if (expiresDate && !isExpired) {
+        html += `<div class="expiration-notice">This proposal is valid until ${expiresDate}</div>`;
+      }
+
+      html += '</div></div>'; // close card body + card
+
+      // Footer
+      html += `
+        <div class="proposal-footer">
+          <p class="brand-name">The Legacy Lounge</p>
+          <p>Dopelee Prezzed By S</p>
+          <p style="margin-top: 8px; font-size: 0.75rem;">Questions? Reply to the message this proposal was sent in.</p>
+        </div>
+      `;
+
+      container.innerHTML = html;
+
+      // Update page title
+      document.title = `Proposal for ${q.customer_name} | The Legacy Lounge`;
+    }
+
+    function showError() {
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('errorState').style.display = 'block';
+    }
+
+    // Load on page ready
+    loadProposal();
+  </script>
+</body>
+</html>
