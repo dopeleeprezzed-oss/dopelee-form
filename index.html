@@ -1112,7 +1112,61 @@ a {
 
       <div class="button-group">
         <button class="btn btn-secondary" onclick="goToStep('step1')">Back</button>
-        <button class="btn btn-primary" onclick="validateAndSubmitVIP()">Review My Request</button>
+        <button class="btn btn-primary" onclick="buildVIPReview()">Review My Request</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- VIP REVIEW SCREEN -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="stepVIPReview" class="step">
+      <h2 class="step-title">Review Your VIP Experience</h2>
+      <p class="step-description">Make sure everything looks right before submitting.</p>
+
+      <div class="luxury-preview-card">
+        <div class="luxury-preview-header">
+          <h3>Your VIP Experience Details</h3>
+          <p>Here's what we'll bring to life for you</p>
+        </div>
+
+        <div class="luxury-preview-body">
+          <div class="preview-details">
+            <div class="preview-detail-row" id="vipReviewOccasionRow">
+              <span class="preview-detail-label">Occasion</span>
+              <span id="vipReviewOccasion" class="preview-detail-value"></span>
+            </div>
+            <div class="preview-detail-row" id="vipReviewRecipientRow">
+              <span class="preview-detail-label">Who It's For</span>
+              <span id="vipReviewRecipient" class="preview-detail-value"></span>
+            </div>
+            <div class="preview-detail-row" id="vipReviewItemsRow">
+              <span class="preview-detail-label">Items in Mind</span>
+              <span id="vipReviewItems" class="preview-detail-value"></span>
+            </div>
+            <div class="preview-detail-row">
+              <span class="preview-detail-label">Budget</span>
+              <span id="vipReviewBudget" class="preview-detail-value large"></span>
+            </div>
+            <div class="preview-detail-row">
+              <span class="preview-detail-label">Event Date</span>
+              <span id="vipReviewDate" class="preview-detail-value"></span>
+            </div>
+            <div class="preview-detail-row">
+              <span class="preview-detail-label">Your Vision</span>
+              <span id="vipReviewVision" class="preview-detail-value"></span>
+            </div>
+            <div id="vipReviewInspoRow" class="preview-photos-badge" style="display:none;">
+              💡 <span id="vipReviewInspoCount">0</span> inspiration image(s) attached
+            </div>
+          </div>
+        </div>
+
+        <div class="luxury-preview-footer">
+          <div class="button-group" style="margin: 0; padding: 0; border: none;">
+            <button class="btn btn-edit" onclick="goToStep('step2bVIP')">Edit Details</button>
+            <button class="btn btn-submit" id="vipSubmitBtn" onclick="validateAndSubmitVIP()">Submit My VIP Request</button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1956,8 +2010,9 @@ a {
       if (stepId === "successScreen" || stepId === "instoreSuccessScreen") {
         bar.style.width = "100%"; text.textContent = "Complete!"; return;
       }
-      // VIP flow (3 steps)
+      // VIP flow (3 steps: Info → Details → Review/Submit)
       if (stepId === "step2bVIP") { num = 2; totalSteps = 3; }
+      else if (stepId === "stepVIPReview") { num = 3; totalSteps = 3; }
       // Photobook flow (5 steps: Info → Details → Upload → Review → Submit)
       else if (stepId === "step2cPhotobook") { num = 2; totalSteps = 5; }
       else if (stepId === "stepPhotobookUpload") { num = 3; totalSteps = 5; }
@@ -2047,6 +2102,57 @@ a {
       if (waiverGroup) waiverGroup.style.display = (type === 'own_item') ? 'block' : 'none';
     }
 
+    // VIP review builder
+    function buildVIPReview() {
+      const budget = document.getElementById('vipBudget')?.value?.trim();
+      const eventDate = document.getElementById('vipEventDate')?.value;
+      const vision = document.getElementById('vipVision')?.value?.trim();
+
+      if (!budget) { alert('Please enter your budget.'); return; }
+      if (!eventDate) { alert('Please select your event date.'); return; }
+      if (!vision) { alert('Please share your vision.'); return; }
+
+      const occasion = document.querySelector("input[name='vipOccasion']:checked")?.value || '';
+      const recipient = document.getElementById('vipRecipient')?.value?.trim() || '';
+      const items = document.getElementById('vipItems')?.value?.trim() || '';
+      const inspoFiles = document.getElementById('vipInspirationFile')?.files || [];
+
+      // Occasion
+      const occasionRow = document.getElementById('vipReviewOccasionRow');
+      if (occasion) {
+        document.getElementById('vipReviewOccasion').textContent = occasion.charAt(0).toUpperCase() + occasion.slice(1);
+        occasionRow.style.display = '';
+      } else { occasionRow.style.display = 'none'; }
+
+      // Recipient
+      const recipientRow = document.getElementById('vipReviewRecipientRow');
+      if (recipient) {
+        document.getElementById('vipReviewRecipient').textContent = recipient;
+        recipientRow.style.display = '';
+      } else { recipientRow.style.display = 'none'; }
+
+      // Items
+      const itemsRow = document.getElementById('vipReviewItemsRow');
+      if (items) {
+        document.getElementById('vipReviewItems').textContent = items;
+        itemsRow.style.display = '';
+      } else { itemsRow.style.display = 'none'; }
+
+      // Budget, date, vision (always shown)
+      document.getElementById('vipReviewBudget').textContent = budget;
+      document.getElementById('vipReviewDate').textContent = eventDate;
+      document.getElementById('vipReviewVision').textContent = vision;
+
+      // Inspiration images
+      const inspoRow = document.getElementById('vipReviewInspoRow');
+      if (inspoFiles.length > 0) {
+        document.getElementById('vipReviewInspoCount').textContent = inspoFiles.length;
+        inspoRow.style.display = '';
+      } else { inspoRow.style.display = 'none'; }
+
+      goToStep('stepVIPReview');
+    }
+
     // VIP validation and submit
     async function validateAndSubmitVIP() {
       const budget = document.getElementById('vipBudget')?.value?.trim();
@@ -2057,7 +2163,7 @@ a {
       if (!eventDate) { alert('Please select your event date.'); return; }
       if (!vision) { alert('Please share your vision.'); return; }
 
-      const submitBtn = document.querySelector('#step2bVIP .btn-primary');
+      const submitBtn = document.getElementById('vipSubmitBtn');
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Submitting...'; }
 
       const orderId = document.getElementById('orderNumber')?.value || 'VIP-' + Date.now();
@@ -2105,11 +2211,30 @@ a {
           });
           if (!response.ok) throw new Error('Failed to submit');
         }
+
+        // Send portal confirmation email
+        try {
+          const saved = await response.clone().json();
+          const orderRecord = Array.isArray(saved) ? saved[0] : saved;
+          console.log('📧 Sending VIP confirmation email...');
+          await fetch(`${SUPABASE_URL}/functions/v1/send-confirmation-email`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+            },
+            body: JSON.stringify({ record: orderRecord })
+          });
+          console.log('✅ VIP confirmation email sent!');
+        } catch (emailErr) {
+          console.warn('⚠️ VIP email may have failed:', emailErr);
+        }
+
         goToStep('successScreen');
       } catch (error) {
         console.error('Error:', error);
         alert('Something went wrong. Please try again or call 816-530-1520.');
-        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Review My Request'; }
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Submit My VIP Request'; }
       }
     }
 
