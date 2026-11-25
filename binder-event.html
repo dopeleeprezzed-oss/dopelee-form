@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Trading Card Binder Personalization | Dopelee Prezzed by S™</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&family=Oswald:wght@500;700&family=Lora:wght@400;700&family=Montserrat:wght@600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --bg-dark: #050505;
+  --bg-card: #0d0a00;
+  --bg-input: #1a1508;
+  --text-main: #f5f5f0;
+  --text-muted: #c0b89a;
+  --text-dim: #8a8060;
+  --accent-gold: #d4af37;
+  --accent-gold-light: #f5d76e;
+  --border-soft: rgba(212, 175, 55, 0.12);
+  --shadow-card: 0 12px 40px rgba(0, 0, 0, 0.7);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: radial-gradient(circle at top, #1a1508 0%, #050505 40%, #000 100%);
+  color: var(--text-main);
+  min-height: 100vh;
+  padding: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.brand-header {
+  background: #000;
+  padding: 24px 20px;
+  text-align: center;
+  border-top: 2px solid #d4af37;
+  border-bottom: 2px solid #d4af37;
+  margin-bottom: 20px;
+  border-radius: 16px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.brand-header img { max-width: 90px; border-radius: 10px; margin-bottom: 10px; }
+
+.brand-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.brand-header p { color: var(--accent-gold); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
+
+.event-badge {
+  display: inline-block;
+  background: rgba(212,175,55,0.15);
+  border: 1px solid rgba(212,175,55,0.3);
+  color: var(--accent-gold);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-top: 10px;
+  letter-spacing: 1px;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  padding: 24px 20px;
+  max-width: 500px;
+  margin: 0 auto 16px;
+  box-shadow: var(--shadow-card);
+}
+
+.section-title {
+  color: var(--accent-gold);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  color: var(--text-main);
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input[type="text"]:focus { border-color: var(--accent-gold); }
+
+.char-count {
+  text-align: right;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+.char-count.warning { color: #ff6b6b; }
+
+/* Option grid */
+.option-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.option-btn {
+  background: var(--bg-input);
+  border: 2px solid var(--border-soft);
+  border-radius: 12px;
+  padding: 14px 10px;
+  color: var(--text-main);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+
+.option-btn:hover { border-color: rgba(212,175,55,0.4); }
+
+.option-btn.selected {
+  border-color: var(--accent-gold);
+  background: rgba(212,175,55,0.12);
+  color: var(--accent-gold);
+}
+
+.option-btn .font-preview {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+  min-height: 1.4em;
+}
+
+.option-btn .option-label {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.option-btn.selected .option-label { color: var(--accent-gold); }
+
+/* Element options */
+.element-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.element-btn {
+  background: var(--bg-input);
+  border: 2px solid var(--border-soft);
+  border-radius: 12px;
+  padding: 12px 8px;
+  color: var(--text-main);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+
+.element-btn:hover { border-color: rgba(212,175,55,0.4); }
+
+.element-btn.selected {
+  border-color: var(--accent-gold);
+  background: rgba(212,175,55,0.12);
+  color: var(--accent-gold);
+}
+
+.element-btn .element-icon { font-size: 1.4rem; display: block; margin-bottom: 4px; }
+.element-btn .element-label { font-size: 0.7rem; color: var(--text-dim); }
+.element-btn.selected .element-label { color: var(--accent-gold); }
+
+/* Preview */
+.preview-box {
+  background: #000;
+  border: 2px solid rgba(212,175,55,0.2);
+  border-radius: 14px;
+  padding: 30px 20px;
+  text-align: center;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.preview-name {
+  font-size: 1.6rem;
+  color: var(--accent-gold);
+  word-break: break-word;
+  transition: font-family 0.3s;
+}
+
+.preview-element { font-size: 1.8rem; }
+.preview-placeholder { color: var(--text-dim); font-size: 0.85rem; font-style: italic; }
+
+/* Pricing */
+.price-display {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.price-tag {
+  background: var(--bg-input);
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  padding: 10px 18px;
+  text-align: center;
+}
+
+.price-tag.active {
+  border-color: var(--accent-gold);
+  background: rgba(212,175,55,0.1);
+}
+
+.price-tag .amount {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--accent-gold);
+}
+
+.price-tag .desc {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+/* Submit */
+.submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #d4af37, #f5d76e);
+  border: none;
+  border-radius: 12px;
+  color: #000;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  font-family: 'Inter', sans-serif;
+  transition: opacity 0.2s;
+}
+
+.submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.submit-btn:hover:not(:disabled) { opacity: 0.9; }
+
+.payment-note {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+/* Success */
+.success-screen {
+  display: none;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.success-screen .check { font-size: 3rem; margin-bottom: 12px; }
+.success-screen h2 { font-family: 'Playfair Display', serif; color: var(--accent-gold); margin-bottom: 8px; }
+.success-screen p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 20px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.footer p { color: var(--text-dim); font-size: 0.7rem; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="brand-header">
+    <img src="https://dopeleeprezzed-oss.github.io/dopelee-form/logo.png" alt="Dopelee Prezzed by S">
+    <h1>Trading Card Binder Personalization</h1>
+    <p>The Legacy Lounge</p>
+    <div class="event-badge">NOV 25 &nbsp;|&nbsp; 11 AM to 1 PM</div>
+  </div>
+
+  <!-- FORM -->
+  <div id="formSection">
+
+    <!-- NAME TO ENGRAVE -->
+    <div class="card">
+      <div class="section-title">Name to Engrave</div>
+      <label>Enter the name (12 characters max)</label>
+      <input type="text" id="engraveName" maxlength="12" placeholder="e.g. JAYLEN" oninput="updatePreview()">
+      <div class="char-count" id="charCount">0 / 12</div>
+    </div>
+
+    <!-- FONT -->
+    <div class="card">
+      <div class="section-title">Choose Your Font</div>
+      <div class="option-grid" id="fontGrid">
+        <button class="option-btn" onclick="selectFont(this, 'Athletic', 'Oswald')" data-font="Oswald">
+          <span class="font-preview" style="font-family: 'Oswald', sans-serif; font-weight: 700;">SAMPLE</span>
+          <span class="option-label">Athletic</span>
+        </button>
+        <button class="option-btn" onclick="selectFont(this, 'Classic', 'Lora')" data-font="Lora">
+          <span class="font-preview" style="font-family: 'Lora', serif; font-weight: 700;">Sample</span>
+          <span class="option-label">Classic</span>
+        </button>
+        <button class="option-btn" onclick="selectFont(this, 'Modern', 'Montserrat')" data-font="Montserrat">
+          <span class="font-preview" style="font-family: 'Montserrat', sans-serif; font-weight: 700;">SAMPLE</span>
+          <span class="option-label">Modern</span>
+        </button>
+        <button class="option-btn" onclick="selectFont(this, 'Signature', 'Great Vibes')" data-font="Great Vibes">
+          <span class="font-preview" style="font-family: 'Great Vibes', cursive;">Sample</span>
+          <span class="option-label">Signature</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ELEMENT -->
+    <div class="card">
+      <div class="section-title">Add an Element (+$5)</div>
+      <div class="element-grid" id="elementGrid">
+        <button class="element-btn selected" onclick="selectElement(this, 'None', '')">
+          <span class="element-icon">&#x2205;</span>
+          <span class="element-label">None</span>
+        </button>
+        <button class="element-btn" onclick="selectElement(this, 'Fire', '🔥')">
+          <span class="element-icon">🔥</span>
+          <span class="element-label">Fire</span>
+        </button>
+        <button class="element-btn" onclick="selectElement(this, 'Water', '💧')">
+          <span class="element-icon">💧</span>
+          <span class="element-label">Water</span>
+        </button>
+        <button class="element-btn" onclick="selectElement(this, 'Electric', '⚡')">
+          <span class="element-icon">⚡</span>
+          <span class="element-label">Electric</span>
+        </button>
+        <button class="element-btn" onclick="selectElement(this, 'Butterfly', '🦋')">
+          <span class="element-icon">🦋</span>
+          <span class="element-label">Butterfly</span>
+        </button>
+        <button class="element-btn" onclick="selectElement(this, 'Stars', '✨')">
+          <span class="element-icon">✨</span>
+          <span class="element-label">Stars</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- PREVIEW -->
+    <div class="card">
+      <div class="section-title">Your Preview</div>
+      <div class="preview-box">
+        <div class="preview-element" id="previewElement"></div>
+        <div class="preview-name" id="previewName">
+          <span class="preview-placeholder">Your name will appear here</span>
+        </div>
+      </div>
+      <div class="price-display">
+        <div class="price-tag active" id="priceBase">
+          <div class="amount">$10</div>
+          <div class="desc">Name Only</div>
+        </div>
+        <div class="price-tag" id="priceElement">
+          <div class="amount">$15</div>
+          <div class="desc">Name + Element</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CUSTOMER INFO -->
+    <div class="card">
+      <div class="section-title">Your Info</div>
+      <label>Your Name (parent or customer)</label>
+      <input type="text" id="customerName" placeholder="Your full name">
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="card">
+      <button class="submit-btn" id="submitBtn" onclick="submitOrder()">Submit Personalization</button>
+      <p class="payment-note">Payment of <strong id="totalPrice" style="color: var(--accent-gold);">$10</strong> collected in person at the event via Square after material approval.</p>
+    </div>
+
+  </div>
+
+  <!-- SUCCESS -->
+  <div id="successScreen" class="success-screen card">
+    <div class="check">✅</div>
+    <h2>You're All Set!</h2>
+    <p id="successMsg">Your binder personalization has been submitted. We'll have it ready for you at the event. Payment will be collected in person after you approve the material.</p>
+    <div style="margin-top: 20px;">
+      <button onclick="resetForm()" style="padding: 12px 24px; background: rgba(212,175,55,0.15); border: 1px solid rgba(212,175,55,0.3); border-radius: 10px; color: var(--accent-gold); font-weight: 700; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.9rem;">Submit Another</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>Dopelee Prezzed by S™ &nbsp;|&nbsp; The Legacy Lounge</p>
+    <p style="margin-top: 4px;">Luxury. Legacy. Keepsakes.</p>
+  </div>
+
+  <script>
+    const SUPABASE_URL = 'https://dyehxtiozfwlexkbalvn.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5ZWh4dGlvemZ3bGV4a2JhbHZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NDYxMzMsImV4cCI6MjA4MTQyMjEzM30.dxd7otsV6WzD6dt41sWkYdseW94BRn0WI8MtFCqnAIs';
+
+    let selectedFont = null;
+    let selectedFontFamily = null;
+    let selectedElement = 'None';
+    let selectedElementEmoji = '';
+
+    function selectFont(btn, fontName, fontFamily) {
+      document.querySelectorAll('#fontGrid .option-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedFont = fontName;
+      selectedFontFamily = fontFamily;
+      updatePreview();
+    }
+
+    function selectElement(btn, elementName, emoji) {
+      document.querySelectorAll('#elementGrid .element-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedElement = elementName;
+      selectedElementEmoji = emoji;
+      updatePreview();
+      updatePrice();
+    }
+
+    function updatePreview() {
+      const name = document.getElementById('engraveName').value.trim();
+      const previewName = document.getElementById('previewName');
+      const previewElement = document.getElementById('previewElement');
+      const charCount = document.getElementById('charCount');
+
+      // Character count
+      const len = document.getElementById('engraveName').value.length;
+      charCount.textContent = len + ' / 12';
+      charCount.className = 'char-count' + (len >= 12 ? ' warning' : '');
+
+      // Name preview
+      if (name) {
+        previewName.innerHTML = name;
+        if (selectedFontFamily) {
+          previewName.style.fontFamily = "'" + selectedFontFamily + "', sans-serif";
+        } else {
+          previewName.style.fontFamily = "'Inter', sans-serif";
+        }
+      } else {
+        previewName.innerHTML = '<span class="preview-placeholder">Your name will appear here</span>';
+        previewName.style.fontFamily = "'Inter', sans-serif";
+      }
+
+      // Update font previews in buttons to show entered name
+      if (name) {
+        document.querySelectorAll('#fontGrid .option-btn .font-preview').forEach(preview => {
+          const displayName = name.length > 8 ? name.substring(0, 8) + '...' : name;
+          const fontFamily = preview.closest('.option-btn').dataset.font;
+          if (fontFamily === 'Oswald' || fontFamily === 'Montserrat') {
+            preview.textContent = displayName.toUpperCase();
+          } else {
+            preview.textContent = displayName;
+          }
+        });
+      } else {
+        const defaults = { Oswald: 'SAMPLE', Lora: 'Sample', Montserrat: 'SAMPLE', 'Great Vibes': 'Sample' };
+        document.querySelectorAll('#fontGrid .option-btn .font-preview').forEach(preview => {
+          const fontFamily = preview.closest('.option-btn').dataset.font;
+          preview.textContent = defaults[fontFamily] || 'Sample';
+        });
+      }
+
+      // Element preview
+      previewElement.textContent = selectedElementEmoji;
+    }
+
+    function updatePrice() {
+      const hasElement = selectedElement !== 'None';
+      document.getElementById('priceBase').className = 'price-tag' + (hasElement ? '' : ' active');
+      document.getElementById('priceElement').className = 'price-tag' + (hasElement ? ' active' : '');
+      document.getElementById('totalPrice').textContent = hasElement ? '$15' : '$10';
+    }
+
+    async function submitOrder() {
+      const engraveName = document.getElementById('engraveName').value.trim();
+      const customerName = document.getElementById('customerName').value.trim();
+
+      if (!engraveName) { alert('Please enter the name to engrave.'); return; }
+      if (!selectedFont) { alert('Please choose a font.'); return; }
+      if (!customerName) { alert('Please enter your name.'); return; }
+
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+
+      const hasElement = selectedElement !== 'None';
+      const price = hasElement ? 15 : 10;
+      const orderId = 'BINDER-' + Date.now();
+
+      const notesLines = [
+        'Font: ' + selectedFont,
+        'Element: ' + selectedElement + (selectedElementEmoji ? ' ' + selectedElementEmoji : ''),
+        'Price: $' + price,
+        'Payment: Collect in person via Square'
+      ];
+
+      const orderData = {
+        order_id: orderId,
+        customer_name: customerName,
+        project_type: 'instore',
+        product_type: 'Trading Card Binder Personalization',
+        honored_name: engraveName,
+        designer_notes: notesLines.join(' | '),
+        status: 'Form Received',
+        event_tag: 'binder-event-112526',
+        fulfillment_method: 'pickup',
+        form_completed: true,
+        form_completed_at: new Date().toISOString(),
+        created_at: new Date().toISOString()
+      };
+
+      try {
+        const response = await fetch(SUPABASE_URL + '/rest/v1/orders', {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=representation'
+          },
+          body: JSON.stringify(orderData)
+        });
+
+        if (!response.ok) throw new Error('Submission failed');
+
+        document.getElementById('formSection').style.display = 'none';
+        document.getElementById('successScreen').style.display = 'block';
+        document.getElementById('successMsg').textContent =
+          'Your binder for "' + engraveName + '" with ' + selectedFont + ' font' +
+          (hasElement ? ' and ' + selectedElement + ' element' : '') +
+          ' has been submitted. Payment of $' + price + ' will be collected in person after material approval.';
+
+      } catch (err) {
+        alert('Something went wrong. Please try again or see us at the booth.');
+        btn.disabled = false;
+        btn.textContent = 'Submit Personalization';
+      }
+    }
+
+    function resetForm() {
+      document.getElementById('formSection').style.display = 'block';
+      document.getElementById('successScreen').style.display = 'none';
+      document.getElementById('engraveName').value = '';
+      document.getElementById('customerName').value = '';
+      selectedFont = null;
+      selectedFontFamily = null;
+      selectedElement = 'None';
+      selectedElementEmoji = '';
+      document.querySelectorAll('#fontGrid .option-btn').forEach(b => b.classList.remove('selected'));
+      document.querySelectorAll('#elementGrid .element-btn').forEach(b => b.classList.remove('selected'));
+      document.querySelectorAll('#elementGrid .element-btn')[0].classList.add('selected');
+      updatePreview();
+      updatePrice();
+      document.getElementById('submitBtn').disabled = false;
+      document.getElementById('submitBtn').textContent = 'Submit Personalization';
+      window.scrollTo(0, 0);
+    }
+  </script>
+
+</body>
+</html>
