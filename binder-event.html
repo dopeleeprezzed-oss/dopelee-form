@@ -530,6 +530,7 @@ input[type="text"]:focus { border-color: var(--accent-gold); }
       const orderId = 'BINDER-' + Date.now();
 
       const notesLines = [
+        'EVENT: Binder Personalization 11/25/26',
         'Font: ' + selectedFont,
         'Element: ' + selectedElement + (selectedElementEmoji ? ' ' + selectedElementEmoji : ''),
         'Price: $' + price,
@@ -540,14 +541,10 @@ input[type="text"]:focus { border-color: var(--accent-gold); }
         order_id: orderId,
         customer_name: customerName,
         project_type: 'instore',
-        product_type: 'Trading Card Binder Personalization',
         honored_name: engraveName,
         designer_notes: notesLines.join(' | '),
         status: 'Form Received',
-        event_tag: 'binder-event-112526',
-        fulfillment_method: 'pickup',
         form_completed: true,
-        form_completed_at: new Date().toISOString(),
         created_at: new Date().toISOString()
       };
 
